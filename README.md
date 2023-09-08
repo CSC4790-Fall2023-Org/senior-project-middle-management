@@ -1,1 +1,7 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=11773762&assignment_repo_type=AssignmentRepo)
+### Running The App Locally
+1. Navigate to the directory where you have the repository cloned locally.
+2. Once the directory, use the following three commands to run the app locally:
+  a. npm run android
+  b. npm run ios
+  c. npm run wb
+NOTE: You may need to run npm install beforehand.
