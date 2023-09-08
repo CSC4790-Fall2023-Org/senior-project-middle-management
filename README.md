@@ -1,6 +1,6 @@
 ### Running The App Locally
 1. Download the Expo Go app on your phone.
-2. Navigate to the directory where you have the repository cloned locally.
+2. Navigate to the directory where you have the repository cloned locally. (cd into the MiddleManagement directory)
 3. Once the directory, use the following three commands to run the app locally: <br />
 a. npm run android <br />
 b. npm run ios <br />
