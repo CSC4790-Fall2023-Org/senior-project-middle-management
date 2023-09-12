@@ -1,5 +1,7 @@
 package com.ems;
 
+//import com.ems.database.models.Organization;
+//import com.ems.database.repositories.OrganizationRepository;
 import com.ems.database.models.Organization;
 import com.ems.database.repositories.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +28,6 @@ public class EmsApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Hello World!");
-
-
-
         for (Organization organization : organizationRepository.findAll()) {
             System.out.println(organization.getOrganizationId());
         }

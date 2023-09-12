@@ -7,8 +7,10 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "organizations")
 public class Organization {
+
     @Id
     private ObjectId organizationId;
+
     @Field
     private String organizationName;
 
@@ -22,9 +24,5 @@ public class Organization {
 
     public ObjectId getOrganizationId() {
         return organizationId;
-    }
-
-    public String getOrganizationName() {
-        return organizationName;
     }
 }
