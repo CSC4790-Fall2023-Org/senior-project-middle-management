@@ -1,4 +1,4 @@
-package com.ems.database;
+package com.ems.database.models;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;

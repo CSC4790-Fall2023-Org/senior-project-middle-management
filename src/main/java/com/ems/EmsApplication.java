@@ -1,7 +1,7 @@
 package com.ems;
 
-import com.ems.database.Organization;
-import com.ems.database.OrganizationRepository;
+import com.ems.database.models.Organization;
+import com.ems.database.repositories.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
