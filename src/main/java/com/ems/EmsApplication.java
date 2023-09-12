@@ -1,9 +1,7 @@
 package com.ems;
 
-//import com.ems.database.models.Organization;
-//import com.ems.database.repositories.OrganizationRepository;
-import com.ems.database.models.Organization;
-import com.ems.database.repositories.OrganizationRepository;
+import com.ems.database.models.*;
+import com.ems.database.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,11 +11,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class EmsApplication implements CommandLineRunner {
 
     public OrganizationRepository organizationRepository;
+    public EmployeeRepository employeeRepository;
+    public ManagerRepository managerRepository;
+    public LocationRepository locationRepository;
+    public ShiftRepository shiftRepository;
 
 
     @Autowired
-    void AppApplication(final OrganizationRepository organizationRepository){
+    void AppApplication(final OrganizationRepository organizationRepository, final EmployeeRepository employeeRepository, final ManagerRepository managerRepository, final LocationRepository locationRepository, final ShiftRepository shiftRepository){
         this.organizationRepository = organizationRepository;
+        this.employeeRepository = employeeRepository;
+        this.managerRepository = managerRepository;
+        this.locationRepository = locationRepository;
+        this.shiftRepository = shiftRepository;
     }
 
     public static void main(String[] args) {
@@ -30,6 +36,22 @@ public class EmsApplication implements CommandLineRunner {
         System.out.println("Hello World!");
         for (Organization organization : organizationRepository.findAll()) {
             System.out.println(organization.getOrganizationId());
+        }
+
+        for (Location location : locationRepository.findAll()) {
+            System.out.println(location.getLocationId());
+        }
+
+        for (Employee employee : employeeRepository.findAll()) {
+            System.out.println(employee.getEmployeeId());
+        }
+
+        for (Manager manager : managerRepository.findAll()) {
+            System.out.println(manager.getManagerId());
+        }
+
+        for (Shift shift : shiftRepository.findAll()) {
+            System.out.println(shift.getShiftId());
         }
     }
 }
