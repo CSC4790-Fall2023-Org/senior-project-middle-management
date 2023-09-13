@@ -1,0 +1,22 @@
+{
+    "extends": "@tsconfig/react-native/tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "@src/*"
+            ],
+            "tests": [
+                "@tests/*"
+            ],
+            "@components/*": [
+                "@src/components/*"
+            ]
+        },
+        "jsx": "react",
+        "types": [
+            "jest",
+            "react-native"
+        ]
+    }
+}
