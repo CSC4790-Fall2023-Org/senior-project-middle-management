@@ -16,7 +16,6 @@ function App() {
             <Stack.Screen name={"Company"} component={CompanyScreen} />
             <Stack.Screen name={"Manager"} component={ManagerScreen} />
             <Stack.Screen name={"Employee"} component={EmployeeScreen} />
-          {/* Define your screens here */}
         </Stack.Navigator>
       </NavigationContainer>
   );

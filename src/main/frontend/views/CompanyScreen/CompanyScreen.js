@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text } from 'react-native';
 
-function CompanyScreen({ navigation }) {
+function CompanyScreen() {
     return (
         <View>
             <Text>Company Screen</Text>
