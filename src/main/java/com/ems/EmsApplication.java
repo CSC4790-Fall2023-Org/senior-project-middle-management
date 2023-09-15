@@ -16,11 +16,11 @@ public class EmsApplication implements CommandLineRunner {
     public LocationRepository locationRepository;
     public ShiftRepository shiftRepository;
 
-    public static OrganizationRepository visableOrganizationRepository;
-    public static EmployeeRepository visableEmployeeRepository;
-    public static ManagerRepository visableManagerRepository;
-    public static LocationRepository visableLocationRepository;
-    public static ShiftRepository visableShiftRepository;
+    public static OrganizationRepository visibleOrganizationRepository;
+    public static EmployeeRepository visibleEmployeeRepository;
+    public static ManagerRepository visibleManagerRepository;
+    public static LocationRepository visibleLocationRepository;
+    public static ShiftRepository visibleShiftRepository;
 
     @Autowired
     void AppApplication(final OrganizationRepository organizationRepository, final EmployeeRepository employeeRepository, final ManagerRepository managerRepository, final LocationRepository locationRepository, final ShiftRepository shiftRepository){
@@ -40,11 +40,11 @@ public class EmsApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("APPLICATION STARTED");
 
-        visableOrganizationRepository = organizationRepository;
-        visableEmployeeRepository = employeeRepository;
-        visableManagerRepository = managerRepository;
-        visableLocationRepository = locationRepository;
-        visableShiftRepository = shiftRepository;
+        visibleOrganizationRepository = organizationRepository;
+        visibleEmployeeRepository = employeeRepository;
+        visibleManagerRepository = managerRepository;
+        visibleLocationRepository = locationRepository;
+        visibleShiftRepository = shiftRepository;
 
         for (Organization organization : organizationRepository.findAll()) {
             System.out.println(organization.getOrganizationId());
