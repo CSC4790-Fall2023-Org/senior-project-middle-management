@@ -12,10 +12,10 @@ function App() {
   return (
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name={"Login"} component={LoginScreen} />
-            <Stack.Screen name={"Company"} component={CompanyScreen} />
-            <Stack.Screen name={"Manager"} component={ManagerScreen} />
-            <Stack.Screen name={"Employee"} component={EmployeeScreen} />
+            <Stack.Screen name={"Login"} component={LoginScreen} options={{headerShown: false}} />
+            <Stack.Screen name={"Company"} component={CompanyScreen} options={{headerShown: false}} />
+            <Stack.Screen name={"Manager"} component={ManagerScreen} options={{headerShown: false}} />
+            <Stack.Screen name={"Employee"} component={EmployeeScreen} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
   );

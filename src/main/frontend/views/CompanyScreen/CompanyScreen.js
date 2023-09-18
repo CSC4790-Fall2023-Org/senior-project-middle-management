@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import CustomHeader from '../../components/CustomHeader/CustomHeader';
 
 function CompanyScreen() {
     return (
         <View>
-            <Text>Company Screen</Text>
+            <CustomHeader title={"Company Name"} />
         </View>
     );
 }
