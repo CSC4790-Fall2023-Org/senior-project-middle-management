@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import CustomHeader from "../../components/CustomHeader/CustomHeader";
+import CustomHeader from "../components/CustomHeader";
 
 function EmployeeScreen() {
     return (

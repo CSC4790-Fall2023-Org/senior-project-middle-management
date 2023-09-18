@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import CustomHeader from "../../components/CustomHeader/CustomHeader";
+import CustomHeader from "../components/CustomHeader";
 
 function LoginScreen({ navigation }) {
     return (
