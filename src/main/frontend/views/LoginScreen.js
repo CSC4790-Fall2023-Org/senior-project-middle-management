@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import CustomHeader from "../components/CustomHeader";
 
 function LoginScreen({ navigation }) {
     return (
         <View>
-            <CustomHeader title={"App Name"} />
+            <View style={styles.headerContainer}>
+                <Text style={styles.headerTitle}>App Name</Text>
+            </View>
             <View style={styles.buttonsContainer}>
                 <Button
                     color="#186A3B"
@@ -38,6 +39,19 @@ const styles = StyleSheet.create({
         paddingTop: 100,
     },
     loginButton: {
+    },
+    headerContainer: {
+        height: 100,
+        backgroundColor: "white",
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        alignItems: "flex-end",
+    },
+    headerTitle: {
+        color: "#50C878",
+        fontSize: 32,
+        marginBottom: 8,
+        marginLeft: 12,
     },
 });
 
