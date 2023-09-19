@@ -1,11 +1,14 @@
 import React from "react";
-import {StyleSheet, View, Text} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons/faChevronLeft";
 
 function UserSettingsScreen() {
     return (
         <View>
             <View style={styles.headerContainer}>
-                <Text style={styles.headerTitle}>Settings</Text>
+                <FontAwesomeIcon icon={faChevronLeft} size={24} style={styles.icon}/>
+                <Text style={styles.headerText}>Settings</Text>
             </View>
         </View>
     );
@@ -13,22 +16,26 @@ function UserSettingsScreen() {
 
 const styles = StyleSheet.create({
     headerContainer: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
         height: 100,
         backgroundColor: "white",
-        flexDirection: "row",
-        justifyContent: "flex-start",
         alignItems: "flex-end",
+        borderBottomWidth: 1,
+        borderBottomColor: '#dddddd',
     },
-    headerTitle: {
-        color: "#50C878",
-        fontSize: 32,
-        marginBottom: 8,
-        marginLeft: 12,
+    headerText: {
+        color: "black",
+        fontSize: 24,
+        marginBottom: 12,
+        fontWeight: 'bold',
     },
     icon: {
-        color: 'white',
-        marginBottom: 8,
-        marginRight: 12,
+        color: 'black',
+        position: 'absolute',
+        left: 12,
+        bottom: 12,
     }
 });
 
