@@ -14,7 +14,6 @@ public class Employee {
     @Field
     private String employeeName;
 
-
     public Employee() {
     }
 
