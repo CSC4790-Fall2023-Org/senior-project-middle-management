@@ -2,12 +2,21 @@ import React from "react";
 import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons/faChevronLeft";
+import {useNavigation} from "@react-navigation/native";
 
-function UserSettingsScreen() {
+function CompanySettingsScreen() {
+    const navigation = useNavigation();
+
+    const handleUserClick = () => {
+        navigation.navigate('Company');
+    }
+
     return (
         <View>
             <View style={styles.headerContainer}>
-                <FontAwesomeIcon icon={faChevronLeft} size={24} style={styles.icon}/>
+                <TouchableOpacity onPress={() => handleUserClick()} style={styles.icon}>
+                    <FontAwesomeIcon icon={faChevronLeft} size={24}/>
+                </TouchableOpacity>
                 <Text style={styles.headerText}>Settings</Text>
             </View>
         </View>
@@ -36,7 +45,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 12,
         bottom: 12,
+        width: 48,
     }
 });
 
-export default UserSettingsScreen;
+export default CompanySettingsScreen;

@@ -5,7 +5,7 @@ import CustomHeader from '../components/CustomHeader';
 function CompanyScreen() {
     return (
         <View>
-            <CustomHeader title={"Company Name"} />
+            <CustomHeader title={"Company Name"} page={"Company Settings"}/>
         </View>
     );
 }

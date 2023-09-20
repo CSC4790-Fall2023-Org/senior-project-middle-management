@@ -5,7 +5,7 @@ import CustomHeader from "../components/CustomHeader";
 function EmployeeScreen() {
     return (
         <View>
-            <CustomHeader title={"Employee Name"} />
+            <CustomHeader title={"Employee Name"} page={"Employee Settings"} />
         </View>
     );
 }
