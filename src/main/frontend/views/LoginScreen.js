@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
+import {ScreenNames} from "../utils/ScreenNames";
 
 function LoginScreen({ navigation }) {
     return (
@@ -12,19 +13,19 @@ function LoginScreen({ navigation }) {
                     color="#186A3B"
                     style={styles.loginButton}
                     title="Login as Company"
-                    onPress={() => navigation.navigate('Company')}
+                    onPress={() => navigation.navigate(ScreenNames.COMPANY)}
                 />
                 <Button
                     color="#186A3B"
                     style={styles.loginButton}
-                    title={"Login as Manager"}
-                    onPress={() => navigation.navigate('Manager')}
+                    title="Login as Manager"
+                    onPress={() => navigation.navigate(ScreenNames.MANAGER)}
                 />
                 <Button
                     color="#186A3B"
                     style={styles.loginButton}
-                    title={"Login as Employee"}
-                    onPress={() => navigation.navigate('Employee')}
+                    title="Login as Employee"
+                    onPress={() => navigation.navigate(ScreenNames.EMPLOYEE)}
                 />
             </View>
         </View>

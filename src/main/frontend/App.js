@@ -8,20 +8,21 @@ import EmployeeScreen from "./views/EmployeeScreen";
 import CompanySettingsScreen from "./views/CompanySettingsScreen";
 import ManagerSettingsScreen from "./views/ManagerSettingsScreen";
 import EmployeeSettingsScreen from "./views/EmployeeSettingsScreen";
+import {ScreenNames} from "./utils/ScreenNames";
 
 const Stack = createStackNavigator();
 
 function App() {
   return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name={"Login"} component={LoginScreen} options={{headerShown: false}} />
-            <Stack.Screen name={"Company"} component={CompanyScreen} options={{headerShown: false}} />
-            <Stack.Screen name={"Manager"} component={ManagerScreen} options={{headerShown: false}} />
-            <Stack.Screen name={"Employee"} component={EmployeeScreen} options={{headerShown: false}} />
-            <Stack.Screen name={"Company Settings"} component={CompanySettingsScreen} options={{headerShown: false}} />
-            <Stack.Screen name={"Manager Settings"} component={ManagerSettingsScreen} options={{headerShown: false}} />
-            <Stack.Screen name={"Employee Settings"} component={EmployeeSettingsScreen} options={{headerShown: false}} />
+        <Stack.Navigator initialRouteName={ScreenNames.LOGIN}>
+            <Stack.Screen name={ScreenNames.LOGIN} component={LoginScreen} options={{headerShown: false}} />
+            <Stack.Screen name={ScreenNames.COMPANY} component={CompanyScreen} options={{headerShown: false}} />
+            <Stack.Screen name={ScreenNames.MANAGER} component={ManagerScreen} options={{headerShown: false}} />
+            <Stack.Screen name={ScreenNames.EMPLOYEE} component={EmployeeScreen} options={{headerShown: false}} />
+            <Stack.Screen name={ScreenNames.COMPANY_SETTINGS} component={CompanySettingsScreen} options={{headerShown: false}} />
+            <Stack.Screen name={ScreenNames.MANAGER_SETTINGS} component={ManagerSettingsScreen} options={{headerShown: false}} />
+            <Stack.Screen name={ScreenNames.EMPLOYEE_SETTINGS} component={EmployeeSettingsScreen} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
   );

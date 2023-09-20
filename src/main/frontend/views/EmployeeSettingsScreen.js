@@ -3,12 +3,13 @@ import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons/faChevronLeft";
 import {useNavigation} from "@react-navigation/native";
+import {ScreenNames} from "../utils/ScreenNames";
 
 function EmployeeSettingsScreen() {
     const navigation = useNavigation();
 
     const handleUserClick = () => {
-        navigation.navigate('Employee');
+        navigation.navigate(ScreenNames.EMPLOYEE);
     }
 
     return (
