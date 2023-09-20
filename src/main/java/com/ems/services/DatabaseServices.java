@@ -18,16 +18,6 @@ public class DatabaseServices {
                 .findFirst();
     }
 
-    // find location by id
-    public static Optional<Location> findLocationById(ObjectId locationId) {
-        return EmsApplication.visibleLocationRepository
-                .findAll()
-                .stream()
-                .filter(location -> location.getLocationId()
-                        .equals(locationId))
-                .findFirst();
-    }
-
     // find manager by id
     public static Optional<Manager> findManagerById(ObjectId managerId) {
         return EmsApplication.visibleManagerRepository
@@ -63,11 +53,6 @@ public class DatabaseServices {
         EmsApplication.visibleEmployeeRepository.save(employee);
     }
 
-    // save location
-    public static void saveLocation(Location location) {
-        EmsApplication.visibleLocationRepository.save(location);
-    }
-
     // save manager
     public static void saveManager(Manager manager) {
         EmsApplication.visibleManagerRepository.save(manager);
@@ -91,16 +76,6 @@ public class DatabaseServices {
             throw new RuntimeException("Error deleting employee! Employee with id: " + employeeId + " is not present in the database");
         }
         EmsApplication.visibleEmployeeRepository.delete(employee);
-    }
-
-    // delete location
-    public static void deleteLocation(Location location) {
-        ObjectId locationId = location.getLocationId();
-        if (EmsApplication.visibleLocationRepository.findAll().stream().anyMatch(lo -> lo.getLocationId().equals(locationId))){
-            System.out.println("Location not found");
-            throw new RuntimeException("Error deleting location! Location with id: " + locationId + " is not present in the database");
-        }
-        EmsApplication.visibleLocationRepository.delete(location);
     }
 
     // delete manager
