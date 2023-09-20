@@ -23,4 +23,24 @@ public class Location {
     public ObjectId getLocationId() {
         return locationId;
     }
+
+    public void setLocationId(ObjectId locationId) {
+        this.locationId = locationId;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "locationId=" + locationId +
+                ", locationName='" + locationName + '\'' +
+                '}';
+    }
 }
