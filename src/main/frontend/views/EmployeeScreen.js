@@ -12,7 +12,7 @@ function EmployeeScreen() {
             <ScrollView style={styles.scrollView}>
                 <EmployeeShiftCard date={"Wed Sep 21"} shiftType={"Lifeguard"} startTime={"12:00"} endTime={"8:30"} locationId={12345} />
             </ScrollView>
-            <EmployeeHrsStatusBar loggedHours={18} maxWorkableHours={40} style={styles.statusBar}/>
+            <EmployeeHrsStatusBar loggedHours={20} maxWorkableHours={40} style={styles.statusBar}/>
         </View>
 
     );
