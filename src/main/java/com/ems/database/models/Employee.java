@@ -12,10 +12,8 @@ public class Employee {
     @Id
     private ObjectId employeeId;
     @Field
-<<<<<<< HEAD
     private String employeeName;
 
-=======
     private String firstName;
     @Field
     private String lastName;
@@ -35,7 +33,6 @@ public class Employee {
     private List<ObjectId> locationIdList;
     @Field
     private List<ObjectId>  shiftIdList;
->>>>>>> 158fff065ba91ed47e5f998ad3f57fabe40c8593
     public Employee() {
     }
 
