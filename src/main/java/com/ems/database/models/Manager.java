@@ -5,8 +5,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.util.List;
-
 @Document(collection = "managers")
 public class Manager {
 
@@ -16,96 +14,15 @@ public class Manager {
     @Field
     private String managerName;
 
-    @Field
-    private String managerEmail;
-
-    @Field
-    private String managerPhoneNumber;
-
-    @Field
-    private String firstName;
-
-    @Field
-    private String lastName;
-
-    @Field
-    private ObjectId organizationId;
-
-    @Field
-    private List<ObjectId> locationIdList;
-
     public Manager() {
-        this.managerId = new ObjectId();
     }
 
-    public Manager(ObjectId managerId, String managerName, String managerEmail, String managerPhoneNumber, String firstName, String lastName, ObjectId organizationId, List<ObjectId> locationIdList) {
+    public Manager(ObjectId managerId, String managerName) {
         this.managerId = managerId;
         this.managerName = managerName;
-        this.managerEmail = managerEmail;
-        this.managerPhoneNumber = managerPhoneNumber;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.organizationId = organizationId;
-        this.locationIdList = locationIdList;
     }
 
     public ObjectId getManagerId() {
         return managerId;
-    }
-
-    public String getManagerName() {
-        return managerName;
-    }
-
-    public void setManagerName(String managerName) {
-        this.managerName = managerName;
-    }
-
-    public String getManagerEmail() {
-        return managerEmail;
-    }
-
-    public void setManagerEmail(String managerEmail) {
-        this.managerEmail = managerEmail;
-    }
-
-    public String getManagerPhoneNumber() {
-        return managerPhoneNumber;
-    }
-
-    public void setManagerPhoneNumber(String managerPhoneNumber) {
-        this.managerPhoneNumber = managerPhoneNumber;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public ObjectId getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(ObjectId organizationId) {
-        this.organizationId = organizationId;
-    }
-
-    public List<ObjectId> getLocationIdList() {
-        return locationIdList;
-    }
-
-    public void setLocationIdList(List<ObjectId> locationIdList) {
-        this.locationIdList = locationIdList;
     }
 }
