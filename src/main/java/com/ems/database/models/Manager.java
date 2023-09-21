@@ -32,13 +32,13 @@ public class Manager {
     private ObjectId organizationId;
 
     @Field
-    private List<Location> locationList;
+    private List<ObjectId> locationIdList;
 
     public Manager() {
         this.managerId = new ObjectId();
     }
 
-    public Manager(ObjectId managerId, String managerName, String managerEmail, String managerPhoneNumber, String firstName, String lastName, ObjectId organizationId, List<Location> locationList) {
+    public Manager(ObjectId managerId, String managerName, String managerEmail, String managerPhoneNumber, String firstName, String lastName, ObjectId organizationId, List<ObjectId> locationIdList) {
         this.managerId = managerId;
         this.managerName = managerName;
         this.managerEmail = managerEmail;
@@ -46,7 +46,7 @@ public class Manager {
         this.firstName = firstName;
         this.lastName = lastName;
         this.organizationId = organizationId;
-        this.locationList = locationList;
+        this.locationIdList = locationIdList;
     }
 
     public ObjectId getManagerId() {
@@ -101,15 +101,11 @@ public class Manager {
         this.organizationId = organizationId;
     }
 
-    public void setManagerId(ObjectId managerId) {
-        this.managerId = managerId;
+    public List<ObjectId> getLocationIdList() {
+        return locationIdList;
     }
 
-    public List<Location> getLocationList() {
-        return locationList;
-    }
-
-    public void setLocationList(List<Location> locationList) {
-        this.locationList = locationList;
+    public void setLocationIdList(List<ObjectId> locationIdList) {
+        this.locationIdList = locationIdList;
     }
 }
