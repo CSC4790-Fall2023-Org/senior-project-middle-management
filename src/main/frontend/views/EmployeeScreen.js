@@ -3,6 +3,7 @@ import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import CustomHeader from "../components/CustomHeader";
 import {ScreenNames} from "../utils/ScreenNames";
 import EmployeeShiftCard from "../components/EmployeeShiftCard";
+import EmployeeHrsStatusBar from "../components/EmployeeHrsStatusBar";
 
 function EmployeeScreen() {
     return (
@@ -11,6 +12,7 @@ function EmployeeScreen() {
             <ScrollView style={styles.scrollView}>
                 <EmployeeShiftCard date={"Wed Sep 21"} shiftType={"Lifeguard"} startTime={"12:00"} endTime={"8:30"} locationId={12345} />
             </ScrollView>
+            <EmployeeHrsStatusBar loggedHours={18} maxWorkableHours={40} style={styles.statusBar}/>
         </View>
 
     );
@@ -26,6 +28,10 @@ const styles = StyleSheet.create({
     scrollView: {
         flexGrow: 1,
     },
+    statusBar: {
+        alignSelf: "stretch",
+    }
+
 });
 
 export default EmployeeScreen;
