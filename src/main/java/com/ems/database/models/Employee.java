@@ -30,13 +30,13 @@ public class Employee {
     @Field
     private ObjectId organizationId;
     @Field
-    private List<ObjectId> locationIdList;
+    private List<Location> locationList;
     @Field
     private List<ObjectId>  shiftIdList;
     public Employee() {
     }
 
-    public Employee(ObjectId employeeId, String firstName, String lastName, String employeeEmail, String employeePhoneNumber, String employeeType, double loggedHours, double pay, ObjectId organizationId, List<ObjectId> locationIdList, List<ObjectId> shiftIdList) {
+    public Employee(ObjectId employeeId, String firstName, String lastName, String employeeEmail, String employeePhoneNumber, String employeeType, double loggedHours, double pay, ObjectId organizationId, List<Location> locationList, List<ObjectId> shiftIdList) {
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -46,11 +46,11 @@ public class Employee {
         this.loggedHours = loggedHours;
         this.pay = pay;
         this.organizationId = organizationId;
-        this.locationIdList = locationIdList;
+        this.locationList = locationList;
         this.shiftIdList = shiftIdList;
     }
 
-    public Employee(String firstName, String lastName, String employeeEmail, String employeePhoneNumber, String employeeType, double loggedHours, double pay, ObjectId organizationId, List<ObjectId> locationIdList, List<ObjectId> shiftIdList) {
+    public Employee(String firstName, String lastName, String employeeEmail, String employeePhoneNumber, String employeeType, double loggedHours, double pay, ObjectId organizationId, List<Location> locationList, List<ObjectId> shiftIdList) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.employeeEmail = employeeEmail;
@@ -59,7 +59,7 @@ public class Employee {
         this.loggedHours = loggedHours;
         this.pay = pay;
         this.organizationId = organizationId;
-        this.locationIdList = locationIdList;
+        this.locationList = locationList;
         this.shiftIdList = shiftIdList;
     }
 
@@ -99,8 +99,8 @@ public class Employee {
         this.organizationId = organizationId;
     }
 
-    public void setLocationIdList(List<ObjectId> locationIdList) {
-        this.locationIdList = locationIdList;
+    public void setLocationList(List<Location> locationList) {
+        this.locationList = locationList;
     }
 
     public void setShiftIdList(List<ObjectId> shiftIdList) {
@@ -143,8 +143,8 @@ public class Employee {
         return organizationId;
     }
 
-    public List<ObjectId> getLocationIdList() {
-        return locationIdList;
+    public List<Location> getLocationList() {
+        return locationList;
     }
 
     public List<ObjectId> getShiftIdList() {
@@ -163,7 +163,7 @@ public class Employee {
                 ", loggedHours=" + loggedHours +
                 ", pay=" + pay +
                 ", organizationId=" + organizationId +
-                ", locationIdList=" + locationIdList +
+                ", locationIdList=" + locationList +
                 ", shiftIdList=" + shiftIdList +
                 '}';
     }
