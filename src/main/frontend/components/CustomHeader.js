@@ -27,12 +27,14 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "flex-end",
+
     },
     title: {
         color: 'white',
         fontSize: 32,
         marginBottom: 8,
         marginLeft: 12,
+
     },
     icon: {
         color: 'white',
