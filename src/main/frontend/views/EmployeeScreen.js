@@ -1,8 +1,7 @@
 import React from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
+import {View} from 'react-native';
 import CustomHeader from "../components/CustomHeader";
-import EmployeeShifts from "../components/EmployeeShifts";
-import SwiperComponent from "../components/SwiperComponent";
+import EmployeeShiftHeader from "../components/EmployeeShiftHeader";
 
 function EmployeeScreen() {
     return (
@@ -11,26 +10,10 @@ function EmployeeScreen() {
                 <CustomHeader title={"Employee Name"} />
             </View>
             <View>
-                <EmployeeShifts />
-                {/*<SwiperComponent />*/}
+                <EmployeeShiftHeader />
             </View>
         </View>
-
     );
-
 }
 
-const styles = StyleSheet.create({
-    buttonsContainer: {
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        paddingTop: 200,
-    },
-    loginButton: {
-        width: 200,
-        margin: 0,
-
-    },
-});
 export default EmployeeScreen;
