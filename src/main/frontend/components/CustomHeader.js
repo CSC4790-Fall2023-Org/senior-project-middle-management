@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons/faCircleUser";
 import {useNavigation} from "@react-navigation/native";
 
-const CustomHeader = ({title}) => {
+const CustomHeader = ({title, page}) => {
     const navigation = useNavigation();
     const handleUserClick = () => {
-        navigation.navigate('User Settings');
+        navigation.navigate(page);
     }
 
     return (

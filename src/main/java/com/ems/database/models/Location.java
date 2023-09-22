@@ -5,13 +5,11 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-@Document(collection = "locations")
+
 public class Location {
 
-    @Id
     private ObjectId locationId;
 
-    @Field
     private String locationName;
 
     public Location() {
@@ -24,5 +22,25 @@ public class Location {
 
     public ObjectId getLocationId() {
         return locationId;
+    }
+
+    public void setLocationId(ObjectId locationId) {
+        this.locationId = locationId;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "locationId=" + locationId +
+                ", locationName='" + locationName + '\'' +
+                '}';
     }
 }
