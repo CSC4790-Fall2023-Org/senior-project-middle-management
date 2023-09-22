@@ -2,8 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View} from "react-native";
 
 const EmployeeShiftCard = ({date, startTime, endTime, shiftType, locationId}) => {
-
-
+    //TODO: calc shift hours to pass into card
     return (
         <View style={styles.container}>
             <View style={styles.leftContainer}>
@@ -25,6 +24,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         backgroundColor: '#FFFFFF',
         margin: 15,
+        marginBottom: 0,
         borderRadius: 10,
         padding: 16,
         paddingTop: 12,
