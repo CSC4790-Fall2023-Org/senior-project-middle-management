@@ -1,5 +1,8 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import CustomHeader from "../components/CustomHeader";
+
+
 
 function LoginScreen({ navigation }) {
     return (
@@ -7,38 +10,45 @@ function LoginScreen({ navigation }) {
             <View style={styles.headerContainer}>
                 <Text style={styles.headerTitle}>App Name</Text>
             </View>
-            <View style={styles.buttonsContainer}>
-                <Button
-                    color="#186A3B"
-                    style={styles.loginButton}
-                    title="Login as Company"
-                    onPress={() => navigation.navigate('Company')}
-                />
-                <Button
-                    color="#186A3B"
-                    style={styles.loginButton}
-                    title={"Login as Manager"}
-                    onPress={() => navigation.navigate('Manager')}
-                />
-                <Button
-                    color="#186A3B"
-                    style={styles.loginButton}
-                    title={"Login as Employee"}
-                    onPress={() => navigation.navigate('Employee')}
-                />
+            <View style={styles.twoButtonsContainer}>
+                <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Company')}>
+                    <View>
+                      <Text style={styles.text}>Login as Company</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
+            <View style = {styles.oneButtonsContainer}>
+                <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Manager')}>
+                    <View>
+                        <Text style={styles.text}>Login as Manager</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.oneButtonsContainer}>
+                <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Employee')}>
+                    <View>
+                        <Text style={styles.text}>Login as Employee</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+
+
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    buttonsContainer: {
+    oneButtonsContainer: {
         display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        paddingTop: 100,
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        paddingTop: 30,
     },
-    loginButton: {
+    twoButtonsContainer:{
+        display: "flex",
+        flexDirection:"row",
+        justifyContent: "space-evenly",
+        paddingTop: 200,
     },
     headerContainer: {
         height: 100,
@@ -52,6 +62,22 @@ const styles = StyleSheet.create({
         fontSize: 32,
         marginBottom: 8,
         marginLeft: 12,
+    },
+    loginButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 5,
+        borderRadius: 4,
+        backgroundColor: '#FFFFFF',
+
+    },
+    text:{
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: '#000000',
     },
 });
 
