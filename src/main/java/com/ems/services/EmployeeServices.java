@@ -19,14 +19,20 @@ public class EmployeeServices {
                 .orElseThrow(() -> new SvcException("error"));
         Organization organization = DatabaseServices.findOrganizationById(employee.getOrganizationId())
                 .orElseThrow(() -> new SvcException("error"));
+        return setShiftToEmployeeUsingIDS(employee, shift, organization);
+    }
 
+    public static Object[] setShiftToEmployeeUsingIDS(final Employee pEmployee, final Shift pShift, final Organization pOrganization) throws SvcException {
         // validation
-        ValidationServices.validateEmployeeCanConnectToShift(employee, shift, organization);
+        ValidationServices.validateEmployeeCanConnectToShift(pEmployee, pShift, pOrganization);
 
         // adding the shift to the employee and changing its status
-        employee.getShiftIdList().add(shift.getShiftId());
-        shift.setShiftOpen(false);
-        return new Object[]{employee, shift};
+
+        List<ObjectId> resultList = new ArrayList<>(List.copyOf(pEmployee.getShiftIdList()));
+        resultList.add(pShift.getShiftId());
+        pEmployee.setShiftIdList(resultList);
+        pShift.setShiftOpen(false);
+        return new Object[]{pEmployee, pShift};
     }
 
 }

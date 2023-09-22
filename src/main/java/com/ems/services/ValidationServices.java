@@ -12,28 +12,28 @@ public class ValidationServices {
 
     public static void validateEmployeeCanConnectToShift(final Employee pEmployee, final Shift pShift, final Organization pOrganization) throws SvcException {
         // employee and shift belong to same location
-        if (pEmployee.getLocationList().stream().noneMatch(location -> location.getLocationId() == pShift.getShiftId())) {
+        if (pEmployee.getLocationList().stream().noneMatch(location -> location.getLocationId().equals(pShift.getLocationId()))) {
             throw new SvcException("error");
         }
 
         // shift belongs to same org
-        if(pOrganization.getLocationList().stream().noneMatch(location -> location.getLocationId() == pShift.getShiftId())){
+        if(pOrganization.getLocationList().stream().noneMatch(location -> location.getLocationId().equals(pShift.getLocationId()))){
             throw new SvcException("error");
         }
 
         // employee belongs to org
-        if (pEmployee.getOrganizationId() != pOrganization.getOrganizationId()){
+        if (!pEmployee.getOrganizationId().equals(pOrganization.getOrganizationId())){
             throw new SvcException("error");
         }
         // shift is open
-        if (pShift.isShiftOpen()){
+        if (!pShift.isShiftOpen()){
             throw new SvcException("error");
         }
 
         // employees current hours is less than locations limit
         if (pEmployee.getLoggedHours() >
                 ((Location) pEmployee.getLocationList().stream()
-                        .filter(location -> location.getLocationId() == pShift.getLocationId()))
+                        .filter(location -> location.getLocationId().equals(pShift.getLocationId())).findFirst().get())
                         .getMaxHours()){
             throw new SvcException("error");
         }
