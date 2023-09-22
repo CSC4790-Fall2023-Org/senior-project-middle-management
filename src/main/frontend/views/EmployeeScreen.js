@@ -16,6 +16,7 @@ function EmployeeScreen() {
                 <EmployeeShiftCard date={"Fri Sep 22"} shiftType={"Head Guard"} startTime={"10:00am"} endTime={"6:30pm"} locationId={12345} />
             </ScrollView>
             <EmployeeHrsStatusBar loggedHours={20} maxWorkableHours={40} style={styles.statusBar}/>
+        </View>
     );
 }
 
