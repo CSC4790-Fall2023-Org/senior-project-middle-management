@@ -12,12 +12,20 @@ public class Location {
 
     private String locationName;
 
+    private double maxHours;
+
     public Location() {
     }
 
     public Location(ObjectId locationId, String locationName) {
         this.locationId = locationId;
         this.locationName = locationName;
+    }
+
+    public Location(ObjectId locationId, String locationName, double maxHours) {
+        this.locationId = locationId;
+        this.locationName = locationName;
+        this.maxHours = maxHours;
     }
 
     public ObjectId getLocationId() {
@@ -36,11 +44,20 @@ public class Location {
         this.locationName = locationName;
     }
 
+    public double getMaxHours() {
+        return maxHours;
+    }
+
+    public void setMaxHours(double maxHours) {
+        this.maxHours = maxHours;
+    }
+
     @Override
     public String toString() {
         return "Location{" +
                 "locationId=" + locationId +
                 ", locationName='" + locationName + '\'' +
+                ", maxHours=" + maxHours +
                 '}';
     }
 }

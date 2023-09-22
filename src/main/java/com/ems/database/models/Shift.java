@@ -1,19 +1,20 @@
 package com.ems.database.models;
 
 import org.bson.types.ObjectId;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+
 
 @Document(collection = "shifts")
 public class Shift {
 
     @Id
     private ObjectId shiftId;
+    @Field
+    private ObjectId locationId;
     @Field
     private String shiftName;
     @Field
@@ -29,8 +30,9 @@ public class Shift {
     public Shift() {
     }
 
-    public Shift(ObjectId shiftId, String shiftName, LocalDateTime shiftStartTime, LocalDateTime shiftEndTime, String shiftType, boolean isShiftOpen) {
+    public Shift(ObjectId shiftId, ObjectId locationId, String shiftName, LocalDateTime shiftStartTime, LocalDateTime shiftEndTime, String shiftType, boolean isShiftOpen) {
         this.shiftId = shiftId;
+        this.locationId = locationId;
         this.shiftName = shiftName;
         this.shiftStartTime = shiftStartTime;
         this.shiftEndTime = shiftEndTime;
@@ -85,10 +87,20 @@ public class Shift {
     public void setShiftOpen(boolean shiftOpen) {
         isShiftOpen = shiftOpen;
     }
+
+    public ObjectId getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(ObjectId locationId) {
+        this.locationId = locationId;
+    }
+
     @Override
     public String toString() {
         return "Shift{" +
                 "shiftId=" + shiftId +
+                ", locationId=" + locationId +
                 ", shiftName='" + shiftName + '\'' +
                 ", shiftStartTime=" + shiftStartTime +
                 ", shiftEndTime=" + shiftEndTime +
