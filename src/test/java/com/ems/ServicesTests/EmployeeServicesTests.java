@@ -7,9 +7,7 @@ import com.ems.Utils.ShiftUtils;
 import com.ems.database.models.Employee;
 import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
-import com.ems.database.repositories.EmployeeRepository;
 import com.ems.services.EmployeeServices;
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -27,7 +25,7 @@ public class EmployeeServicesTests {
 
         {
             // valid employee, shift, and org
-            Object[] result = EmployeeServices.setShiftToEmployeeUsingIDS(employee,shift,organization);
+            Object[] result = EmployeeServices.assignShiftToEmployeeUsingIDS(employee,shift,organization);
             Employee resultEmployee = (Employee) result[0];
             assertEquals(List.of(employee.getShiftIdList().get(0), shift.getShiftId()), resultEmployee.getShiftIdList());
             assertFalse(shift.isShiftOpen());
