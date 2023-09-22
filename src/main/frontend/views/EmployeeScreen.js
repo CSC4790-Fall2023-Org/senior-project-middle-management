@@ -10,7 +10,8 @@ function EmployeeScreen() {
         <View style={styles.screen}>
             <CustomHeader title={"Employee Name"} page={ScreenNames.EMPLOYEE_SETTINGS} />
             <ScrollView style={styles.scrollView}>
-                <EmployeeShiftCard date={"Wed Sep 21"} shiftType={"Lifeguard"} startTime={"12:00"} endTime={"8:30"} locationId={12345} />
+                <EmployeeShiftCard date={"Thu Sep 21"} shiftType={"Lifeguard"} startTime={"12:00am"} endTime={"8:30pm"} locationId={12345} />
+                <EmployeeShiftCard date={"Fri Sep 22"} shiftType={"Head Guard"} startTime={"10:00am"} endTime={"6:30pm"} locationId={12345} />
             </ScrollView>
             <EmployeeHrsStatusBar loggedHours={20} maxWorkableHours={40} style={styles.statusBar}/>
         </View>
