@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     statusBar: {
         alignSelf: "stretch",
     }
-
 });
 
 export default EmployeeScreen;

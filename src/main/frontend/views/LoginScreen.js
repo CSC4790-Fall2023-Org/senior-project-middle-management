@@ -1,45 +1,33 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
+import CustomButton from "../components/CustomButton";
 import {ScreenNames} from "../utils/ScreenNames";
 
-function LoginScreen({ navigation }) {
+function LoginScreen() {
     return (
-        <View>
+        <View style={styles.container}>
             <View style={styles.headerContainer}>
                 <Text style={styles.headerTitle}>App Name</Text>
             </View>
             <View style={styles.buttonsContainer}>
-                <Button
-                    color="#186A3B"
-                    style={styles.loginButton}
-                    title="Login as Company"
-                    onPress={() => navigation.navigate(ScreenNames.COMPANY)}
-                />
-                <Button
-                    color="#186A3B"
-                    style={styles.loginButton}
-                    title="Login as Manager"
-                    onPress={() => navigation.navigate(ScreenNames.MANAGER)}
-                />
-                <Button
-                    color="#186A3B"
-                    style={styles.loginButton}
-                    title="Login as Employee"
-                    onPress={() => navigation.navigate(ScreenNames.EMPLOYEE)}
-                />
+                <CustomButton buttonText={"Login as a Company"} page={ScreenNames.COMPANY}/>
+                <CustomButton buttonText={"Login as a Manager"} page={ScreenNames.MANAGER} />
+                <CustomButton buttonText={"Login as an Employee"} page={ScreenNames.EMPLOYEE} />
             </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#F1F1F1",
+    },
     buttonsContainer: {
-        display: "flex",
+        marginTop: 200,
         flexDirection: "column",
         justifyContent: "center",
-        paddingTop: 100,
-    },
-    loginButton: {
+        alignItems: "center",
     },
     headerContainer: {
         height: 100,
