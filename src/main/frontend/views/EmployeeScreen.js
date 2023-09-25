@@ -1,20 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import CustomHeader from "../components/CustomHeader";
 import {ScreenNames} from "../utils/ScreenNames";
-import EmployeeShiftCard from "../components/EmployeeShiftCard";
 import EmployeeHrsStatusBar from "../components/EmployeeHrsStatusBar";
 import EmployeeShiftHeader from "../components/EmployeeShiftHeader";
+import MyShiftList from "../components/MyShiftList";
+import AvailableShiftList from "../components/AvailableShiftList";
 
 function EmployeeScreen() {
+    const [selectedIndex, setSelectedIndex] = useState(0);
+
+    const handleTitlePress = (index) => {
+        setSelectedIndex(index);
+    }
+
     return (
         <View style={styles.screen}>
             <CustomHeader title={"Employee Name"} page={ScreenNames.EMPLOYEE_SETTINGS} />
-            <EmployeeShiftHeader />
-            <ScrollView style={styles.scrollView}>
-                <EmployeeShiftCard date={"Thu Sep 21"} shiftType={"Lifeguard"} startTime={"12:00am"} endTime={"8:30pm"} locationId={12345} />
-                <EmployeeShiftCard date={"Fri Sep 22"} shiftType={"Head Guard"} startTime={"10:00am"} endTime={"6:30pm"} locationId={12345} />
-            </ScrollView>
+            <EmployeeShiftHeader onTitlePress={handleTitlePress}/>
+            {selectedIndex === 0 && <MyShiftList />}
+            {selectedIndex === 1 && <AvailableShiftList />}
             <EmployeeHrsStatusBar loggedHours={20} maxWorkableHours={40} style={styles.statusBar}/>
         </View>
     );
@@ -26,9 +31,6 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         flex: 1,
-    },
-    scrollView: {
-        flexGrow: 1,
     },
     statusBar: {
         alignSelf: "stretch",
