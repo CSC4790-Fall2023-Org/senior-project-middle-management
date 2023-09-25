@@ -12,14 +12,14 @@ const tabs = [
     },
 ];
 
-function EmployeeShiftHeader() {
+const EmployeeShiftHeader = ({onTitlePress}) => {
     const [selected, setSelected] = React.useState(0);
 
     return (
         <View>
             <View style={styles.shiftsContainer}>
                 {tabs.map((item, index) => (
-                    <TouchableOpacity key={index} onPress={()=>setSelected(index)}>
+                    <TouchableOpacity key={index} onPress={()=> {setSelected(index); onTitlePress(index);}}>
                         <View>
                             <Text style={[styles.text]}>{item.text}</Text>
                             {selected===index && (
