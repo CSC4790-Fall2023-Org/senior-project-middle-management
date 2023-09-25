@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
 import CustomHeader from "../components/CustomHeader";
+import CustomButton from "../components/CustomButton";
 
 
 
@@ -10,12 +11,13 @@ function LoginScreen({ navigation }) {
             <View style={styles.headerContainer}>
                 <Text style={styles.headerTitle}>App Name</Text>
             </View>
-            <View style={styles.twoButtonsContainer}>
-                <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Company')}>
-                    <View>
-                      <Text style={styles.text}>Login as Company</Text>
-                    </View>
-                </TouchableOpacity>
+            <View style={styles.oneButtonsContainer}>
+                {/*<TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Company')}>*/}
+                {/*    <View>*/}
+                {/*      <Text style={styles.text}>Login as Company</Text>*/}
+                {/*    </View>*/}
+                {/*</TouchableOpacity>*/}
+                <CustomButton title={"Login as Company"} destination={"Company"} />
             </View>
             <View style = {styles.oneButtonsContainer}>
                 <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Manager')}>
