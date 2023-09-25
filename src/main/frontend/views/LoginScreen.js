@@ -1,62 +1,32 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
-import CustomHeader from "../components/CustomHeader";
+import {View, Text, StyleSheet} from 'react-native';
+import CustomButton from "../components/CustomButton";
 
-
-
-function LoginScreen({ navigation }) {
+function LoginScreen() {
     return (
-        <View>
+        <View style={styles.container}>
             <View style={styles.headerContainer}>
                 <Text style={styles.headerTitle}>App Name</Text>
             </View>
-            <View style={styles.twoButtonsContainer}>
-                <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Company')}>
-                    <View>
-                      <Text style={styles.text}>Login as Company</Text>
-                    </View>
-                </TouchableOpacity>
+            <View style={styles.buttonsContainer}>
+                <CustomButton buttonText={"Login as a Company"} page={'Company'}/>
+                <CustomButton buttonText={"Login as a Manager"} page={'Manager'} />
+                <CustomButton buttonText={"Login as an Employee"} page={'Employee'} />
             </View>
-            <View style = {styles.oneButtonsContainer}>
-                <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Manager')}>
-                    <View>
-                        <Text style={styles.text}>Login as Manager</Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.oneButtonsContainer}>
-                <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Employee')}>
-                    <View>
-                        <Text style={styles.text}>Login as Employee</Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
-
-
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    oneButtonsContainer: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-evenly",
-        paddingTop: 30,
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: .3,
-        shadowRadius: 4,
+    container: {
+        flex: 1,
+        backgroundColor: "#F1F1F1",
     },
-    twoButtonsContainer:{
-        display: "flex",
-        flexDirection:"row",
-        justifyContent: "space-evenly",
-        paddingTop: 200,
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: .3,
-        shadowRadius: 4,
+    buttonsContainer: {
+        marginTop: 200,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
     },
     headerContainer: {
         height: 100,
@@ -70,22 +40,6 @@ const styles = StyleSheet.create({
         fontSize: 32,
         marginBottom: 8,
         marginLeft: 12,
-    },
-    loginButton: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 5,
-        borderRadius: 4,
-        backgroundColor: '#FFFFFF',
-
-    },
-    text:{
-        fontSize: 16,
-        lineHeight: 21,
-        fontWeight: 'bold',
-        letterSpacing: 0.25,
-        color: '#000000',
     },
 });
 
