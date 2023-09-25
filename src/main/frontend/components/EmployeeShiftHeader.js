@@ -1,8 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Button, Pressable, Alert, TouchableOpacity} from 'react-native';
-import CustomHeader from "../components/CustomHeader";
-import SwiperComponent from "../components/SwiperComponent";
-
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 const tabs = [
     {
@@ -15,30 +12,25 @@ const tabs = [
     },
 ];
 
-function EmployeeShifts() {
-    const [selected, setSelected] = React.useState(0)
+const EmployeeShiftHeader = ({onTitlePress}) => {
+    const [selected, setSelected] = React.useState(0);
+
     return (
         <View>
             <View style={styles.shiftsContainer}>
                 {tabs.map((item, index) => (
-
-                    <TouchableOpacity key={index} onPress={()=>setSelected(index)}>
+                    <TouchableOpacity key={index} onPress={()=> {setSelected(index); onTitlePress(index);}}>
                         <View>
                             <Text style={[styles.text]}>{item.text}</Text>
                             {selected===index && (
                                 <View style={styles.underline} />
                             )}
-
                         </View>
-
                     </TouchableOpacity>
                 ))}
             </View>
-
         </View>
-
     );
-
 }
 
 const styles = StyleSheet.create({
@@ -52,31 +44,17 @@ const styles = StyleSheet.create({
         width: 200,
         margin: 0,
         fontWeight: "bold"
-
     },
     text:{
         fontWeight: "bold",
         fontSize: 20,
-    },
-    selected:{
-        borderBottomWidth:  100,
-        textDecorationLine: "underline",
-        textDecorationColor: "#50C878",
-        // borderBlockColor: '#50C878',
-    },
-    underlineContainer: {
-        display: "flex",
-        flexDirection:"row",
-        justifyContent: "space-evenly",
-
+        marginBottom: 2,
     },
     underline: {
         width: '100%',
-        borderBottomWidth: 5, // Increase the thickness of the underline
-        borderBottomColor: '#50C878', // Set the underline color
+        borderBottomWidth: 4,
+        borderBottomColor: '#50C878',
         borderRadius: 10
     },
-
-    //textDecorationLine: 'underline
 });
-export default EmployeeShifts;
+export default EmployeeShiftHeader;

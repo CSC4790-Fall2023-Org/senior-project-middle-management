@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import CustomButton from "../components/CustomButton";
+import {ScreenNames} from "../utils/ScreenNames";
 
 function LoginScreen() {
     return (
@@ -9,9 +10,9 @@ function LoginScreen() {
                 <Text style={styles.headerTitle}>App Name</Text>
             </View>
             <View style={styles.buttonsContainer}>
-                <CustomButton buttonText={"Login as a Company"} page={'Company'}/>
-                <CustomButton buttonText={"Login as a Manager"} page={'Manager'} />
-                <CustomButton buttonText={"Login as an Employee"} page={'Employee'} />
+                <CustomButton buttonText={"Login as a Company"} page={ScreenNames.COMPANY}/>
+                <CustomButton buttonText={"Login as a Manager"} page={ScreenNames.MANAGER} />
+                <CustomButton buttonText={"Login as an Employee"} page={ScreenNames.EMPLOYEE} />
             </View>
         </View>
     );

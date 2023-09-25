@@ -13,21 +13,18 @@ public class EmsApplication implements CommandLineRunner {
     public OrganizationRepository organizationRepository;
     public EmployeeRepository employeeRepository;
     public ManagerRepository managerRepository;
-    public LocationRepository locationRepository;
     public ShiftRepository shiftRepository;
 
     public static OrganizationRepository visibleOrganizationRepository;
     public static EmployeeRepository visibleEmployeeRepository;
     public static ManagerRepository visibleManagerRepository;
-    public static LocationRepository visibleLocationRepository;
     public static ShiftRepository visibleShiftRepository;
 
     @Autowired
-    void AppApplication(final OrganizationRepository organizationRepository, final EmployeeRepository employeeRepository, final ManagerRepository managerRepository, final LocationRepository locationRepository, final ShiftRepository shiftRepository){
+    void AppApplication(final OrganizationRepository organizationRepository, final EmployeeRepository employeeRepository, final ManagerRepository managerRepository, final ShiftRepository shiftRepository){
         this.organizationRepository = organizationRepository;
         this.employeeRepository = employeeRepository;
         this.managerRepository = managerRepository;
-        this.locationRepository = locationRepository;
         this.shiftRepository = shiftRepository;
     }
 
@@ -43,15 +40,10 @@ public class EmsApplication implements CommandLineRunner {
         visibleOrganizationRepository = organizationRepository;
         visibleEmployeeRepository = employeeRepository;
         visibleManagerRepository = managerRepository;
-        visibleLocationRepository = locationRepository;
         visibleShiftRepository = shiftRepository;
 
         for (Organization organization : organizationRepository.findAll()) {
             System.out.println(organization.getOrganizationId());
-        }
-
-        for (Location location : locationRepository.findAll()) {
-            System.out.println(location.getLocationId());
         }
 
         for (Employee employee : employeeRepository.findAll()) {
