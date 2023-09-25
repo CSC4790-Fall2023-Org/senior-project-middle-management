@@ -12,7 +12,6 @@ function EmployeeScreen() {
             </View>
             <View>
                 <EmployeeShifts />
-                {/*<SwiperComponent />*/}
             </View>
         </View>
 
