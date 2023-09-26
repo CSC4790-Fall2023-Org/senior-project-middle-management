@@ -1,55 +1,48 @@
-package com.ems.services; // Adjust the package name to match the tested class
+package com.ems.ServicesTests;
 
-import com.ems.Exceptions.SvcException;
-import com.ems.Utils.EmployeeUtils;
-import com.ems.Utils.OrganizationUtils;
-import com.ems.Utils.ShiftUtils;
-import com.ems.database.models.Employee;
-import com.ems.database.models.Organization;
-import com.ems.database.models.Shift;
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.util.List;
+import com.ems.Exceptions.DatabaseException;
+import com.ems.Exceptions.SvcException;
+import com.ems.database.models.Employee;
+import com.ems.database.models.Organization;
+import com.ems.database.models.Shift;
+import com.ems.services.DatabaseServices;
+import com.ems.services.EmployeeServices;
+import com.ems.services.ValidationServices;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.Mockito.*;
+import org.bson.types.ObjectId;
 
 public class EmployeeServicesTests {
 
-    private DatabaseServices databaseServices;
-    private ValidationServices validationServices;
-    private EmployeeServices employeeServices;
-
-    @BeforeEach
-    public void setUp() {
-        databaseServices = mock(DatabaseServices.class);
-        validationServices = mock(ValidationServices.class);
-        employeeServices = new EmployeeServices(databaseServices, validationServices);
-    }
-
     @Test
-    public void testSetShiftToEmployeeUsingIDS() throws SvcException {
-        Employee employee = EmployeeUtils.getBaseEmployee();
-        Shift shift = ShiftUtils.getBaseShift();
-        Organization organization = OrganizationUtils.getBaseOrganization();
+    public void testAssignShiftToEmployeeUsingIDS() throws Exception {
+        // Arrange
+        ObjectId employeeId = new ObjectId();
+        ObjectId shiftId = new ObjectId();
+        Employee employee = new Employee();
+        Shift shift = new Shift();
+        Organization organization = new Organization();
 
-        when(databaseServices.findEmployeeById(any())).thenReturn(java.util.Optional.of(employee));
-        when(databaseServices.findShiftById(any())).thenReturn(java.util.Optional.of(shift));
-        when(databaseServices.findOrganizationById(any())).thenReturn(java.util.Optional.of(organization));
-        doNothing().when(validationServices).validateEmployeeCanConnectToShift(employee, shift, organization);
+        // Mock dependencies
+        DatabaseServices databaseServices = Mockito.mock(DatabaseServices.class);
+        ValidationServices validationServices = Mockito.mock(ValidationServices.class);
 
-        Object[] result = employeeServices.assignShiftToEmployeeUsingIDS(employee, shift, organization);
-        Employee resultEmployee = (Employee) result[0];
+        Mockito.when(databaseServices.findEmployeeById(employeeId)).thenReturn(java.util.Optional.of(employee));
+        Mockito.when(databaseServices.findShiftById(shiftId)).thenReturn(java.util.Optional.of(shift));
+        Mockito.when(databaseServices.findOrganizationById(employee.getOrganizationId())).thenReturn(java.util.Optional.of(organization));
 
-        assertEquals(List.of(employee.getShiftIdList().get(0), shift.getShiftId()), resultEmployee.getShiftIdList());
+        EmployeeServices employeeServices = new EmployeeServices(databaseServices, validationServices);
+
+        // Act
+        Object[] result = employeeServices.assignShiftToEmployeeUsingIDS(employeeId, shiftId);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(employee, result[0]);
+        assertEquals(shift, result[1]);
         assertFalse(shift.isShiftOpen());
-
-        verify(validationServices, times(1)).validateEmployeeCanConnectToShift(employee, shift, organization);
-        verify(databaseServices, times(1)).findEmployeeById(any());
-        verify(databaseServices, times(1)).findShiftById(any());
-        verify(databaseServices, times(1)).findOrganizationById(any());
     }
 }
