@@ -7,7 +7,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faCaretDown, faCaretUp} from "@fortawesome/free-solid-svg-icons";
 
 
-function ShiftsDropdown({ items, dashboardPress }){
+function ManagerShiftsDropdown({ items, dropdownPress }){
     const [showDropdown, setShowDropdown] = useState(false);
     const [selectedValue, setSelectedValue] = useState('All');
     const options = items;
@@ -58,7 +58,7 @@ function ShiftsDropdown({ items, dashboardPress }){
                                 <TouchableOpacity
                                     style={styles.dropdownOptions}
                                     key={option}
-                                    onPress={() => {selectOption(option); dashboardPress(option);}}
+                                    onPress={() => {selectOption(option); dropdownPress(option);}}
                                 >
                                     <Text style={styles.dropdownText}>{option}</Text>
                                 </TouchableOpacity>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     dropdownContainer: {
         flexDirection: 'row',
         overflow: 'hidden',
-        paddingTop: 10,
+
     },
 
     buttonTextStyle:{
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     dropdownModal: {
         position: 'absolute',
         overflow: 'hidden',
-        top: 310, // Adjust the top position to control the dropdown placement
+        top: 300, // Adjust the top position to control the dropdown placement
         left:10,
         width: 200,
         elevation: 5,
@@ -124,10 +124,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     downCaret:{
-        marginTop: -4,
+        marginTop: 0,
     },
     upCaret:{
 
     },
 });
-export default ShiftsDropdown;
+export default ManagerShiftsDropdown;
