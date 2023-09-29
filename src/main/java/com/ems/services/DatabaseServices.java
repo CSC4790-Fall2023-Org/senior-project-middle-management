@@ -1,9 +1,11 @@
 package com.ems.services;
 
 import com.ems.EmsApplication;
+import com.ems.Exceptions.DatabaseException;
 import com.ems.database.models.*;
 import org.bson.types.ObjectId;
 
+import java.util.List;
 import java.util.Optional;
 
 public class DatabaseServices {
@@ -49,8 +51,14 @@ public class DatabaseServices {
     }
 
     // save employee
-    public static void saveEmployee(Employee employee) {
-        EmsApplication.visibleEmployeeRepository.save(employee);
+    public static void saveEmployee(Employee employee) throws DatabaseException {
+        try {
+            EmsApplication.visibleEmployeeRepository.save(employee);
+        } catch (Exception e) {
+            System.out.println("Error saving employee");
+            throw new DatabaseException(DatabaseException.SAVING_EMPLOYEE, employee.getEmployeeId());
+        }
+
     }
 
     // save manager
@@ -106,5 +114,9 @@ public class DatabaseServices {
             throw new RuntimeException("Error deleting shift! Shift with id: " + shiftId + " is not present in the database");
         }
         EmsApplication.visibleShiftRepository.delete(shift);
+    }
+
+    public static List<Employee> getAllEmployees(){
+        return EmsApplication.visibleEmployeeRepository.findAll();
     }
 }

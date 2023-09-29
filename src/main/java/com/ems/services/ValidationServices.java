@@ -32,10 +32,21 @@ public class ValidationServices {
 
         // employees current hours is less than locations limit
         if (pEmployee.getLoggedHours() >
-                ((Location) pEmployee.getLocationList().stream()
-                        .filter(location -> location.getLocationId().equals(pShift.getLocationId())).findFirst().get())
+                pEmployee.getLocationList().stream()
+                        .filter(location -> location.getLocationId().equals(pShift.getLocationId())).findFirst().get()
                         .getMaxHours()){
             throw new SvcException("error");
         }
+    }
+
+    public static void validateCreateEmployee(final Employee pEmployee, final Organization pOrganization) throws SvcException {
+        // employee belongs to org
+        if (!pEmployee.getOrganizationId().equals(pOrganization.getOrganizationId())){
+            throw new SvcException("error");
+        }
+
+
+
+
     }
 }
