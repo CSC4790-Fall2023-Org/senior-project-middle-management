@@ -97,11 +97,10 @@ public class DatabaseServices {
     }
 
     // delete employee
-    public static void deleteEmployee(Employee employee) {
+    public static void deleteEmployee(Employee employee) throws DatabaseException {
         ObjectId employeeId = employee.getEmployeeId();
         if (EmsApplication.visibleEmployeeRepository.findAll().stream().anyMatch(em -> em.getEmployeeId().equals(employeeId))){
-            System.out.println("Employee not found");
-            throw new RuntimeException("Error deleting employee! Employee with id: " + employeeId + " is not present in the database");
+            throw new DatabaseException(DatabaseException.DELETING_EMPLOYEE, employeeId);
         }
         EmsApplication.visibleEmployeeRepository.delete(employee);
     }

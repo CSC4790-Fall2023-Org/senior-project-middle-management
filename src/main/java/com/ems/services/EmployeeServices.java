@@ -71,4 +71,40 @@ public class EmployeeServices {
         return ResponseEntity.status(200).body("Employee created successfully");
     }
 
+    public static ResponseEntity deleteEmployee(final HttpMethod pMethod, final URI pUrl, final String pBody) {
+
+        Employee employee;
+        ObjectId employeeId;
+        try {
+            employeeId = JsonUtils.getEmployeeIdFromJSON(new JSONObject(pBody));
+        }
+        catch (SvcException | JSONException e){
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+
+        try{
+            employee = DatabaseServices.findEmployeeById(employeeId)
+                    .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_EMPLOYEE, employeeId));
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+
+        try {
+            ValidationServices.validateDeleteEmployee(employee);
+        }
+        catch (SvcException e){
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+
+        try{
+            DatabaseServices.deleteEmployee(employee);
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+        return ResponseEntity.status(200).body("Employee deleted successfully");
+    }
 }
