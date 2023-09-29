@@ -27,4 +27,14 @@ public class JsonUtils {
             throw new SvcException("Error getting organizationId from JSON");
         }
     }
+
+    public static ObjectId getEmployeeIdFromJSON(final JSONObject pJsonObject) throws SvcException {
+        try{
+            return new ObjectId((String) pJsonObject.get("employeeId"));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new SvcException("Error getting employeeId from JSON");
+        }
+    }
 }
