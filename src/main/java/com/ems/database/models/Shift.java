@@ -25,6 +25,10 @@ public class Shift {
     private String shiftType;
     @Field
     private boolean isShiftOpen;
+    @Field
+    private int availableSlots;
+    @Field
+    private int duration;
 
 
     public Shift() {
@@ -96,6 +100,17 @@ public class Shift {
         this.locationId = locationId;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setAvailableSlots(int availableSlots) {
+        this.availableSlots = availableSlots;
+    }
+
+    public int getAvailableSlots() {
+        return availableSlots;
+    }
     @Override
     public String toString() {
         return "Shift{" +

@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Document(collection = "employees")
 public class Employee {
@@ -33,6 +34,8 @@ public class Employee {
     private List<Location> locationList;
     @Field
     private List<ObjectId>  shiftIdList;
+    @Field
+    private List<Shift> assignedShifts;
     public Employee() {
     }
 
@@ -149,6 +152,17 @@ public class Employee {
 
     public List<ObjectId> getShiftIdList() {
         return shiftIdList;
+    }
+
+    public List<Shift> getAssignedShifts() {
+        return assignedShifts;
+    }
+
+    public List<Shift> getAssignedShifts(List<Shift> allShifts) {
+        List<ObjectId> assignedShiftIds = getShiftIdList();
+        return allShifts.stream()
+                .filter(shift -> assignedShiftIds.contains(shift.getShiftId()))
+                .collect(Collectors.toList());
     }
 
     @Override
