@@ -22,4 +22,15 @@ public class EmployeeUtils {
                 List.of(LocationUtils.getBaseLocation()),
                 List.of(new ObjectId("6500e9ec491cac473a9b80cc")));
     }
+
+    public static boolean doEmployeesMatch(final Employee pEmployee, final Employee pComparisonEmployee){
+        return pEmployee.getFirstName().equals(pComparisonEmployee.getFirstName())
+                && pEmployee.getLastName().equals(pComparisonEmployee.getLastName())
+                && pEmployee.getEmployeeEmail().equals(pComparisonEmployee.getEmployeeEmail())
+                && pEmployee.getEmployeePhoneNumber().equals(pComparisonEmployee.getEmployeePhoneNumber())
+                && pEmployee.getEmployeeType().equals(pComparisonEmployee.getEmployeeType())
+                && pEmployee.getLoggedHours() == pComparisonEmployee.getLoggedHours()
+                && pEmployee.getPay() == pComparisonEmployee.getPay()
+                && pEmployee.getOrganizationId().equals(pComparisonEmployee.getOrganizationId());
+    }
 }

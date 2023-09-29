@@ -1,6 +1,7 @@
 package com.ems.services;
 
 import com.ems.Exceptions.SvcException;
+import com.ems.Utils.EmployeeUtils;
 import com.ems.database.models.Employee;
 import com.ems.database.models.Location;
 import com.ems.database.models.Organization;
@@ -41,9 +42,8 @@ public class ValidationServices {
     }
 
     public static void validateCreateEmployee(final Employee pEmployee) throws SvcException {
-
-        final Employee finalEmployee = pEmployee;
-        if (DatabaseServices.getAllEmployees().stream().anyMatch(e -> e.equals(finalEmployee))){
+        // employee already in database
+        if (DatabaseServices.getAllEmployees().stream().anyMatch(e -> EmployeeUtils.doEmployeesMatch(e, pEmployee))){
             throw new SvcException("error");
         }
 
