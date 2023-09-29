@@ -49,20 +49,23 @@ public class EmployeeServices {
             employee = JsonUtils.getEmployeeFromJSON(new JSONObject(pBody));
         } catch (SvcException | JSONException e) {
             e.printStackTrace();
-            return ResponseEntity.status(400).body("Error creating employee from JSON");
+            return ResponseEntity.status(400).body(e.getMessage());
 
         }
 
-        final Employee finalEmployee = employee;
-        if (DatabaseServices.getAllEmployees().stream().anyMatch(e -> e.equals(finalEmployee))){
-            return ResponseEntity.status(400).body("Employee already exists");
+        try {
+            ValidationServices.validateCreateEmployee(employee);
+        }
+        catch (SvcException e){
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(e.getMessage());
         }
 
         try{
             DatabaseServices.saveEmployee(employee);
         } catch (DatabaseException e) {
             e.printStackTrace();
-            return ResponseEntity.status(400).body("Error saving employee to database");
+            return ResponseEntity.status(400).body(e.getMessage());
         }
 
         return ResponseEntity.status(200).body("Employee created successfully");

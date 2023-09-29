@@ -5,6 +5,7 @@ import com.ems.database.models.Employee;
 import com.ems.database.models.Location;
 import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 
@@ -39,9 +40,10 @@ public class ValidationServices {
         }
     }
 
-    public static void validateCreateEmployee(final Employee pEmployee, final Organization pOrganization) throws SvcException {
-        // employee belongs to org
-        if (!pEmployee.getOrganizationId().equals(pOrganization.getOrganizationId())){
+    public static void validateCreateEmployee(final Employee pEmployee) throws SvcException {
+
+        final Employee finalEmployee = pEmployee;
+        if (DatabaseServices.getAllEmployees().stream().anyMatch(e -> e.equals(finalEmployee))){
             throw new SvcException("error");
         }
 
