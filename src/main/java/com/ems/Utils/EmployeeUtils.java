@@ -1,7 +1,6 @@
 package com.ems.Utils;
 
 import com.ems.database.models.Employee;
-import com.ems.database.models.Location;
 import org.bson.types.ObjectId;
 
 import java.util.List;
