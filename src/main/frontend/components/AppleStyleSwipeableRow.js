@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Animated, StyleSheet, View, Text } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import EmployeeShiftCard from "./EmployeeShiftCard";
 
 class AppleStyleSwipeableRow extends Component {
     renderLeftActions = (progress, dragX) => {
@@ -30,7 +31,7 @@ class AppleStyleSwipeableRow extends Component {
             outputRange: [-20, 0, 0, 1],
         });
         return (
-            <RectButton style={styles.leftAction} onPress={this.close}>
+            <RectButton style={styles.rightAction} onPress={this.close}>
                 <Animated.Text
                     style={[
                         styles.actionText,
@@ -38,7 +39,7 @@ class AppleStyleSwipeableRow extends Component {
                             transform: [{ translateX: trans }],
                         },
                     ]}>
-                    Archive
+                    Add
                 </Animated.Text>
             </RectButton>
         );
@@ -46,8 +47,8 @@ class AppleStyleSwipeableRow extends Component {
 
     render() {
         return (
-            <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions}>
-                <Text style={styles.text}>"hello"</Text>
+            <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} leftThreshold={50} rightThreshold={50} overshootFriction={8} overshootLeft={true}>
+                <EmployeeShiftCard date={"Fri Sep 22"} shiftType={"Head Guard"} startTime={"10:00am"} endTime={"6:30pm"} locationId={12345} />
             </Swipeable>
         );
     }
@@ -56,8 +57,15 @@ class AppleStyleSwipeableRow extends Component {
 const styles = StyleSheet.create({
     leftAction: {
         flex: 1,
-        backgroundColor: '#497AFC',
+        backgroundColor: '#388E3C',
         justifyContent: 'center',
+        height: EmployeeShiftCard.height,
+        margin: 15,
+        //marginRight: 0,
+        marginBottom: 0,
+        borderRadius: 10,
+        //maxWidth: 100,
+        overflow: "hidden",
     },
     actionText: {
         color: 'white',
@@ -66,10 +74,16 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     rightAction: {
-        alignItems: 'center',
         flex: 1,
+        backgroundColor: '#D50000',
         justifyContent: 'center',
-        backgroundColor: 'red',
+        height: EmployeeShiftCard.height,
+        margin: 15,
+        marginLeft: 0,
+        marginBottom: 0,
+        borderRadius: 10,
+        maxWidth: 100,
+        overflow: "hidden",
     },
     text: {
         backgroundColor: "white",
