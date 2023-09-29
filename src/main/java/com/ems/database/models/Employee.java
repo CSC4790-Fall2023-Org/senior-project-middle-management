@@ -179,6 +179,7 @@ public class Employee {
                 ", organizationId=" + organizationId +
                 ", locationIdList=" + locationList +
                 ", shiftIdList=" + shiftIdList +
+                ", assignedShifts=" + assignedShifts +
                 '}';
     }
 }

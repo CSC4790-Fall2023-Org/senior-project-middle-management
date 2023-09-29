@@ -121,6 +121,8 @@ public class Shift {
                 ", shiftEndTime=" + shiftEndTime +
                 ", shiftType='" + shiftType + '\'' +
                 ", isShiftOpen=" + isShiftOpen +
+                ", availableSlots=" + availableSlots +
+                ", duration=" + duration +
                 '}';
     }
 }
