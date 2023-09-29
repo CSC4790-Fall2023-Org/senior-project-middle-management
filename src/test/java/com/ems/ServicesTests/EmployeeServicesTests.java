@@ -19,14 +19,13 @@ public class EmployeeServicesTests {
 
     @Test
     public void testAssignShiftToEmployeeUsingIDS() throws Exception {
-        // Arrange
+
         ObjectId employeeId = new ObjectId();
         ObjectId shiftId = new ObjectId();
         Employee employee = new Employee();
         Shift shift = new Shift();
         Organization organization = new Organization();
 
-        // Mock dependencies
         DatabaseServices databaseServices = Mockito.mock(DatabaseServices.class);
         ValidationServices validationServices = Mockito.mock(ValidationServices.class);
 
@@ -36,10 +35,8 @@ public class EmployeeServicesTests {
 
         EmployeeServices employeeServices = new EmployeeServices(databaseServices, validationServices);
 
-        // Act
         Object[] result = employeeServices.assignShiftToEmployeeUsingIDS(employeeId, shiftId);
 
-        // Assert
         assertNotNull(result);
         assertEquals(employee, result[0]);
         assertEquals(shift, result[1]);
