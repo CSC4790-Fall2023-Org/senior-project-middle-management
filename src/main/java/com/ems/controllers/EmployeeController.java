@@ -22,4 +22,13 @@ public class EmployeeController {
 
         return EmployeeServices.createEmployee(method, url, body);
     }
+
+    @PostMapping("/deleteEmployee")
+    public ResponseEntity deleteEmployee(@RequestBody final RequestEntity<String> pPayload) {
+        final HttpMethod method = pPayload.getMethod();
+        final URI url = pPayload.getUrl();
+        final String body = pPayload.getBody();
+
+        return EmployeeServices.deleteEmployee(method, url, body);
+    }
 }
