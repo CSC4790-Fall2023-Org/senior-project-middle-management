@@ -1,6 +1,7 @@
 package com.ems.services;
 
 import com.ems.EmsApplication;
+import com.ems.Exceptions.DatabaseException;
 import com.ems.database.models.*;
 import org.bson.types.ObjectId;
 
@@ -54,18 +55,38 @@ public class DatabaseServices {
     }
 
     // save manager
-    public static void saveManager(Manager manager) {
-        EmsApplication.visibleManagerRepository.save(manager);
+    public static void saveManager(Manager manager) throws DatabaseException {
+        try{
+            EmsApplication.visibleManagerRepository.save(manager);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new DatabaseException(DatabaseException.SAVING_MANAGER, manager.getManagerId());
+        }
     }
 
+
+
     // save organization
-    public static void saveOrganization(Organization organization) {
-        EmsApplication.visibleOrganizationRepository.save(organization);
+    public static void saveOrganization(Organization organization) throws DatabaseException {
+        try{
+            EmsApplication.visibleOrganizationRepository.save(organization);
+        }
+        catch (Exception e){
+            throw new DatabaseException(DatabaseException.SAVING_ORGANIZATION, organization.getOrganizationId());
+        }
+
     }
 
     // save shift
-    public static void saveShift(Shift shift) {
-        EmsApplication.visibleShiftRepository.save(shift);
+    public static void saveShift(Shift shift) throws DatabaseException {
+        try {
+            EmsApplication.visibleShiftRepository.save(shift);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new DatabaseException(DatabaseException.SAVING_SHIFT, shift.getShiftId());
+        }
     }
 
     // delete employee
