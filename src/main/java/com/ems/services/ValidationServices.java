@@ -46,9 +46,11 @@ public class ValidationServices {
         if (DatabaseServices.getAllEmployees().stream().anyMatch(e -> EmployeeUtils.doEmployeesMatch(e, pEmployee))){
             throw new SvcException("error");
         }
+    }
 
-
-
-
+    public static void validateDeleteEmployee(Employee employee) throws SvcException {
+        if (DatabaseServices.getAllEmployees().stream().noneMatch(e -> EmployeeUtils.doEmployeesMatch(e, employee))){
+            throw new SvcException("error");
+        }
     }
 }
