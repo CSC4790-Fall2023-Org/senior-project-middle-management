@@ -5,7 +5,6 @@ import com.ems.Utils.JsonUtils;
 import com.ems.database.models.Employee;
 import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
-import com.sun.jdi.ObjectCollectedException;
 import org.bson.types.ObjectId;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,12 +40,12 @@ public class EmployeeServices {
         return new Object[]{pEmployee, pShift};
     }
 
-    public static ResponseEntity createEmployee(final HttpMethod pMethod, final URI pUrl, final String pBody) {
+    public static ResponseEntity createEmployee(final String pPayload) {
         // todo: figure out what method and url mean
 
         Employee employee;
         try{
-            employee = JsonUtils.getEmployeeFromJSON(new JSONObject(pBody));
+            employee = JsonUtils.getEmployeeFromJSON(new JSONObject(pPayload));
         } catch (SvcException | JSONException e) {
             e.printStackTrace();
             return ResponseEntity.status(400).body(e.getMessage());

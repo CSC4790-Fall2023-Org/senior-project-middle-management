@@ -54,7 +54,7 @@ public class Location {
 
     @Override
     public String toString() {
-        return "Location{" +
+        return "{" +
                 "locationId=" + locationId +
                 ", locationName='" + locationName + '\'' +
                 ", maxHours=" + maxHours +

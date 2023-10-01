@@ -14,13 +14,8 @@ import java.net.URI;
 public class EmployeeController {
 
     @PostMapping("/createEmployee")
-    public ResponseEntity createEmployee(@RequestBody final RequestEntity<String> pPayload) {
-        final HttpMethod method = pPayload.getMethod();
-        final URI url = pPayload.getUrl();
-        final String body = pPayload.getBody();
-
-
-        return EmployeeServices.createEmployee(method, url, body);
+    public ResponseEntity createEmployee(@RequestBody final String pPayload) {
+        return EmployeeServices.createEmployee(pPayload);
     }
 
     @PostMapping("/deleteEmployee")

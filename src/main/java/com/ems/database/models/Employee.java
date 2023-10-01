@@ -72,7 +72,7 @@ public class Employee {
         this.employeeEmail = (String) pJsonObject.get("employeeEmail");
         this.employeePhoneNumber = (String) pJsonObject.get("employeePhoneNumber");
         this.employeeType = (String) pJsonObject.get("employeeType");
-        this.loggedHours = (double) pJsonObject.get("loggedHours");
+        this.loggedHours = 0;
         this.pay = (double) pJsonObject.get("pay");
         this.organizationId = new ObjectId((String) pJsonObject.get("organizationId"));
         this.locationList = List.of();
