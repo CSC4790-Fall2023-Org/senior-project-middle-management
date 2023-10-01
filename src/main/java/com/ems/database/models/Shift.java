@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Document(collection = "shifts")
@@ -29,6 +30,14 @@ public class Shift {
     private int availableSlots;
     @Field
     private int duration;
+    @Field
+    private int capacity;
+    @Field
+    private List<Employee> attendingEmployees;
+    @Field
+    private LocalDateTime startTime;
+    @Field
+    private LocalDateTime endTime;
 
 
     public Shift() {
@@ -100,12 +109,50 @@ public class Shift {
         this.locationId = locationId;
     }
 
+    public String organizationId;
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
     public int getDuration() {
         return duration;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public List<Employee> getAttendingEmployees() {
+        return attendingEmployees;
+    }
+
     public void setAvailableSlots(int availableSlots) {
         this.availableSlots = availableSlots;
+    }
+
+    public String getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public void setAttendingEmployees(List<Employee> attendingEmployees) {
+        this.attendingEmployees = attendingEmployees;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     public int getAvailableSlots() {
