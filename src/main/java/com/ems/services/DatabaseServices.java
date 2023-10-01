@@ -99,7 +99,7 @@ public class DatabaseServices {
     // delete employee
     public static void deleteEmployee(Employee employee) throws DatabaseException {
         ObjectId employeeId = employee.getEmployeeId();
-        if (EmsApplication.visibleEmployeeRepository.findAll().stream().anyMatch(em -> em.getEmployeeId().equals(employeeId))){
+        if (EmsApplication.visibleEmployeeRepository.findAll().stream().noneMatch(em -> em.getEmployeeId().equals(employeeId))){
             throw new DatabaseException(DatabaseException.DELETING_EMPLOYEE, employeeId);
         }
         EmsApplication.visibleEmployeeRepository.delete(employee);

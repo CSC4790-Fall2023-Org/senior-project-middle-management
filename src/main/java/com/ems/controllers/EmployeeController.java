@@ -19,11 +19,12 @@ public class EmployeeController {
     }
 
     @PostMapping("/deleteEmployee")
-    public ResponseEntity deleteEmployee(@RequestBody final RequestEntity<String> pPayload) {
-        final HttpMethod method = pPayload.getMethod();
-        final URI url = pPayload.getUrl();
-        final String body = pPayload.getBody();
+    public ResponseEntity deleteEmployee(@RequestBody final String pPayload) {
+        return EmployeeServices.deleteEmployee(pPayload);
+    }
 
-        return EmployeeServices.deleteEmployee(method, url, body);
+    @PostMapping("/assignShift")
+    public ResponseEntity assignShift(@RequestBody final String pPayload) {
+        return EmployeeServices.assignShiftToEmployee(pPayload);
     }
 }

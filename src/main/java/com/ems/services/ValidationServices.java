@@ -3,16 +3,12 @@ package com.ems.services;
 import com.ems.Exceptions.SvcException;
 import com.ems.Utils.EmployeeUtils;
 import com.ems.database.models.Employee;
-import com.ems.database.models.Location;
 import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
-import org.springframework.http.ResponseEntity;
-
-import java.util.ArrayList;
 
 public class ValidationServices {
 
-    public static void validateEmployeeCanConnectToShift(final Employee pEmployee, final Shift pShift, final Organization pOrganization) throws SvcException {
+    public static void validateEmployeeCanAcceptToShift(final Employee pEmployee, final Shift pShift, final Organization pOrganization) throws SvcException {
         // employee and shift belong to same location
         if (pEmployee.getLocationList().stream().noneMatch(location -> location.getLocationId().equals(pShift.getLocationId()))) {
             throw new SvcException("error");
