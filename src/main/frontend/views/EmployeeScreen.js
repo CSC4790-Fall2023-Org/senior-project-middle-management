@@ -6,7 +6,9 @@ import EmployeeHrsStatusBar from "../components/EmployeeHrsStatusBar";
 import EmployeeShiftHeader from "../components/EmployeeShiftHeader";
 import MyShiftList from "../components/MyShiftList";
 import AvailableShiftList from "../components/AvailableShiftList";
-import AppleStyleSwipeableRow from "../components/AppleStyleSwipeableRow";
+import AppleStyleSwipeableRow from "../components/AvailableShiftCardSwipe";
+import MyShiftCardSwipe from "../components/MyShiftCardSwipe";
+import AvailableShiftCardSwipe from "../components/AvailableShiftCardSwipe";
 
 function EmployeeScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -20,8 +22,8 @@ function EmployeeScreen() {
             <CustomHeader title={"Employee Name"} page={ScreenNames.EMPLOYEE_SETTINGS} />
             <EmployeeShiftHeader onTitlePress={handleTitlePress}/>
             {/*{selectedIndex === 0 && <MyShiftList />}*/}
-            {selectedIndex === 0 && <AppleStyleSwipeableRow />}
-            {selectedIndex === 1 && <AvailableShiftList />}
+            {selectedIndex === 0 && <MyShiftCardSwipe />}
+            {selectedIndex === 1 && <AvailableShiftCardSwipe />}
             <EmployeeHrsStatusBar loggedHours={20} maxWorkableHours={40} style={styles.statusBar}/>
         </View>
     );

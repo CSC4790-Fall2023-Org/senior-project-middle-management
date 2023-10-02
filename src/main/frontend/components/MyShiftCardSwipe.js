@@ -4,10 +4,10 @@ import * as Haptics from 'expo-haptics';
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {CalendarAdd, TrashCan} from "../utils/Icons";
+import {CalendarAdd, CalendarDelete, Transfer} from "../utils/Icons";
 import EmployeeShiftCard from "./EmployeeShiftCard";
 
-class AppleStyleSwipeableRow extends Component {
+class MyShiftCardSwipe extends Component {
     swipeableRef = React.createRef();
     handleSwipeOpen = (direction) => {
         if (direction === 'right') {
@@ -15,7 +15,7 @@ class AppleStyleSwipeableRow extends Component {
                 Haptics.NotificationFeedbackType.Warning
             );
             Alert.alert(
-                'Remove Shift',
+                'Drop Shift',
                 'Are you sure you want to drop this shift?',
                 [
                     {
@@ -73,7 +73,7 @@ class AppleStyleSwipeableRow extends Component {
     renderLeftActions = (progress, dragX) => {
         const trans = dragX.interpolate({
             inputRange: [0, 50, 100, 101],
-            outputRange: [-20, 0, 0, 1],
+            outputRange: [-20, -10, 0, 1],
         });
         return (
             <RectButton style={styles.leftAction} onPress={this.close}>
@@ -84,7 +84,7 @@ class AppleStyleSwipeableRow extends Component {
                             transform: [{ translateX: trans }],
                         },
                     ]}>
-                    <FontAwesomeIcon icon={CalendarAdd} size={36} color={'#FFFFFF'}/>
+                    <FontAwesomeIcon icon={Transfer} size={36} color={'#FFFFFF'}/>
                 </Animated.Text>
             </RectButton>
         );
@@ -93,7 +93,7 @@ class AppleStyleSwipeableRow extends Component {
     renderRightActions = (progress, dragX) => {
         const trans = dragX.interpolate({
             inputRange: [-101, -100, -50, 0],
-            outputRange: [-1, 0, 0, 20],
+            outputRange: [-1, 0, 10, 20],
         });
         return (
             <RectButton style={styles.rightAction} onPress={this.close}>
@@ -104,7 +104,7 @@ class AppleStyleSwipeableRow extends Component {
                             transform: [{ translateX: trans }],
                         },
                     ]}>
-                    <FontAwesomeIcon icon={TrashCan} size={36} color={'#FFFFFF'}/>
+                    <FontAwesomeIcon icon={CalendarDelete} size={36} color={'#FFFFFF'}/>
                 </Animated.Text>
             </RectButton>
         );
@@ -113,17 +113,17 @@ class AppleStyleSwipeableRow extends Component {
     render() {
         return (
             <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
-                <EmployeeShiftCard date={"Fri Sep 22"} shiftType={"Head Guard"} startTime={"10:00am"} endTime={"6:30pm"} locationId={12345} />
+                <EmployeeShiftCard date={"Fri Sep 22"} shiftType={"Head Guard"} startTime={"10:00am"} endTime={"6:30pm"} locationId={"Pool"} />
             </Swipeable>
         );
     }
-};
+}
 
 const styles= StyleSheet.create({
     leftAction: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#388E3C',
+        backgroundColor: '#2962FF',
         justifyContent: 'center',
         height: EmployeeShiftCard.height,
         margin: 15,
@@ -137,7 +137,7 @@ const styles= StyleSheet.create({
     },
     rightAction: {
         flex: 1,
-        backgroundColor: '#626567',
+        backgroundColor: '#D50000',
         justifyContent: 'center',
         alignItems: 'flex-end',
         height: EmployeeShiftCard.height,
@@ -148,4 +148,4 @@ const styles= StyleSheet.create({
     },
 })
 
-export default AppleStyleSwipeableRow;
+export default MyShiftCardSwipe;
