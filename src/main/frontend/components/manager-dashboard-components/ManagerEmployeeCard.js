@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import {faCaretDown, faCaretUp, faX} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 
-const ManagerEmployeeCard = ({pressed, id, name, type, worked, available, handlePress}) =>{
+const ManagerEmployeeCard = ({pressed, id, name, type, worked, shiftsTaken, handlePress}) =>{
     const [isModalVisible, setModalVisible] = useState(false);
 
     const handlePressButton1 = () => {
@@ -37,7 +37,7 @@ const ManagerEmployeeCard = ({pressed, id, name, type, worked, available, handle
                                 </View>
                                 <View style={styles.bottomContainer}>
                                     <Text style={styles.type}>{type}</Text>
-                                    <Text style={styles.available}>{available}</Text>
+                                    <Text style={styles.available}>{shiftsTaken}</Text>
                                 </View>
                             </View>
                         </TouchableWithoutFeedback>
@@ -67,7 +67,7 @@ const ManagerEmployeeCard = ({pressed, id, name, type, worked, available, handle
                                 <Text>{name}</Text>
                             </View>
                             <View style={styles.middleContainerModal}>
-                                <Text>Horus Worked:</Text>
+                                <Text>Hours Worked:</Text>
                                 <Text>{worked}</Text>
                             </View>
                             <View style={styles.middleContainerModal}>
@@ -75,8 +75,8 @@ const ManagerEmployeeCard = ({pressed, id, name, type, worked, available, handle
                                 <Text>{type}</Text>
                             </View>
                             <View style={styles.middleContainerModal}>
-                                <Text>Days Available:</Text>
-                                <Text>{available}</Text>
+                                <Text>Shifts Taken:</Text>
+                                <Text>{shiftsTaken}</Text>
                             </View>
                         </View>
                     </Modal>

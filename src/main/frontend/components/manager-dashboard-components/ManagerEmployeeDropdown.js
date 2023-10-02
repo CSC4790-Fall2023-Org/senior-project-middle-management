@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity, Modal} from 'react-native';
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../../utils/ScreenNames";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faCaretDown, faCaretUp} from "@fortawesome/free-solid-svg-icons";
+import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 
 const ManagerEmployeeDropdown = ({ items, dropdownPress}) =>{
     const [showDropdown, setShowDropdown] = useState(false);
@@ -37,8 +37,8 @@ const ManagerEmployeeDropdown = ({ items, dropdownPress}) =>{
                     <TouchableOpacity onPress={toggleDropdown}>
                         <View style={styles.dropdownTrigger}>
                             <Text style={styles.dropdownText}>{selectedValue}</Text>
-                            {showDropdown && <FontAwesomeIcon icon={faCaretUp} size={20} style={styles.upCaret} />}
-                            {!showDropdown && <FontAwesomeIcon icon={faCaretDown} size={20} style={styles.downCaret}/>}
+                            {showDropdown && <FontAwesomeIcon icon={faChevronUp} size={20} style={styles.upCaret} />}
+                            {!showDropdown && <FontAwesomeIcon icon={faChevronDown} size={20} style={styles.downCaret}/>}
                         </View>
                     </TouchableOpacity>
                     <Modal
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     dropdownModal: {
         position: 'absolute',
         overflow: 'hidden',
-        top: 290, // Adjust the top position to control the dropdown placement
+        top: 203.5, // Adjust the top position to control the dropdown placement
         left:10,
         width: 200,
         elevation: 5,

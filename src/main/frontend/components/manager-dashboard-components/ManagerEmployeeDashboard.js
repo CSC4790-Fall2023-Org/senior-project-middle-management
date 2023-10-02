@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import CustomButton from "../CustomButton";
+import CustomRedirectButton from "../CustomRedirectButton";
 import {ScreenNames} from "../../utils/ScreenNames";
 import ManagerEmployeeView from "./ManagerEmployeeView";
 import ManagerEmployeeDropdown from "./ManagerEmployeeDropdown";
@@ -27,12 +27,6 @@ const ManagerEmployeeDashboard = ( ) => {
     }
     return(
         <View>
-            <View style={styles.buttonsContainer}>
-                <CustomButton buttonText={"Add Employee"} page={ScreenNames.LOGIN} />
-                <TouchableOpacity onPress={handleUserClick}>
-                    <FontAwesomeIcon icon={faCalendar} size={25} />
-                </TouchableOpacity>
-            </View>
             <View style={styles.dropdownWrapper}>
                 <View style={styles.dropdownWrapperBorder}>
                     <ManagerEmployeeDropdown items = {options} dropdownPress = {handleDropdownPress}/>

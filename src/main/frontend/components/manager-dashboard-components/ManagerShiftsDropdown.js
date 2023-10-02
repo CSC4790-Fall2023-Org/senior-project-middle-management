@@ -4,7 +4,7 @@ import {Picker} from "@react-native-picker/picker";
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../../utils/ScreenNames";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faCaretDown, faCaretUp} from "@fortawesome/free-solid-svg-icons";
+import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 
 
 function ManagerShiftsDropdown({ items, dropdownPress }){
@@ -39,8 +39,8 @@ function ManagerShiftsDropdown({ items, dropdownPress }){
                     <TouchableOpacity onPress={toggleDropdown}>
                         <View style={styles.dropdownTrigger}>
                             <Text style={styles.dropdownText}>{selectedValue}</Text>
-                            {showDropdown && <FontAwesomeIcon icon={faCaretUp} size={32} style={styles.upCaret} />}
-                            {!showDropdown && <FontAwesomeIcon icon={faCaretDown} size={32} style={styles.downCaret}/>}
+                            {showDropdown && <FontAwesomeIcon icon={faChevronUp} size={32} style={styles.upCaret} />}
+                            {!showDropdown && <FontAwesomeIcon icon={faChevronDown} size={32} style={styles.downCaret}/>}
                         </View>
                     </TouchableOpacity>
                     <Modal
