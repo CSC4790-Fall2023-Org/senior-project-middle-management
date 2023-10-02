@@ -22,8 +22,8 @@ function EmployeeScreen() {
             <CustomHeader title={"Employee Name"} page={ScreenNames.EMPLOYEE_SETTINGS} />
             <EmployeeShiftHeader onTitlePress={handleTitlePress}/>
             {/*{selectedIndex === 0 && <MyShiftList />}*/}
-            {selectedIndex === 0 && <MyShiftCardSwipe />}
-            {selectedIndex === 1 && <AvailableShiftCardSwipe />}
+            {selectedIndex === 0 && <MyShiftList />}
+            {selectedIndex === 1 && <AvailableShiftList />}
             <EmployeeHrsStatusBar loggedHours={20} maxWorkableHours={40} style={styles.statusBar}/>
         </View>
     );

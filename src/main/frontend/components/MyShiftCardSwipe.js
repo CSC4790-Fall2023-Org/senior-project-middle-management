@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Animated, StyleSheet, Alert} from 'react-native';
+import {Animated, StyleSheet, Alert, View} from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
@@ -112,9 +112,17 @@ class MyShiftCardSwipe extends Component {
 
     render() {
         return (
-            <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
-                <EmployeeShiftCard date={"Fri Sep 22"} shiftType={"Head Guard"} startTime={"10:00am"} endTime={"6:30pm"} locationId={"Pool"} />
-            </Swipeable>
+            <View>
+                <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
+                    <EmployeeShiftCard date={"Fri Sep 22"} shiftType={"Head Guard"} startTime={"10:00am"} endTime={"6:30pm"} locationId={"Pool"} />
+                </Swipeable>
+                <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
+                    <EmployeeShiftCard date={"Sat Sep 23"} shiftType={"Head Guard"} startTime={"10:00am"} endTime={"6:30pm"} locationId={"Pool"} />
+                </Swipeable>
+                <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
+                    <EmployeeShiftCard date={"Sun Sep 24"} shiftType={"Head Guard"} startTime={"10:00am"} endTime={"6:30pm"} locationId={"Pool"} />
+                </Swipeable>
+            </View>
         );
     }
 }
@@ -123,7 +131,7 @@ const styles= StyleSheet.create({
     leftAction: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#2962FF',
+        backgroundColor: '#4A7AFF',
         justifyContent: 'center',
         height: EmployeeShiftCard.height,
         margin: 15,
@@ -137,7 +145,7 @@ const styles= StyleSheet.create({
     },
     rightAction: {
         flex: 1,
-        backgroundColor: '#D50000',
+        backgroundColor: '#DA1717',
         justifyContent: 'center',
         alignItems: 'flex-end',
         height: EmployeeShiftCard.height,

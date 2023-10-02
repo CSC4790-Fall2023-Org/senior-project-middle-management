@@ -15,14 +15,14 @@ class AvailableShiftCardSwipe extends Component {
                 Haptics.NotificationFeedbackType.Warning
             );
             Alert.alert(
-                'Delete Shift',
-                'Are you sure you want to delete this shift from your feed?',
+                'Remove Shift',
+                'Are you sure you want to remove this shift from your feed?',
                 [
                     {
-                        text: 'Delete',
+                        text: 'Remove',
                         style: 'destructive',
                         onPress: () => {
-                            console.log('Shift deleted!');
+                            console.log('Shift removed!');
                             Haptics.notificationAsync(
                                 Haptics.NotificationFeedbackType.Success
                             );
