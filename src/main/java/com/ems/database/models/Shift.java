@@ -1,6 +1,8 @@
 package com.ems.database.models;
 
 import org.bson.types.ObjectId;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -38,6 +40,25 @@ public class Shift {
         this.shiftEndTime = shiftEndTime;
         this.shiftType = shiftType;
         this.isShiftOpen = isShiftOpen;
+    }
+
+    public Shift(final JSONObject pJsonObject) throws JSONException {
+        this.shiftName = pJsonObject.getString("shiftName");
+        int shiftStartHour = pJsonObject.getInt("shiftStartHour");
+        int shiftStartMinute = pJsonObject.getInt("shiftStartMinute");
+        int shiftEndHour = pJsonObject.getInt("shiftEndHour");
+        int shiftEndMinute = pJsonObject.getInt("shiftEndMinute");
+        int shiftStartDay = pJsonObject.getInt("shiftStartDay");
+        int shiftStartMonth = pJsonObject.getInt("shiftStartMonth");
+        int shiftStartYear = pJsonObject.getInt("shiftStartYear");
+        int shiftEndDay = pJsonObject.getInt("shiftEndDay");
+        int shiftEndMonth = pJsonObject.getInt("shiftEndMonth");
+        int shiftEndYear = pJsonObject.getInt("shiftEndYear");
+        this.shiftStartTime = LocalDateTime.of(shiftStartYear, shiftStartMonth, shiftStartDay, shiftStartHour, shiftStartMinute);
+        this.shiftEndTime = LocalDateTime.of(shiftEndYear, shiftEndMonth, shiftEndDay, shiftEndHour, shiftEndMinute);
+        this.shiftType = pJsonObject.getString("shiftType");
+        this.isShiftOpen = true;
+        this.locationId = new ObjectId(pJsonObject.getString("locationId"));
     }
 
     public ObjectId getShiftId() {
