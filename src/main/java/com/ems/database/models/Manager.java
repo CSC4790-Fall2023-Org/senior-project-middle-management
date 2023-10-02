@@ -1,6 +1,8 @@
 package com.ems.database.models;
 
 import org.bson.types.ObjectId;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -35,6 +37,15 @@ public class Manager {
         this.managerPhoneNumber = managerPhoneNumber;
         this.organizationId = organizationId;
         this.locationList = locationList;
+    }
+
+    public Manager(final JSONObject pJsonObject) throws JSONException {
+        this.firstName = (String) pJsonObject.get("firstName");
+        this.lastName = (String) pJsonObject.get("lastName");
+        this.managerEmail = (String) pJsonObject.get("managerEmail");
+        this.managerPhoneNumber = (String) pJsonObject.get("managerPhoneNumber");
+        this.organizationId = new ObjectId((String) pJsonObject.get("organizationId"));
+        this.locationList = List.of(new Location((JSONObject) pJsonObject.get("locationList")));
     }
 
     public ObjectId getManagerId() {

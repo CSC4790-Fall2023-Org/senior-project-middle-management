@@ -1,6 +1,8 @@
 package com.ems.database.models;
 
 import org.bson.types.ObjectId;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -50,6 +52,12 @@ public class Location {
 
     public void setMaxHours(double maxHours) {
         this.maxHours = maxHours;
+    }
+
+    public Location(final JSONObject pJsonObject) throws JSONException {
+        this.locationId = new ObjectId(pJsonObject.getString("locationId"));
+        this.locationName = pJsonObject.getString("locationName");
+        this.maxHours = pJsonObject.getDouble("maxHours");
     }
 
     @Override
