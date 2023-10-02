@@ -40,11 +40,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
         paddingTop: 20,
     },
-    loginButton: {
-        width: 200,
-        margin: 0,
-        fontWeight: "bold"
-    },
     text:{
         fontWeight: "bold",
         fontSize: 20,

@@ -65,11 +65,5 @@ const styles = StyleSheet.create({
 
     },
 
-    buttonTextStyle:{
-        fontSize: 24,
-        color: 'black',
-        fontWeight: 'bold'
-    },
-
 });
 export default ManagerShiftDashboard;

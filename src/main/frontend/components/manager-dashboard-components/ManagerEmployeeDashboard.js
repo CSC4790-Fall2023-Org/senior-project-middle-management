@@ -51,11 +51,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
         alignItems: "center",
     },
-    buttonTextStyle:{
-        fontSize: 24,
-        color: 'black',
-        fontWeight: 'bold'
-    },
     dropdownWrapper:{
         paddingTop: 10,
         left:10
