@@ -60,6 +60,12 @@ public class Location {
         this.maxHours = maxHours;
     }
 
+    public Location(final JSONObject pJsonObject) throws JSONException {
+        this.locationId = new ObjectId(pJsonObject.getString("locationId"));
+        this.locationName = pJsonObject.getString("locationName");
+        this.maxHours = pJsonObject.getDouble("maxHours");
+    }
+
     @Override
     public String toString() {
         return "{" +

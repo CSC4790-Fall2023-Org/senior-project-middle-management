@@ -2,6 +2,7 @@ package com.ems.Utils;
 
 import com.ems.Exceptions.SvcException;
 import com.ems.database.models.Employee;
+import com.ems.database.models.Manager;
 import org.bson.types.ObjectId;
 import org.json.JSONObject;
 
@@ -14,6 +15,16 @@ public class JsonUtils {
         catch (Exception e){
             e.printStackTrace();
             throw new SvcException("Error creating user from JSON");
+        }
+    }
+
+    public static Manager getManagerFromJSON(final JSONObject pJsonObject) throws SvcException {
+        try {
+            return new Manager(pJsonObject);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            throw new SvcException("Error creating manager from JSON");
         }
     }
 
