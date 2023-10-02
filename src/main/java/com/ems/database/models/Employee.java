@@ -75,7 +75,7 @@ public class Employee {
         this.loggedHours = 0;
         this.pay = (double) pJsonObject.get("pay");
         this.organizationId = new ObjectId((String) pJsonObject.get("organizationId"));
-        this.locationList = List.of();
+        this.locationList = List.of(new Location((JSONObject) pJsonObject.get("locationList")));
         this.shiftIdList = List.of();
     }
 
