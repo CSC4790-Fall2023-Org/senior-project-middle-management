@@ -1,12 +1,75 @@
 import React, { Component } from 'react';
-import { Animated, StyleSheet, View, Text } from 'react-native';
+import {Animated, StyleSheet, Alert} from 'react-native';
+import * as Haptics from 'expo-haptics';
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {CalendarPlus, CalendarXMark} from "../utils/Icons";
+import {CalendarAdd, TrashCan} from "../utils/Icons";
 import EmployeeShiftCard from "./EmployeeShiftCard";
 
 class AppleStyleSwipeableRow extends Component {
+    swipeableRef = React.createRef();
+    handleSwipeOpen = (direction) => {
+        if (direction === 'right') {
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Warning
+            );
+            Alert.alert(
+                'Remove Shift',
+                'Are you sure you want to drop this shift?',
+                [
+                    {
+                        text: 'Drop',
+                        style: 'destructive',
+                        onPress: () => {
+                            console.log('Shift dropped!');
+                            Haptics.notificationAsync(
+                                Haptics.NotificationFeedbackType.Success
+                            );
+                        },
+                    },
+                    {
+                        text: 'Cancel',
+                        style: 'cancel',
+                        onPress: () => {
+                            console.log('Canceled drop!');
+                            this.swipeableRef.current.close();
+
+                        }
+                    }
+                ]
+            );
+        } else if (direction === 'left') {
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Warning
+            );
+            Alert.alert(
+                'Transfer shift',
+                'Are you sure you want to transfer this shift?',
+                [
+                    {
+                        text: 'Transfer',
+                        style: 'default',
+                        onPress: () => {
+                            console.log('Transferred Shift!');
+                            Haptics.notificationAsync(
+                                Haptics.NotificationFeedbackType.Success
+                            );
+                        },
+                    },
+                    {
+                        text: 'Cancel',
+                        style: 'cancel',
+                        onPress: () => {
+                            console.log('Canceled transfer!');
+                            this.swipeableRef.current.close();
+                        }
+                    }
+                ]
+            )
+        }
+    };
+
     renderLeftActions = (progress, dragX) => {
         const trans = dragX.interpolate({
             inputRange: [0, 50, 100, 101],
@@ -21,7 +84,7 @@ class AppleStyleSwipeableRow extends Component {
                             transform: [{ translateX: trans }],
                         },
                     ]}>
-                    <FontAwesomeIcon icon={CalendarPlus} size={36} color={'#FFFFFF'}/>
+                    <FontAwesomeIcon icon={CalendarAdd} size={36} color={'#FFFFFF'}/>
                 </Animated.Text>
             </RectButton>
         );
@@ -29,12 +92,8 @@ class AppleStyleSwipeableRow extends Component {
 
     renderRightActions = (progress, dragX) => {
         const trans = dragX.interpolate({
-            // inputRange: [-101, -100, -50, 0],
-            // //inputRange: [0, 50, 100, 101],
-            // outputRange: [1, 0, 0, -20],
-
-            inputRange: [-101, -50, 0],
-            outputRange: [50, -20, 0],
+            inputRange: [-101, -100, -50, 0],
+            outputRange: [-1, 0, 0, 20],
         });
         return (
             <RectButton style={styles.rightAction} onPress={this.close}>
@@ -45,7 +104,7 @@ class AppleStyleSwipeableRow extends Component {
                             transform: [{ translateX: trans }],
                         },
                     ]}>
-                    <FontAwesomeIcon icon={CalendarXMark} size={36} color={'#FFFFFF'} />
+                    <FontAwesomeIcon icon={TrashCan} size={36} color={'#FFFFFF'}/>
                 </Animated.Text>
             </RectButton>
         );
@@ -53,14 +112,14 @@ class AppleStyleSwipeableRow extends Component {
 
     render() {
         return (
-            <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} leftThreshold={50} rightThreshold={50} overshootFriction={8} overshootLeft={true} overshootRight={true}>
+            <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
                 <EmployeeShiftCard date={"Fri Sep 22"} shiftType={"Head Guard"} startTime={"10:00am"} endTime={"6:30pm"} locationId={12345} />
             </Swipeable>
         );
     }
 };
 
-const styles = StyleSheet.create({
+const styles= StyleSheet.create({
     leftAction: {
         flex: 1,
         flexDirection: 'column',
@@ -86,9 +145,6 @@ const styles = StyleSheet.create({
         marginBottom: 0,
         borderRadius: 10,
         overflow: "hidden",
-    },
-    text: {
-        backgroundColor: "white",
     },
 })
 
