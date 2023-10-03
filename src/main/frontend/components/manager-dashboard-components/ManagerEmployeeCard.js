@@ -7,17 +7,14 @@ const ManagerEmployeeCard = ({pressed, id, name, type, worked, shiftsTaken, hand
     const [isModalVisible, setModalVisible] = useState(false);
 
     const handlePressButton1 = () => {
-        // Handle press for Button 1
         handlePress(null)
     };
 
     const handlePressButton2 = () => {
-        // Handle press for Button 2
         handlePress(id)
     };
 
     const handlePressButton3 = () => {
-        // Handle press for Button 2
         setModalVisible(!isModalVisible);
     };
     if(pressed === id){

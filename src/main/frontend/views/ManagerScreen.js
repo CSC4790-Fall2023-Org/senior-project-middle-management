@@ -1,31 +1,35 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import CustomHeader from "../components/CustomHeader";
 import {ScreenNames} from "../utils/ScreenNames";
-import ManagerDashboardHeader from "../components/manager-dashboard-components/ManagerDashboardHeader";
 import ManagerEmployeeDashboard from "../components/manager-dashboard-components/ManagerEmployeeDashboard";
 import ManagerShiftDashboard from "../components/manager-dashboard-components/ManagerShiftDashboard";
+import DashboardTabHeader from "../components/DashboardTabHeader";
 
 function ManagerScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
-    const [selectedOption, setSelectedOption] = useState('');
 
     const handleTitlePress = (index) => {
         setSelectedIndex(index);
     }
 
-    const handleOptionSelect = (option) => {
-        setSelectedOption(option);
-    };
-
-    const options = ['Option 1', 'Option 2', 'Option 3'];
+    const tabs = [
+        {
+            id: 1,
+            text: 'Employees',
+        },
+        {
+            id: 2,
+            text: 'Shifts',
+        },
+    ];
     return (
         <View>
             <CustomHeader title={"Manager Name"} page={ScreenNames.MANAGER_SETTINGS}/>
-            <ManagerDashboardHeader onTitlePress={handleTitlePress}/>
-            <View style={styles.container}>
-                {selectedIndex === 0 && <ManagerEmployeeDashboard options={options} />}
+            <DashboardTabHeader tabs={tabs} onTitlePress={handleTitlePress}/>
+            <View>
+                {selectedIndex === 0 && <ManagerEmployeeDashboard />}
                 {selectedIndex === 1 && <ManagerShiftDashboard />}
             </View>
 
@@ -33,10 +37,4 @@ function ManagerScreen() {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        // position: "absolute",
-
-    },
-});
 export default ManagerScreen;

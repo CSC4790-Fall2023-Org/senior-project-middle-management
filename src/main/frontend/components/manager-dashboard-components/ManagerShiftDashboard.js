@@ -23,6 +23,12 @@ function ManagerShiftDashboard(){
     const [beginDate, setBeginDate] = useState("");
 
     const [endDate, setEndDate] = useState("");
+
+    const [from, setFrom] = useState("");
+
+    const [to, setTo] = useState("");
+
+    const [numShifts, setNumShifts] = useState("")
     const handlePressButton3 = () => {
         setModalVisible(!isModalVisible);
     };
@@ -132,8 +138,8 @@ function ManagerShiftDashboard(){
                                     style={styles.input}
                                     placeholder="ex. 8:00 AM"
                                     placeholderTextColor="#F1F1F1"
-                                    onChangeText={setBeginDate}
-                                    value={beginDate}
+                                    onChangeText={setFrom}
+                                    value={from}
                                     maxLength={10}
                                 />
                             </View>
@@ -146,9 +152,9 @@ function ManagerShiftDashboard(){
                                 <TextInput
                                     style={styles.input}
                                     placeholder="ex. 5:00 PM"
-                                    onChangeText={setEndDate}
+                                    onChangeText={setTo}
                                     placeholderTextColor="#F1F1F1"
-                                    value={endDate}
+                                    value={to}
                                     maxLength={10}
                                 />
                             </View>
@@ -175,6 +181,21 @@ function ManagerShiftDashboard(){
                             <Dropdown items={repeatsDropdown} dropdownPress={handleTypePress} width={150} left={205} top={568} fontSize={15} fontWht={"normal"} chvSize={20}/>
                         </View>
                     </View>
+                        <View style={styles.modalSingleLineContainer}>
+                            <View>
+                                <Text style={styles.modalTitleText}>Number of Shifts:</Text>
+                            </View>
+                            <View style={styles.modalVeryShortInputContainer}>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="0"
+                                    onChangeText={setNumShifts}
+                                    placeholderTextColor="#F1F1F1"
+                                    value={numShifts}
+                                    maxLength={10}
+                                />
+                            </View>
+                        </View>
                     <View><CustomButton buttonText={"Submit"} handlePress={handlePressButton3}/></View>
                 </View>
             </Modal>
@@ -217,7 +238,7 @@ const styles = StyleSheet.create({
         top: 170,
         left:20,
         width: 350,
-        height: 500,
+        height: 550,
         elevation: 5,
         zIndex: 1,
         backgroundColor:'#F1F1F1',
@@ -257,7 +278,7 @@ const styles = StyleSheet.create({
     modalDoubleContainer:{
         flexDirection: "row",
         alignItems:'center',
-        justifyContent:'space-between',
+        justifyContent:'flex-start',
     },
     modalShortInputContainer:{
         padding: 5,
@@ -305,10 +326,21 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:"space-between",
         width:300,
+        paddingBottom:10,
+        // paddingRight:10,
     },
     xContainer:{
         marginTop:-30,
         right:10,
-    }
+    },
+    modalSingleLineContainer:{
+        flexDirection: "row",
+        alignItems:'center',
+        justifyContent:'space-evenly',
+        width:350,
+        padding:10,
+
+    },
+
 });
 export default ManagerShiftDashboard;

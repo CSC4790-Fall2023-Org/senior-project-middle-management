@@ -1,18 +1,9 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
-const tabs = [
-    {
-        id: 1,
-        text: 'Employees',
-    },
-    {
-        id: 2,
-        text: 'Shifts',
-    },
-];
 
-const ManagerDashboardHeader = ({onTitlePress}) => {
+
+const DashboardTabHeader = ({onTitlePress, tabs }) => {
     const [selected, setSelected] = React.useState(0);
 
     return (
@@ -52,4 +43,4 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
 });
-export default ManagerDashboardHeader;
+export default DashboardTabHeader;

@@ -1,7 +1,5 @@
 import React, {useState} from "react";
 import {View, Text, Modal, TouchableOpacity, StyleSheet} from 'react-native';
-import {useNavigation} from "@react-navigation/native";
-import {ScreenNames} from "../utils/ScreenNames";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 
@@ -10,10 +8,6 @@ function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, c
     const [showDropdown, setShowDropdown] = useState(false);
     const [selectedValue, setSelectedValue] = useState(items[0]);
     const options = items;
-
-    // const top = 290
-    // const left = 70
-    // const width = 250
 
     const dropdownText={
         fontSize: fontSize,
@@ -56,10 +50,7 @@ function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, c
 
     const filteredOptions = options.filter((option) => option !== selectedValue);
 
-    const navigation = useNavigation();
-    const handleUserClick = () => {
-        navigation.navigate(ScreenNames.LOGIN);
-    }
+
     return(
         <View>
             <View style={styles.dropdownContainer}>
