@@ -4,7 +4,7 @@ import * as Haptics from 'expo-haptics';
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {CalendarAdd, CalendarDelete, Transfer} from "../utils/Icons";
+import {CalendarDelete, Transfer} from "../utils/Icons";
 import EmployeeShiftCard from "./EmployeeShiftCard";
 
 class MyShiftCardSwipe extends Component {
@@ -112,17 +112,9 @@ class MyShiftCardSwipe extends Component {
 
     render() {
         return (
-            <View>
                 <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
                     <EmployeeShiftCard date={"Fri Sep 22"} shiftType={"Head Guard"} startTime={"10:00am"} endTime={"6:30pm"} locationId={"Pool"} />
                 </Swipeable>
-                <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
-                    <EmployeeShiftCard date={"Sat Sep 23"} shiftType={"Head Guard"} startTime={"10:00am"} endTime={"6:30pm"} locationId={"Pool"} />
-                </Swipeable>
-                <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
-                    <EmployeeShiftCard date={"Sun Sep 24"} shiftType={"Head Guard"} startTime={"10:00am"} endTime={"6:30pm"} locationId={"Pool"} />
-                </Swipeable>
-            </View>
         );
     }
 }
