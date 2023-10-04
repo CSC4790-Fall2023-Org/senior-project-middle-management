@@ -10,9 +10,9 @@ function LoginScreen() {
                 <Text style={styles.headerTitle}>App Name</Text>
             </View>
             <View style={styles.buttonsContainer}>
-                <CustomRedirectButton buttonText={"Login as a Company"} page={ScreenNames.COMPANY}/>
-                <CustomRedirectButton buttonText={"Login as a Manager"} page={ScreenNames.MANAGER} />
-                <CustomRedirectButton buttonText={"Login as an Employee"} page={ScreenNames.EMPLOYEE} />
+                <CustomRedirectButton buttonText={"Login as a Company"} page={ScreenNames.COMPANY} buttonWidth={250}/>
+                <CustomRedirectButton buttonText={"Login as a Manager"} page={ScreenNames.MANAGER} buttonWidth={250}/>
+                <CustomRedirectButton buttonText={"Login as an Employee"} page={ScreenNames.EMPLOYEE} buttonWidth={250}/>
             </View>
         </View>
     );
