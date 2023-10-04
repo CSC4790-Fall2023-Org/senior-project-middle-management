@@ -1,8 +1,11 @@
 package com.ems.database.models;
 
+import com.ems.Exceptions.SvcException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 
 public class ShiftDate {
@@ -38,7 +41,7 @@ public class ShiftDate {
         this.isEndAM = isEndAM;
     }
 
-    public ShiftDate(final JSONObject pJsonObject) throws JSONException {
+    public ShiftDate(final JSONObject pJsonObject) throws JSONException, SvcException {
         int[] startDate = parseDateGiven(pJsonObject.getString("startDate"));
         int[] endDate = parseDateGiven(pJsonObject.getString("endDate"));
         this.startMonth = startDate[0];
@@ -151,12 +154,17 @@ public class ShiftDate {
         isEndAM = endAM;
     }
 
-    public int[] parseDateGiven(final String pDateString) {
+    public static int[] parseDateGiven(final String pDateString) throws SvcException {
         String[] splitString = pDateString.split("/");
-        return Arrays.stream(splitString).mapToInt(Integer::parseInt).toArray();
+        int[] result = Arrays.stream(splitString).mapToInt(Integer::parseInt).toArray();
+        if (result.length == 3) {
+            return result;
+        } else {
+            throw new SvcException("Error parsing date");
+        }
     }
 
-    public int convertTimeTo24Hour(final int pHour, final boolean pIsAM) {
+    public static int convertTimeTo24Hour(final int pHour, final boolean pIsAM) {
         if (pIsAM) {
             if (pHour == 12) {
                 return 0;
@@ -170,19 +178,5 @@ public class ShiftDate {
                 return pHour + 12;
             }
         }
-    }
-
-    public int getOccurrencesBetweenDates(final ShiftDate pStartDate, final ShiftDate pEndDate){
-        int occurrences = 0;
-        if(pStartDate.getStartYear() == pEndDate.getStartYear()){
-            if(pStartDate.getStartMonth() == pEndDate.getStartMonth()){
-                occurrences = pEndDate.getStartDay() - pStartDate.getStartDay();
-            } else {
-                occurrences = pEndDate.getStartDay() + (30 - pStartDate.getStartDay());
-            }
-        } else {
-            occurrences = pEndDate.getStartDay() + (30 - pStartDate.getStartDay());
-        }
-        return occurrences;
     }
 }
