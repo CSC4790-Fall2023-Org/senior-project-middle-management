@@ -138,4 +138,8 @@ public class DatabaseServices {
     public static List<Employee> getAllEmployees(){
         return EmsApplication.visibleEmployeeRepository.findAll();
     }
+
+    public static List<Manager> getAllManagers() {
+        return EmsApplication.visibleManagerRepository.findAll();
+    }
 }

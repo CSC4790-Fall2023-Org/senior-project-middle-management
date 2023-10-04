@@ -2,9 +2,12 @@ package com.ems.services;
 
 import com.ems.Exceptions.SvcException;
 import com.ems.Utils.EmployeeUtils;
-import com.ems.database.models.Employee;
-import com.ems.database.models.Organization;
-import com.ems.database.models.Shift;
+import com.ems.Utils.ManagerUtils;
+import com.ems.database.models.*;
+import org.bson.types.ObjectId;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ValidationServices {
 
@@ -37,6 +40,32 @@ public class ValidationServices {
         }
     }
 
+    public static void validateManagerCanJoinOrganization(final Manager pManager, final Organization pOrganization) throws SvcException {
+        // extract the org ID to compare with manager's org
+        ObjectId targetLocationId = pOrganization.getOrganizationId();
+
+        // collect the location IDs from the org's location list
+        List<ObjectId> locationIds = pOrganization.getLocationList().stream()
+                .map(Location::getLocationId)
+                .collect(Collectors.toList());
+
+        // check if manager's org matches any of the org's locations
+        boolean matchingLocation = locationIds.contains(targetLocationId);
+
+        // if no matching location is found, throw an error.
+        if (!matchingLocation) {
+            throw new SvcException("error");
+        }
+        //check if the manager's organization matches the provided organization
+        if (!pManager.getOrganizationId().equals(pOrganization.getOrganizationId())) {
+            throw new SvcException("error");
+        }
+        //check if the manager is not already assigned to another organization
+        if (pManager.getOrganizationId()!= null) {
+            throw new SvcException("error");
+        }
+    }
+
     public static void validateCreateEmployee(final Employee pEmployee) throws SvcException {
         // employee already in database
         if (DatabaseServices.getAllEmployees().stream().anyMatch(e -> EmployeeUtils.doEmployeesMatch(e, pEmployee))){
@@ -44,8 +73,21 @@ public class ValidationServices {
         }
     }
 
-    public static void validateDeleteEmployee(Employee employee) throws SvcException {
-        if (DatabaseServices.getAllEmployees().stream().noneMatch(e -> EmployeeUtils.doEmployeesMatch(e, employee))){
+    public static void validateCreateManager(final Manager pManager) throws SvcException {
+        // manager is already in the database
+        if (DatabaseServices.getAllManagers().stream().anyMatch(e -> ManagerUtils.doManagersMatch(e, pManager))) {
+            throw new SvcException("error");
+        }
+    }
+
+    public static void validateDeleteEmployee(Employee pEmployee) throws SvcException {
+        if (DatabaseServices.getAllEmployees().stream().noneMatch(e -> EmployeeUtils.doEmployeesMatch(e, pEmployee))){
+            throw new SvcException("error");
+        }
+    }
+
+    public static void validateDeleteManager(final Manager pManager) throws SvcException {
+        if (DatabaseServices.getAllManagers().stream().noneMatch(e -> ManagerUtils.doManagersMatch(e, pManager))) {
             throw new SvcException("error");
         }
     }
