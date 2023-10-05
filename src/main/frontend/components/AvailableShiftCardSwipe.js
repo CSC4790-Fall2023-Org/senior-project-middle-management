@@ -110,13 +110,13 @@ class AvailableShiftCardSwipe extends Component {
     };
 
     render() {
+        const { EmployeeShiftCardComponent } = this.props;
+
         return (
             <View>
-                {shifts.map(shift =>
                     <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
-                        <EmployeeShiftCard date={shift.date} shiftType={shift.shiftType} startTime={shift.startTime} endTime={shift.endTime} locationId={shift.locationId} />
+                        {EmployeeShiftCardComponent}
                     </Swipeable>
-                )}
             </View>
         );
     }
