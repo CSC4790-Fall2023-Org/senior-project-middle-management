@@ -36,7 +36,7 @@ function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, c
             <View style={styles.dropdownContainer}>
                 <View style={styles.dropdownWrapper}>
                     <TouchableOpacity onPress={toggleDropdown}>
-                        <View style={styles.dropdownTrigger}>
+                        <View style={[styles.dropdownTrigger, {width: width,}]}>
                             <Text style={styles.dropdownText}>{selectedValue}</Text>
                             {showDropdown && <FontAwesomeIcon icon={faChevronUp} size={20} />}
                             {!showDropdown && <FontAwesomeIcon icon={faChevronDown} size={20} />}
@@ -52,7 +52,11 @@ function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, c
                             style={styles.overlay}
                             onPress={toggleDropdown}
                         />
-                        <View style={styles.dropdownModal}>
+                        <View style={[styles.dropdownModal, {
+                            top: top,
+                            left: left,
+                            width: width,
+                        }]}>
                             {filteredOptions.map((option) => (
                                 <TouchableOpacity
                                     style={styles.dropdownOptions}
@@ -89,21 +93,17 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 16,
         padding: 10,
-        width: 200, // Adjust the width as needed
     },
     dropdownModal: {
         position: 'absolute',
         overflow: 'hidden',
-        top: 290, // Adjust the top position to control the dropdown placement
-        left:10,
-        width: 200,
         elevation: 5,
         zIndex: 1,
         backgroundColor:'#FFFFFF',
 
     },
     dropdownOptions:{
-        borderWidth: 1,
+        borderWidth: .5,
         borderColor: '#ccc',
         borderRadius: 0,
         padding: 15,
