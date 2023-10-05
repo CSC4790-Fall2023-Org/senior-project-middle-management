@@ -22,7 +22,6 @@ class AvailableShiftCardSwipe extends Component {
                         text: 'Remove',
                         style: 'destructive',
                         onPress: () => {
-                            console.log('Shift removed!');
                             Haptics.notificationAsync(
                                 Haptics.NotificationFeedbackType.Success
                             );
@@ -50,7 +49,6 @@ class AvailableShiftCardSwipe extends Component {
                         text: 'Pick Up',
                         style: 'default',
                         onPress: () => {
-                            console.log('Picked Up Shift!');
                             Haptics.notificationAsync(
                                 Haptics.NotificationFeedbackType.Success
                             );

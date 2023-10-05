@@ -22,7 +22,6 @@ class MyShiftCardSwipe extends Component {
                         text: 'Drop',
                         style: 'destructive',
                         onPress: () => {
-                            console.log('Shift dropped!');
                             Haptics.notificationAsync(
                                 Haptics.NotificationFeedbackType.Success
                             );
@@ -32,7 +31,6 @@ class MyShiftCardSwipe extends Component {
                         text: 'Cancel',
                         style: 'cancel',
                         onPress: () => {
-                            console.log('Canceled drop!');
                             this.swipeableRef.current.close();
 
                         }
@@ -51,7 +49,6 @@ class MyShiftCardSwipe extends Component {
                         text: 'Transfer',
                         style: 'default',
                         onPress: () => {
-                            console.log('Transferred Shift!');
                             Haptics.notificationAsync(
                                 Haptics.NotificationFeedbackType.Success
                             );
@@ -61,7 +58,6 @@ class MyShiftCardSwipe extends Component {
                         text: 'Cancel',
                         style: 'cancel',
                         onPress: () => {
-                            console.log('Canceled transfer!');
                             this.swipeableRef.current.close();
                         }
                     }
