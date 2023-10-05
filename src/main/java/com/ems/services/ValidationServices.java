@@ -85,4 +85,8 @@ public class ValidationServices {
             throw new SvcException("error");
         }
     }
+
+    public static void validateCreateShift(final Shift pShift){
+
+    }
 }

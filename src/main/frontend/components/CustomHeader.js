@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons/faCircleUser";
 import {useNavigation} from "@react-navigation/native";
+import {CircleUser} from "../utils/Icons";
 
 const CustomHeader = ({title, page}) => {
     const navigation = useNavigation();
@@ -14,7 +14,7 @@ const CustomHeader = ({title, page}) => {
         <View style={styles.container}>
             <Text style={styles.title}>{title}</Text>
             <TouchableOpacity onPress={() => handleUserClick()}>
-                <FontAwesomeIcon icon={faCircleUser} size={32} style={styles.icon}/>
+                <FontAwesomeIcon icon={CircleUser} size={32} style={styles.icon}/>
             </TouchableOpacity>
         </View>
     );
