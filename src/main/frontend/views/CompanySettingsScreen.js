@@ -1,9 +1,9 @@
 import React from "react";
 import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons/faChevronLeft";
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../utils/ScreenNames";
+import {ChevronLeft} from "../utils/Icons";
 
 function CompanySettingsScreen() {
     const navigation = useNavigation();
@@ -16,7 +16,7 @@ function CompanySettingsScreen() {
         <View>
             <View style={styles.headerContainer}>
                 <TouchableOpacity onPress={() => handleUserClick()} style={styles.icon}>
-                    <FontAwesomeIcon icon={faChevronLeft} size={24}/>
+                    <FontAwesomeIcon icon={ChevronLeft} size={24}/>
                 </TouchableOpacity>
                 <Text style={styles.headerText}>Settings</Text>
             </View>
