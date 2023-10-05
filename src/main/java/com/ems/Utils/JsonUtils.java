@@ -2,10 +2,16 @@ package com.ems.Utils;
 
 import com.ems.Exceptions.SvcException;
 import com.ems.database.models.Employee;
+import com.ems.database.models.Location;
 import com.ems.database.models.Manager;
 import com.ems.database.models.Shift;
 import org.bson.types.ObjectId;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JsonUtils {
 
@@ -69,5 +75,14 @@ public class JsonUtils {
             e.printStackTrace();
             throw new SvcException("Error getting shift from JSON");
         }
+    }
+
+    public static List<Location> getLocationListFromJSON(final JSONArray pJsonArray) throws JSONException {
+        List<Location> result = new ArrayList<>();
+
+        for (int index = 0; index < pJsonArray.length(); index++){
+            result.add(new Location((JSONObject) pJsonArray.get(index)));
+        }
+        return result;
     }
 }

@@ -1,6 +1,10 @@
 package com.ems.database.models;
 
+import com.ems.Utils.JsonUtils;
+import com.ems.Utils.LocationUtils;
 import org.bson.types.ObjectId;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -30,6 +34,13 @@ public class Organization {
         this.organizationName = organizationName;
         this.orgOwnerEmail = orgOwnerEmail;
         this.locationList = locationList;
+    }
+
+    public Organization(final JSONObject pJsonObject) throws JSONException {
+        this.organizationName = pJsonObject.getString("organizationName");
+        this.orgOwnerEmail = pJsonObject.getString("orgOwnerEmail");
+        this.locationList = JsonUtils.getLocationListFromJSON(pJsonObject.getJSONArray("locations"));
+
     }
 
     public ObjectId getOrganizationId() {
