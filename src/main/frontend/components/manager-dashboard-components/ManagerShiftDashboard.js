@@ -63,7 +63,7 @@ function ManagerShiftDashboard(){
             </View>
             <View style={styles.dropdownWrapper}>
                 <View style={styles.dropdownWrapperBorder}>
-                    <Dropdown items={sortDropdown} dropdownPress={handleSortPress} left={10} top={299.5} width={200} fontSize={24} fontWht={"bold"} chvSize={32}/>
+                    <Dropdown items={sortDropdown} dropdownPress={handleSortPress} left={10} top={290} width={200} fontSize={24} fontWht={"bold"} chvSize={32}/>
                 </View>
             </View>
             <ManagerShiftView available={selectedIndex}/>
