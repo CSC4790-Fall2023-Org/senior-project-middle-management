@@ -5,7 +5,7 @@ import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {CalendarAdd, TrashCan} from "../utils/Icons";
-import EmployeeShiftCard from "./EmployeeShiftCard";
+import ShiftCard from "./ShiftCard";
 
 class AvailableShiftCardSwipe extends Component {
     swipeableRef = React.createRef();
@@ -123,7 +123,7 @@ const styles= StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#388E3C',
         justifyContent: 'center',
-        height: EmployeeShiftCard.height,
+        height: ShiftCard.height,
         margin: 15,
         marginBottom: 0,
         borderRadius: 10,
@@ -138,7 +138,7 @@ const styles= StyleSheet.create({
         backgroundColor: '#626567',
         justifyContent: 'center',
         alignItems: 'flex-end',
-        height: EmployeeShiftCard.height,
+        height: ShiftCard.height,
         margin: 15,
         marginBottom: 0,
         borderRadius: 10,

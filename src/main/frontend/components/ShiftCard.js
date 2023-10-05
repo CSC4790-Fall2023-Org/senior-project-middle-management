@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View} from "react-native";
 
-const EmployeeShiftCard = ({date, startTime, endTime, shiftType, locationId}) => {
+const ShiftCard = ({date, startTime, endTime, shiftType, locationId}) => {
     //TODO: calc shift hours to pass into card
     return (
         <View style={styles.container}>
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         backgroundColor: '#FFFFFF',
-        margin: 15,
+        margin: 16,
         marginBottom: 0,
         borderRadius: 10,
         padding: 16,
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default EmployeeShiftCard;
+export default ShiftCard;
