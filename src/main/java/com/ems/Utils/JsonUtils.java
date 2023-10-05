@@ -61,7 +61,7 @@ public class JsonUtils {
 
     public static ObjectId getManagerIdFromJSON(final JSONObject pJsonObject) throws SvcException {
         try {
-            return new ObjectId((String) pJsonObject.get("shiftId"));
+            return new ObjectId((String) pJsonObject.get("managerId"));
         }
         catch (Exception e) {
             e.printStackTrace();

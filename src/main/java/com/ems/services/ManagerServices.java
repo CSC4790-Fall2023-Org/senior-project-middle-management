@@ -36,34 +36,4 @@ public class ManagerServices {
 
         return ResponseEntity.status(200).body("Manager created successfully");
     }
-
-    public static ResponseEntity deleteManager(final String pPayload) {
-        Manager manager;
-        ObjectId managerId;
-        try {
-            managerId = JsonUtils.getManagerIdFromJSON(new JSONObject(pPayload));
-        } catch (SvcException | JSONException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
-
-        try {
-            manager = DatabaseServices.findManagerById(managerId)
-                    .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_MANAGER, managerId));
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
-
-        try {
-            ValidationServices.validateDeleteManager(manager);
-        } catch (SvcException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
-
-        DatabaseServices.deleteManager(manager);
-        return ResponseEntity.status(200).body("Manager deleted successfully");
-    }
-
 }

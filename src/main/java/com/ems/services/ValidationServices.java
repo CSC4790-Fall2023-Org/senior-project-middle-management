@@ -47,7 +47,7 @@ public class ValidationServices {
         // collect the location IDs from the org's location list
         List<ObjectId> locationIds = pOrganization.getLocationList().stream()
                 .map(Location::getLocationId)
-                .collect(Collectors.toList());
+                .toList();
 
         // check if manager's org matches any of the org's locations
         boolean matchingLocation = locationIds.contains(targetLocationId);
@@ -82,12 +82,6 @@ public class ValidationServices {
 
     public static void validateDeleteEmployee(Employee pEmployee) throws SvcException {
         if (DatabaseServices.getAllEmployees().stream().noneMatch(e -> EmployeeUtils.doEmployeesMatch(e, pEmployee))){
-            throw new SvcException("error");
-        }
-    }
-
-    public static void validateDeleteManager(final Manager pManager) throws SvcException {
-        if (DatabaseServices.getAllManagers().stream().noneMatch(e -> ManagerUtils.doManagersMatch(e, pManager))) {
             throw new SvcException("error");
         }
     }

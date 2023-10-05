@@ -32,16 +32,6 @@ public class ManagerUtils {
                 && pManager.getOrganizationId().equals(pComparisonManager.getOrganizationId());
     }
 
-    public static Object[] assignManagerToOrganizationUsingIds(final ObjectId pManagerId, final ObjectId pOrganizationId) throws SvcException, DatabaseException {
-        // create necessary objects using IDs
-        Manager manager = DatabaseServices.findManagerById(pManagerId)
-                .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_MANAGER, pManagerId));
-        Organization organization = DatabaseServices.findOrganizationById(pOrganizationId)
-                .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_ORGANIZATION, pOrganizationId));
-
-        return assignManagerToOrganizationUsingObjects(manager, organization);
-    }
-
     public static Object[] assignManagerToOrganizationUsingObjects(final Manager pManager, final Organization pOrganization) throws SvcException {
         // validation
         ValidationServices.validateManagerCanJoinOrganization(pManager, pOrganization);
