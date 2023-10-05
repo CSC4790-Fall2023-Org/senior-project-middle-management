@@ -45,7 +45,10 @@ public class Manager {
         this.managerEmail = (String) pJsonObject.get("managerEmail");
         this.managerPhoneNumber = (String) pJsonObject.get("managerPhoneNumber");
         this.organizationId = new ObjectId((String) pJsonObject.get("organizationId"));
-        this.locationList = List.of(new Location((JSONObject) pJsonObject.get("locationList")));
+        ObjectId locationId = new ObjectId(pJsonObject.getString("locationId"));
+        String locationName = pJsonObject.getString("locationName");
+        double maxHours = pJsonObject.getDouble("maxHours");
+        this.locationList = List.of(new Location(locationId, locationName, maxHours));
     }
 
     public ObjectId getManagerId() {
