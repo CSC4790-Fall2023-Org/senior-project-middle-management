@@ -1,9 +1,11 @@
 package com.ems.services;
 
 import com.ems.EmsApplication;
+import com.ems.Exceptions.DatabaseException;
 import com.ems.database.models.*;
 import org.bson.types.ObjectId;
 
+import java.util.List;
 import java.util.Optional;
 
 public class DatabaseServices {
@@ -49,31 +51,56 @@ public class DatabaseServices {
     }
 
     // save employee
-    public static void saveEmployee(Employee employee) {
-        EmsApplication.visibleEmployeeRepository.save(employee);
+    public static void saveEmployee(Employee employee) throws DatabaseException {
+        try {
+            EmsApplication.visibleEmployeeRepository.save(employee);
+        } catch (Exception e) {
+            System.out.println("Error saving employee");
+            throw new DatabaseException(DatabaseException.SAVING_EMPLOYEE, employee.getEmployeeId());
+        }
+
     }
 
     // save manager
-    public static void saveManager(Manager manager) {
-        EmsApplication.visibleManagerRepository.save(manager);
+    public static void saveManager(Manager manager) throws DatabaseException {
+        try{
+            EmsApplication.visibleManagerRepository.save(manager);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new DatabaseException(DatabaseException.SAVING_MANAGER, manager.getManagerId());
+        }
     }
 
+
+
     // save organization
-    public static void saveOrganization(Organization organization) {
-        EmsApplication.visibleOrganizationRepository.save(organization);
+    public static void saveOrganization(Organization organization) throws DatabaseException {
+        try{
+            EmsApplication.visibleOrganizationRepository.save(organization);
+        }
+        catch (Exception e){
+            throw new DatabaseException(DatabaseException.SAVING_ORGANIZATION, organization.getOrganizationId());
+        }
+
     }
 
     // save shift
-    public static void saveShift(Shift shift) {
-        EmsApplication.visibleShiftRepository.save(shift);
+    public static void saveShift(Shift shift) throws DatabaseException {
+        try {
+            EmsApplication.visibleShiftRepository.save(shift);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new DatabaseException(DatabaseException.SAVING_SHIFT, shift.getShiftId());
+        }
     }
 
     // delete employee
-    public static void deleteEmployee(Employee employee) {
+    public static void deleteEmployee(Employee employee) throws DatabaseException {
         ObjectId employeeId = employee.getEmployeeId();
-        if (EmsApplication.visibleEmployeeRepository.findAll().stream().anyMatch(em -> em.getEmployeeId().equals(employeeId))){
-            System.out.println("Employee not found");
-            throw new RuntimeException("Error deleting employee! Employee with id: " + employeeId + " is not present in the database");
+        if (EmsApplication.visibleEmployeeRepository.findAll().stream().noneMatch(em -> em.getEmployeeId().equals(employeeId))){
+            throw new DatabaseException(DatabaseException.DELETING_EMPLOYEE, employeeId);
         }
         EmsApplication.visibleEmployeeRepository.delete(employee);
     }
@@ -106,5 +133,9 @@ public class DatabaseServices {
             throw new RuntimeException("Error deleting shift! Shift with id: " + shiftId + " is not present in the database");
         }
         EmsApplication.visibleShiftRepository.delete(shift);
+    }
+
+    public static List<Employee> getAllEmployees(){
+        return EmsApplication.visibleEmployeeRepository.findAll();
     }
 }

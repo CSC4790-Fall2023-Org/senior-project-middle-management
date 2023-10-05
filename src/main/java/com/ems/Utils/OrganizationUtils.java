@@ -1,6 +1,5 @@
 package com.ems.Utils;
 
-import com.ems.database.models.Location;
 import com.ems.database.models.Organization;
 import org.bson.types.ObjectId;
 

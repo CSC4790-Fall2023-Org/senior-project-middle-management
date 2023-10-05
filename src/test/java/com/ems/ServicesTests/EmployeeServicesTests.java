@@ -25,7 +25,7 @@ public class EmployeeServicesTests {
 
         {
             // valid employee, shift, and org
-            Object[] result = EmployeeServices.assignShiftToEmployeeUsingIDS(employee,shift,organization);
+            Object[] result = EmployeeUtils.assignShiftToEmployeeUsingIDS(employee,shift,organization);
             Employee resultEmployee = (Employee) result[0];
             assertEquals(List.of(employee.getShiftIdList().get(0), shift.getShiftId()), resultEmployee.getShiftIdList());
             assertFalse(shift.isShiftOpen());
