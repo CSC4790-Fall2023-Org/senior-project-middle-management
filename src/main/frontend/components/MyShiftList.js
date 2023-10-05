@@ -1,12 +1,15 @@
-import EmployeeShiftCard from "./EmployeeShiftCard";
+import ShiftCard from "./ShiftCard";
 import {ScrollView, StyleSheet} from "react-native";
 import React from "react";
-
+import MyShiftCardSwipe from "./MyShiftCardSwipe";
+import shifts from "../mockApiCalls/myShiftCardData";
 
 const MyShiftList = () => {
     return(
         <ScrollView style={styles.scrollView}>
-            <EmployeeShiftCard date={"Fri Sep 22"} shiftType={"Head Guard"} startTime={"10:00am"} endTime={"6:30pm"} locationId={12345} />
+            {shifts.map(shift =>
+                <MyShiftCardSwipe ShiftCardComponent={<ShiftCard date={shift.date} shiftType={shift.shiftType} startTime={shift.startTime} endTime={shift.endTime} locationId={shift.locationId} />} />
+            )}
         </ScrollView>
     );
 }

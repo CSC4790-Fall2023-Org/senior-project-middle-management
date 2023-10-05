@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import CustomButton from "../CustomButton";
 import {ScreenNames} from "../../utils/ScreenNames";
 import ManagerEmployeeView from "./ManagerEmployeeView";
 import {useNavigation} from "@react-navigation/native";
-import Dropdown from "../Dropdown";
-const ManagerEmployeeDashboard = ( ) => {
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {faCalendar} from "@fortawesome/free-regular-svg-icons";
+const ManagerEmployeeDashboard = ({buttonTitle}) => {
     const options = ["SortBy: None", "SortBy: Name", "SortBy: Hours Worked" ]
 
     const [selectedIndex, setSelectedIndex] = useState('All');
@@ -24,12 +26,21 @@ const ManagerEmployeeDashboard = ( ) => {
     }
     return(
         <View>
+            <View style={styles.buttonsContainer}>
+                <View style={styles.addEmpButton}>
+                    <CustomButton buttonText={buttonTitle} page={ScreenNames.LOGIN} />
+                </View>
+                <TouchableOpacity onPress={handleUserClick}>
+                    <FontAwesomeIcon icon={faCalendar} size={36} style={styles.icon} />
+                </TouchableOpacity>
+            </View>
             <View style={styles.dropdownWrapper}>
                 <View style={styles.dropdownWrapperBorder}>
+                    <ManagerEmployeeDropdown items = {options} dropdownPress = {handleDropdownPress} />
                     <Dropdown items={options} dropdownPress={handleDropdownPress} left={10} top={200.5} width={200} fontSize={15} fontWht={"normal"} chvSize={20}/>
                 </View>
             </View>
-            <ManagerEmployeeView selected={selectedEmployee} handleEmpPress={handleEmployeePress}/>
+            <ManagerEmployeeView selected={selectedEmployee} handleEmpPress={handleEmployeePress} />
         </View>
 
     )
@@ -37,28 +48,28 @@ const ManagerEmployeeDashboard = ( ) => {
 
 const styles = StyleSheet.create({
     buttonsContainer: {
-        paddingTop: 10,
+        paddingTop: 8,
         flexDirection: "row",
-        justifyContent: "space-evenly",
+        justifyContent: "space-between",
         alignItems: "center",
     },
-    buttonTextStyle:{
-        fontSize: 24,
-        color: 'black',
-        fontWeight: 'bold'
+    addEmpButton: {
+        marginLeft: 16,
+    },
+    icon: {
+        marginRight: 16,
     },
     dropdownWrapper:{
-        paddingTop: 10,
-        left:10
-
+        paddingLeft:16,
+        paddingBottom: 16,
     },
+
     dropdownWrapperBorder:{
         backgroundColor:'#FFFFFF',
-        borderWidth: .5,
-        borderColor: '#ccc',
+        borderRadius: 10,
         overflow: 'hidden',
         width: 200,
-
+        justifyContent: "center",
     },
 
 });

@@ -310,5 +310,6 @@ const styles = StyleSheet.create({
         marginTop:-30,
         right:10,
     }
+
 });
 export default ManagerShiftDashboard;

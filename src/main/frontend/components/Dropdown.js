@@ -1,7 +1,7 @@
-import React, {useState} from "react";
-import {View, Text, Modal, TouchableOpacity, StyleSheet} from 'react-native';
+import React, { useState } from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Modal} from 'react-native';
 import {useNavigation} from "@react-navigation/native";
-import {ScreenNames} from "../utils/ScreenNames";
+import {ScreenNames} from "../../utils/ScreenNames";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 
@@ -10,35 +10,6 @@ function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, c
     const [showDropdown, setShowDropdown] = useState(false);
     const [selectedValue, setSelectedValue] = useState(items[0]);
     const options = items;
-
-    // const top = 290
-    // const left = 70
-    // const width = 250
-
-    const dropdownText={
-        fontSize: fontSize,
-        color: 'black',
-        fontWeight: fontWht,
-    }
-    const dropdownTrigger = {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 10,
-        width: width,
-    }
-    const dropdownModal= {
-        position: 'absolute',
-            overflow: 'hidden',
-            top: top,
-            left: left,
-            width: width,
-            elevation: 5,
-            zIndex: 1,
-            backgroundColor:'#FFFFFF',
-
-    };
-
-
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
@@ -65,10 +36,10 @@ function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, c
             <View style={styles.dropdownContainer}>
                 <View style={styles.dropdownWrapper}>
                     <TouchableOpacity onPress={toggleDropdown}>
-                        <View style={dropdownTrigger}>
-                            <Text style={dropdownText}>{selectedValue}</Text>
-                            {showDropdown && <FontAwesomeIcon icon={faChevronUp} size={chvSize} style={styles.upCaret} />}
-                            {!showDropdown && <FontAwesomeIcon icon={faChevronDown} size={chvSize} style={styles.downCaret}/>}
+                        <View style={styles.dropdownTrigger}>
+                            <Text style={styles.dropdownText}>{selectedValue}</Text>
+                            {showDropdown && <FontAwesomeIcon icon={faChevronUp} size={20} />}
+                            {!showDropdown && <FontAwesomeIcon icon={faChevronDown} size={20} />}
                         </View>
                     </TouchableOpacity>
                     <Modal
@@ -113,14 +84,37 @@ const styles = StyleSheet.create({
     dropdownContainer: {
         flexDirection: 'row',
         overflow: 'hidden',
+        paddingTop: 2,
+    },
+    dropdownTrigger: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        padding: 10,
+        width: 200, // Adjust the width as needed
+    },
+    dropdownModal: {
+        position: 'absolute',
+        overflow: 'hidden',
+        top: 290, // Adjust the top position to control the dropdown placement
+        left:10,
+        width: 200,
+        elevation: 5,
+        zIndex: 1,
+        backgroundColor:'#FFFFFF',
 
     },
     dropdownOptions:{
-        borderWidth: .5,
+        borderWidth: 1,
         borderColor: '#ccc',
-        padding: 10,
+        borderRadius: 0,
+        padding: 15,
         overflow: 'hidden',
     },
-
+    dropdownText:{
+        fontSize: 12,
+        color: 'black',
+    },
 });
+
 export default Dropdown;

@@ -1,6 +1,6 @@
 import {Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
 import React, {useState} from "react";
-import {faCaretDown, faCaretUp, faX} from "@fortawesome/free-solid-svg-icons";
+import {faChevronDown, faChevronUp, faX} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 
 const ManagerEmployeeCard = ({pressed, id, name, type, worked, shiftsTaken, handlePress}) =>{
@@ -27,7 +27,7 @@ const ManagerEmployeeCard = ({pressed, id, name, type, worked, shiftsTaken, hand
                         <TouchableWithoutFeedback onPress={handlePressButton1}>
                             <View style={styles.topContainer}>
                                 <Text style={styles.name}>{name}</Text>
-                                <FontAwesomeIcon icon={faCaretUp} size={32} style={styles.upCaret} />
+                                <FontAwesomeIcon icon={faChevronUp} size={32} />
                             </View>
                         </TouchableWithoutFeedback>
                         <TouchableWithoutFeedback onPress={handlePressButton3}>
@@ -55,7 +55,7 @@ const ManagerEmployeeCard = ({pressed, id, name, type, worked, shiftsTaken, hand
                             <View style={styles.topContainerModal}>
                                 <Text style={styles.name}>Employee Info:</Text>
                                 <TouchableOpacity onPress={handlePressButton3}>
-                                    <FontAwesomeIcon icon={faX} size={24} style={styles.upCaret} />
+                                    <FontAwesomeIcon icon={faX} size={24} />
                                 </TouchableOpacity>
                             </View>
                             <View style={styles.middleContainerModal}>
@@ -90,7 +90,7 @@ const ManagerEmployeeCard = ({pressed, id, name, type, worked, shiftsTaken, hand
             <TouchableWithoutFeedback onPress={handlePressButton2}>
                 <View style={styles.container}>
                     <Text style={styles.name}>{name}</Text>
-                    <FontAwesomeIcon icon={faCaretDown} size={32} style={styles.downCaret} />
+                    <FontAwesomeIcon icon={faChevronDown} size={32} />
                 </View>
             </TouchableWithoutFeedback>
 
@@ -163,12 +163,6 @@ const styles = StyleSheet.create({
         textAlign: "right",
         marginTop: 10,
     },
-    upCaret:{
-        marginBottom:10,
-    },
-    downCaret:{
-        left:5,
-    },
     modal:{
         position: 'absolute',
         top: 240, // Adjust the top position to control the dropdown placement
@@ -182,18 +176,6 @@ const styles = StyleSheet.create({
         borderStyle:"solid",
         borderColor:"#ccc",
         flexDirection: "column",
-    },
-    modalContent:{
-        justifyContent: 'space-between',
-        paddingHorizontal: 0,
-        alignItems: 'center',
-        flexDirection: "row",
-    },
-    closeButton: {
-        marginTop: 10,
-        backgroundColor: 'red',
-        padding: 10,
-        borderRadius: 5,
     },
     overlay: {
         flex: 1,
