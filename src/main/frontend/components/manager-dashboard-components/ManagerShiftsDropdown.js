@@ -1,6 +1,5 @@
 import React, {useState} from "react";
-import {View, Text, Modal, TouchableOpacity, TouchableWithoutFeedback, StyleSheet} from 'react-native';
-import {Picker} from "@react-native-picker/picker";
+import {View, Text, Modal, TouchableOpacity, StyleSheet} from 'react-native';
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../../utils/ScreenNames";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
@@ -39,8 +38,8 @@ function ManagerShiftsDropdown({ items, dropdownPress }){
                     <TouchableOpacity onPress={toggleDropdown}>
                         <View style={styles.dropdownTrigger}>
                             <Text style={styles.dropdownText}>{selectedValue}</Text>
-                            {showDropdown && <FontAwesomeIcon icon={faChevronUp} size={32} />}
-                            {!showDropdown && <FontAwesomeIcon icon={faChevronDown} size={32}/>}
+                            {showDropdown && <FontAwesomeIcon icon={faChevronUp} size={24} />}
+                            {!showDropdown && <FontAwesomeIcon icon={faChevronDown} size={24}/>}
                         </View>
                     </TouchableOpacity>
                     <Modal
@@ -78,14 +77,12 @@ function ManagerShiftsDropdown({ items, dropdownPress }){
 const styles = StyleSheet.create({
     overlay: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0)',
         justifyContent: 'center',
         alignItems: 'center',
     },
     dropdownContainer: {
         flexDirection: 'row',
         overflow: 'hidden',
-
     },
     dropdownTrigger: {
         flexDirection: 'row',
@@ -95,10 +92,10 @@ const styles = StyleSheet.create({
         width: 200, // Adjust the width as needed
     },
     dropdownModal: {
+        marginLeft: 16,
         position: 'absolute',
         overflow: 'hidden',
         top: 300, // Adjust the top position to control the dropdown placement
-        left:10,
         width: 200,
         elevation: 5,
         zIndex: 1,

@@ -9,34 +9,22 @@ import ManagerShiftDashboard from "../components/manager-dashboard-components/Ma
 function ManagerScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
-    const [selectedOption, setSelectedOption] = useState('');
-
     const handleTitlePress = (index) => {
         setSelectedIndex(index);
     }
 
-    const handleOptionSelect = (option) => {
-        setSelectedOption(option);
-    };
-
     const options = ['Option 1', 'Option 2', 'Option 3'];
+
     return (
         <View>
             <CustomHeader title={"Manager Name"} page={ScreenNames.MANAGER_SETTINGS}/>
             <ManagerDashboardHeader onTitlePress={handleTitlePress}/>
-            <View style={styles.container}>
-                {selectedIndex === 0 && <ManagerEmployeeDashboard options={options} />}
+            <View>
+                {selectedIndex === 0 && <ManagerEmployeeDashboard buttonTitle={"Add Employee"} options={options} />}
                 {selectedIndex === 1 && <ManagerShiftDashboard />}
             </View>
 
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        // position: "absolute",
-
-    },
-});
 export default ManagerScreen;
