@@ -60,6 +60,16 @@ public class JsonUtils {
         }
     }
 
+    public static ObjectId getManagerIdFromJSON(final JSONObject pJsonObject) throws SvcException {
+        try {
+            return new ObjectId((String) pJsonObject.get("managerId"));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            throw new SvcException("Error getting managerId from JSON");
+        }
+    }
+
     public static Object[] getShiftFromJSON(final JSONObject pJsonObject) throws SvcException {
         try {
             // todo: need to work out how best to deal with days and times
