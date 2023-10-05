@@ -6,6 +6,7 @@ import ManagerEmployeeView from "./ManagerEmployeeView";
 import {useNavigation} from "@react-navigation/native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faCalendar} from "@fortawesome/free-regular-svg-icons";
+import Dropdown from "../Dropdown";
 const ManagerEmployeeDashboard = ({buttonTitle}) => {
     const options = ["SortBy: None", "SortBy: Name", "SortBy: Hours Worked" ]
 
@@ -36,7 +37,6 @@ const ManagerEmployeeDashboard = ({buttonTitle}) => {
             </View>
             <View style={styles.dropdownWrapper}>
                 <View style={styles.dropdownWrapperBorder}>
-                    <ManagerEmployeeDropdown items = {options} dropdownPress = {handleDropdownPress} />
                     <Dropdown items={options} dropdownPress={handleDropdownPress} left={10} top={200.5} width={200} fontSize={15} fontWht={"normal"} chvSize={20}/>
                 </View>
             </View>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Modal} from 'react-native';
 import {useNavigation} from "@react-navigation/native";
-import {ScreenNames} from "../../utils/ScreenNames";
+import {ScreenNames} from "../utils/ScreenNames";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 
@@ -52,14 +52,14 @@ function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, c
                             style={styles.overlay}
                             onPress={toggleDropdown}
                         />
-                        <View style={dropdownModal}>
+                        <View style={styles.dropdownModal}>
                             {filteredOptions.map((option) => (
                                 <TouchableOpacity
                                     style={styles.dropdownOptions}
                                     key={option}
                                     onPress={() => {selectOption(option); dropdownPress(option);}}
                                 >
-                                    <Text style={dropdownText}>{option}</Text>
+                                    <Text style={styles.dropdownText}>{option}</Text>
                                 </TouchableOpacity>
                             ))}
                         </View>
@@ -67,8 +67,6 @@ function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, c
                 </View>
 
             </View>
-
-
         </View>
     );
 }
