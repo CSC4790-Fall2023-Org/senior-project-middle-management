@@ -6,7 +6,6 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {CalendarAdd, TrashCan} from "../utils/Icons";
 import EmployeeShiftCard from "./EmployeeShiftCard";
-import shifts from '../apiCalls/shiftCardData';
 
 class AvailableShiftCardSwipe extends Component {
     swipeableRef = React.createRef();
@@ -110,14 +109,12 @@ class AvailableShiftCardSwipe extends Component {
     };
 
     render() {
-        const { EmployeeShiftCardComponent } = this.props;
+        const { ShiftCardComponent } = this.props;
 
         return (
-            <View>
-                    <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
-                        {EmployeeShiftCardComponent}
-                    </Swipeable>
-            </View>
+            <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
+                {ShiftCardComponent}
+            </Swipeable>
         );
     }
 }

@@ -20,4 +20,11 @@ export default [
         shiftType: 'Lifeguard',
         locationId: 'Pool',
     },
+    {
+        date: '10/06/2023',
+        startTime: '10:00am',
+        endTime: '4:00pm',
+        shiftType: 'Lifeguard',
+        locationId: 'Pool',
+    },
 ]

@@ -111,9 +111,11 @@ class MyShiftCardSwipe extends Component {
     };
 
     render() {
+        const { ShiftCardComponent } = this.props;
+
         return (
                 <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
-                    <EmployeeShiftCard date={"Fri Sep 22"} shiftType={"Head Guard"} startTime={"10:00am"} endTime={"6:30pm"} locationId={"Pool"} />
+                    {ShiftCardComponent}
                 </Swipeable>
         );
     }
