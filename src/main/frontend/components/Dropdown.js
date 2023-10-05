@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Modal} from 'react-native';
 import {useNavigation} from "@react-navigation/native";
-import {ScreenNames} from "../../utils/ScreenNames";
+import {ScreenNames} from "../utils/ScreenNames";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
 
-const ManagerEmployeeDropdown = ({ items, dropdownPress}) =>{
+
+function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, chvSize}){
     const [showDropdown, setShowDropdown] = useState(false);
-    const [selectedValue, setSelectedValue] = useState('SortBy: None');
+    const [selectedValue, setSelectedValue] = useState(items[0]);
     const options = items;
 
     const toggleDropdown = () => {
@@ -66,8 +67,6 @@ const ManagerEmployeeDropdown = ({ items, dropdownPress}) =>{
                 </View>
 
             </View>
-
-
         </View>
     );
 }
@@ -116,4 +115,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ManagerEmployeeDropdown;
+export default Dropdown;
