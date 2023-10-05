@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Animated, StyleSheet, Alert, View} from 'react-native';
+import {Animated, StyleSheet, Alert} from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
