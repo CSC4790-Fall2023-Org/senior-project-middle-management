@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import {View, StyleSheet} from 'react-native';
-import {ScreenNames} from "../../utils/ScreenNames";
 import ManagerEmployeeView from "./ManagerEmployeeView";
-import {useNavigation} from "@react-navigation/native";
 import Dropdown from "../Dropdown";
+
 const ManagerEmployeeDashboard = ({buttonTitle}) => {
     const options = ["SortBy: None", "SortBy: Name", "SortBy: Hours Worked" ]
 
@@ -18,15 +17,11 @@ const ManagerEmployeeDashboard = ({buttonTitle}) => {
         setSelectedIndex(index);
     }
 
-    const navigation = useNavigation();
-    const handleUserClick = () => {
-        navigation.navigate(ScreenNames.LOGIN);
-    }
     return(
         <View>
             <View style={styles.dropdownWrapper}>
                 <View style={styles.dropdownWrapperBorder}>
-                    <Dropdown items={options} dropdownPress={handleDropdownPress} left={10} top={278} width={210} fontSize={15} fontWht={"normal"} chvSize={20}/>
+                    <Dropdown items={options} dropdownPress={handleDropdownPress} left={16} top={169.5} width={200} fontSize={15} fontWht={"normal"} chvSize={20}/>
                 </View>
             </View>
             <ManagerEmployeeView selected={selectedEmployee} handleEmpPress={handleEmployeePress} />
@@ -36,12 +31,6 @@ const ManagerEmployeeDashboard = ({buttonTitle}) => {
 }
 
 const styles = StyleSheet.create({
-    buttonsContainer: {
-        paddingTop: 8,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-    },
     dropdownWrapper:{
         paddingTop:20,
         paddingLeft:16,
@@ -54,6 +43,8 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         width: 200,
         justifyContent: "center",
+        borderColor:"#ccc",
+        borderWidth:.5,
     },
 
 });

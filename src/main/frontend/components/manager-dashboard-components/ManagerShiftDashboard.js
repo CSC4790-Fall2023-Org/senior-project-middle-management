@@ -27,7 +27,6 @@ function ManagerShiftDashboard(){
         setSelectedIndex(index);
     }
 
-
     const navigation = useNavigation();
 
     const handleUserClick = () => {
@@ -49,7 +48,7 @@ function ManagerShiftDashboard(){
             </View>
             <View style={styles.dropdownWrapper}>
                 <View style={styles.dropdownWrapperBorder}>
-                    <Dropdown items={sortDropdown} dropdownPress={handleSortPress} left={10} top={290} width={200} fontSize={24} fontWht={"bold"} chvSize={32}/>
+                    <Dropdown items={sortDropdown} dropdownPress={handleSortPress} left={10} top={246.5} width={200} fontSize={24} fontWht={"bold"} chvSize={32}/>
                 </View>
             </View>
             <ManagerShiftView available={selectedIndex}/>
@@ -71,11 +70,12 @@ const styles = StyleSheet.create({
     },
     dropdownWrapperBorder:{
         backgroundColor:'#FFFFFF',
-        borderWidth: .5,
-        borderColor: '#ccc',
+        borderRadius: 10,
         overflow: 'hidden',
         width: 200,
-
+        justifyContent: "center",
+        borderColor:"#ccc",
+        borderWidth:.5,
     },
     addShiftButton: {
         marginLeft: 16,

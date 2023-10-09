@@ -60,8 +60,8 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
                                 <FontAwesomeIcon icon={faX} size={27.5} />
                             </TouchableOpacity>
                         </View>
-                        <View style={styles.modalLongInputContainer}>
-                            <Dropdown items={typeDropdown} dropdownPress={handleTypePress} width={250} left={70} top={260.} fontSize={15} fontWht={"normal"} chvSize={20}/>
+                        <View style={[styles.modalLongInputContainer, {borderRadius: 10}]}>
+                            <Dropdown items={typeDropdown} dropdownPress={handleTypePress} width={250} left={70} top={219} fontSize={15} fontWht={"normal"} chvSize={20}/>
                         </View>
                         <View style={styles.modalDoubleContainer}>
                             <View>
@@ -145,8 +145,8 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
                                     />
                                 </View>
                             </View>
-                            <View style={styles.modalShortDropdownContainer}>
-                                <Dropdown items={repeatsDropdown} dropdownPress={handleRepeatsPress} width={150} left={205} top={532.5} fontSize={15} fontWht={"normal"} chvSize={20}/>
+                            <View style={[styles.modalShortDropdownContainer, {borderRadius:10}]}>
+                                <Dropdown items={repeatsDropdown} dropdownPress={handleRepeatsPress} width={150} left={205} top={492} fontSize={15} fontWht={"normal"} chvSize={20}/>
                             </View>
                         </View>
                         <View style={styles.modalSingleLineContainer}>
@@ -279,9 +279,6 @@ const styles = StyleSheet.create({
     singleLineTextContainer:{
         marginTop:5,
     },
-    modalSubmit:{
-        alignSelf:'stretch',
-    }
 
 })
 
