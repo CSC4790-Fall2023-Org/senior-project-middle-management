@@ -1,18 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
-const tabs = [
-    {
-        id: 1,
-        text: 'Employees',
-    },
-    {
-        id: 2,
-        text: 'Shifts',
-    },
-];
 
-const ManagerDashboardHeader = ({onTitlePress}) => {
+const CustomDashboardHeader = ({onTitlePress, tabs}) => {
     const [selected, setSelected] = React.useState(0);
 
     return (
@@ -40,6 +30,11 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
         paddingTop: 20,
     },
+    loginButton: {
+        width: 200,
+        margin: 0,
+        fontWeight: "bold"
+    },
     text:{
         fontWeight: "bold",
         fontSize: 20,
@@ -52,4 +47,4 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
 });
-export default ManagerDashboardHeader;
+export default CustomDashboardHeader

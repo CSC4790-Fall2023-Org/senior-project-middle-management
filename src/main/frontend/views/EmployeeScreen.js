@@ -3,9 +3,9 @@ import {View, StyleSheet} from 'react-native';
 import CustomHeader from "../components/CustomHeader";
 import {ScreenNames} from "../utils/ScreenNames";
 import EmployeeHrsStatusBar from "../components/EmployeeHrsStatusBar";
-import EmployeeShiftHeader from "../components/EmployeeShiftHeader";
 import MyShiftList from "../components/MyShiftList";
 import AvailableShiftList from "../components/AvailableShiftList";
+import CustomDashboardHeader from "../components/CustomDashboardHeader";
 import employeeData from '../mockApiCalls/employeeData.json';
 import companyData from '../mockApiCalls/companyData.json';
 
@@ -16,10 +16,21 @@ function EmployeeScreen() {
         setSelectedIndex(index);
     }
 
+    const tabs = [
+        {
+            id: 1,
+            text: 'My Shifts',
+        },
+        {
+            id: 2,
+            text: 'Available',
+        },
+    ];
+
     return (
         <View style={styles.screen}>
             <CustomHeader title={"Employee Name"} page={ScreenNames.EMPLOYEE_SETTINGS} />
-            <EmployeeShiftHeader onTitlePress={handleTitlePress}/>
+            <CustomDashboardHeader onTitlePress={handleTitlePress} tabs={tabs}/>
             {selectedIndex === 0 && <MyShiftList />}
             {selectedIndex === 1 && <AvailableShiftList />}
             <EmployeeHrsStatusBar employee={employeeData} company={companyData} style={styles.statusBar}/>
