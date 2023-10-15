@@ -4,7 +4,7 @@ import ManagerEmployeeView from "./ManagerEmployeeView";
 import Dropdown from "../Dropdown";
 
 const ManagerEmployeeDashboard = ({buttonTitle}) => {
-    const options = ["SortBy: None", "SortBy: Name", "SortBy: Hours Worked" ]
+    const options = ["None", "Name", "Hours Worked" ]
 
     const [selectedIndex, setSelectedIndex] = useState('All');
 
@@ -21,7 +21,7 @@ const ManagerEmployeeDashboard = ({buttonTitle}) => {
         <View>
             <View style={styles.dropdownWrapper}>
                 <View style={styles.dropdownWrapperBorder}>
-                    <Dropdown items={options} dropdownPress={handleDropdownPress} left={16} top={169.5} width={200} fontSize={15} fontWht={"normal"} chvSize={20}/>
+                    <Dropdown items={options} dropdownPress={handleDropdownPress} left={16} top={164.5} width={200} fontSize={15} fontWht={"normal"} chvSize={20}/>
                 </View>
             </View>
             <ManagerEmployeeView selected={selectedEmployee} handleEmpPress={handleEmployeePress} />

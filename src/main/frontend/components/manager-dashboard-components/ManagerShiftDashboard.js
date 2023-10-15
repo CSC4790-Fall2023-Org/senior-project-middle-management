@@ -5,7 +5,7 @@ import {ScreenNames} from "../../utils/ScreenNames";
 import ManagerShiftView from "./ManagerShiftView";
 import CustomButton from "../CustomButton";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faCalendar} from "@fortawesome/free-solid-svg-icons";
+import {Calendar} from '../../utils/Icons';
 import Dropdown from "../Dropdown";
 import AddShiftPopup from "./AddShiftPopup";
 
@@ -43,12 +43,12 @@ function ManagerShiftDashboard(){
                     <CustomButton buttonText={"Add Shift"} handlePress={handlePressButton3} />
                 </View>
                 <TouchableOpacity onPress={handleUserClick}>
-                    <FontAwesomeIcon icon={faCalendar} size={36} style={styles.icon} />
+                    <FontAwesomeIcon icon={Calendar} size={36} style={styles.icon} />
                 </TouchableOpacity>
             </View>
             <View style={styles.dropdownWrapper}>
                 <View style={styles.dropdownWrapperBorder}>
-                    <Dropdown items={sortDropdown} dropdownPress={handleSortPress} left={10} top={246.5} width={200} fontSize={24} fontWht={"bold"} chvSize={32}/>
+                    <Dropdown items={sortDropdown} dropdownPress={handleSortPress} left={10} top={237} width={200} fontSize={24} fontWht={"bold"} chvSize={32}/>
                 </View>
             </View>
             <ManagerShiftView available={selectedIndex}/>
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     buttonsContainer: {
         paddingTop: 10,
         flexDirection: "row",
-        justifyContent: "space-evenly",
+        justifyContent: "space-between",
         alignItems: "center",
     },
     dropdownWrapper:{
@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginRight: 16,
+        color: '#50C878',
     },
 
 });
