@@ -3,7 +3,7 @@ import {StyleSheet, Text, View} from "react-native";
 
 const EmployeeHrsStatusBar = (props) => {
     const bottomBarWidth = 272;
-    const percentage = props.loggedHours/props.maxWorkableHours;
+    const percentage = props.employee.weekHours/props.company.maxEmployeeHours;
     const topBarWidth = bottomBarWidth * percentage;
     return (
         <View style={styles.container}>
@@ -13,7 +13,7 @@ const EmployeeHrsStatusBar = (props) => {
                 </View>
             </View>
             <View style={styles.rightContainer}>
-                <Text style={styles.text}>{props.loggedHours}/{props.maxWorkableHours}</Text>
+                <Text style={styles.text}>{props.employee.weekHours}/{props.company.maxEmployeeHours}</Text>
             </View>
         </View>
     );

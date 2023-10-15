@@ -6,8 +6,8 @@ import EmployeeHrsStatusBar from "../components/EmployeeHrsStatusBar";
 import EmployeeShiftHeader from "../components/EmployeeShiftHeader";
 import MyShiftList from "../components/MyShiftList";
 import AvailableShiftList from "../components/AvailableShiftList";
-import employeeData from '../mockApiCalls/employeeData';
-import companyData from '../mockApiCalls/companyData';
+import employeeData from '../mockApiCalls/employeeData.json';
+import companyData from '../mockApiCalls/companyData.json';
 
 function EmployeeScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -22,7 +22,7 @@ function EmployeeScreen() {
             <EmployeeShiftHeader onTitlePress={handleTitlePress}/>
             {selectedIndex === 0 && <MyShiftList />}
             {selectedIndex === 1 && <AvailableShiftList />}
-            <EmployeeHrsStatusBar loggedHours={employeeData.weekHours} maxWorkableHours={companyData.maxEmployeeHours} style={styles.statusBar}/>
+            <EmployeeHrsStatusBar employee={employeeData} company={companyData} style={styles.statusBar}/>
         </View>
     );
 }
