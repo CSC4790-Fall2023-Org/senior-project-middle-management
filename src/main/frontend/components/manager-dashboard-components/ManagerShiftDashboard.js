@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {View, Text, Modal, TouchableOpacity, StyleSheet, TextInput} from 'react-native'
+import {View, TouchableOpacity, StyleSheet} from 'react-native'
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../../utils/ScreenNames";
 import ManagerShiftView from "./ManagerShiftView";
@@ -43,7 +43,7 @@ function ManagerShiftDashboard(){
                     <CustomButton buttonText={"Add Shift"} handlePress={handlePressButton3} />
                 </View>
                 <TouchableOpacity onPress={handleUserClick}>
-                    <FontAwesomeIcon icon={Calendar} size={36} style={styles.icon} />
+                    <FontAwesomeIcon icon={Calendar} size={48} style={styles.icon} />
                 </TouchableOpacity>
             </View>
             <View style={styles.dropdownWrapper}>
@@ -65,20 +65,21 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     dropdownWrapper:{
-        paddingTop: 10,
-        left:10
+        paddingLeft: 16,
+        paddingTop: 8,
+        paddingBottom: 8,
     },
     dropdownWrapperBorder:{
-        backgroundColor:'#FFFFFF',
+        backgroundColor: '#FFFFFF',
         borderRadius: 10,
         overflow: 'hidden',
         width: 200,
         justifyContent: "center",
-        borderColor:"#ccc",
-        borderWidth:.5,
+        borderColor: "#ccc",
+        borderWidth: .5,
     },
     addShiftButton: {
-        marginLeft: 16,
+        paddingLeft: 16,
     },
     icon: {
         marginRight: 16,

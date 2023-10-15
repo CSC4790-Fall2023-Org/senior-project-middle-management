@@ -94,13 +94,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems:"center",
         padding: 12,
-        paddingHorizontal: 16,
         height: 42,
     },
     dropdownModal: {
         position: 'absolute',
-        //elevation: 5,
-        //zIndex: 1,
         borderWidth: .5,
         backgroundColor:'#FFFFFF',
         borderColor:"#ccc",

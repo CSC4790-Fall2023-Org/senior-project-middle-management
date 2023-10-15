@@ -4,7 +4,7 @@ import ManagerEmployeeView from "./ManagerEmployeeView";
 import Dropdown from "../Dropdown";
 
 const ManagerEmployeeDashboard = ({buttonTitle}) => {
-    const options = ["None", "Name", "Hours Worked" ]
+    const options = ["Default", "Name", "Hours Worked" ]
 
     const [selectedIndex, setSelectedIndex] = useState('All');
 
@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
         paddingLeft:16,
         paddingBottom: 16,
     },
-
     dropdownWrapperBorder:{
         backgroundColor:'#FFFFFF',
         borderRadius: 10,
@@ -46,6 +45,5 @@ const styles = StyleSheet.create({
         borderColor:"#ccc",
         borderWidth:.5,
     },
-
 });
 export default ManagerEmployeeDashboard;
