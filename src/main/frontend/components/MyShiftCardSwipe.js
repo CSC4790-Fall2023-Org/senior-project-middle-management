@@ -5,7 +5,7 @@ import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {CalendarDelete, Transfer} from "../utils/Icons";
-import {whiteColor, blueAction, destructiveAction} from "../utils/colors";
+import {whiteColor, blueAction, destructiveAction} from "../utils/Colors";
 import ShiftCard from "./ShiftCard";
 
 class MyShiftCardSwipe extends Component {

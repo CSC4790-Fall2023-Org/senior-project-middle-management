@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from "react-native";
-import {whiteColor} from "../utils/colors";
+import {whiteColor} from "../utils/Colors";
 
 const ShiftCard = ({date, startTime, endTime, shiftType, locationId}) => {
     //TODO: calc shift hours to pass into card

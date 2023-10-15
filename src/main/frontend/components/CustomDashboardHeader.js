@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {primaryGreen} from "../utils/colors";
+import {primaryGreen} from "../utils/Colors";
 
 
 const CustomDashboardHeader = ({onTitlePress, tabs}) => {
