@@ -9,9 +9,6 @@ import {Calendar} from '../../utils/Icons';
 import Dropdown from "../Dropdown";
 import AddShiftPopup from "./AddShiftPopup";
 
-
-
-
 function ManagerShiftDashboard(){
     const sortDropdown = ['All', 'Open', 'Taken'];
 
