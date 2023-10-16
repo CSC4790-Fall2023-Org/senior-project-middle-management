@@ -2,7 +2,7 @@ import ShiftCard from "./ShiftCard";
 import {ScrollView, StyleSheet} from "react-native";
 import React from "react";
 import AvailableShiftCardSwipe from "./AvailableShiftCardSwipe";
-import shifts from "../mockApiCalls/availableShiftCardData";
+import shifts from "../mockApiCalls/availableShiftCardData.json";
 
 
 const AvailableShiftList = () => {
