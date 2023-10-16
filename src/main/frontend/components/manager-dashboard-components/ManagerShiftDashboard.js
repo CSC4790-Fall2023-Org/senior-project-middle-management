@@ -8,7 +8,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faCalendar} from "@fortawesome/free-solid-svg-icons";
 import Dropdown from "../Dropdown";
 import AddShiftPopup from "./AddShiftPopup";
-import {whiteColor} from "../../utils/Colors";
+import {secondaryGray, whiteColor} from "../../utils/Colors";
 
 
 
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     dropdownWrapperBorder:{
         backgroundColor: whiteColor,
         borderWidth: .5,
-        borderColor: '#ccc',
+        borderColor: secondaryGray,
         overflow: 'hidden',
         width: 200,
 

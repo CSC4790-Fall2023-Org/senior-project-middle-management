@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../utils/ScreenNames";
 import {ChevronLeft} from "../utils/Icons";
+import {secondaryGray} from "../utils/Colors";
 
 function ManagerSettingsScreen() {
     const navigation = useNavigation();
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         alignItems: "flex-end",
         borderBottomWidth: 1,
-        borderBottomColor: '#dddddd',
+        borderBottomColor: secondaryGray,
     },
     headerText: {
         color: "black",

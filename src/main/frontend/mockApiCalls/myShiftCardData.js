@@ -16,7 +16,7 @@ export default [
         locationId: 'Pool',
     },
     {
-        shfitId: '789',
+        shiftId: '789',
         date: '10/05/2023',
         startTime: '4:00pm',
         endTime: '10:00pm',
