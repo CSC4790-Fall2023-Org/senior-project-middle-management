@@ -5,6 +5,7 @@ import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {CalendarDelete, Transfer} from "../utils/Icons";
+import {whiteColor, blueAction, destructiveAction} from "../utils/Colors";
 import ShiftCard from "./ShiftCard";
 
 class MyShiftCardSwipe extends Component {
@@ -80,7 +81,7 @@ class MyShiftCardSwipe extends Component {
                             transform: [{ translateX: trans }],
                         },
                     ]}>
-                    <FontAwesomeIcon icon={Transfer} size={36} color={'#FFFFFF'}/>
+                    <FontAwesomeIcon icon={Transfer} size={36} color={whiteColor}/>
                 </Animated.Text>
             </RectButton>
         );
@@ -100,7 +101,7 @@ class MyShiftCardSwipe extends Component {
                             transform: [{ translateX: trans }],
                         },
                     ]}>
-                    <FontAwesomeIcon icon={CalendarDelete} size={36} color={'#FFFFFF'}/>
+                    <FontAwesomeIcon icon={CalendarDelete} size={36} color={whiteColor}/>
                 </Animated.Text>
             </RectButton>
         );
@@ -121,7 +122,7 @@ const styles= StyleSheet.create({
     leftAction: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#4A7AFF',
+        backgroundColor: blueAction,
         justifyContent: 'center',
         height: ShiftCard.height,
         margin: 16,
@@ -135,7 +136,7 @@ const styles= StyleSheet.create({
     },
     rightAction: {
         flex: 1,
-        backgroundColor: '#DA1717',
+        backgroundColor: destructiveAction,
         justifyContent: 'center',
         alignItems: 'flex-end',
         height: ShiftCard.height,

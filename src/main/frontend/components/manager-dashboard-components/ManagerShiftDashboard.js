@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {View, Text, Modal, TouchableOpacity, StyleSheet, TextInput} from 'react-native'
+import {View, TouchableOpacity, StyleSheet} from 'react-native'
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../../utils/ScreenNames";
 import ManagerShiftView from "./ManagerShiftView";
@@ -8,6 +8,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faCalendar} from "@fortawesome/free-solid-svg-icons";
 import Dropdown from "../Dropdown";
 import AddShiftPopup from "./AddShiftPopup";
+import {secondaryGray, whiteColor} from "../../utils/Colors";
 
 
 
@@ -70,9 +71,9 @@ const styles = StyleSheet.create({
         left:10
     },
     dropdownWrapperBorder:{
-        backgroundColor:'#FFFFFF',
+        backgroundColor: whiteColor,
         borderWidth: .5,
-        borderColor: '#ccc',
+        borderColor: secondaryGray,
         overflow: 'hidden',
         width: 200,
 

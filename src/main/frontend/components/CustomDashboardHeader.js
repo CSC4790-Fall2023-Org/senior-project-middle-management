@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {primaryGreen} from "../utils/Colors";
 
 
 const CustomDashboardHeader = ({onTitlePress, tabs}) => {
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
     underline: {
         width: '100%',
         borderBottomWidth: 4,
-        borderBottomColor: '#50C878',
+        borderBottomColor: primaryGreen,
         borderRadius: 10
     },
 });
