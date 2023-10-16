@@ -5,6 +5,7 @@ import ManagerEmployeeView from "./ManagerEmployeeView";
 import {useNavigation} from "@react-navigation/native";
 import Dropdown from "../Dropdown";
 import {whiteColor} from "../../utils/Colors";
+
 const ManagerEmployeeDashboard = ({buttonTitle}) => {
     const options = ["SortBy: None", "SortBy: Name", "SortBy: Hours Worked" ]
 

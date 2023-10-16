@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {View, Text, Modal, TouchableOpacity, StyleSheet, TextInput} from 'react-native'
+import {View, TouchableOpacity, StyleSheet} from 'react-native'
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../../utils/ScreenNames";
 import ManagerShiftView from "./ManagerShiftView";

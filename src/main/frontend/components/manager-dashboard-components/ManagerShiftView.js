@@ -2,7 +2,6 @@ import {ScrollView, StyleSheet} from "react-native";
 import React from "react";
 import ShiftCard from "../ShiftCard";
 
-
 const ManagerShiftView = ({available}) => {
     return(
         <ScrollView style={styles.scrollView}>

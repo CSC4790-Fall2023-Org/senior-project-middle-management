@@ -3,7 +3,6 @@ import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {primaryGreen} from "../utils/Colors";
 
-
 const CustomRedirectButton = ({ buttonText, page }) => {
     const navigation = useNavigation();
 

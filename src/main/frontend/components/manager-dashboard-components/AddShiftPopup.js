@@ -9,11 +9,11 @@ import {
     Keyboard
 } from "react-native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faX} from "@fortawesome/free-solid-svg-icons";
+import {X} from '../../utils/Icons';
 import Dropdown from "../Dropdown";
 import CustomButton from "../CustomButton";
 import React, {useState} from "react";
-import {grayBackground} from "../../utils/Colors";
+import {grayBackground, whiteColor} from "../../utils/Colors";
 
 const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
     const typeDropdown = ["Head Lifeguard", "Lifeguard"]
@@ -58,7 +58,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
                         <View style={styles.modalTopContainer}>
                             <Text style={styles.modalTitleText}>Type:</Text>
                             <TouchableOpacity onPress={handlePressButton}>
-                                <FontAwesomeIcon icon={faX} size={27.5} />
+                                <FontAwesomeIcon icon={X} size={27.5} />
                             </TouchableOpacity>
                         </View>
                         <View style={styles.modalLongInputContainer}>
@@ -175,115 +175,111 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
 }
 
 const styles = StyleSheet.create({
-    modal:{
-        position:"relative",
+    modal: {
+        position: "relative",
         backgroundColor: grayBackground,
-        borderRadius:20,
-        borderStyle:"solid",
-        borderColor:"#ccc",
+        borderRadius: 20,
+        borderStyle: "solid",
+        borderColor: "#ccc",
         flexDirection: "column",
-        alignItems:'center',
-        justifyContent:'center',
+        alignItems: 'center',
+        justifyContent: 'center',
         padding: 10,
-        // alignSelf:'center',
     },
-    overlay:{
+    overlay: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-
     },
-    modalLongTitleContainer:{
-        alignItems:"flex-start",
-        padding:10,
-        width:350,
+    modalLongTitleContainer: {
+        alignItems: "flex-start",
+        padding: 10,
+        width: 350,
     },
-    modalTopContainer:{
-        flexDirection:"row",
-        alignItems:"center",
+    modalTopContainer: {
+        flexDirection: "row",
+        alignItems: "center",
         justifyContent: 'space-between',
-        padding:10,
-        width:350,
+        padding: 10,
+        width: 350,
     },
     modalTitleText: {
         fontSize: 24,
         fontWeight: "600",
         marginBottom: 10,
     },
-    modalLongInputContainer:{
-        backgroundColor:"#FFFFFF",
-        borderColor:"#ccc",
-        borderWidth:.5,
-        borderStyle:"solid",
+    modalLongInputContainer: {
+        backgroundColor: whiteColor,
+        borderColor: "#ccc",
+        borderWidth: .5,
+        borderStyle: "solid",
         justifyContent: 'center',
         alignItems: 'center',
-        width:250,
+        width: 250,
     },
-    modalDoubleContainer:{
+    modalDoubleContainer: {
         flexDirection: "row",
-        alignItems:'center',
-        justifyContent:'flex-start',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
     },
-    modalShortInputContainer:{
+    modalShortInputContainer: {
         padding: 5,
-        backgroundColor:"#FFFFFF",
-        borderColor:"#ccc",
-        borderWidth:.5,
-        borderStyle:"solid",
+        backgroundColor: whiteColor,
+        borderColor: "#ccc",
+        borderWidth: .5,
+        borderStyle: "solid",
         justifyContent: 'center',
         alignItems: 'center',
-        width:150,
-        left:10,
+        width: 150,
+        left: 10,
     },
-    modalShortDropdownContainer:{
-        backgroundColor:"#FFFFFF",
-        borderColor:"#ccc",
-        borderWidth:.5,
-        borderStyle:"solid",
+    modalShortDropdownContainer: {
+        backgroundColor: whiteColor,
+        borderColor: "#ccc",
+        borderWidth: .5,
+        borderStyle: "solid",
         justifyContent: 'center',
         alignItems: 'center',
-        width:150,
-        left:10,
+        width: 150,
+        left: 10,
     },
-    modalVeryShortInputContainer:{
-        backgroundColor:"#FFFFFF",
-        borderColor:"#ccc",
-        borderWidth:.5,
-        borderStyle:"solid",
+    modalVeryShortInputContainer: {
+        backgroundColor: whiteColor,
+        borderColor: "#ccc",
+        borderWidth: .5,
+        borderStyle: "solid",
         justifyContent: 'center',
         alignItems: 'center',
-        width:50,
-        left:10,
-        padding:5,
+        width: 50,
+        left: 10,
+        padding: 5,
     },
-    modalShortTitleContainer:{
-        alignItems:"flex-start",
-        padding:10,
-        width:175,
+    modalShortTitleContainer: {
+        alignItems: "flex-start",
+        padding: 10,
+        width: 175,
     },
-    modalRepeatsContainer:{
+    modalRepeatsContainer: {
         flexDirection: 'row',
-        alignItems:'center',
-        justifyContent:"space-between",
-        width:300,
-        paddingBottom:10,
-        // paddingRight:10,
+        alignItems: 'center',
+        justifyContent: "space-between",
+        width: 300,
+        paddingBottom: 10,
     },
-    modalSingleLineContainer:{
+    modalSingleLineContainer: {
         flexDirection: "row",
-        alignItems:'center',
-        justifyContent:'space-evenly',
-        width:350,
-        padding:10,
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        width: 350,
+        padding: 10,
     },
-    singleLineTextContainer:{
-        marginTop:5,
+    singleLineTextContainer: {
+        marginTop: 5,
     },
-    modalSubmit:{
-        alignSelf:'stretch',
-    }
-
+    modalSubmit: {
+        alignSelf: 'stretch',
+    },
 })
 
 export default AddShiftPopup

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import React from 'react';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import ManagerEmployeeCard from "./ManagerEmployeeCard";
 
 const ManagerEmployeeView = ({ selected, handleEmpPress}) =>{
