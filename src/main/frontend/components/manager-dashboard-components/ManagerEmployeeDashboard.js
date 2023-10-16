@@ -4,6 +4,7 @@ import {ScreenNames} from "../../utils/ScreenNames";
 import ManagerEmployeeView from "./ManagerEmployeeView";
 import {useNavigation} from "@react-navigation/native";
 import Dropdown from "../Dropdown";
+import {whiteColor} from "../../utils/Colors";
 const ManagerEmployeeDashboard = ({buttonTitle}) => {
     const options = ["SortBy: None", "SortBy: Name", "SortBy: Hours Worked" ]
 
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     },
 
     dropdownWrapperBorder:{
-        backgroundColor:'#FFFFFF',
+        backgroundColor: whiteColor,
         borderRadius: 10,
         overflow: 'hidden',
         width: 200,

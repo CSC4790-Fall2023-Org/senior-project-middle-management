@@ -8,6 +8,7 @@ import AvailableShiftList from "../components/AvailableShiftList";
 import CustomDashboardHeader from "../components/CustomDashboardHeader";
 import employeeData from '../mockApiCalls/employeeData.json';
 import companyData from '../mockApiCalls/companyData.json';
+import {grayBackground} from "../utils/Colors";
 
 function EmployeeScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -40,7 +41,7 @@ function EmployeeScreen() {
 
 const styles = StyleSheet.create({
     screen: {
-        backgroundColor: '#F1F1F1',
+        backgroundColor: grayBackground,
         display: "flex",
         flexDirection: "column",
         flex: 1,

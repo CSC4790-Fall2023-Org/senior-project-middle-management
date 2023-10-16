@@ -13,6 +13,7 @@ import {faX} from "@fortawesome/free-solid-svg-icons";
 import Dropdown from "../Dropdown";
 import CustomButton from "../CustomButton";
 import React, {useState} from "react";
+import {grayBackground} from "../../utils/Colors";
 
 const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
     const typeDropdown = ["Head Lifeguard", "Lifeguard"]
@@ -176,7 +177,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
 const styles = StyleSheet.create({
     modal:{
         position:"relative",
-        backgroundColor:'#F1F1F1',
+        backgroundColor: grayBackground,
         borderRadius:20,
         borderStyle:"solid",
         borderColor:"#ccc",

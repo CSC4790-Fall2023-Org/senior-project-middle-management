@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from "react-native";
+import {primaryGreen, secondaryGray, whiteColor} from "../utils/Colors";
 
 const EmployeeHrsStatusBar = (props) => {
     const bottomBarWidth = 272;
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         height: 80,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: whiteColor,
         paddingTop: 20,
         marginTop: 12,
     },
@@ -42,12 +43,12 @@ const styles = StyleSheet.create({
     },
     bottomBar: {
         height: 16,
-        backgroundColor: '#D9D9D9',
+        backgroundColor: secondaryGray,
         borderRadius: 10,
     },
     topBar: {
         height: 16,
-        backgroundColor: '#50C878',
+        backgroundColor: primaryGreen,
         borderRadius: 10,
     },
     text: {
