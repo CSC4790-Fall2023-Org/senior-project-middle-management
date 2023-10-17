@@ -13,58 +13,37 @@ public class ManagerServices {
 
     public static ResponseEntity createManager(final String pPayload) {
         Manager manager;
+        ResponseEntity response = null;
+
         try {
             manager = JsonUtils.getManagerFromJSON(new JSONObject(pPayload));
-        } catch (SvcException | JSONException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
-
-        try {
             ValidationServices.validateCreateManager(manager);
-        } catch (SvcException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
-
-        try {
             DatabaseServices.saveManager(manager);
-        } catch (DatabaseException e) {
+            response = ResponseEntity.status(200).body("Manager created successfully");
+        } catch (SvcException | JSONException | DatabaseException e) {
             e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
+            response = ResponseEntity.status(400).body(e.getMessage());
         }
 
-        return ResponseEntity.status(200).body("Manager created successfully");
+        return response;
     }
 
     public static ResponseEntity deleteManager(final String pPayload) {
-
         Manager manager;
         ObjectId managerId;
+        ResponseEntity response = null;
+
         try {
             managerId = JsonUtils.getManagerIdFromJSON(new JSONObject(pPayload));
-        }
-        catch (SvcException | JSONException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
-
-        try {
             manager = DatabaseServices.findManagerById(managerId)
                     .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_MANAGER, managerId));
-        }
-        catch (DatabaseException e) {
+            ValidationServices.validateDeleteManager(manager);
+            response = ResponseEntity.status(200).body("Manager deleted successfully");
+        } catch (SvcException | JSONException | DatabaseException e) {
             e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
+            response = ResponseEntity.status(400).body(e.getMessage());
         }
 
-        try {
-            ValidationServices.validateDeleteManager(manager);
-        }
-        catch (SvcException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
-        return ResponseEntity.status(200).body("Manager deleted successfully");
+        return response;
     }
 }
