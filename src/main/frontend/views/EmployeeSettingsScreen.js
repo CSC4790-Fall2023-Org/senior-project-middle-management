@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../utils/ScreenNames";
 import {ChevronLeft} from "../utils/Icons";
-import {secondaryGray} from "../utils/Colors";
+import {black, grayAction, secondaryGray, white} from "../utils/Colors";
+import employeeData from '../mockApiCalls/employeeData.json';
 
 function EmployeeSettingsScreen() {
     const navigation = useNavigation();
@@ -21,6 +22,26 @@ function EmployeeSettingsScreen() {
                 </TouchableOpacity>
                 <Text style={styles.headerText}>Settings</Text>
             </View>
+            <View>
+                <View style={styles.settingContainer}>
+                    <TouchableOpacity style={styles.settingItem}>
+                        <Text style={styles.settingLabel}>Name</Text>
+                        <Text style={styles.labelValue}>{employeeData.fName + ' ' + employeeData.lName}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.settingItem}>
+                        <Text style={styles.settingLabel}>Email</Text>
+                        <Text style={styles.labelValue}>{employeeData.email}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.settingItem}>
+                        <Text style={styles.settingLabel}>Phone Number</Text>
+                        <Text style={styles.labelValue}>{employeeData.phoneNumber}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.settingItem}>
+                        <Text style={styles.settingLabel}>Notifications</Text>
+                        <Text style={styles.labelValue}>{employeeData.phoneNumber}</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
         </View>
     );
 }
@@ -31,24 +52,47 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         height: 100,
-        backgroundColor: "white",
+        backgroundColor: white,
         alignItems: "flex-end",
         borderBottomWidth: 1,
         borderBottomColor: secondaryGray,
     },
     headerText: {
-        color: "black",
+        color: black,
         fontSize: 24,
         marginBottom: 12,
         fontWeight: 'bold',
     },
     icon: {
-        color: 'black',
+        color: black,
         position: 'absolute',
         left: 12,
         bottom: 12,
         width: 48,
-    }
+    },
+    settingContainer: {
+        backgroundColor: white,
+        margin: 16,
+        borderRadius: 10,
+    },
+    settingItem: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingTop: 14,
+        paddingBottom: 14,
+        borderBottomWidth: 0.25,
+        borderBottomColor: secondaryGray,
+    },
+    settingLabel: {
+        color: black,
+        fontSize: 16,
+        paddingLeft: 16,
+    },
+    labelValue: {
+        color: grayAction,
+        fontSize: 16,
+        paddingRight: 16,
+    },
 });
 
 export default EmployeeSettingsScreen;

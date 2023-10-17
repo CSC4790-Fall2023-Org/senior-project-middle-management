@@ -4,7 +4,7 @@ import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../utils/ScreenNames";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
-import {primaryGreen, secondaryGray, whiteColor} from "../utils/Colors";
+import {primaryGreen, secondaryGray, white} from "../utils/Colors";
 
 
 function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, chvSize}){
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         elevation: 5,
         zIndex: 1,
-        backgroundColor: whiteColor,
+        backgroundColor: white,
 
     },
     dropdownOptions:{
