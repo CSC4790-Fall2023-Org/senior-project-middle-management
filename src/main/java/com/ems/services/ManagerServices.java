@@ -13,19 +13,28 @@ public class ManagerServices {
 
     public static ResponseEntity createManager(final String pPayload) {
         Manager manager;
-        ResponseEntity response = null;
-
         try {
             manager = JsonUtils.getManagerFromJSON(new JSONObject(pPayload));
-            ValidationServices.validateCreateManager(manager);
-            DatabaseServices.saveManager(manager);
-            response = ResponseEntity.status(200).body("Manager created successfully");
-        } catch (SvcException | JSONException | DatabaseException e) {
+        } catch (SvcException | JSONException e) {
             e.printStackTrace();
-            response = ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(400).body(e.getMessage());
         }
 
-        return response;
+        try {
+            ValidationServices.validateCreateManager(manager);
+        } catch (SvcException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+
+        try {
+            DatabaseServices.saveManager(manager);
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+
+        return ResponseEntity.status(200).body("Manager created successfully");
     }
 
     public static ResponseEntity deleteManager(final String pPayload) {
