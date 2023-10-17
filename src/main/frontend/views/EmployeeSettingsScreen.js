@@ -1,9 +1,9 @@
 import React from "react";
-import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, ScrollView} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../utils/ScreenNames";
-import {ChevronLeft} from "../utils/Icons";
+import {ChevronLeft, ChevronRight} from "../utils/Icons";
 import {black, grayAction, secondaryGray, white} from "../utils/Colors";
 import employeeData from '../mockApiCalls/employeeData.json';
 
@@ -22,7 +22,7 @@ function EmployeeSettingsScreen() {
                 </TouchableOpacity>
                 <Text style={styles.headerText}>Settings</Text>
             </View>
-            <View>
+            <ScrollView style={styles.pageScroll}>
                 <View style={styles.settingContainer}>
                     <TouchableOpacity style={styles.settingItem}>
                         <Text style={styles.settingLabel}>Name</Text>
@@ -36,12 +36,14 @@ function EmployeeSettingsScreen() {
                         <Text style={styles.settingLabel}>Phone Number</Text>
                         <Text style={styles.labelValue}>{employeeData.phoneNumber}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.settingItem}>
+                    <TouchableOpacity style={[styles.settingItem, {borderBottomWidth: 0}]}>
                         <Text style={styles.settingLabel}>Notifications</Text>
-                        <Text style={styles.labelValue}>{employeeData.phoneNumber}</Text>
+                        <View style={{paddingRight: 16}}>
+                            <FontAwesomeIcon icon={ChevronRight} size={16} style={styles.labelValue}/>
+                        </View>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </ScrollView>
         </View>
     );
 }
@@ -69,6 +71,9 @@ const styles = StyleSheet.create({
         left: 12,
         bottom: 12,
         width: 48,
+    },
+    pageScroll: {
+        height: "100%",
     },
     settingContainer: {
         backgroundColor: white,
