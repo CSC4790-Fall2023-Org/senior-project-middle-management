@@ -52,11 +52,11 @@ public class ManagerServices {
             // validate the manager deletion
             ValidationServices.validateDeleteManager(manager);
 
-            //manager deletion is successful
-            return ResponseEntity.status(200).body("Manager deleted successfully");
         } catch (SvcException | JSONException | DatabaseException e) {
             e.printStackTrace();
             return ResponseEntity.status(400).body(e.getMessage());
         }
+        //manager deletion is successful
+        return ResponseEntity.status(200).body("Manager deleted successfully");
     }
 }
