@@ -9,7 +9,7 @@ import {
     Keyboard
 } from "react-native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {X} from '../../utils/Icons';
+import {XMark} from '../../utils/Icons';
 import Dropdown from "../Dropdown";
 import CustomButton from "../CustomButton";
 import React, {useState} from "react";
@@ -58,7 +58,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
                         <View style={styles.modalTopContainer}>
                             <Text style={styles.modalTitleText}>Type:</Text>
                             <TouchableOpacity onPress={handlePressButton}>
-                                <FontAwesomeIcon icon={X} size={27.5} />
+                                <FontAwesomeIcon icon={XMark} size={27.5} />
                             </TouchableOpacity>
                         </View>
                         <View style={styles.modalLongInputContainer}>
