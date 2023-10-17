@@ -1,7 +1,10 @@
 package com.ems.database.models;
 
 
+import com.ems.Exceptions.SvcException;
+import com.ems.Utils.JsonUtils;
 import org.bson.types.ObjectId;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.data.annotation.Id;
@@ -14,9 +17,6 @@ public class Employee {
 
     @Id
     private ObjectId employeeId;
-    @Field
-    private String employeeName;
-
     private String firstName;
     @Field
     private String lastName;
@@ -33,13 +33,13 @@ public class Employee {
     @Field
     private ObjectId organizationId;
     @Field
-    private List<Location> locationList;
+    private List<ObjectId> locationIdList;
     @Field
     private List<ObjectId>  shiftIdList;
     public Employee() {
     }
 
-    public Employee(ObjectId employeeId, String firstName, String lastName, String employeeEmail, String employeePhoneNumber, String employeeType, double loggedHours, double pay, ObjectId organizationId, List<Location> locationList, List<ObjectId> shiftIdList) {
+    public Employee(ObjectId employeeId, String firstName, String lastName, String employeeEmail, String employeePhoneNumber, String employeeType, double loggedHours, double pay, ObjectId organizationId, List<ObjectId> locationIdList, List<ObjectId> shiftIdList) {
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -49,11 +49,11 @@ public class Employee {
         this.loggedHours = loggedHours;
         this.pay = pay;
         this.organizationId = organizationId;
-        this.locationList = locationList;
+        this.locationIdList = locationIdList;
         this.shiftIdList = shiftIdList;
     }
 
-    public Employee(String firstName, String lastName, String employeeEmail, String employeePhoneNumber, String employeeType, double loggedHours, double pay, ObjectId organizationId, List<Location> locationList, List<ObjectId> shiftIdList) {
+    public Employee(String firstName, String lastName, String employeeEmail, String employeePhoneNumber, String employeeType, double loggedHours, double pay, ObjectId organizationId, List<ObjectId> locationIdList, List<ObjectId> shiftIdList) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.employeeEmail = employeeEmail;
@@ -62,11 +62,11 @@ public class Employee {
         this.loggedHours = loggedHours;
         this.pay = pay;
         this.organizationId = organizationId;
-        this.locationList = locationList;
+        this.locationIdList = locationIdList;
         this.shiftIdList = shiftIdList;
     }
 
-    public Employee(final JSONObject pJsonObject) throws JSONException {
+    public Employee(final JSONObject pJsonObject) throws JSONException, SvcException {
         this.firstName = (String) pJsonObject.get("firstName");
         this.lastName = (String) pJsonObject.get("lastName");
         this.employeeEmail = (String) pJsonObject.get("employeeEmail");
@@ -75,10 +75,7 @@ public class Employee {
         this.loggedHours = 0;
         this.pay = (double) pJsonObject.get("pay");
         this.organizationId = new ObjectId(pJsonObject.getString("organizationId"));
-        ObjectId locationId = new ObjectId(pJsonObject.getString("locationId"));
-        String locationName = pJsonObject.getString("locationName");
-        double maxHours = pJsonObject.getDouble("maxHours");
-        this.locationList = List.of(new Location(locationId, locationName, maxHours));
+        this.locationIdList = JsonUtils.getLocationIdListFromJson(new JSONArray(pJsonObject.get("locationIdList").toString()));
         this.shiftIdList = List.of();
     }
 
@@ -118,8 +115,8 @@ public class Employee {
         this.organizationId = organizationId;
     }
 
-    public void setLocationList(List<Location> locationList) {
-        this.locationList = locationList;
+    public void setLocationIdList(List<ObjectId> locationIdList) {
+        this.locationIdList = locationIdList;
     }
 
     public void setShiftIdList(List<ObjectId> shiftIdList) {
@@ -162,8 +159,8 @@ public class Employee {
         return organizationId;
     }
 
-    public List<Location> getLocationList() {
-        return locationList;
+    public List<ObjectId> getLocationIdList() {
+        return locationIdList;
     }
 
     public List<ObjectId> getShiftIdList() {
@@ -182,7 +179,7 @@ public class Employee {
                 ", loggedHours=" + loggedHours +
                 ", pay=" + pay +
                 ", organizationId=" + organizationId +
-                ", locationIdList=" + locationList +
+                ", locationIdList=" + locationIdList +
                 ", shiftIdList=" + shiftIdList +
                 '}';
     }

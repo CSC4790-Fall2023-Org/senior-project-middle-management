@@ -7,13 +7,12 @@ import com.ems.database.models.*;
 import org.bson.types.ObjectId;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ValidationServices {
 
     public static void validateEmployeeCanAcceptToShift(final Employee pEmployee, final Shift pShift, final Organization pOrganization) throws SvcException {
         // employee and shift belong to same location
-        if (pEmployee.getLocationList().stream().noneMatch(location -> location.getLocationId().equals(pShift.getLocationId()))) {
+        if (pEmployee.getLocationIdList().stream().noneMatch(location -> location.equals(pShift.getLocationId()))) {
             throw new SvcException("error");
         }
 
@@ -32,10 +31,12 @@ public class ValidationServices {
         }
 
         // employees current hours is less than locations limit
+        Location location = pOrganization.getLocationList().stream()
+                .filter(l -> l.getLocationId().equals(pShift.getLocationId()))
+                .findFirst().get();
+
         if (pEmployee.getLoggedHours() >
-                pEmployee.getLocationList().stream()
-                        .filter(location -> location.getLocationId().equals(pShift.getLocationId())).findFirst().get()
-                        .getMaxHours()){
+                location.getMaxHours()){
             throw new SvcException("error");
         }
     }
