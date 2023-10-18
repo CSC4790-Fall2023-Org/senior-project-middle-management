@@ -167,16 +167,16 @@ const styles = StyleSheet.create({
         fontWeight: "500",
     },
     buttonSave: {
+        width: "50%",
         padding: 12,
-        borderTopWidth: 2,
-        borderLeftWidth: 1,
-        borderColor: secondaryGray,
+        alignItems: "center",
+        paddingRight: 0,
     },
     buttonCancel: {
+        width: "50%",
         padding: 12,
-        borderTopWidth: 2,
-        borderRightWidth: 1,
-        borderColor: secondaryGray,
+        alignItems: "center",
+        paddingLeft: 0,
     },
     buttonsContainer: {
         flexDirection: "row",
