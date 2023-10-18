@@ -8,6 +8,7 @@ import {black, grayAction, secondaryGray, white} from "../utils/Colors";
 import employeeData from '../mockApiCalls/employeeData.json';
 import NameChangeModal from "../components/NameChangeModal";
 import PhoneNumberChangeModal from "../components/PhoneNumberChangeModal";
+import EditEmailModal from "../components/EditEmailModal";
 
 function EmployeeSettingsScreen() {
     const navigation = useNavigation();
@@ -18,6 +19,7 @@ function EmployeeSettingsScreen() {
 
     const [nameModalVisible, setNameModalVisible] = useState(false);
     const [phoneNumberModalVisible, setPhoneNumberModalVisible] = useState(false);
+    const [emailModalVisible, setEmailModalVisible] = useState(false);
 
     return (
         <View>
@@ -34,10 +36,11 @@ function EmployeeSettingsScreen() {
                         <Text style={styles.labelValue}>{employeeData.fName + ' ' + employeeData.lName}</Text>
                     </TouchableOpacity>
                     <NameChangeModal nameModalVisible={nameModalVisible} setNameModalVisible={setNameModalVisible} />
-                    <TouchableOpacity style={styles.settingItem}>
+                    <TouchableOpacity style={styles.settingItem} onPress={() => setEmailModalVisible(true)}>
                         <Text style={styles.settingLabel}>Email</Text>
                         <Text style={styles.labelValue}>{employeeData.email}</Text>
                     </TouchableOpacity>
+                    <EditEmailModal emailModalVisible={emailModalVisible} setEmailModalVisible={setEmailModalVisible} />
                     <TouchableOpacity style={styles.settingItem} onPress={() => setPhoneNumberModalVisible(true)}>
                         <Text style={styles.settingLabel}>Phone Number</Text>
                         <Text style={styles.labelValue}>{employeeData.phoneNumber}</Text>
