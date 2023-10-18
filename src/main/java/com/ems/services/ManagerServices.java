@@ -52,6 +52,8 @@ public class ManagerServices {
             // validate the manager deletion
             ValidationServices.validateDeleteManager(manager);
 
+            DatabaseServices.deleteManager(manager);
+
         } catch (SvcException | JSONException | DatabaseException e) {
             e.printStackTrace();
             return ResponseEntity.status(400).body(e.getMessage());
