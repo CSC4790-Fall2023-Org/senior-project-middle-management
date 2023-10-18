@@ -15,16 +15,16 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Check, XMark} from "../utils/Icons";
 import employeeData from "../mockApiCalls/employeeData.json";
 
-function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
-    const [email, onChangeEmail] = React.useState(employeeData.email);
+function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisible}) {
+    const [phoneNumber, onChangePhoneNumber] = React.useState(employeeData.phoneNumber);
 
     return (
         <Modal
             animationType="slide"
             transparent={true}
-            visible={emailModalVisible}
+            visible={phoneNumberModalVisible}
             onRequestClose={() => {
-                setEmailModalVisible(!emailModalVisible);
+                setPhoneNumberModalVisible(!phoneNumberModalVisible);
             }}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -32,24 +32,24 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Edit Email</Text>
+                            <Text style={styles.modalText}>Edit Phone Number</Text>
                             <TextInput
                                 style={styles.inputText}
                                 autoCapitalize={"words"}
-                                onChangeText={onChangeEmail}
-                                value={email}
-                                placeholder="ex. johndoe@email.com"
+                                onChangeText={onChangePhoneNumber}
+                                value={phoneNumber}
+                                placeholder="ex. 5555555555"
                                 placeholderTextColor={secondaryGray}
                             />
                             <View style={styles.buttonsContainer}>
                                 <TouchableOpacity
                                     style={styles.buttonCancel}
-                                    onPress={() => setEmailModalVisible(!emailModalVisible)}>
+                                    onPress={() => setPhoneNumberModalVisible(!phoneNumberModalVisible)}>
                                     <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={styles.buttonSave}
-                                    onPress={() => setEmailModalVisible(!emailModalVisible)}>
+                                    onPress={() => setPhoneNumberModalVisible(!phoneNumberModalVisible)}>
                                     <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
                                 </TouchableOpacity>
                             </View>
@@ -121,4 +121,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default EditEmailModal;
+export default EditPhoneNumberModal;

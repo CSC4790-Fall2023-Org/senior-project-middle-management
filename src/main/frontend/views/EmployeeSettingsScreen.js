@@ -6,8 +6,8 @@ import {ScreenNames} from "../utils/ScreenNames";
 import {ChevronLeft, ChevronRight} from "../utils/Icons";
 import {black, grayAction, secondaryGray, white} from "../utils/Colors";
 import employeeData from '../mockApiCalls/employeeData.json';
-import NameChangeModal from "../components/NameChangeModal";
-import PhoneNumberChangeModal from "../components/PhoneNumberChangeModal";
+import EditNameModal from "../components/EditNameModal";
+import EditPhoneNumberModal from "../components/EditPhoneNumberModal";
 import EditEmailModal from "../components/EditEmailModal";
 
 function EmployeeSettingsScreen() {
@@ -35,7 +35,7 @@ function EmployeeSettingsScreen() {
                         <Text style={styles.settingLabel}>Name</Text>
                         <Text style={styles.labelValue}>{employeeData.fName + ' ' + employeeData.lName}</Text>
                     </TouchableOpacity>
-                    <NameChangeModal nameModalVisible={nameModalVisible} setNameModalVisible={setNameModalVisible} />
+                    <EditNameModal nameModalVisible={nameModalVisible} setNameModalVisible={setNameModalVisible} />
                     <TouchableOpacity style={styles.settingItem} onPress={() => setEmailModalVisible(true)}>
                         <Text style={styles.settingLabel}>Email</Text>
                         <Text style={styles.labelValue}>{employeeData.email}</Text>
@@ -45,7 +45,7 @@ function EmployeeSettingsScreen() {
                         <Text style={styles.settingLabel}>Phone Number</Text>
                         <Text style={styles.labelValue}>{employeeData.phoneNumber}</Text>
                     </TouchableOpacity>
-                    <PhoneNumberChangeModal phoneNumberModalVisible={phoneNumberModalVisible} setPhoneNumberModalVisible={setPhoneNumberModalVisible} />
+                    <EditPhoneNumberModal phoneNumberModalVisible={phoneNumberModalVisible} setPhoneNumberModalVisible={setPhoneNumberModalVisible} />
                     <TouchableOpacity style={[styles.settingItem, {borderBottomWidth: 0}]}>
                         <Text style={styles.settingLabel}>Notifications</Text>
                         <View style={{paddingRight: 16}}>

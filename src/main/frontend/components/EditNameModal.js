@@ -6,25 +6,25 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    Platform,
     KeyboardAvoidingView,
-    Keyboard, TouchableWithoutFeedback
+    TouchableWithoutFeedback, Platform, Keyboard
 } from "react-native";
 import {black, destructiveAction, primaryGreen, secondaryGray} from "../utils/Colors";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Check, XMark} from "../utils/Icons";
 import employeeData from "../mockApiCalls/employeeData.json";
 
-function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
-    const [email, onChangeEmail] = React.useState(employeeData.email);
+function EditNameModal({nameModalVisible, setNameModalVisible}) {
+    const [fName, onChangefName] = React.useState(employeeData.fName);
+    const [lName, onChangelName] = React.useState(employeeData.lName);
 
     return (
         <Modal
             animationType="slide"
             transparent={true}
-            visible={emailModalVisible}
+            visible={nameModalVisible}
             onRequestClose={() => {
-                setEmailModalVisible(!emailModalVisible);
+                setNameModalVisible(!nameModalVisible);
             }}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -32,24 +32,32 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Edit Email</Text>
+                            <Text style={styles.modalText}>Edit Name</Text>
                             <TextInput
                                 style={styles.inputText}
                                 autoCapitalize={"words"}
-                                onChangeText={onChangeEmail}
-                                value={email}
-                                placeholder="ex. johndoe@email.com"
+                                onChangeText={onChangefName}
+                                value={fName}
+                                placeholder="First Name"
+                                placeholderTextColor={secondaryGray}
+                            />
+                            <TextInput
+                                style={styles.inputText}
+                                autoCapitalize={"words"}
+                                onChangeText={onChangelName}
+                                value={lName}
+                                placeholder="Last Name"
                                 placeholderTextColor={secondaryGray}
                             />
                             <View style={styles.buttonsContainer}>
                                 <TouchableOpacity
                                     style={styles.buttonCancel}
-                                    onPress={() => setEmailModalVisible(!emailModalVisible)}>
+                                    onPress={() => setNameModalVisible(!nameModalVisible)}>
                                     <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={styles.buttonSave}
-                                    onPress={() => setEmailModalVisible(!emailModalVisible)}>
+                                    onPress={() => setNameModalVisible(!nameModalVisible)}>
                                     <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
                                 </TouchableOpacity>
                             </View>
@@ -69,7 +77,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 22,
+        marginTop: 24,
     },
     modalView: {
         margin: 24,
@@ -121,4 +129,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default EditEmailModal;
+export default EditNameModal;
