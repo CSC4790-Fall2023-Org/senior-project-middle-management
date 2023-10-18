@@ -44,13 +44,19 @@ function EmployeeSettingsScreen() {
                                 <Text style={styles.modalText}>Edit Name</Text>
                                 <TextInput
                                     style={styles.inputText}
+                                    autoCapitalize={"words"}
                                     onChangeText={onChangefName}
                                     value={fName}
+                                    placeholder="First Name"
+                                    placeholderTextColor={secondaryGray}
                                 />
                                 <TextInput
                                     style={styles.inputText}
+                                    autoCapitalize={"words"}
                                     onChangeText={onChangelName}
                                     value={lName}
+                                    placeholder="Last Name"
+                                    placeholderTextColor={secondaryGray}
                                 />
                                 <View style={styles.buttonsContainer}>
                                     <TouchableOpacity
@@ -180,7 +186,7 @@ const styles = StyleSheet.create({
     },
     buttonsContainer: {
         flexDirection: "row",
-        paddingTop: 24,
+        paddingTop: 12,
     },
     inputText: {
         width: "85%",
