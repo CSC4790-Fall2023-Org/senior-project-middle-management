@@ -5,7 +5,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Check, XMark} from "../utils/Icons";
 import employeeData from "../mockApiCalls/employeeData.json";
 
-
 function NameChangeModal({nameModalVisible, setNameModalVisible}) {
     const [fName, onChangefName] = React.useState(employeeData.fName);
     const [lName, onChangelName] = React.useState(employeeData.lName);

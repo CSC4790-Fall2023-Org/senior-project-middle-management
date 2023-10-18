@@ -7,6 +7,7 @@ import {ChevronLeft, ChevronRight} from "../utils/Icons";
 import {black, grayAction, secondaryGray, white} from "../utils/Colors";
 import employeeData from '../mockApiCalls/employeeData.json';
 import NameChangeModal from "../components/NameChangeModal";
+import PhoneNumberChangeModal from "../components/PhoneNumberChangeModal";
 
 function EmployeeSettingsScreen() {
     const navigation = useNavigation();
@@ -16,6 +17,7 @@ function EmployeeSettingsScreen() {
     }
 
     const [nameModalVisible, setNameModalVisible] = useState(false);
+    const [phoneNumberModalVisible, setPhoneNumberModalVisible] = useState(false);
 
     return (
         <View>
@@ -36,10 +38,11 @@ function EmployeeSettingsScreen() {
                         <Text style={styles.settingLabel}>Email</Text>
                         <Text style={styles.labelValue}>{employeeData.email}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.settingItem}>
+                    <TouchableOpacity style={styles.settingItem} onPress={() => setPhoneNumberModalVisible(true)}>
                         <Text style={styles.settingLabel}>Phone Number</Text>
                         <Text style={styles.labelValue}>{employeeData.phoneNumber}</Text>
                     </TouchableOpacity>
+                    <PhoneNumberChangeModal phoneNumberModalVisible={phoneNumberModalVisible} setPhoneNumberModalVisible={setPhoneNumberModalVisible} />
                     <TouchableOpacity style={[styles.settingItem, {borderBottomWidth: 0}]}>
                         <Text style={styles.settingLabel}>Notifications</Text>
                         <View style={{paddingRight: 16}}>
