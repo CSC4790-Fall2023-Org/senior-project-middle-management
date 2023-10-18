@@ -1,11 +1,12 @@
 import React, {useState} from "react";
-import {StyleSheet, View, Text, TouchableOpacity, ScrollView, Modal, Pressable, TextInput} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, ScrollView, Pressable} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../utils/ScreenNames";
-import {Check, ChevronLeft, ChevronRight, XMark} from "../utils/Icons";
-import {black, destructiveAction, grayAction, primaryGreen, secondaryGray, white} from "../utils/Colors";
+import {ChevronLeft, ChevronRight} from "../utils/Icons";
+import {black, grayAction, secondaryGray, white} from "../utils/Colors";
 import employeeData from '../mockApiCalls/employeeData.json';
+import NameChangeModal from "../components/NameChangeModal";
 
 function EmployeeSettingsScreen() {
     const navigation = useNavigation();
@@ -15,8 +16,6 @@ function EmployeeSettingsScreen() {
     }
 
     const [nameModalVisible, setNameModalVisible] = useState(false);
-    const [fName, onChangefName] = React.useState(employeeData.fName);
-    const [lName, onChangelName] = React.useState(employeeData.lName);
 
     return (
         <View>
@@ -32,47 +31,7 @@ function EmployeeSettingsScreen() {
                         <Text style={styles.settingLabel}>Name</Text>
                         <Text style={styles.labelValue}>{employeeData.fName + ' ' + employeeData.lName}</Text>
                     </TouchableOpacity>
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={nameModalVisible}
-                        onRequestClose={() => {
-                            setNameModalVisible(!nameModalVisible);
-                        }}>
-                        <View style={styles.centeredView}>
-                            <View style={styles.modalView}>
-                                <Text style={styles.modalText}>Edit Name</Text>
-                                <TextInput
-                                    style={styles.inputText}
-                                    autoCapitalize={"words"}
-                                    onChangeText={onChangefName}
-                                    value={fName}
-                                    placeholder="First Name"
-                                    placeholderTextColor={secondaryGray}
-                                />
-                                <TextInput
-                                    style={styles.inputText}
-                                    autoCapitalize={"words"}
-                                    onChangeText={onChangelName}
-                                    value={lName}
-                                    placeholder="Last Name"
-                                    placeholderTextColor={secondaryGray}
-                                />
-                                <View style={styles.buttonsContainer}>
-                                    <TouchableOpacity
-                                        style={styles.buttonCancel}
-                                        onPress={() => setNameModalVisible(!nameModalVisible)}>
-                                        <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.buttonSave}
-                                        onPress={() => setNameModalVisible(!nameModalVisible)}>
-                                        <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </View>
-                    </Modal>
+                    <NameChangeModal nameModalVisible={nameModalVisible} setNameModalVisible={setNameModalVisible} />
                     <TouchableOpacity style={styles.settingItem}>
                         <Text style={styles.settingLabel}>Email</Text>
                         <Text style={styles.labelValue}>{employeeData.email}</Text>
@@ -143,60 +102,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         paddingRight: 16,
     },
-    centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22,
-    },
-    modalView: {
-        margin: 24,
-        width: "75%",
-        backgroundColor: 'white',
-        borderRadius: 10,
-        padding: 24,
-        paddingBottom: 0,
-        alignItems: 'center',
-        shadowColor: black,
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 16,
-        elevation: 5,
-    },
-    modalText: {
-        marginBottom: 16,
-        textAlign: 'center',
-        fontSize: 24,
-        fontWeight: "500",
-    },
-    buttonSave: {
-        width: "50%",
-        padding: 12,
-        alignItems: "center",
-        paddingRight: 0,
-    },
-    buttonCancel: {
-        width: "50%",
-        padding: 12,
-        alignItems: "center",
-        paddingLeft: 0,
-    },
-    buttonsContainer: {
-        flexDirection: "row",
-        paddingTop: 12,
-    },
-    inputText: {
-        width: "85%",
-        fontSize: 18,
-        padding: 8,
-        marginBottom: 16,
-        borderWidth: 2,
-        borderColor: secondaryGray,
-        borderRadius: 10,
-    }
 });
 
 export default EmployeeSettingsScreen;
