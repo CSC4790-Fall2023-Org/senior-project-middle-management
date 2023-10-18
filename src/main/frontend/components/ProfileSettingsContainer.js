@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {Text, TouchableOpacity, View, StyleSheet} from "react-native";
 import employeeData from "../mockApiCalls/employeeData.json";
-import EditNameModal from "./employeeSettings/EditNameModal";
-import EditEmailModal from "./employeeSettings/EditEmailModal";
-import EditPhoneNumberModal from "./employeeSettings/EditPhoneNumberModal";
+import EditNameModal from "./userSettings/EditNameModal";
+import EditEmailModal from "./userSettings/EditEmailModal";
+import EditPhoneNumberModal from "./userSettings/EditPhoneNumberModal";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronRight} from "../utils/Icons";
 import {black, grayAction, secondaryGray, white} from "../utils/Colors";
