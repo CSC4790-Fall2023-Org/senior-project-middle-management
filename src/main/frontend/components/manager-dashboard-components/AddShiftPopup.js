@@ -9,11 +9,11 @@ import {
     Keyboard
 } from "react-native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {X} from '../../utils/Icons';
+import {XMark} from '../../utils/Icons';
 import Dropdown from "../Dropdown";
 import CustomButton from "../CustomButton";
 import React, {useState} from "react";
-import {grayBackground, whiteColor} from "../../utils/Colors";
+import {grayBackground, white} from "../../utils/Colors";
 
 const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
     const typeDropdown = ["Head Lifeguard", "Lifeguard"]
@@ -58,7 +58,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
                         <View style={styles.modalTopContainer}>
                             <Text style={styles.modalTitleText}>Type:</Text>
                             <TouchableOpacity onPress={handlePressButton}>
-                                <FontAwesomeIcon icon={X} size={27.5} />
+                                <FontAwesomeIcon icon={XMark} size={27.5} />
                             </TouchableOpacity>
                         </View>
                         <View style={styles.modalLongInputContainer}>
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     modalLongInputContainer: {
-        backgroundColor: whiteColor,
+        backgroundColor: white,
         borderColor: "#ccc",
         borderWidth: .5,
         borderStyle: "solid",
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     },
     modalShortInputContainer: {
         padding: 5,
-        backgroundColor: whiteColor,
+        backgroundColor: white,
         borderColor: "#ccc",
         borderWidth: .5,
         borderStyle: "solid",
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
         left: 10,
     },
     modalShortDropdownContainer: {
-        backgroundColor: whiteColor,
+        backgroundColor: white,
         borderColor: "#ccc",
         borderWidth: .5,
         borderStyle: "solid",
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
         left: 10,
     },
     modalVeryShortInputContainer: {
-        backgroundColor: whiteColor,
+        backgroundColor: white,
         borderColor: "#ccc",
         borderWidth: .5,
         borderStyle: "solid",

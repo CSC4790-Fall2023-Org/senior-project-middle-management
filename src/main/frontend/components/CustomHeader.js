@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {useNavigation} from "@react-navigation/native";
 import {CircleUser} from "../utils/Icons";
-import {primaryGreen} from "../utils/Colors";
+import {primaryGreen, white} from "../utils/Colors";
 
 const CustomHeader = ({title, page}) => {
     const navigation = useNavigation();
@@ -31,14 +31,16 @@ const styles = StyleSheet.create({
 
     },
     title: {
-        color: 'white',
+        color: white,
         fontSize: 32,
         marginBottom: 8,
         marginLeft: 12,
-
+        overflow: "hidden",
+        maxWidth: "80%",
+        maxHeight: 32,
     },
     icon: {
-        color: 'white',
+        color: white,
         marginBottom: 8,
         marginRight: 12,
     }

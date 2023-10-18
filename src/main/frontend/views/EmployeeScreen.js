@@ -30,7 +30,7 @@ function EmployeeScreen() {
 
     return (
         <View style={styles.screen}>
-            <CustomHeader title={"Employee Name"} page={ScreenNames.EMPLOYEE_SETTINGS} />
+            <CustomHeader title={employeeData.fName + ' ' + employeeData.lName} page={ScreenNames.EMPLOYEE_SETTINGS} />
             <CustomDashboardHeader onTitlePress={handleTitlePress} tabs={tabs}/>
             {selectedIndex === 0 && <MyShiftList />}
             {selectedIndex === 1 && <AvailableShiftList />}

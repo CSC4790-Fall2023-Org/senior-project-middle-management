@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from "react-native";
-import {whiteColor} from "../utils/Colors";
+import {white} from "../utils/Colors";
 
 const ShiftCard = ({date, startTime, endTime, shiftType, locationId}) => {
     //TODO: calc shift hours to pass into card
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     container: {
         display: "flex",
         flexDirection: "row",
-        backgroundColor: whiteColor,
+        backgroundColor: white,
         margin: 16,
         marginBottom: 0,
         borderRadius: 10,
