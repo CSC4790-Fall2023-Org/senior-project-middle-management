@@ -87,6 +87,12 @@ public class ValidationServices {
         }
     }
 
+    public static void validateDeleteManager(Manager pManager) throws SvcException {
+        if (DatabaseServices.getAllManagers().stream().noneMatch(e -> ManagerUtils.doManagersMatch(e, pManager))) {
+            throw new SvcException("error");
+        }
+    }
+
     public static void validateCreateShift(final Shift pShift){
 
     }
