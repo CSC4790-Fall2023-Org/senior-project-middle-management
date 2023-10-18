@@ -7,12 +7,12 @@ import {
     TouchableOpacity,
     View,
     KeyboardAvoidingView,
-    TouchableWithoutFeedback, Platform, Keyboard
+    Platform
 } from "react-native";
-import {black, destructiveAction, primaryGreen, secondaryGray} from "../utils/Colors";
+import {black, destructiveAction, primaryGreen, secondaryGray} from "../../utils/Colors";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {Check, XMark} from "../utils/Icons";
-import employeeData from "../mockApiCalls/employeeData.json";
+import {Check, XMark} from "../../utils/Icons";
+import employeeData from "../../mockApiCalls/employeeData.json";
 
 function EditNameModal({nameModalVisible, setNameModalVisible}) {
     const [fName, onChangefName] = React.useState(employeeData.fName);
@@ -29,41 +29,39 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.container}>
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Edit Name</Text>
-                            <TextInput
-                                style={styles.inputText}
-                                autoCapitalize={"words"}
-                                onChangeText={onChangefName}
-                                value={fName}
-                                placeholder="First Name"
-                                placeholderTextColor={secondaryGray}
-                            />
-                            <TextInput
-                                style={styles.inputText}
-                                autoCapitalize={"words"}
-                                onChangeText={onChangelName}
-                                value={lName}
-                                placeholder="Last Name"
-                                placeholderTextColor={secondaryGray}
-                            />
-                            <View style={styles.buttonsContainer}>
-                                <TouchableOpacity
-                                    style={styles.buttonCancel}
-                                    onPress={() => setNameModalVisible(!nameModalVisible)}>
-                                    <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.buttonSave}
-                                    onPress={() => setNameModalVisible(!nameModalVisible)}>
-                                    <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
-                                </TouchableOpacity>
-                            </View>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>Edit Name</Text>
+                        <TextInput
+                            style={styles.inputText}
+                            autoCapitalize={"words"}
+                            onChangeText={onChangefName}
+                            value={fName}
+                            placeholder="First Name"
+                            placeholderTextColor={secondaryGray}
+                        />
+                        <TextInput
+                            style={styles.inputText}
+                            autoCapitalize={"words"}
+                            onChangeText={onChangelName}
+                            value={lName}
+                            placeholder="Last Name"
+                            placeholderTextColor={secondaryGray}
+                        />
+                        <View style={styles.buttonsContainer}>
+                            <TouchableOpacity
+                                style={styles.buttonCancel}
+                                onPress={() => setNameModalVisible(!nameModalVisible)}>
+                                <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.buttonSave}
+                                onPress={() => setNameModalVisible(!nameModalVisible)}>
+                                <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
+                            </TouchableOpacity>
                         </View>
                     </View>
-                </TouchableWithoutFeedback>
+                </View>
             </KeyboardAvoidingView>
         </Modal>
     )

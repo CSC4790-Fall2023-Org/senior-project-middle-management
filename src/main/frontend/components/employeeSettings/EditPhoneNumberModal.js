@@ -8,12 +8,11 @@ import {
     View,
     Platform,
     KeyboardAvoidingView,
-    Keyboard, TouchableWithoutFeedback
 } from "react-native";
-import {black, destructiveAction, primaryGreen, secondaryGray} from "../utils/Colors";
+import {black, destructiveAction, primaryGreen, secondaryGray} from "../../utils/Colors";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {Check, XMark} from "../utils/Icons";
-import employeeData from "../mockApiCalls/employeeData.json";
+import {Check, XMark} from "../../utils/Icons";
+import employeeData from "../../mockApiCalls/employeeData.json";
 
 function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisible}) {
     const [phoneNumber, onChangePhoneNumber] = React.useState(employeeData.phoneNumber);
@@ -29,33 +28,31 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.container}>
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Edit Phone Number</Text>
-                            <TextInput
-                                style={styles.inputText}
-                                autoCapitalize={"words"}
-                                onChangeText={onChangePhoneNumber}
-                                value={phoneNumber}
-                                placeholder="ex. 5555555555"
-                                placeholderTextColor={secondaryGray}
-                            />
-                            <View style={styles.buttonsContainer}>
-                                <TouchableOpacity
-                                    style={styles.buttonCancel}
-                                    onPress={() => setPhoneNumberModalVisible(!phoneNumberModalVisible)}>
-                                    <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.buttonSave}
-                                    onPress={() => setPhoneNumberModalVisible(!phoneNumberModalVisible)}>
-                                    <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
-                                </TouchableOpacity>
-                            </View>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>Edit Phone Number</Text>
+                        <TextInput
+                            style={styles.inputText}
+                            autoCapitalize={"words"}
+                            onChangeText={onChangePhoneNumber}
+                            value={phoneNumber}
+                            placeholder="ex. 5555555555"
+                            placeholderTextColor={secondaryGray}
+                        />
+                        <View style={styles.buttonsContainer}>
+                            <TouchableOpacity
+                                style={styles.buttonCancel}
+                                onPress={() => setPhoneNumberModalVisible(!phoneNumberModalVisible)}>
+                                <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.buttonSave}
+                                onPress={() => setPhoneNumberModalVisible(!phoneNumberModalVisible)}>
+                                <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
+                            </TouchableOpacity>
                         </View>
                     </View>
-                </TouchableWithoutFeedback>
+                </View>
             </KeyboardAvoidingView>
         </Modal>
     )

@@ -6,9 +6,9 @@ import {ScreenNames} from "../utils/ScreenNames";
 import {ChevronLeft, ChevronRight} from "../utils/Icons";
 import {black, grayAction, secondaryGray, white} from "../utils/Colors";
 import employeeData from '../mockApiCalls/employeeData.json';
-import EditNameModal from "../components/EditNameModal";
-import EditPhoneNumberModal from "../components/EditPhoneNumberModal";
-import EditEmailModal from "../components/EditEmailModal";
+import EditNameModal from "../components/employeeSettings/EditNameModal";
+import EditPhoneNumberModal from "../components/employeeSettings/EditPhoneNumberModal";
+import EditEmailModal from "../components/employeeSettings/EditEmailModal";
 
 function EmployeeSettingsScreen() {
     const navigation = useNavigation();
