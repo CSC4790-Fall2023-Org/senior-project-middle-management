@@ -16,8 +16,8 @@ import {Check, XMark} from "../../utils/Icons";
 import employeeData from "../../mockApiCalls/employeeData.json";
 
 function EditNameModal({nameModalVisible, setNameModalVisible}) {
-    const [fName, setFName] = React.useState(employeeData.fName);
-    const [lName, setLName] = React.useState(employeeData.lName);
+    const [fName, setFName] = useState(employeeData.fName);
+    const [lName, setLName] = useState(employeeData.lName);
     const [emptyFName, setEmptyFName] = useState(false);
     const [emptyLName, setEmptyLName] = useState(false);
     const [originalFName, setOriginalFName] = useState(employeeData.fName);
@@ -43,15 +43,20 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
         if (fName.trim() === '') {
             setEmptyFName(true);
             Haptics.notificationAsync(
-                Haptics.NotificationFeedbackType.Error);
+                Haptics.NotificationFeedbackType.Error
+            );
         } else if (lName.trim() === '') {
             setEmptyLName(true);
             Haptics.notificationAsync(
-                Haptics.NotificationFeedbackType.Error);
+                Haptics.NotificationFeedbackType.Error
+            );
         } else {
             setNameModalVisible(!nameModalVisible);
             Haptics.notificationAsync(
-                Haptics.NotificationFeedbackType.Success);
+                Haptics.NotificationFeedbackType.Success
+            );
+            setEmptyFName(false);
+            setEmptyLName(false);
         }
     }
 
