@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     StyleSheet,
     Modal,
@@ -16,7 +16,36 @@ import {Check, XMark} from "../../utils/Icons";
 import employeeData from "../../mockApiCalls/employeeData.json";
 
 function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisible}) {
-    const [phoneNumber, onChangePhoneNumber] = React.useState(employeeData.phoneNumber);
+    const [phoneNumber, setPhoneNumber] = useState(employeeData.phoneNumber);
+    const [invalidPhoneNumber, setInvalidPhoneNumber] = useState(false);
+    const [originalPhoneNumber, setOriginalPhoneNumber] = useState(employeeData.phoneNumber);
+
+    const resetPhoneNumber = () => {
+        setPhoneNumber(originalPhoneNumber);
+    }
+
+    const handleCancel = () => {
+        setPhoneNumberModalVisible(!phoneNumberModalVisible);
+        resetPhoneNumber();
+        setInvalidPhoneNumber(false);
+    }
+
+    const handleSubmit = () => {
+        const phoneNumberPattern = /^\d{10}$/;
+        const validPhoneNumber = phoneNumberPattern.test(phoneNumber);
+        if(!validPhoneNumber) {
+            setInvalidPhoneNumber(true);
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else {
+            setPhoneNumberModalVisible(!phoneNumberModalVisible);
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Success
+            );
+            setInvalidPhoneNumber(false);
+        }
+    }
 
     return (
         <Modal
@@ -33,9 +62,9 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>Edit Phone Number</Text>
                         <TextInput
-                            style={styles.inputText}
+                            style={[styles.inputText, invalidPhoneNumber ? styles.errorBorder : null]}
                             autoCapitalize={"words"}
-                            onChangeText={onChangePhoneNumber}
+                            onChangeText={setPhoneNumber}
                             value={phoneNumber}
                             placeholder="ex. 5555555555"
                             placeholderTextColor={secondaryGray}
@@ -43,16 +72,12 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
                         <View style={styles.buttonsContainer}>
                             <TouchableOpacity
                                 style={styles.buttonCancel}
-                                onPress={() => setPhoneNumberModalVisible(!phoneNumberModalVisible)}>
+                                onPress={handleCancel}>
                                 <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={styles.buttonSave}
-                                onPress={() =>
-                                {setPhoneNumberModalVisible(!phoneNumberModalVisible)
-                                    Haptics.notificationAsync(
-                                        Haptics.NotificationFeedbackType.Success);}
-                                }>
+                                onPress={handleSubmit}>
                                 <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
                             </TouchableOpacity>
                         </View>
@@ -120,6 +145,9 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: secondaryGray,
         borderRadius: 10,
+    },
+    errorBorder: {
+        borderColor: destructiveAction,
     },
 })
 

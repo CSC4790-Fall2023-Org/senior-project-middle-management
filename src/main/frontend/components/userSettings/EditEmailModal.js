@@ -63,7 +63,7 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
                         <Text style={styles.modalText}>Edit Email</Text>
                         <TextInput
                             style={[styles.inputText, invalidEmail ? styles.errorBorder : null]}
-                            autoCapitalize={"words"}
+                            autoCapitalize={"none"}
                             onChangeText={setEmail}
                             value={email}
                             placeholder="ex. johndoe@email.com"
