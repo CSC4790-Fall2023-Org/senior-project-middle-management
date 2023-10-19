@@ -9,6 +9,7 @@ import {
     KeyboardAvoidingView,
     Platform
 } from "react-native";
+import * as Haptics from 'expo-haptics';
 import {black, destructiveAction, primaryGreen, secondaryGray} from "../../utils/Colors";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Check, XMark} from "../../utils/Icons";
@@ -56,7 +57,11 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={styles.buttonSave}
-                                onPress={() => setNameModalVisible(!nameModalVisible)}>
+                                onPress={() =>
+                                    {setNameModalVisible(!nameModalVisible)
+                                    Haptics.notificationAsync(
+                                    Haptics.NotificationFeedbackType.Success);}
+                                }>
                                 <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
                             </TouchableOpacity>
                         </View>
