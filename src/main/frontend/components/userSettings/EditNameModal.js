@@ -84,6 +84,7 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
                             value={fName}
                             placeholder="First Name"
                             placeholderTextColor={secondaryGray}
+                            autoComplete={"name-given"}
                         />
                         <TextInput
                             style={[styles.inputText, emptyLName ? styles.errorBorder : null]}
@@ -95,6 +96,7 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
                             value={lName}
                             placeholder="Last Name"
                             placeholderTextColor={secondaryGray}
+                            autoComplete={"name-family"}
                         />
                         <View style={styles.buttonsContainer}>
                             <TouchableOpacity
@@ -103,7 +105,7 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
                                 <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={styles.buttonSave}
+                                style={styles.buttonSubmit}
                                 onPress={handleSubmit}>
                                 <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
                             </TouchableOpacity>
@@ -148,7 +150,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "500",
     },
-    buttonSave: {
+    buttonSubmit: {
         width: "50%",
         padding: 12,
         alignItems: "center",

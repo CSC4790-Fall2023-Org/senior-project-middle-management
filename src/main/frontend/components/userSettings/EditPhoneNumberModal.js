@@ -10,7 +10,7 @@ import {
     KeyboardAvoidingView,
 } from "react-native";
 import * as Haptics from "expo-haptics";
-import {black, destructiveAction, primaryGreen, secondaryGray} from "../../utils/Colors";
+import {black, destructiveAction, grayAction, primaryGreen, secondaryGray} from "../../utils/Colors";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Check, XMark} from "../../utils/Icons";
 import employeeData from "../../mockApiCalls/employeeData.json";
@@ -68,6 +68,8 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
                             value={phoneNumber}
                             placeholder="ex. 5555555555"
                             placeholderTextColor={secondaryGray}
+                            autoComplete={"tel"}
+                            inputMode={"tel"}
                         />
                         <View style={styles.buttonsContainer}>
                             <TouchableOpacity
@@ -76,7 +78,7 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
                                 <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={styles.buttonSave}
+                                style={styles.buttonSubmit}
                                 onPress={handleSubmit}>
                                 <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
                             </TouchableOpacity>
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "500",
     },
-    buttonSave: {
+    buttonSubmit: {
         width: "50%",
         padding: 12,
         alignItems: "center",

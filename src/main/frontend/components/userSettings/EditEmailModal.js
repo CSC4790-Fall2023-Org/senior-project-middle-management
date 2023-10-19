@@ -68,6 +68,8 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
                             value={email}
                             placeholder="ex. johndoe@email.com"
                             placeholderTextColor={secondaryGray}
+                            autoComplete={"email"}
+                            inputMode={"email"}
                         />
                         <View style={styles.buttonsContainer}>
                             <TouchableOpacity
@@ -76,7 +78,7 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
                                 <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={styles.buttonSave}
+                                style={styles.buttonSubmit}
                                 onPress={handleSubmit}>
                                 <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
                             </TouchableOpacity>
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "500",
     },
-    buttonSave: {
+    buttonSubmit: {
         width: "50%",
         padding: 12,
         alignItems: "center",
