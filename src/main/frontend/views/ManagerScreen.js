@@ -5,6 +5,7 @@ import {ScreenNames} from "../utils/ScreenNames";
 import ManagerEmployeeDashboard from "../components/manager-dashboard-components/ManagerEmployeeDashboard";
 import ManagerShiftDashboard from "../components/manager-dashboard-components/ManagerShiftDashboard";
 import CustomDashboardHeader from "../components/CustomDashboardHeader";
+import employeeData from '../mockApiCalls/employeeData.json';
 
 function ManagerScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -26,7 +27,7 @@ function ManagerScreen() {
     ];
     return (
         <View>
-            <CustomHeader title={"Manager Name"} page={ScreenNames.MANAGER_SETTINGS}/>
+            <CustomHeader title={employeeData.fName + ' ' + employeeData.lName} page={ScreenNames.MANAGER_SETTINGS}/>
             <CustomDashboardHeader onTitlePress={handleTitlePress} tabs={tabs}/>
             <View>
                 {selectedIndex === 0 && <ManagerEmployeeDashboard buttonTitle={"Add Employee"} options={options} />}

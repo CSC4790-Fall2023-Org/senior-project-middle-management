@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     StyleSheet,
     Modal,
@@ -9,13 +9,43 @@ import {
     Platform,
     KeyboardAvoidingView,
 } from "react-native";
+import * as Haptics from "expo-haptics";
 import {black, destructiveAction, primaryGreen, secondaryGray} from "../../utils/Colors";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Check, XMark} from "../../utils/Icons";
 import employeeData from "../../mockApiCalls/employeeData.json";
 
 function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
-    const [email, onChangeEmail] = React.useState(employeeData.email);
+    const [email, setEmail] = useState(employeeData.email);
+    const [invalidEmail, setInvalidEmail] = useState(false);
+    const [originalEmail, setOriginalEmail] = useState(employeeData.email);
+
+    const resetEmail = () => {
+        setEmail(originalEmail);
+    }
+
+    const handleCancel = () => {
+        setEmailModalVisible(!emailModalVisible);
+        resetEmail();
+        setInvalidEmail(false);
+    }
+
+    const handleSubmit = () => {
+        const emailPattern = /^[\w\.-]+@[\w\.-]+\.\w+$/;
+        const validEmail = emailPattern.test(email);
+        if (!validEmail) {
+            setInvalidEmail(true);
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else {
+            setEmailModalVisible(!emailModalVisible);
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Success
+            );
+            setInvalidEmail(false);
+        }
+    }
 
     return (
         <Modal
@@ -32,22 +62,24 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>Edit Email</Text>
                         <TextInput
-                            style={styles.inputText}
-                            autoCapitalize={"words"}
-                            onChangeText={onChangeEmail}
+                            style={[styles.inputText, invalidEmail ? styles.errorBorder : null]}
+                            autoCapitalize={"none"}
+                            onChangeText={setEmail}
                             value={email}
                             placeholder="ex. johndoe@email.com"
                             placeholderTextColor={secondaryGray}
+                            autoComplete={"email"}
+                            inputMode={"email"}
                         />
                         <View style={styles.buttonsContainer}>
                             <TouchableOpacity
                                 style={styles.buttonCancel}
-                                onPress={() => setEmailModalVisible(!emailModalVisible)}>
+                                onPress={handleCancel}>
                                 <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={styles.buttonSave}
-                                onPress={() => setEmailModalVisible(!emailModalVisible)}>
+                                style={styles.buttonSubmit}
+                                onPress={handleSubmit}>
                                 <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
                             </TouchableOpacity>
                         </View>
@@ -91,7 +123,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "500",
     },
-    buttonSave: {
+    buttonSubmit: {
         width: "50%",
         padding: 12,
         alignItems: "center",
@@ -115,6 +147,9 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: secondaryGray,
         borderRadius: 10,
+    },
+    errorBorder: {
+        borderColor: destructiveAction,
     },
 })
 
