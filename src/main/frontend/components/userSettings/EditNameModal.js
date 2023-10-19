@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     StyleSheet,
     Modal,
@@ -16,8 +16,44 @@ import {Check, XMark} from "../../utils/Icons";
 import employeeData from "../../mockApiCalls/employeeData.json";
 
 function EditNameModal({nameModalVisible, setNameModalVisible}) {
-    const [fName, onChangefName] = React.useState(employeeData.fName);
-    const [lName, onChangelName] = React.useState(employeeData.lName);
+    const [fName, setFName] = React.useState(employeeData.fName);
+    const [lName, setLName] = React.useState(employeeData.lName);
+    const [emptyFName, setEmptyFName] = useState(false);
+    const [emptyLName, setEmptyLName] = useState(false);
+    const [originalFName, setOriginalFName] = useState(employeeData.fName);
+    const [originalLName, setOriginalLName] = useState(employeeData.lName);
+
+    const resetFName = () => {
+        setFName(originalFName);
+    };
+
+    const resetLName = () => {
+        setLName(originalLName);
+    };
+
+    const handleCancel = () => {
+        setNameModalVisible(!nameModalVisible);
+        resetFName();
+        resetLName();
+        setEmptyFName(false);
+        setEmptyLName(false);
+    }
+
+    const handleSubmit = () => {
+        if (fName.trim() === '') {
+            setEmptyFName(true);
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error);
+        } else if (lName.trim() === '') {
+            setEmptyLName(true);
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error);
+        } else {
+            setNameModalVisible(!nameModalVisible);
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Success);
+        }
+    }
 
     return (
         <Modal
@@ -34,17 +70,23 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>Edit Name</Text>
                         <TextInput
-                            style={styles.inputText}
+                            style={[styles.inputText, emptyFName ? styles.errorBorder : null]}
                             autoCapitalize={"words"}
-                            onChangeText={onChangefName}
+                            onChangeText={(fName) => {
+                                setFName(fName);
+                                setEmptyFName(false);
+                            }}
                             value={fName}
                             placeholder="First Name"
                             placeholderTextColor={secondaryGray}
                         />
                         <TextInput
-                            style={styles.inputText}
+                            style={[styles.inputText, emptyLName ? styles.errorBorder : null]}
                             autoCapitalize={"words"}
-                            onChangeText={onChangelName}
+                            onChangeText={(lName) => {
+                                setLName(lName);
+                                setEmptyLName(false);
+                            }}
                             value={lName}
                             placeholder="Last Name"
                             placeholderTextColor={secondaryGray}
@@ -52,16 +94,12 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
                         <View style={styles.buttonsContainer}>
                             <TouchableOpacity
                                 style={styles.buttonCancel}
-                                onPress={() => setNameModalVisible(!nameModalVisible)}>
+                                onPress={handleCancel}>
                                 <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={styles.buttonSave}
-                                onPress={() =>
-                                    {setNameModalVisible(!nameModalVisible)
-                                    Haptics.notificationAsync(
-                                    Haptics.NotificationFeedbackType.Success);}
-                                }>
+                                onPress={handleSubmit}>
                                 <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
                             </TouchableOpacity>
                         </View>
@@ -129,6 +167,9 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: secondaryGray,
         borderRadius: 10,
+    },
+    errorBorder: {
+        borderColor: destructiveAction,
     },
 })
 
