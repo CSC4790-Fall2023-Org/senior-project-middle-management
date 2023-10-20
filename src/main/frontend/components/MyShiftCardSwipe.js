@@ -11,59 +11,73 @@ import ShiftCard from "./ShiftCard";
 class MyShiftCardSwipe extends Component {
     swipeableRef = React.createRef();
     handleSwipeOpen = (direction) => {
-        if (direction === 'right') {
-            Haptics.notificationAsync(
-                Haptics.NotificationFeedbackType.Warning
-            );
-            Alert.alert(
-                'Drop Shift',
-                'Are you sure you want to drop this shift?',
-                [
-                    {
-                        text: 'Drop',
-                        style: 'destructive',
-                        onPress: () => {
-                            Haptics.notificationAsync(
-                                Haptics.NotificationFeedbackType.Success
-                            );
+        console.log("noneOpen val on handleSwipeOpen call: ", this.props.noneOpen);
+        if (this.props.noneOpen) {
+            if (direction === 'right') {
+                this.props.setNoneOpen(false);
+                console.log("noneOpen val after direction right handleSwipeOpen call: ", this.props.noneOpen);
+                Haptics.notificationAsync(
+                    Haptics.NotificationFeedbackType.Warning
+                );
+                Alert.alert(
+                    'Drop Shift',
+                    'Are you sure you want to drop this shift?',
+                    [
+                        {
+                            text: 'Drop',
+                            style: 'destructive',
+                            onPress: () => {
+                                Haptics.notificationAsync(
+                                    Haptics.NotificationFeedbackType.Success
+                                );
+                                this.swipeableRef.current.close();
+                                this.props.setNoneOpen(true);
+                            },
                         },
-                    },
-                    {
-                        text: 'Cancel',
-                        style: 'cancel',
-                        onPress: () => {
-                            this.swipeableRef.current.close();
-
+                        {
+                            text: 'Cancel',
+                            style: 'cancel',
+                            onPress: () => {
+                                this.swipeableRef.current.close();
+                                this.props.setNoneOpen(true);
+                            }
                         }
-                    }
-                ]
-            );
-        } else if (direction === 'left') {
-            Haptics.notificationAsync(
-                Haptics.NotificationFeedbackType.Warning
-            );
-            Alert.alert(
-                'Transfer shift',
-                'Are you sure you want to transfer this shift?',
-                [
-                    {
-                        text: 'Transfer',
-                        style: 'default',
-                        onPress: () => {
-                            Haptics.notificationAsync(
-                                Haptics.NotificationFeedbackType.Success
-                            );
+                    ]
+                );
+            } else if (direction === 'left') {
+                this.props.setNoneOpen(false);
+                console.log("noneOpen val after direction left handleSwipeOpen call: ", this.props.noneOpen);
+                Haptics.notificationAsync(
+                    Haptics.NotificationFeedbackType.Warning
+                );
+                Alert.alert(
+                    'Transfer shift',
+                    'Are you sure you want to transfer this shift?',
+                    [
+                        {
+                            text: 'Transfer',
+                            style: 'default',
+                            onPress: () => {
+                                Haptics.notificationAsync(
+                                    Haptics.NotificationFeedbackType.Success
+                                );
+                                this.swipeableRef.current.close();
+                                this.props.setNoneOpen(true);
+                            },
                         },
-                    },
-                    {
-                        text: 'Cancel',
-                        style: 'cancel',
-                        onPress: () => {
-                            this.swipeableRef.current.close();
+                        {
+                            text: 'Cancel',
+                            style: 'cancel',
+                            onPress: () => {
+                                this.swipeableRef.current.close();
+                                this.props.setNoneOpen(true);
+                            }
                         }
-                    }
-                ]
-            )
+                    ]
+                )
+            }
+        } else {
+            this.swipeableRef.current.close();
         }
     };
 
@@ -73,7 +87,7 @@ class MyShiftCardSwipe extends Component {
             outputRange: [-20, -10, 0, 1],
         });
         return (
-            <RectButton style={styles.leftAction} onPress={this.close}>
+            <RectButton style={styles.leftAction}>
                 <Animated.Text
                     style={[
                         styles.actionText,
@@ -93,7 +107,7 @@ class MyShiftCardSwipe extends Component {
             outputRange: [-1, 0, 10, 20],
         });
         return (
-            <RectButton style={styles.rightAction} onPress={this.close}>
+            <RectButton style={styles.rightAction}>
                 <Animated.Text
                     style={[
                         styles.actionText,
@@ -109,10 +123,21 @@ class MyShiftCardSwipe extends Component {
 
     render() {
         const { ShiftCardComponent } = this.props;
+        const { noneOpen } = this.props;
+        const { setNoneOpen } = this.props;
 
         return (
-                <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
+                <Swipeable renderLeftActions={this.renderLeftActions}
+                           renderRightActions={this.renderRightActions}
+                           onSwipeableOpen={noneOpen ? (direction) => this.handleSwipeOpen(direction) : null}
+                           ref={this.swipeableRef}
+                           overshootFriction={8}
+                           leftThreshold={100}
+                           rightThreshold={100}
+                >
                     {ShiftCardComponent}
+                    {noneOpen}
+                    {setNoneOpen}
                 </Swipeable>
         );
     }
