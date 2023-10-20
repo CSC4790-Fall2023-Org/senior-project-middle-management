@@ -43,7 +43,7 @@ class MyShiftCardSwipe extends Component {
                 Haptics.NotificationFeedbackType.Warning
             );
             Alert.alert(
-                'Transfer shift',
+                'Transfer Shift',
                 'Are you sure you want to transfer this shift?',
                 [
                     {
