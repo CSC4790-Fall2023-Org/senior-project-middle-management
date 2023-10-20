@@ -19,9 +19,7 @@ function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, c
     };
 
     const filteredOptions = options.filter((option) => option !== selectedValue);
-    console.log(filteredOptions);
-    console.log(filteredOptions[filteredOptions.length-1])
-    console.log(filteredOptions[1])
+    
     return(
         <View>
             <TouchableOpacity onPress={toggleDropdown}>

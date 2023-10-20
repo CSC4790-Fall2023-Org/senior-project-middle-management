@@ -14,7 +14,7 @@ function ManagerShiftDashboard(){
 
     const [isModalVisible, setModalVisible] = useState(false);
 
-    const handlePressButton3 = () => {
+    const handlePressButton = () => {
         setModalVisible(!isModalVisible);
     };
 
@@ -37,7 +37,7 @@ function ManagerShiftDashboard(){
         <View>
             <View style={styles.buttonsContainer}>
                 <View style={styles.addShiftButton}>
-                    <CustomButton buttonText={"Add Shift"} handlePress={handlePressButton3} />
+                    <CustomButton buttonText={"Add Shift"} handlePress={handlePressButton} />
                 </View>
                 <TouchableOpacity onPress={handleUserClick}>
                     <FontAwesomeIcon icon={Calendar} size={48} style={styles.icon} />
@@ -49,7 +49,7 @@ function ManagerShiftDashboard(){
                 </View>
             </View>
             <ManagerShiftView available={selectedIndex}/>
-            <AddShiftPopup handlePressButton={handlePressButton3} isModalVisible={isModalVisible}/>
+            <AddShiftPopup handlePressButton={handlePressButton} isModalVisible={isModalVisible}/>
         </View>
     );
 }
