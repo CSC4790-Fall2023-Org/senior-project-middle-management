@@ -31,4 +31,15 @@ public class ShiftUtils {
         dates.add(pEndDate);
         return dates;
     }
+
+    public static List<LocalDate> removeUnwantedDaysOfTheWeek(final List<LocalDate> pDates, final List<Integer> pDaysOfWeek){
+        List<LocalDate> dates = new ArrayList<>();
+        for (LocalDate date : pDates){
+            if (pDaysOfWeek.contains(date.getDayOfWeek().getValue())){
+                dates.add(date);
+            }
+        }
+        return dates;
+    }
+
 }

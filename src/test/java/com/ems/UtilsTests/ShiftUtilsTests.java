@@ -34,4 +34,26 @@ public class ShiftUtilsTests {
             assertEquals(365, datesBetween.size());
         }
     }
+
+    @Test
+    public void testRemoveUnwantedDaysOfTheWeek(){
+        {
+            // 2023/01/01 - 2023/01/31 want Monday, Wednesday, Friday
+            final LocalDate startDate = LocalDate.of(2023, 1, 1);
+            final LocalDate endDate = LocalDate.of(2023, 1, 31);
+            final List<LocalDate> datesBetween = ShiftUtils.getDatesBetweenTwoDates(startDate, endDate);
+            final List<Integer> daysOfWeek = List.of(1, 3, 5);
+            final List<LocalDate> filteredDates = ShiftUtils.removeUnwantedDaysOfTheWeek(datesBetween, daysOfWeek);
+            assertEquals(13, filteredDates.size());
+        }
+        {
+            // 2023/01/01 - 2023/02/01 want Monday, Wednesday, Friday
+            final LocalDate startDate = LocalDate.of(2023, 1, 1);
+            final LocalDate endDate = LocalDate.of(2023, 2, 1);
+            final List<LocalDate> datesBetween = ShiftUtils.getDatesBetweenTwoDates(startDate, endDate);
+            final List<Integer> daysOfWeek = List.of(1, 3, 5);
+            final List<LocalDate> filteredDates = ShiftUtils.removeUnwantedDaysOfTheWeek(datesBetween, daysOfWeek);
+            assertEquals(14, filteredDates.size());
+        }
+    }
 }
