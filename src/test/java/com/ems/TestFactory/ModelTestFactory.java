@@ -3,6 +3,7 @@ package com.ems.TestFactory;
 import com.ems.database.models.ShiftHelper;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class ModelTestFactory {
     public static ShiftHelper getShiftHelper(){
@@ -15,6 +16,11 @@ public class ModelTestFactory {
         shiftHelper.setEndHour(15);
         shiftHelper.setEndMinute(0);
         shiftHelper.setEndAM(false);
+        shiftHelper.setShiftName("Morning Guard");
+        shiftHelper.setShiftType("Guard");
+        shiftHelper.setRepeatsEvery(List.of(1));
+        shiftHelper.setDaysOfWeek(List.of(1, 3, 5));
+
         return shiftHelper;
     }
 

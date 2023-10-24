@@ -1,10 +1,12 @@
 package com.ems.database.models;
 
 import com.ems.Exceptions.SvcException;
+import com.ems.Utils.JsonUtils;
 import com.ems.Utils.ValidationUtils;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class ShiftHelper {
 
@@ -16,12 +18,15 @@ public class ShiftHelper {
     private int endHour;
     private int endMinute;
     private boolean isEndAM;
-
+    private String shiftName;
+    private String shiftType;
+    private List<Integer> repeatsEvery;
+    private List<Integer> daysOfWeek;
 
 
     public ShiftHelper() {}
 
-    public ShiftHelper(LocalDate startDate, LocalDate endDate, int startHour, int startMinute, boolean isStartAM, int endHour, int endMinute, boolean isEndAM) {
+    public ShiftHelper(LocalDate startDate, LocalDate endDate, int startHour, int startMinute, boolean isStartAM, int endHour, int endMinute, boolean isEndAM, String shiftName, String shiftType, List<Integer> repeatsEvery, List<Integer> daysOfWeek) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.startHour = startHour;
@@ -30,6 +35,10 @@ public class ShiftHelper {
         this.endHour = endHour;
         this.endMinute = endMinute;
         this.isEndAM = isEndAM;
+        this.shiftName = shiftName;
+        this.shiftType = shiftType;
+        this.repeatsEvery = repeatsEvery;
+        this.daysOfWeek = daysOfWeek;
     }
 
     public ShiftHelper(final JSONObject pJsonObject) throws SvcException {
@@ -42,6 +51,11 @@ public class ShiftHelper {
             this.endHour = convertToMilitaryTime(pJsonObject.getInt("endHour"), pJsonObject.getBoolean("isEndAM"));
             this.endMinute = pJsonObject.getInt("endMinute");
             this.isEndAM = pJsonObject.getBoolean("isEndAM");
+            this.shiftName = pJsonObject.getString("shiftName");
+            this.shiftType = pJsonObject.getString("shiftType");
+            this.repeatsEvery = JsonUtils.convertJsonArrayToListInteger(pJsonObject.getJSONArray("repeatsEvery"));
+            this.daysOfWeek = JsonUtils.convertJsonArrayToListInteger(pJsonObject.getJSONArray("daysOfWeek"));
+
         }
         catch (Exception e){
             e.printStackTrace();
@@ -144,5 +158,37 @@ public class ShiftHelper {
 
     public void setEndAM(boolean endAM) {
         isEndAM = endAM;
+    }
+
+    public String getShiftName() {
+        return shiftName;
+    }
+
+    public void setShiftName(String shiftName) {
+        this.shiftName = shiftName;
+    }
+
+    public String getShiftType() {
+        return shiftType;
+    }
+
+    public void setShiftType(String shiftType) {
+        this.shiftType = shiftType;
+    }
+
+    public List<Integer> getRepeatsEvery() {
+        return repeatsEvery;
+    }
+
+    public void setRepeatsEvery(List<Integer> repeatsEvery) {
+        this.repeatsEvery = repeatsEvery;
+    }
+
+    public List<Integer> getDaysOfWeek() {
+        return daysOfWeek;
+    }
+
+    public void setDaysOfWeek(List<Integer> daysOfWeek) {
+        this.daysOfWeek = daysOfWeek;
     }
 }
