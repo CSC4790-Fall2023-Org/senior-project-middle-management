@@ -18,9 +18,7 @@ public class JsonTestFactory {
             shiftHelperJson.put("isEndAM", false);
             shiftHelperJson.put("shiftName", "Morning Guard");
             shiftHelperJson.put("shiftType", "Guard");
-            final JSONArray jsonArray = new JSONArray();
-            jsonArray.put(1);
-            shiftHelperJson.put("repeatsEvery", jsonArray);
+            shiftHelperJson.put("repeatsEvery", 1);
             final JSONArray jsonArray2 = new JSONArray();
             jsonArray2.put(1);
             jsonArray2.put(3);

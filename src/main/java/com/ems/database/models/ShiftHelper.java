@@ -20,13 +20,13 @@ public class ShiftHelper {
     private boolean isEndAM;
     private String shiftName;
     private String shiftType;
-    private List<Integer> repeatsEvery;
+    private Integer repeatsEvery;
     private List<Integer> daysOfWeek;
 
 
     public ShiftHelper() {}
 
-    public ShiftHelper(LocalDate startDate, LocalDate endDate, int startHour, int startMinute, boolean isStartAM, int endHour, int endMinute, boolean isEndAM, String shiftName, String shiftType, List<Integer> repeatsEvery, List<Integer> daysOfWeek) {
+    public ShiftHelper(LocalDate startDate, LocalDate endDate, int startHour, int startMinute, boolean isStartAM, int endHour, int endMinute, boolean isEndAM, String shiftName, String shiftType, Integer repeatsEvery, List<Integer> daysOfWeek) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.startHour = startHour;
@@ -53,7 +53,7 @@ public class ShiftHelper {
             this.isEndAM = pJsonObject.getBoolean("isEndAM");
             this.shiftName = pJsonObject.getString("shiftName");
             this.shiftType = pJsonObject.getString("shiftType");
-            this.repeatsEvery = JsonUtils.convertJsonArrayToListInteger(pJsonObject.getJSONArray("repeatsEvery"));
+            this.repeatsEvery = pJsonObject.getInt("repeatsEvery");
             this.daysOfWeek = JsonUtils.convertJsonArrayToListInteger(pJsonObject.getJSONArray("daysOfWeek"));
 
         }
@@ -176,11 +176,11 @@ public class ShiftHelper {
         this.shiftType = shiftType;
     }
 
-    public List<Integer> getRepeatsEvery() {
+    public Integer getRepeatsEvery() {
         return repeatsEvery;
     }
 
-    public void setRepeatsEvery(List<Integer> repeatsEvery) {
+    public void setRepeatsEvery(Integer repeatsEvery) {
         this.repeatsEvery = repeatsEvery;
     }
 

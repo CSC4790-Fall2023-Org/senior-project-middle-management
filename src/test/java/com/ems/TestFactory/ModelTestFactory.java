@@ -18,7 +18,7 @@ public class ModelTestFactory {
         shiftHelper.setEndAM(false);
         shiftHelper.setShiftName("Morning Guard");
         shiftHelper.setShiftType("Guard");
-        shiftHelper.setRepeatsEvery(List.of(1));
+        shiftHelper.setRepeatsEvery(1);
         shiftHelper.setDaysOfWeek(List.of(1, 3, 5));
 
         return shiftHelper;
