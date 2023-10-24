@@ -7,6 +7,7 @@ import org.springframework.cglib.core.Local;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class ShiftUtils {
@@ -38,6 +39,106 @@ public class ShiftUtils {
             if (pDaysOfWeek.contains(date.getDayOfWeek().getValue())){
                 dates.add(date);
             }
+        }
+        return dates;
+    }
+
+    public static List<LocalDate> removeUnwantedDatesBasedOnOccurrences(final List<LocalDate> pDateList, final int pOccurrences){
+        List<LocalDate> dates = new ArrayList<>();
+        if (pOccurrences == 0){
+            // never
+            return removeNever(pDateList);
+        }
+        else if (pOccurrences == 1){
+            // weekly
+            return pDateList;
+        }
+        else if (pOccurrences == 2){
+            // biweekly
+            return removeBiweekly(pDateList);
+        }
+        else{
+            // monthly
+            return removeMonthly(pDateList);
+        }
+    }
+
+    public static List<LocalDate> removeBiweekly(final List<LocalDate> pDateList){
+        List<LocalDate> dates = new ArrayList<>();
+
+
+        // get to first sunday
+        for (LocalDate localDate : pDateList) {
+            if (localDate.getDayOfWeek().getValue() == 7) {
+                pDateList.remove(localDate);
+                dates.add(localDate);
+                break;
+            }
+            pDateList.remove(localDate);
+            dates.add(localDate);
+        }
+
+        HashSet<Integer> seen = new HashSet<>();
+        boolean skipWeek = true;
+        for (LocalDate date : pDateList) {
+            if(seen.contains(date.getDayOfWeek().getValue())){
+                skipWeek = !skipWeek;
+                seen.clear();
+            }
+            seen.add(date.getDayOfWeek().getValue());
+            if(skipWeek){
+                continue;
+            }
+
+            dates.add(date);
+        }
+
+        return dates;
+    }
+
+    public static List<LocalDate> removeNever(final List<LocalDate> pDateList){
+        List<LocalDate> dates = new ArrayList<>();
+        HashSet<Integer> seen = new HashSet<>();
+
+        for (LocalDate date : pDateList) {
+            if(seen.contains(date.getDayOfWeek().getValue())){
+                return dates;
+            }
+            seen.add(date.getDayOfWeek().getValue());
+            dates.add(date);
+        }
+        return pDateList;
+    }
+
+    public static List<LocalDate> removeMonthly(final List<LocalDate> pDateList){
+        List<LocalDate> dates = new ArrayList<>();
+        HashSet<Integer> seen = new HashSet<>();
+        int prevMonth = pDateList.get(0).getMonthValue();
+
+        // get to first sunday
+        for (LocalDate localDate : pDateList) {
+            if (localDate.getDayOfWeek().getValue() == 7) {
+                pDateList.remove(localDate);
+                dates.add(localDate);
+                break;
+            }
+            pDateList.remove(localDate);
+            dates.add(localDate);
+        }
+
+
+        for(LocalDate date : pDateList){
+            if (prevMonth == date.getMonthValue()){
+                continue;
+            }
+
+            if(seen.contains(date.getDayOfWeek().getValue())){
+                seen.clear();
+                prevMonth = date.getMonthValue();
+                continue;
+            }
+            seen.add(date.getDayOfWeek().getValue());
+            dates.add(date);
         }
         return dates;
     }

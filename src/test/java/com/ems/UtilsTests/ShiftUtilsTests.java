@@ -56,4 +56,35 @@ public class ShiftUtilsTests {
             assertEquals(14, filteredDates.size());
         }
     }
+
+    @Test
+    public void testRemoveUnwantedDatesBasedOnOccurrences(){
+        {
+            // 2023/01/01 - 2023/01/31 want weekly
+            final LocalDate startDate = LocalDate.of(2023, 1, 1);
+            final LocalDate endDate = LocalDate.of(2023, 1, 31);
+            final List<LocalDate> datesBetween = ShiftUtils.getDatesBetweenTwoDates(startDate, endDate);
+            final int repeatsEvery = 1;
+            final List<LocalDate> filteredDates = ShiftUtils.removeUnwantedDatesBasedOnOccurrences(datesBetween, repeatsEvery);
+            assertEquals(31, filteredDates.size());
+        }
+        {
+            // 2023/01/01 -> 2023/01/31 want biweekly
+            final LocalDate startDate = LocalDate.of(2023, 1, 1);
+            final LocalDate endDate = LocalDate.of(2023, 1, 31);
+            final List<LocalDate> datesBetween = ShiftUtils.getDatesBetweenTwoDates(startDate, endDate);
+            final int repeatsEvery = 2;
+            final List<LocalDate> filteredDates = ShiftUtils.removeUnwantedDatesBasedOnOccurrences(datesBetween, repeatsEvery);
+            assertEquals(15, filteredDates.size());
+        }
+        {
+            // 2023/01/01 -> 2023/02/28 want monthly
+            final LocalDate startDate = LocalDate.of(2023, 1, 1);
+            final LocalDate endDate = LocalDate.of(2023, 2, 28);
+            final List<LocalDate> datesBetween = ShiftUtils.getDatesBetweenTwoDates(startDate, endDate);
+            final int repeatsEvery = 3;
+            final List<LocalDate> filteredDates = ShiftUtils.removeUnwantedDatesBasedOnOccurrences(datesBetween, repeatsEvery);
+            assertEquals(8, filteredDates.size());
+        }
+    }
 }
