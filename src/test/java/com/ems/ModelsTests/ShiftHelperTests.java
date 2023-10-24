@@ -127,6 +127,12 @@ public class ShiftHelperTests {
                 assertEquals(shiftHelper.getEndMinute(), testShiftHelper.getEndMinute());
                 assertEquals(shiftHelper.isStartAM(), testShiftHelper.isStartAM());
                 assertEquals(shiftHelper.isEndAM(), testShiftHelper.isEndAM());
+                assertEquals(shiftHelper.getShiftName(), testShiftHelper.getShiftName());
+                assertEquals(shiftHelper.getShiftType(), testShiftHelper.getShiftType());
+                assertEquals(shiftHelper.getRepeatsEvery(), testShiftHelper.getRepeatsEvery());
+                assertEquals(shiftHelper.getDaysOfWeek(), testShiftHelper.getDaysOfWeek());
+                assertEquals(shiftHelper.getLocationId(), testShiftHelper.getLocationId());
+
             }
             catch (SvcException e){
                 fail();

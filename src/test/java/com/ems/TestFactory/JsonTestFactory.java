@@ -24,6 +24,7 @@ public class JsonTestFactory {
             jsonArray2.put(3);
             jsonArray2.put(5);
             shiftHelperJson.put("daysOfWeek", jsonArray2);
+            shiftHelperJson.put("locationId", "6500e9ec491cac473a9b80cd");
             return shiftHelperJson;
 
         } catch (JSONException e) {

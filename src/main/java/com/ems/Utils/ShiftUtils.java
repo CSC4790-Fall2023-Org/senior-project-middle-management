@@ -1,6 +1,8 @@
 package com.ems.Utils;
 
 import com.ems.database.models.Shift;
+import com.ems.database.models.ShiftHelper;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.bson.types.ObjectId;
 import org.springframework.cglib.core.Local;
 
@@ -141,6 +143,22 @@ public class ShiftUtils {
             dates.add(date);
         }
         return dates;
+    }
+
+    public static List<Shift> createListOfShiftsFromDateList(final List<LocalDate> pDateList, final ShiftHelper pShiftHelper){
+        List<Shift> shifts = new ArrayList<>();
+        for (LocalDate date : pDateList){
+            shifts.add(new Shift(
+                    new ObjectId(),
+                    pShiftHelper.getLocationId(),
+                    pShiftHelper.getShiftName(),
+                    LocalDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), pShiftHelper.getStartHour(), pShiftHelper.getStartMinute()),
+                    LocalDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), pShiftHelper.getEndHour(), pShiftHelper.getEndMinute()),
+                    pShiftHelper.getShiftType(),
+                    true
+            ));
+        }
+        return shifts;
     }
 
 }

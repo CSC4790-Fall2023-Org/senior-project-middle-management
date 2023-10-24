@@ -3,6 +3,7 @@ package com.ems.database.models;
 import com.ems.Exceptions.SvcException;
 import com.ems.Utils.JsonUtils;
 import com.ems.Utils.ValidationUtils;
+import org.bson.types.ObjectId;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
@@ -22,11 +23,12 @@ public class ShiftHelper {
     private String shiftType;
     private Integer repeatsEvery;
     private List<Integer> daysOfWeek;
+    private ObjectId locationId;
 
 
     public ShiftHelper() {}
 
-    public ShiftHelper(LocalDate startDate, LocalDate endDate, int startHour, int startMinute, boolean isStartAM, int endHour, int endMinute, boolean isEndAM, String shiftName, String shiftType, Integer repeatsEvery, List<Integer> daysOfWeek) {
+    public ShiftHelper(LocalDate startDate, LocalDate endDate, int startHour, int startMinute, boolean isStartAM, int endHour, int endMinute, boolean isEndAM, String shiftName, String shiftType, Integer repeatsEvery, List<Integer> daysOfWeek, ObjectId locationId) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.startHour = startHour;
@@ -39,6 +41,7 @@ public class ShiftHelper {
         this.shiftType = shiftType;
         this.repeatsEvery = repeatsEvery;
         this.daysOfWeek = daysOfWeek;
+        this.locationId = locationId;
     }
 
     public ShiftHelper(final JSONObject pJsonObject) throws SvcException {
@@ -55,6 +58,7 @@ public class ShiftHelper {
             this.shiftType = pJsonObject.getString("shiftType");
             this.repeatsEvery = pJsonObject.getInt("repeatsEvery");
             this.daysOfWeek = JsonUtils.convertJsonArrayToListInteger(pJsonObject.getJSONArray("daysOfWeek"));
+            this.locationId = new ObjectId(pJsonObject.getString("locationId"));
 
         }
         catch (Exception e){
@@ -186,6 +190,14 @@ public class ShiftHelper {
 
     public List<Integer> getDaysOfWeek() {
         return daysOfWeek;
+    }
+
+    public ObjectId getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(ObjectId locationId) {
+        this.locationId = locationId;
     }
 
     public void setDaysOfWeek(List<Integer> daysOfWeek) {

@@ -1,6 +1,9 @@
 package com.ems.UtilsTests;
 
+import com.ems.TestFactory.ModelTestFactory;
 import com.ems.Utils.ShiftUtils;
+import com.ems.database.models.Shift;
+import com.ems.database.models.ShiftHelper;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -85,6 +88,21 @@ public class ShiftUtilsTests {
             final int repeatsEvery = 3;
             final List<LocalDate> filteredDates = ShiftUtils.removeUnwantedDatesBasedOnOccurrences(datesBetween, repeatsEvery);
             assertEquals(8, filteredDates.size());
+        }
+    }
+
+    @Test
+    public void testCreateShiftsFromDateList(){
+        {
+            // shifts from 2023/01/01 -> 2023/01/31 weekly
+            final LocalDate startDate = LocalDate.of(2023, 1, 1);
+            final LocalDate endDate = LocalDate.of(2023, 1, 31);
+            final List<LocalDate> datesBetween = ShiftUtils.getDatesBetweenTwoDates(startDate, endDate);
+
+            final ShiftHelper shiftHelper = ModelTestFactory.getShiftHelper();
+
+            final List<Shift> shiftList = ShiftUtils.createListOfShiftsFromDateList(datesBetween, shiftHelper);
+            assertEquals(5, shiftList.size());
         }
     }
 }

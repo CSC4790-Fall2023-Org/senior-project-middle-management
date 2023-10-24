@@ -1,6 +1,7 @@
 package com.ems.TestFactory;
 
 import com.ems.database.models.ShiftHelper;
+import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,6 +21,8 @@ public class ModelTestFactory {
         shiftHelper.setShiftType("Guard");
         shiftHelper.setRepeatsEvery(1);
         shiftHelper.setDaysOfWeek(List.of(1, 3, 5));
+        shiftHelper.setLocationId(new ObjectId("6500e9ec491cac473a9b80cd"));
+
 
         return shiftHelper;
     }
