@@ -105,4 +105,13 @@ public class ShiftUtilsTests {
             assertEquals(5, shiftList.size());
         }
     }
+
+    @Test
+    public void testCreateShifts(){
+        {
+            final ShiftHelper shiftHelper = ModelTestFactory.getShiftHelper();
+            final List<Shift> shiftList = ShiftUtils.createShifts(shiftHelper);
+            assertEquals(13, shiftList.size());
+        }
+    }
 }

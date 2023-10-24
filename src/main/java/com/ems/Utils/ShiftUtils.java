@@ -161,4 +161,11 @@ public class ShiftUtils {
         return shifts;
     }
 
+    public static List<Shift> createShifts(final ShiftHelper pShiftHelper){
+        List<LocalDate> dates = getDatesBetweenTwoDates(pShiftHelper.getStartDate(), pShiftHelper.getEndDate());
+        dates = removeUnwantedDaysOfTheWeek(dates, pShiftHelper.getDaysOfWeek());
+        dates = removeUnwantedDatesBasedOnOccurrences(dates, pShiftHelper.getRepeatsEvery());
+        return createListOfShiftsFromDateList(dates, pShiftHelper);
+    }
+
 }
