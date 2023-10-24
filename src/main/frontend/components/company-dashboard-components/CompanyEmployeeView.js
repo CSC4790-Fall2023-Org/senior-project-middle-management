@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 
-const CompanyManagerView = () => {
+const CompanyEmployeeView = () => {
 
     return(
         <ScrollView>
@@ -16,4 +16,4 @@ const CompanyManagerView = () => {
 const styles = StyleSheet.create({
 
 });
-export default CompanyManagerView;
+export default CompanyEmployeeView;

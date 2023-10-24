@@ -2,11 +2,13 @@ import React, {useState} from 'react';
 import {View, StyleSheet, Dimensions} from 'react-native';
 import CustomButton from "../CustomButton";
 import Dropdown from "../Dropdown";
-import CompanyManagerView from "./CompanyManagerView";
+import CompanyEmployeeView from "./CompanyEmployeeView";
 
 
 
-const CompanyManagersDashboard = () => {
+
+const CompanyEmployeeDashboard = () => {
+
     const screenWidth = Dimensions.get('window').width;
 
     const options = ["Default", "Name", "Hours Worked" ]
@@ -18,13 +20,13 @@ const CompanyManagersDashboard = () => {
     return(
         <View style={[styles.container, {width:screenWidth}]}>
             <View style={styles.buttonContainer}>
-                <CustomButton buttonText={'Add Manager'}/>
+                <CustomButton buttonText={'Add Employee'}/>
             </View>
 
             <View style={[styles.dropdownContainer,{width:200}]}>
                 <Dropdown chvSize={10} fontWht={10} fontSize={10} width={200} top={100} left={100} dropdownPress={handleDropdownPress} items={options}/>
             </View>
-            <CompanyManagerView/>
+            <CompanyEmployeeView/>
         </View>
 
     )
@@ -56,4 +58,4 @@ const styles = StyleSheet.create({
 
 
 });
-export default CompanyManagersDashboard;
+export default CompanyEmployeeDashboard;
