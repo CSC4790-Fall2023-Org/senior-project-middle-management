@@ -9,7 +9,16 @@ const AvailableShiftList = () => {
     return(
         <ScrollView style={styles.scrollView}>
             {shifts.map(shift =>
-                <AvailableShiftCardSwipe ShiftCardComponent={<ShiftCard date={shift.date} shiftType={shift.shiftType} startTime={shift.startTime} endTime={shift.endTime} locationId={shift.locationId} />} />
+                <AvailableShiftCardSwipe
+                    ShiftCardComponent={
+                    <ShiftCard
+                        date={shift.date}
+                        shiftType={shift.shiftType}
+                        startTime={shift.startTime}
+                        endTime={shift.endTime}
+                        locationId={shift.locationId}
+                    />}
+                />
             )}
         </ScrollView>
     );

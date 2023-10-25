@@ -10,7 +10,7 @@ import {
     KeyboardAvoidingView,
 } from "react-native";
 import * as Haptics from "expo-haptics";
-import {black, destructiveAction, grayAction, primaryGreen, secondaryGray} from "../../utils/Colors";
+import {black, destructiveAction, primaryGreen, secondaryGray} from "../../utils/Colors";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Check, XMark} from "../../utils/Icons";
 import employeeData from "../../mockApiCalls/employeeData.json";

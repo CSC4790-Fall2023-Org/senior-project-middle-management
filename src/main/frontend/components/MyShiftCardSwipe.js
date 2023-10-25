@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, useState} from 'react';
 import {Animated, StyleSheet, Alert} from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { RectButton } from 'react-native-gesture-handler';
@@ -7,9 +7,18 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {CalendarDelete, Transfer} from "../utils/Icons";
 import {white, blueAction, destructiveAction} from "../utils/Colors";
 import ShiftCard from "./ShiftCard";
+import EditEmailModal from "./userSettings/EditEmailModal";
 
 class MyShiftCardSwipe extends Component {
     swipeableRef = React.createRef();
+
+    handleShiftTransfer = () => {
+        const [emailModalVisible, setEmailModalVisible] = useState(false);
+        return (
+            <EditEmailModal emailModalVisible={emailModalVisible} setEmailModalVisible={setEmailModalVisible()} />
+        )
+    };
+
     handleSwipeOpen = (direction) => {
         if (direction === 'right') {
             Haptics.notificationAsync(
@@ -50,9 +59,11 @@ class MyShiftCardSwipe extends Component {
                         text: 'Transfer',
                         style: 'default',
                         onPress: () => {
-                            Haptics.notificationAsync(
-                                Haptics.NotificationFeedbackType.Success
-                            );
+                            // Haptics.notificationAsync(
+                            //     Haptics.NotificationFeedbackType.Success
+                            // );
+
+                            return (this.handleShiftTransfer);
                         },
                     },
                     {
