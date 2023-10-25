@@ -142,4 +142,7 @@ public class DatabaseServices {
     public static List<Manager> getAllManagers() {
         return EmsApplication.visibleManagerRepository.findAll();
     }
+    public static List<Organization> getAllOrganizations(){
+        return EmsApplication.visibleOrganizationRepository.findAll();
+    }
 }
