@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.lang.NonNullFields;
 
 import java.util.List;
 
@@ -25,7 +26,18 @@ public class Organization {
     @Field
     private List<Location> locationList;
 
+    @Field
+    private int weeksToReleaseShifts;
+
     public Organization() {
+    }
+
+    public Organization(ObjectId organizationId, String organizationName, String orgOwnerEmail, List<Location> locationList, int weeksToReleaseShifts) {
+        this.organizationId = organizationId;
+        this.organizationName = organizationName;
+        this.orgOwnerEmail = orgOwnerEmail;
+        this.locationList = locationList;
+        this.weeksToReleaseShifts = weeksToReleaseShifts;
     }
 
     public Organization(ObjectId organizationId, String organizationName, String orgOwnerEmail, List<Location> locationList) {
@@ -40,6 +52,7 @@ public class Organization {
         this.organizationName = jsonObject.getString("organizationName");
         this.orgOwnerEmail = jsonObject.getString("orgOwnerEmail");
         this.locationList = parseLocationListFromJSON(jsonObject.getJSONArray("locationlist"));
+        this.weeksToReleaseShifts = jsonObject.getInt("weeksToReleaseShifts");
     }
 
     public ObjectId getOrganizationId() {
@@ -76,6 +89,14 @@ public class Organization {
 
     private List<Location> parseLocationListFromJSON(JSONArray locationlist) {
         return locationList;
+    }
+
+    public int getWeeksToReleaseShifts() {
+        return weeksToReleaseShifts;
+    }
+
+    public void setWeeksToReleaseShifts(int weeksToReleaseShifts) {
+        this.weeksToReleaseShifts = weeksToReleaseShifts;
     }
 
     @Override

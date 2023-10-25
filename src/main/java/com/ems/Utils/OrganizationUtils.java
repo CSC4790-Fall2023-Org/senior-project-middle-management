@@ -13,7 +13,8 @@ public class OrganizationUtils {
                 new ObjectId("6500cf35491cac473a9b80c8"),
                 "Town Park",
                 "townpark@gmail.com",
-                List.of(LocationUtils.getBaseLocation()));
+                List.of(LocationUtils.getBaseLocation()),
+                2);
     }
 
     public static boolean doOrganizationsMatch(final Organization organization, final Organization pComparisonOrganization) {
