@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import {View, StyleSheet} from 'react-native';
-import {ScreenNames} from "../../utils/ScreenNames";
 import ManagerEmployeeView from "./ManagerEmployeeView";
-import {useNavigation} from "@react-navigation/native";
 import Dropdown from "../Dropdown";
 import {white} from "../../utils/Colors";
 
@@ -11,19 +9,11 @@ const ManagerEmployeeDashboard = ({buttonTitle}) => {
 
     const [selectedIndex, setSelectedIndex] = useState('All');
 
-    const [selectedEmployee, setSelectedEmployee] = useState('All');
-
-    const handleEmployeePress = (emp) => {
-        setSelectedEmployee(emp);
-    }
     const handleDropdownPress = (index) => {
         setSelectedIndex(index);
     }
 
-    const navigation = useNavigation();
-    const handleUserClick = () => {
-        navigation.navigate(ScreenNames.LOGIN);
-    }
+
     return(
         <View>
             <View style={styles.dropdownWrapper}>
@@ -31,7 +21,7 @@ const ManagerEmployeeDashboard = ({buttonTitle}) => {
                     <Dropdown items={options} dropdownPress={handleDropdownPress} left={10} top={278} width={210} fontSize={15} fontWht={"normal"} chvSize={20}/>
                 </View>
             </View>
-            <ManagerEmployeeView selected={selectedEmployee} handleEmpPress={handleEmployeePress} />
+            <ManagerEmployeeView />
         </View>
 
     )
