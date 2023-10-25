@@ -52,7 +52,6 @@ public class Organization {
         this.organizationId = new ObjectId(jsonObject.getString("organizationId"));
         this.organizationName = jsonObject.getString("organizationName");
         this.orgOwnerEmail = jsonObject.getString("orgOwnerEmail");
-<<<<<<< HEAD
 
         // initialize locationList as an empty list
         this.locationList = new ArrayList<>();
@@ -64,10 +63,9 @@ public class Organization {
             Location location = new Location(locationObject);
             this.locationList.add(location);
         }
-=======
+
         this.locationList = parseLocationListFromJSON(jsonObject.getJSONArray("locationlist"));
         this.weeksToReleaseShifts = jsonObject.getInt("weeksToReleaseShifts");
->>>>>>> d75f0825446f647b34a884f7dc8a1daf9d43e719
     }
 
     public ObjectId getOrganizationId() {
@@ -102,8 +100,6 @@ public class Organization {
         this.locationList = locationList;
     }
 
-<<<<<<< HEAD
-=======
     private List<Location> parseLocationListFromJSON(JSONArray locationlist) {
         return locationList;
     }
@@ -116,7 +112,6 @@ public class Organization {
         this.weeksToReleaseShifts = weeksToReleaseShifts;
     }
 
->>>>>>> d75f0825446f647b34a884f7dc8a1daf9d43e719
     @Override
     public String toString() {
         return "Organization{" +
