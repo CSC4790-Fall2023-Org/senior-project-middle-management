@@ -72,6 +72,10 @@ public class DatabaseServices {
         }
     }
 
+    // get all organizations
+    public static List<Organization> getAllOrganizations() {
+        return EmsApplication.visibleOrganizationRepository.findAll();
+    }
 
 
     // save organization

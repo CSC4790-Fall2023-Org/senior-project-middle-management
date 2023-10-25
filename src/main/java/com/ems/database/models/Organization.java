@@ -1,6 +1,9 @@
 package com.ems.database.models;
 
 import org.bson.types.ObjectId;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -30,6 +33,13 @@ public class Organization {
         this.organizationName = organizationName;
         this.orgOwnerEmail = orgOwnerEmail;
         this.locationList = locationList;
+    }
+
+    public Organization(JSONObject jsonObject) throws JSONException {
+        this.organizationId = new ObjectId(jsonObject.getString("organizationId"));
+        this.organizationName = jsonObject.getString("organizationName");
+        this.orgOwnerEmail = jsonObject.getString("orgOwnerEmail");
+        this.locationList = parseLocationListFromJSON(jsonObject.getJSONArray("locationlist"));
     }
 
     public ObjectId getOrganizationId() {
@@ -62,6 +72,10 @@ public class Organization {
 
     public void setLocationList(List<Location> locationList) {
         this.locationList = locationList;
+    }
+
+    private List<Location> parseLocationListFromJSON(JSONArray locationlist) {
+        return locationList;
     }
 
     @Override
