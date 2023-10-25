@@ -2,6 +2,7 @@ import {Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, Vie
 import React, {useState} from "react";
 import {faChevronDown, faChevronUp, faX} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {white} from "../../utils/Colors";
 
 const ManagerEmployeeCard = ({pressed, id, name, type, worked, shiftsTaken, handlePress}) =>{
     const [isModalVisible, setModalVisible] = useState(false);
@@ -103,7 +104,7 @@ const ManagerEmployeeCard = ({pressed, id, name, type, worked, shiftsTaken, hand
 const styles = StyleSheet.create({
     container:{
         display: "flex",
-        backgroundColor: '#FFFFFF',
+        backgroundColor: white,
         margin: 15,
         marginBottom: 0,
         borderRadius: 10,
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
     },
     containerExpanded: {
         flexDirection: "column",
-        backgroundColor: '#FFFFFF',
+        backgroundColor: white,
         margin: 15,
         marginBottom: 0,
         borderRadius: 10,
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
         height: 400,
         elevation: 5,
         zIndex: 1,
-        backgroundColor:'#FFFFFF',
+        backgroundColor: white,
         borderRadius:20,
         borderStyle:"solid",
         borderColor:"#ccc",

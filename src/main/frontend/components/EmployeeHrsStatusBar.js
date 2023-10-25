@@ -1,9 +1,10 @@
 import React from 'react';
 import {StyleSheet, Text, View} from "react-native";
+import {primaryGreen, secondaryGray, white} from "../utils/Colors";
 
-const EmployeeHrsStatusBar = ({loggedHours, maxWorkableHours}) => {
+const EmployeeHrsStatusBar = (props) => {
     const bottomBarWidth = 272;
-    const percentage = loggedHours/maxWorkableHours;
+    const percentage = props.employee.weekHours/props.company.maxEmployeeHours;
     const topBarWidth = bottomBarWidth * percentage;
     return (
         <View style={styles.container}>
@@ -13,7 +14,7 @@ const EmployeeHrsStatusBar = ({loggedHours, maxWorkableHours}) => {
                 </View>
             </View>
             <View style={styles.rightContainer}>
-                <Text style={styles.text}>{loggedHours}/{maxWorkableHours}</Text>
+                <Text style={styles.text}>{props.employee.weekHours}/{props.company.maxEmployeeHours}</Text>
             </View>
         </View>
     );
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         height: 80,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: white,
         paddingTop: 20,
         marginTop: 12,
     },
@@ -42,12 +43,12 @@ const styles = StyleSheet.create({
     },
     bottomBar: {
         height: 16,
-        backgroundColor: '#D9D9D9',
+        backgroundColor: secondaryGray,
         borderRadius: 10,
     },
     topBar: {
         height: 16,
-        backgroundColor: '#50C878',
+        backgroundColor: primaryGreen,
         borderRadius: 10,
     },
     text: {

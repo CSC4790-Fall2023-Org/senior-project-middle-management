@@ -108,7 +108,7 @@ public class DatabaseServices {
     // delete manager
     public static void deleteManager(Manager manager) {
         ObjectId managerId = manager.getManagerId();
-        if (EmsApplication.visibleManagerRepository.findAll().stream().anyMatch(ma -> ma.getManagerId().equals(managerId))){
+        if (EmsApplication.visibleManagerRepository.findAll().stream().noneMatch(ma -> ma.getManagerId().equals(managerId))){
             System.out.println("Manager not found");
             throw new RuntimeException("Error deleting manager! Manager with id: " + managerId + " is not present in the database");
         }

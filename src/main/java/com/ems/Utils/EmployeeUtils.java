@@ -25,7 +25,7 @@ public class EmployeeUtils {
                 20,
                 12.50,
                 new ObjectId("6500cf35491cac473a9b80c8"),
-                List.of(LocationUtils.getBaseLocation()),
+                List.of(LocationUtils.getBaseLocation().getLocationId()),
                 List.of(new ObjectId("6500e9ec491cac473a9b80cc")));
     }
 

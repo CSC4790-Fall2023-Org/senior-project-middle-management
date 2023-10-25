@@ -16,4 +16,9 @@ public class ManagerController {
     public ResponseEntity createManager(@RequestBody final String pPayload) {
         return ManagerServices.createManager(pPayload);
     }
+
+    @PostMapping("/deleteManager")
+    public ResponseEntity deleteManager(@RequestBody final String pPayload) {
+        return ManagerServices.deleteManager(pPayload);
+    }
 }

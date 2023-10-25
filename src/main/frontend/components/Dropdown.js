@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Modal} from 'react-native';
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
+import {primaryGreen, secondaryGray, white} from "../utils/Colors";
 
 
 function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, chvSize}){
@@ -19,7 +20,7 @@ function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, c
     };
 
     const filteredOptions = options.filter((option) => option !== selectedValue);
-    
+
     return(
         <View>
             <TouchableOpacity onPress={toggleDropdown}>
@@ -87,28 +88,31 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    dropdownContainer: {
+        flexDirection: 'row',
+        overflow: 'hidden',
+        paddingTop: 2,
+    },
     dropdownTrigger: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems:"center",
-        padding: 12,
-        height: 42,
+        paddingHorizontal: 16,
+        padding: 10,
     },
     dropdownModal: {
         position: 'absolute',
-        borderWidth: .5,
-        backgroundColor:'#FFFFFF',
-        borderColor:"#ccc",
-        borderRadius: 10,
         overflow: 'hidden',
-        justifyContent: "center",
+        elevation: 5,
+        zIndex: 1,
+        backgroundColor: white,
+
     },
     dropdownOptions:{
-        padding: 12,
-        height: 42,
+        borderWidth: .5,
+        borderColor: secondaryGray,
+        borderRadius: 0,
+        padding: 15,
         overflow: 'hidden',
-        paddingHorizontal: 16,
-        justifyContent: "center",
     },
     dropdownText:{
         fontSize: 18,

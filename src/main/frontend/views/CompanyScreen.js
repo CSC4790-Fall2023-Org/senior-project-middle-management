@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import CustomHeader from '../components/CustomHeader';
 import {ScreenNames} from "../utils/ScreenNames";
 import CustomDashboardHeader from "../components/CustomDashboardHeader";

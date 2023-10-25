@@ -1,5 +1,7 @@
 package com.ems.database.models;
 
+import com.ems.Exceptions.SvcException;
+import com.ems.Utils.JsonUtils;
 import org.bson.types.ObjectId;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,31 +26,28 @@ public class Manager {
     @Field
     private ObjectId organizationId;
     @Field
-    private List<Location> locationList;
+    private List<ObjectId> locationIdList;
 
     public Manager() {
     }
 
-    public Manager(ObjectId managerId, String firstName, String lastName, String managerEmail, String managerPhoneNumber, ObjectId organizationId, List<Location> locationList) {
+    public Manager(ObjectId managerId, String firstName, String lastName, String managerEmail, String managerPhoneNumber, ObjectId organizationId, List<ObjectId> locationIdList) {
         this.managerId = managerId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.managerEmail = managerEmail;
         this.managerPhoneNumber = managerPhoneNumber;
         this.organizationId = organizationId;
-        this.locationList = locationList;
+        this.locationIdList = locationIdList;
     }
 
-    public Manager(final JSONObject pJsonObject) throws JSONException {
+    public Manager(final JSONObject pJsonObject) throws JSONException, SvcException {
         this.firstName = (String) pJsonObject.get("firstName");
         this.lastName = (String) pJsonObject.get("lastName");
         this.managerEmail = (String) pJsonObject.get("managerEmail");
         this.managerPhoneNumber = (String) pJsonObject.get("managerPhoneNumber");
         this.organizationId = new ObjectId((String) pJsonObject.get("organizationId"));
-        ObjectId locationId = new ObjectId(pJsonObject.getString("locationId"));
-        String locationName = pJsonObject.getString("locationName");
-        double maxHours = pJsonObject.getDouble("maxHours");
-        this.locationList = List.of(new Location(locationId, locationName, maxHours));
+        this.locationIdList = JsonUtils.getLocationIdListFromJson(pJsonObject.getJSONArray("locationIdList"));
     }
 
     public ObjectId getManagerId() {
@@ -99,12 +98,12 @@ public class Manager {
         this.organizationId = organizationId;
     }
 
-    public List<Location> getLocationList() {
-        return locationList;
+    public List<ObjectId> getLocationIdList() {
+        return locationIdList;
     }
 
-    public void setLocationList(List<Location> locationList) {
-        this.locationList = locationList;
+    public void setLocationIdList(List<ObjectId> locationIdList) {
+        this.locationIdList = locationIdList;
     }
 
     @Override
@@ -116,7 +115,7 @@ public class Manager {
                 ", managerEmail='" + managerEmail + '\'' +
                 ", managerPhoneNumber='" + managerPhoneNumber + '\'' +
                 ", organizationId=" + organizationId +
-                ", locationList=" + locationList +
+                ", locationList=" + locationIdList +
                 '}';
     }
 }

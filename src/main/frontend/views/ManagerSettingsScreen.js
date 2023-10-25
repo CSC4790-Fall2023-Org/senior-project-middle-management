@@ -1,9 +1,11 @@
 import React from "react";
-import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, ScrollView} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../utils/ScreenNames";
 import {ChevronLeft} from "../utils/Icons";
+import {secondaryGray} from "../utils/Colors";
+import ProfileSettingsContainer from "../components/ProfileSettingsContainer";
 
 function ManagerSettingsScreen() {
     const navigation = useNavigation();
@@ -20,6 +22,9 @@ function ManagerSettingsScreen() {
                 </TouchableOpacity>
                 <Text style={styles.headerText}>Settings</Text>
             </View>
+            <ScrollView style={styles.pageScroll}>
+                <ProfileSettingsContainer />
+            </ScrollView>
         </View>
     );
 }
@@ -33,7 +38,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         alignItems: "flex-end",
         borderBottomWidth: 1,
-        borderBottomColor: '#dddddd',
+        borderBottomColor: secondaryGray,
     },
     headerText: {
         color: "black",
@@ -47,7 +52,10 @@ const styles = StyleSheet.create({
         left: 12,
         bottom: 12,
         width: 48,
-    }
+    },
+    pageScroll: {
+        height: "100%",
+    },
 });
 
 export default ManagerSettingsScreen;
