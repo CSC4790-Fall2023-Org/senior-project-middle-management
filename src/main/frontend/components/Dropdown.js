@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems:"center",
-        padding: 12,
-        height: 42,
+        padding: 5,
+
     },
     dropdownModal: {
         position: 'absolute',
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     dropdownText:{
-        fontSize: 18,
+        fontSize: 15,
     },
     separator: {
         width: '100%',

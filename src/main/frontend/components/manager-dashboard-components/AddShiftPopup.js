@@ -1,49 +1,120 @@
+
 import {
     Modal,
     Text,
-    TextInput,
-    TouchableOpacity,
     TouchableWithoutFeedback,
     View,
     StyleSheet,
-    Keyboard
+    Keyboard,
+    TouchableOpacity,
+    Dimensions,
+    TextInput
 } from "react-native";
-import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faX} from "@fortawesome/free-solid-svg-icons";
-import Dropdown from "../Dropdown";
-import CustomButton from "../CustomButton";
 import React, {useState} from "react";
+import CalendarPopup from "../CalendarPopup";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {X, Calendar} from '../../utils/Icons';
+import Dropdown from "../Dropdown";
+import MultiWheelPicker from "../MultiWheelPicker";
+import shifts from "../../mockApiCalls/myShiftCardData";
+import MyShiftCardSwipe from "../MyShiftCardSwipe";
+import ShiftCard from "../ShiftCard";
+import CustomButton from "../CustomButton";
+
+
 
 const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
-    const typeDropdown = ["Head Lifeguard", "Lifeguard"]
+    const screenWidth = Dimensions.get('window').width;
+    //shift type info
+    const shiftOptions = ["Head Guard", "LifeGuard"]
+    const [shiftType, setShiftType] = useState("Head Guard");
+    const shiftDropdownPress = (index) => {
+        setShiftType(index);
+    }
+    //start & end hour info
+    const hourOptions = [2, 3, 4, 5 ,6 ,7 ,8, 9, 10, 11, 12]
+    const [startHour, setStartHour] = useState(1);
+    const [endHour, setEndHour] = useState(1);
 
-    const repeatsDropdown = ["Never", "Weekly", "Monthly", "Yearly"]
+    //start & end minute info
+    const minOptions = ["05", "10", "15", "20", "25" ,"30" ,"35", "40", "45", "50", "55"]
+    const [startMinute, setStartMinute] = useState("00");
+    const [endMinute, setEndMinute] = useState("00");
 
-    const [beginDate, setBeginDate] = useState("");
-
-    const [endDate, setEndDate] = useState("");
-
-    const [from, setFrom] = useState("");
-
-    const [to, setTo] = useState("");
-
-    const [numShifts, setNumShifts] = useState("")
-
-    const [selectedType, setSelectedType] = useState('null');
-
-    const [selectedRepeats, setSelectedRepeats] = useState('null');
+    //start & end Am Pm
+    const timePeriods = ["PM"]
+    const [startPeriod, setStartPeriod] = useState("AM");
+    const [endPeriod, setEndPeriod] = useState("AM");
 
     const handleDismissKeyboard = () => {
         Keyboard.dismiss();
     };
-    const handleTypePress = (index) => {
-        setSelectedType(index);
+
+    //calendar info
+    const [isCalendarVisible, setCalendarVisible] = useState(null);
+    const handleCalendar = () =>{
+        setCalendarVisible(!isCalendarVisible)
     }
-    const handleRepeatsPress = (index) => {
+    const [selectedStartDate, setSelectedStartDate] = useState(null);
+    const startDate = selectedStartDate ? selectedStartDate.format('MM/DD/YYYY').toString() : '';
+    const [selectedEndDate, setSelectedEndDate] = useState(null);
+    const endDate = selectedEndDate ? selectedEndDate.format('MM/DD/YYYY').toString() : '';
+
+    //shift name info
+    const [shiftName, setShiftName] = useState("");
+
+    //repeats info
+    const repeatsOptions = ["Never", "Weekly", "Biweekly", "Monthly" ]
+    const [selectedRepeats, setSelectedRepeats] = useState("Never");
+    const weekdays = [
+        {
+            id: 1,
+            text: 'Mon',
+        },
+        {
+            id: 2,
+            text: 'Tue',
+        },
+        {
+            id: 3,
+            text: 'Wed',
+        },
+        {
+            id: 4,
+            text: 'Thu',
+        },
+        {
+            id: 5,
+            text: 'Fri',
+        },
+        {
+            id: 6,
+            text: 'Sat',
+        },
+        {
+            id: 7,
+            text: 'Sun',
+        },]
+
+    const [weekdaysPressed, setWeekdaysPressed] = useState([1,2,3]);
+
+
+
+    const handleWeekdayPress = (index) => {
+        if (weekdaysPressed.includes(index)) {
+            const newData = weekdaysPressed.filter((item) => item !== index);
+            setWeekdaysPressed(newData);
+        }
+        else{
+            const addDay = [index]
+            setWeekdaysPressed([].concat(weekdaysPressed,addDay))
+            weekdaysPressed.sort()
+        }
+
+    };
+    const repeatsDropdownPress = (index) => {
         setSelectedRepeats(index);
     }
-
-
     return(
         <Modal
             animationType="none"
@@ -51,122 +122,98 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
             visible={isModalVisible}
             onRequestClose={handlePressButton}
         >
-            <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+            <TouchableWithoutFeedback onPress={handlePressButton}>
                 <View style={styles.overlay}>
-                    <View style={styles.modal}>
-                        <View style={styles.modalTopContainer}>
-                            <Text style={styles.modalTitleText}>Type:</Text>
-                            <TouchableOpacity onPress={handlePressButton}>
-                                <FontAwesomeIcon icon={faX} size={27.5} />
-                            </TouchableOpacity>
-                        </View>
-                        <View style={[styles.modalLongInputContainer, {borderRadius: 10}]}>
-                            <Dropdown items={typeDropdown} dropdownPress={handleTypePress} width={250} left={70} top={219} fontSize={15} fontWht={"normal"} chvSize={20}/>
-                        </View>
-                        <View style={styles.modalDoubleContainer}>
-                            <View>
-                                <View style={styles.modalShortTitleContainer}>
-                                    <Text style={styles.modalTitleText}>Starts:</Text>
-                                </View>
-                                <View style={styles.modalShortInputContainer}>
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="ex. 01/01/2024"
-                                        placeholderTextColor="#F1F1F1"
-                                        onChangeText={setBeginDate}
-                                        value={beginDate}
-                                        maxLength={10}
-                                    />
-                                </View>
+                    <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+                        <View style={styles.modal}>
+                            <View style={[styles.titleContainer, {width: screenWidth/1.15}]}>
+                                <Text style={styles.titleText}>Add Shift</Text>
+                                <TouchableOpacity onPress={handlePressButton}>
+                                    <FontAwesomeIcon icon={X} size={24} style={styles.icon} />
+                                </TouchableOpacity>
                             </View>
-                            <View>
-                                <View style={styles.modalShortTitleContainer}>
-                                    <Text style={styles.modalTitleText}>Ends:</Text>
-                                </View>
-                                <View style={styles.modalShortInputContainer}>
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="ex. 12/31/24"
-                                        onChangeText={setEndDate}
-                                        placeholderTextColor="#F1F1F1"
-                                        value={endDate}
-                                        maxLength={10}
-                                    />
-                                </View>
+                            <View style={[styles.longContainer,{width: screenWidth/1.30}]}>
+                                <Text style={styles.inputText}>Shift Name:</Text>
                             </View>
-                        </View>
-                        <View style={styles.modalDoubleContainer}>
-                            <View>
-                                <View style={styles.modalShortTitleContainer}>
-                                    <Text style={styles.modalTitleText}>From:</Text>
-                                </View>
-                                <View style={styles.modalShortInputContainer}>
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="ex. 8:00 AM"
-                                        placeholderTextColor="#F1F1F1"
-                                        onChangeText={setFrom}
-                                        value={from}
-                                        maxLength={10}
-                                    />
-                                </View>
-                            </View>
-                            <View>
-                                <View style={styles.modalShortTitleContainer}>
-                                    <Text style={styles.modalTitleText}>To:</Text>
-                                </View>
-                                <View style={styles.modalShortInputContainer}>
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="ex. 5:00 PM"
-                                        onChangeText={setTo}
-                                        placeholderTextColor="#F1F1F1"
-                                        value={to}
-                                        maxLength={10}
-                                    />
-                                </View>
-                            </View>
-                        </View>
-                        <View style={styles.modalLongTitleContainer}>
-                            <Text style={styles.modalTitleText}>Repeats:</Text>
-                        </View>
-                        <View style={styles.modalRepeatsContainer}>
-                            <View style={styles.modalDoubleContainer}>
-                                <Text>Every:</Text>
-                                <View style={styles.modalVeryShortInputContainer}>
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="0"
-                                        keyboardType="numeric"
-                                        onChangeText={setEndDate}
-                                        placeholderTextColor="#F1F1F1"
-                                        value={endDate}
-                                        maxLength={10}
-                                    />
-                                </View>
-                            </View>
-                            <View style={[styles.modalShortDropdownContainer, {borderRadius:10}]}>
-                                <Dropdown items={repeatsDropdown} dropdownPress={handleRepeatsPress} width={150} left={205} top={492} fontSize={15} fontWht={"normal"} chvSize={20}/>
-                            </View>
-                        </View>
-                        <View style={styles.modalSingleLineContainer}>
-                            <View style={styles.singleLineTextContainer}>
-                                <Text style={styles.modalTitleText}>Number of Shifts:</Text>
-                            </View>
-                            <View style={styles.modalVeryShortInputContainer}>
+                            <View style={[styles.inputContainer,{width:screenWidth/1.30}]}>
                                 <TextInput
-                                    style={styles.input}
-                                    placeholder="0"
-                                    keyboardType="numeric"
-                                    onChangeText={setNumShifts}
-                                    placeholderTextColor="#F1F1F1"
-                                    value={numShifts}
-                                    maxLength={10}
+                                    style={[styles.input]}
+                                    onChangeText={setShiftName}
+                                    value={shiftName}
+                                    placeholder={"Type Here"}
+                                    placeholderTextColor={"#D0D0D0"}
                                 />
                             </View>
+                            <View style={[styles.longContainer,{width: screenWidth/1.30}]}>
+                                <Text style={styles.inputText}>Shift Type:</Text>
+                            </View>
+                            <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
+                                <Dropdown items={shiftOptions} dropdownPress={shiftDropdownPress} left={16} top={164.5} width={screenWidth/1.35} fontSize={15} fontWht={"normal"} chvSize={15}/>
+                            </View>
+                            <View style={[styles.doubleContainer, {width: screenWidth/1.30}]}>
+                                <View style={styles.shortContainer}>
+
+                                    <TouchableOpacity onPress={handleCalendar}>
+                                        <FontAwesomeIcon icon={Calendar} size={35}/>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={[styles.shortContainer]}>
+                                    <Text style={styles.inputText}>From:</Text>
+                                    {startDate && <Text>{startDate}</Text>}
+                                    {!startDate && <Text>Press Calendar</Text>}
+                                </View>
+                                <View style={styles.shortContainer}>
+                                    <Text style={styles.inputText}>To:</Text>
+                                    {endDate && <Text>{endDate}</Text>}
+                                    {!endDate && <Text>Press Calendar</Text>}
+                                </View>
+                            </View>
+                            <View style={[styles.doubleContainer,{width: screenWidth/1.30}]}>
+                                <View style={styles.shortContainer}>
+                                    <Text style={styles.inputText}>Start Hour:</Text>
+                                    <View style={styles.doubleContainer}>
+                                        <MultiWheelPicker wheelData={hourOptions} placeholder={"1"} selectedItem={startHour} setSelectedItems={setStartHour}/>
+                                        <Text style={styles.inputText}>:</Text>
+                                        <MultiWheelPicker wheelData={minOptions} placeholder={"00"} selectedItem={startMinute} setSelectedItems={setStartMinute}/>
+                                        <Text> </Text>
+                                        <MultiWheelPicker wheelData={timePeriods} placeholder={"AM"} selectedItem={startPeriod} setSelectedItems={setStartPeriod}/>
+                                    </View>
+
+                                </View>
+                                <View style={styles.shortContainer}>
+                                    <Text style={styles.inputText}>End Hour:</Text>
+                                    <View style={styles.doubleContainer}>
+                                        <MultiWheelPicker wheelData={hourOptions} placeholder={"1"} selectedItem={endHour} setSelectedItems={setEndHour}/>
+                                        <Text style={styles.inputText}>:</Text>
+                                        <MultiWheelPicker wheelData={minOptions} placeholder={"00"} selectedItem={endMinute} setSelectedItems={setEndMinute}/>
+                                        <Text> </Text>
+                                        <MultiWheelPicker wheelData={timePeriods} placeholder={"AM"} selectedItem={endPeriod} setSelectedItems={setEndPeriod}/>
+                                    </View>
+                                </View>
+                            </View>
+                            <View style={[styles.longContainer, {width: screenWidth/1.30}]}>
+                                <Text style={styles.inputText}>Repeats:</Text>
+                            </View>
+                            <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
+                                <Dropdown items={repeatsOptions} dropdownPress={repeatsDropdownPress} left={16} top={164.5} width={screenWidth/1.35} fontSize={15} fontWht={"normal"} chvSize={15}/>
+                            </View>
+                            <View style={[styles.dayContainer, {width: screenWidth/1.30}]}>
+                                {weekdays.map(day =>
+                                    <TouchableOpacity onPress={() => handleWeekdayPress(day.id)}>
+                                        <View style={[weekdaysPressed.includes(day.id) ? {backgroundColor:'#50C878'}:{backgroundColor:'#FFFFFF'}, styles.dayBox, day.id === 1 ? {borderTopLeftRadius:15,borderBottomLeftRadius:15,}:{}, day.id === 7 ? {borderTopRightRadius:15,borderBottomRightRadius:15,}:{}]}>
+                                            <Text style={[!weekdaysPressed.includes(day.id) ? {color:'#000000'}:{color:'#FFFFFF'}]}>{day.text}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+
+                                )}
+                            </View>
+                            <View style={styles.addShiftButton}>
+                                <CustomButton buttonText={"Add Shift"} handlePress={handlePressButton} />
+                            </View>
                         </View>
-                        <View><CustomButton buttonText={"Submit"} handlePress={handlePressButton} buttonWidth={350}/></View>
-                    </View>
+                    </TouchableWithoutFeedback>
+
+                    <CalendarPopup setSelectedEndDate={setSelectedEndDate} setSelectedStartDate={setSelectedStartDate} isCalendarVisible={isCalendarVisible} handleExitCalendar={handleCalendar}/>
                 </View>
             </TouchableWithoutFeedback>
         </Modal>
@@ -184,101 +231,78 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center',
         padding: 10,
-        // alignSelf:'center',
     },
     overlay:{
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    titleContainer:{
+        flexDirection:"row",
+        justifyContent:"space-between",
+        alignItems:"center",
+        padding:10,
 
     },
-    modalLongTitleContainer:{
+    titleText:{
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    longContainer:{
+        flexDirection:"column",
+        justifyContent:"center",
         alignItems:"flex-start",
-        padding:10,
-        width:350,
-    },
-    modalTopContainer:{
-        flexDirection:"row",
-        alignItems:"center",
-        justifyContent: 'space-between',
-        padding:10,
-        width:350,
-    },
-    modalTitleText: {
-        fontSize: 24,
-        fontWeight: "600",
-        marginBottom: 10,
-    },
-    modalLongInputContainer:{
-        backgroundColor:"#FFFFFF",
-        borderColor:"#ccc",
-        borderWidth:.5,
-        borderStyle:"solid",
-        justifyContent: 'center',
-        alignItems: 'center',
-        width:250,
-    },
-    modalDoubleContainer:{
-        flexDirection: "row",
-        alignItems:'center',
-        justifyContent:'flex-start',
-    },
-    modalShortInputContainer:{
-        padding: 5,
-        backgroundColor:"#FFFFFF",
-        borderColor:"#ccc",
-        borderWidth:.5,
-        borderStyle:"solid",
-        justifyContent: 'center',
-        alignItems: 'center',
-        width:150,
-        left:10,
-    },
-    modalShortDropdownContainer:{
-        backgroundColor:"#FFFFFF",
-        borderColor:"#ccc",
-        borderWidth:.5,
-        borderStyle:"solid",
-        justifyContent: 'center',
-        alignItems: 'center',
-        width:150,
-        left:10,
-    },
-    modalVeryShortInputContainer:{
-        backgroundColor:"#FFFFFF",
-        borderColor:"#ccc",
-        borderWidth:.5,
-        borderStyle:"solid",
-        justifyContent: 'center',
-        alignItems: 'center',
-        width:50,
-        left:10,
         padding:5,
     },
-    modalShortTitleContainer:{
+    inputContainer:{
+        backgroundColor:"#FFFFFF",
+        padding:5,
+        margin:5,
         alignItems:"flex-start",
-        padding:10,
-        width:175,
+        justifyContent:"flex-start",
+        borderColor:"#ccc",
+        borderWidth:.5,
     },
-    modalRepeatsContainer:{
-        flexDirection: 'row',
-        alignItems:'center',
+    inputText:{
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    dropdownContainer:{
+        backgroundColor:"#FFFFFF",
+        alignItems:"flex-start",
+        justifyContent:"flex-start",
+        borderColor:"#ccc",
+        borderWidth:.5,
+        padding:0,
+        borderRadius:10
+    },
+    doubleContainer:{
+        flexDirection:"row",
+        alignItems:"center",
         justifyContent:"space-between",
-        width:300,
-        paddingBottom:10,
-        // paddingRight:10,
+        margin:5,
     },
-    modalSingleLineContainer:{
-        flexDirection: "row",
-        alignItems:'center',
-        justifyContent:'space-evenly',
-        width:350,
-        padding:10,
+    shortContainer:{
+        flexDirection:"column",
+        justifyContent:"center",
+        alignItems:"center",
+        padding:5,
     },
-    singleLineTextContainer:{
-        marginTop:5,
+    dayContainer:{
+        flexDirection:"row",
+        alignItems:"center",
+        justifyContent:"center",
+        margin:0,
     },
+    dayBox:{
+        borderColor:"#ccc",
+        borderWidth:".5",
+        marginTop:10,
+        padding:5,
+        paddingHorizontal:8
+    }
+
 
 })
 

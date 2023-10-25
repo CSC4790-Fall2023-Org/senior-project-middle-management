@@ -21,9 +21,11 @@
     "expo-status-bar": "~1.6.0",
     "react": "18.2.0",
     "react-native": "0.72.5",
-    "react-native-gesture-handler": "~2.12.0",
+    "react-native-calendar-picker": "^7.1.4",
     "react-native-dropdown-picker": "^5.4.6",
     "react-native-elements": "^3.4.3",
+    "react-native-gesture-handler": "~2.12.0",
+    "react-native-picker-select": "^8.1.0",
     "react-native-swiper": "^1.6.0",
     "swiper": "^10.2.0"
   },
