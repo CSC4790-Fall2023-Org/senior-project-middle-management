@@ -13,4 +13,10 @@ public class ShiftController {
     public static ResponseEntity createShift(@RequestBody final String pPayload) {
         return ShiftServices.createShift(pPayload);
     }
+
+    @PostMapping("/createShifts")
+    public static ResponseEntity createShifts(@RequestBody final String pPayload) {
+        return ShiftServices.createShifts(pPayload);
+    }
+
 }
