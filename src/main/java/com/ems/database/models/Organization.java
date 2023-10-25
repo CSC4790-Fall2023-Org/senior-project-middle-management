@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "organizations")
@@ -39,7 +40,17 @@ public class Organization {
         this.organizationId = new ObjectId(jsonObject.getString("organizationId"));
         this.organizationName = jsonObject.getString("organizationName");
         this.orgOwnerEmail = jsonObject.getString("orgOwnerEmail");
-        this.locationList = parseLocationListFromJSON(jsonObject.getJSONArray("locationlist"));
+
+        // initialize locationList as an empty list
+        this.locationList = new ArrayList<>();
+
+        // parse the locationlist JSON array
+        JSONArray locationArray = jsonObject.getJSONArray("locationlist");
+        for (int i = 0; i < locationArray.length(); i++) {
+            JSONObject locationObject = locationArray.getJSONObject(i);
+            Location location = new Location(locationObject);
+            this.locationList.add(location);
+        }
     }
 
     public ObjectId getOrganizationId() {
@@ -72,10 +83,6 @@ public class Organization {
 
     public void setLocationList(List<Location> locationList) {
         this.locationList = locationList;
-    }
-
-    private List<Location> parseLocationListFromJSON(JSONArray locationlist) {
-        return locationList;
     }
 
     @Override

@@ -17,10 +17,10 @@ public class OrganizationServices {
             Organization organization = new Organization(new JSONObject(pPayload));
             ValidationServices.validateCreateOrganization(organization);
             DatabaseServices.saveOrganization(organization);
-            return ResponseEntity.status(200).body("Organization created successfully");
-        } catch (SvcException | JSONException | DatabaseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(400).body(e.getMessage());
         }
+        return ResponseEntity.status(200).body("Organization created successfully");
     }
 }
