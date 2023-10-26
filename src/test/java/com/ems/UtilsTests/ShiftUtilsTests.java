@@ -111,7 +111,7 @@ public class ShiftUtilsTests {
         {
             final ShiftHelper shiftHelper = ModelTestFactory.getShiftHelper();
             final List<Shift> shiftList = ShiftUtils.createShifts(shiftHelper);
-            assertEquals(13, shiftList.size());
+            assertEquals(104, shiftList.size());
         }
         {
             {
@@ -121,7 +121,7 @@ public class ShiftUtilsTests {
                 shiftHelper.setEndDate(LocalDate.of(2023, 10, 31));
                 shiftHelper.setRepeatsEvery(2);
                 final List<Shift> shiftList = ShiftUtils.createShifts(shiftHelper);
-                assertEquals(7, shiftList.size());
+                assertEquals(56, shiftList.size());
             }
         }
     }

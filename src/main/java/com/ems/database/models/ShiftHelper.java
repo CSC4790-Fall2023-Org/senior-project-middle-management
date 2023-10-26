@@ -24,11 +24,12 @@ public class ShiftHelper {
     private Integer repeatsEvery;
     private List<Integer> daysOfWeek;
     private ObjectId locationId;
+    private int numberOfShifts;
 
 
     public ShiftHelper() {}
 
-    public ShiftHelper(LocalDate startDate, LocalDate endDate, int startHour, int startMinute, boolean isStartAM, int endHour, int endMinute, boolean isEndAM, String shiftName, String shiftType, Integer repeatsEvery, List<Integer> daysOfWeek, ObjectId locationId) {
+    public ShiftHelper(LocalDate startDate, LocalDate endDate, int startHour, int startMinute, boolean isStartAM, int endHour, int endMinute, boolean isEndAM, String shiftName, String shiftType, Integer repeatsEvery, List<Integer> daysOfWeek, ObjectId locationId, int numberOfShifts) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.startHour = startHour;
@@ -42,6 +43,7 @@ public class ShiftHelper {
         this.repeatsEvery = repeatsEvery;
         this.daysOfWeek = daysOfWeek;
         this.locationId = locationId;
+        this.numberOfShifts = numberOfShifts;
     }
 
     public ShiftHelper(final JSONObject pJsonObject) throws SvcException {
@@ -59,6 +61,7 @@ public class ShiftHelper {
             this.repeatsEvery = pJsonObject.getInt("repeatsEvery");
             this.daysOfWeek = JsonUtils.convertJsonArrayToListInteger(pJsonObject.getJSONArray("daysOfWeek"));
             this.locationId = new ObjectId(pJsonObject.getString("locationId"));
+            this.numberOfShifts = pJsonObject.getInt("numberOfShifts");
 
         }
         catch (Exception e){
@@ -202,5 +205,13 @@ public class ShiftHelper {
 
     public void setDaysOfWeek(List<Integer> daysOfWeek) {
         this.daysOfWeek = daysOfWeek;
+    }
+
+    public int getNumberOfShifts() {
+        return numberOfShifts;
+    }
+
+    public void setNumberOfShifts(int numberOfShifts) {
+        this.numberOfShifts = numberOfShifts;
     }
 }

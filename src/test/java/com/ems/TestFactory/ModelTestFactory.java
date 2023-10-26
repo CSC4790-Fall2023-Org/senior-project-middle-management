@@ -25,6 +25,7 @@ public class ModelTestFactory {
         shiftHelper.setRepeatsEvery(1);
         shiftHelper.setDaysOfWeek(List.of(1, 3, 5));
         shiftHelper.setLocationId(new ObjectId("6500e9ec491cac473a9b80cd"));
+        shiftHelper.setNumberOfShifts(8);
 
 
         return shiftHelper;
