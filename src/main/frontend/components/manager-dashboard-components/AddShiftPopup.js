@@ -16,10 +16,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {X, Calendar} from '../../utils/Icons';
 import Dropdown from "../Dropdown";
 import MultiWheelPicker from "../MultiWheelPicker";
-import shifts from "../../mockApiCalls/myShiftCardData";
-import MyShiftCardSwipe from "../MyShiftCardSwipe";
-import ShiftCard from "../ShiftCard";
 import CustomButton from "../CustomButton";
+
 
 
 
@@ -30,6 +28,13 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
     const [shiftType, setShiftType] = useState("Head Guard");
     const shiftDropdownPress = (index) => {
         setShiftType(index);
+    }
+
+    //location info
+    const locationOptions = ["Bryn Mawr"]
+    const [location, setLocation] = useState("Head Guard");
+    const locationDropdownPress = (index) => {
+        setLocation(index);
     }
     //start & end hour info
     const hourOptions = [2, 3, 4, 5 ,6 ,7 ,8, 9, 10, 11, 12]
@@ -96,7 +101,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
             text: 'Sun',
         },]
 
-    const [weekdaysPressed, setWeekdaysPressed] = useState([1,2,3]);
+    const [weekdaysPressed, setWeekdaysPressed] = useState([]);
 
 
 
@@ -108,13 +113,16 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
         else{
             const addDay = [index]
             setWeekdaysPressed([].concat(weekdaysPressed,addDay))
-            weekdaysPressed.sort()
         }
-
     };
     const repeatsDropdownPress = (index) => {
         setSelectedRepeats(index);
     }
+    const handleAddShift = () =>{
+
+    }
+
+
     return(
         <Modal
             animationType="none"
@@ -149,6 +157,14 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
                             </View>
                             <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
                                 <Dropdown items={shiftOptions} dropdownPress={shiftDropdownPress} left={16} top={164.5} width={screenWidth/1.35} fontSize={15} fontWht={"normal"} chvSize={15}/>
+                            </View>
+                            <View style={[styles.longContainer,{width: screenWidth/1.30}]}>
+                                <Text style={styles.inputText}>Location:</Text>
+                            </View>
+                            <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
+                                {locationOptions.length === 1 && <View style={[styles.longContainer]}><Text>{locationOptions[0]}</Text></View>}
+                                {locationOptions.length !== 1 && <Dropdown items={locationOptions} dropdownPress={locationDropdownPress} left={16} top={164.5} width={screenWidth/1.35} fontSize={15} fontWht={"normal"} chvSize={15}/>}
+
                             </View>
                             <View style={[styles.doubleContainer, {width: screenWidth/1.30}]}>
                                 <View style={styles.shortContainer}>
