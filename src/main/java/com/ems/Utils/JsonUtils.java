@@ -101,6 +101,20 @@ public class JsonUtils {
 
     }
 
+    public static List<String> getShiftTypeListFromJSON(final JSONArray pJsonArray) throws SvcException{
+        try{
+            List<String> result = new ArrayList<>();
+            for (int i = 0; i < pJsonArray.length(); i++){
+                result.add(pJsonArray.getString(i));
+            }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SvcException("Error getting shift type list from JSON");
+
+        }
+    }
+
     public static List<Integer> convertJsonArrayToListInteger(final JSONArray pJsonArray) throws JSONException {
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < pJsonArray.length(); i++){
