@@ -5,6 +5,7 @@ import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {CalendarAdd, TrashCan} from "../utils/Icons";
+import {greenAction, grayAction, white} from "../utils/Colors";
 import ShiftCard from "./ShiftCard";
 
 class AvailableShiftCardSwipe extends Component {
@@ -80,7 +81,7 @@ class AvailableShiftCardSwipe extends Component {
                             transform: [{ translateX: trans }],
                         },
                     ]}>
-                    <FontAwesomeIcon icon={CalendarAdd} size={36} color={'#FFFFFF'}/>
+                    <FontAwesomeIcon icon={CalendarAdd} size={36} color={white}/>
                 </Animated.Text>
             </RectButton>
         );
@@ -100,7 +101,7 @@ class AvailableShiftCardSwipe extends Component {
                             transform: [{ translateX: trans }],
                         },
                     ]}>
-                    <FontAwesomeIcon icon={TrashCan} size={36} color={'#FFFFFF'}/>
+                    <FontAwesomeIcon icon={TrashCan} size={36} color={white}/>
                 </Animated.Text>
             </RectButton>
         );
@@ -121,7 +122,7 @@ const styles= StyleSheet.create({
     leftAction: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#388E3C',
+        backgroundColor: greenAction,
         justifyContent: 'center',
         height: ShiftCard.height,
         margin: 16,
@@ -135,7 +136,7 @@ const styles= StyleSheet.create({
     },
     rightAction: {
         flex: 1,
-        backgroundColor: '#626567',
+        backgroundColor: grayAction,
         justifyContent: 'center',
         alignItems: 'flex-end',
         height: ShiftCard.height,

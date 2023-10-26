@@ -8,6 +8,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Calendar} from '../../utils/Icons';
 import Dropdown from "../Dropdown";
 import AddShiftPopup from "./AddShiftPopup";
+import {secondaryGray, white} from "../../utils/Colors";
 
 function ManagerShiftDashboard(){
     const sortDropdown = ['All', 'Open', 'Taken'];
@@ -45,7 +46,7 @@ function ManagerShiftDashboard(){
             </View>
             <View style={styles.dropdownWrapper}>
                 <View style={styles.dropdownWrapperBorder}>
-                    <Dropdown items={sortDropdown} dropdownPress={handleSortPress} left={10} top={237} width={200} fontSize={24} fontWht={"bold"} chvSize={32}/>
+                    <Dropdown items={sortDropdown} dropdownPress={handleSortPress} left={10} top={290} width={200} fontSize={24} fontWht={"bold"} chvSize={32}/>
                 </View>
             </View>
             <ManagerShiftView available={selectedIndex}/>
@@ -67,20 +68,20 @@ const styles = StyleSheet.create({
         paddingBottom: 8,
     },
     dropdownWrapperBorder:{
-        backgroundColor: '#FFFFFF',
+        backgroundColor: white,
+        borderWidth: .5,
+        borderColor: secondaryGray,
         borderRadius: 10,
         overflow: 'hidden',
         width: 200,
         justifyContent: "center",
-        borderColor: "#ccc",
-        borderWidth: .5,
     },
     addShiftButton: {
         paddingLeft: 16,
     },
     icon: {
         marginRight: 16,
-        color: '#50C878',
+        color: primaryGreen,
     },
 
 });

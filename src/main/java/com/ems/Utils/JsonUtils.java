@@ -5,7 +5,12 @@ import com.ems.database.models.Employee;
 import com.ems.database.models.Manager;
 import com.ems.database.models.Shift;
 import org.bson.types.ObjectId;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JsonUtils {
 
@@ -79,5 +84,28 @@ public class JsonUtils {
             e.printStackTrace();
             throw new SvcException("Error getting shift from JSON");
         }
+    }
+
+    public static List<ObjectId> getLocationIdListFromJson(final JSONArray pJsonArray) throws SvcException {
+        try{
+            List<ObjectId> result = new ArrayList<>();
+            for (int i = 0; i < pJsonArray.length(); i++){
+                result.add(new ObjectId((String) pJsonArray.get(i)));
+            }
+            return result;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new SvcException("Error getting locationIdList from JSON");
+        }
+
+    }
+
+    public static List<Integer> convertJsonArrayToListInteger(final JSONArray pJsonArray) throws JSONException {
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < pJsonArray.length(); i++){
+            result.add((Integer) pJsonArray.get(i));
+        }
+        return result;
     }
 }

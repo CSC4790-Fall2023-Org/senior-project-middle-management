@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Modal} from 'react-native';
+import {useNavigation} from "@react-navigation/native";
+import {ScreenNames} from "../utils/ScreenNames";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
+import {primaryGreen, secondaryGray, white} from "../utils/Colors";
 
 
 function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, chvSize}){
@@ -13,68 +16,62 @@ function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, c
         setShowDropdown(!showDropdown);
     };
 
+    const closeModal = () => {
+        setShowDropdown(false);
+    };
+
     const selectOption = (option) => {
         setSelectedValue(option);
         setShowDropdown(false);
     };
 
+
     const filteredOptions = options.filter((option) => option !== selectedValue);
-    
+
+    const navigation = useNavigation();
+    const handleUserClick = () => {
+        navigation.navigate(ScreenNames.LOGIN);
+    }
     return(
         <View>
-            <TouchableOpacity onPress={toggleDropdown}>
-                <View style={[styles.dropdownTrigger, {width: width}]}>
-                    <Text style={styles.dropdownText}>{selectedValue}</Text>
-                    {showDropdown && <FontAwesomeIcon icon={faChevronUp} size={20} />}
-                    {!showDropdown && <FontAwesomeIcon icon={faChevronDown} size={20} />}
-                </View>
-            </TouchableOpacity>
-            <Modal
-                animationType="none"
-                transparent={true}
-                visible={showDropdown}
-                onRequestClose={() => setShowDropdown(false)}
-            >
-                <TouchableOpacity
-                    style={styles.overlay}
-                    onPress={toggleDropdown}
-                />
-                <View style={[styles.dropdownModal, {
-                    top: top,
-                    left: left,
-                    width: width,
-                }]}>
-
-                    <TouchableOpacity
-                        style={[styles.dropdownOptions]}
-                        key={selectedValue}
-                        onPress={() => {selectOption(selectedValue); dropdownPress(selectedValue);}}
-                    >
-                        <View style={[styles.dropdownTrigger, {width:width-30, padding:0,}]}>
+            <View style={styles.dropdownContainer}>
+                <View style={styles.dropdownWrapper}>
+                    <TouchableOpacity onPress={toggleDropdown}>
+                        <View style={[styles.dropdownTrigger, {width: width,}]}>
                             <Text style={styles.dropdownText}>{selectedValue}</Text>
                             {showDropdown && <FontAwesomeIcon icon={faChevronUp} size={20} />}
+                            {!showDropdown && <FontAwesomeIcon icon={faChevronDown} size={20} />}
                         </View>
                     </TouchableOpacity>
-                    <View style={styles.separator} />
-
-                    {filteredOptions.map((option) => (
-                        <View>
-                            <TouchableOpacity
-                                style={styles.dropdownOptions}
-                                key={option}
-                                onPress={() => {selectOption(option); dropdownPress(option);}}
-                            >
-                                <Text style={styles.dropdownText}>{option}</Text>
-                            </TouchableOpacity>
-                            {option!==filteredOptions[filteredOptions.length-1] && (
-                                <View style={styles.separator} />
-                            )}
+                    <Modal
+                        animationType="none"
+                        transparent={true}
+                        visible={showDropdown}
+                        onRequestClose={() => setShowDropdown(false)}
+                    >
+                        <TouchableOpacity
+                            style={styles.overlay}
+                            onPress={toggleDropdown}
+                        />
+                        <View style={[styles.dropdownModal, {
+                            top: top,
+                            left: left,
+                            width: width,
+                        }]}>
+                            {filteredOptions.map((option) => (
+                                <TouchableOpacity
+                                    style={styles.dropdownOptions}
+                                    key={option}
+                                    onPress={() => {selectOption(option); dropdownPress(option);}}
+                                >
+                                    <Text style={styles.dropdownText}>{option}</Text>
+                                </TouchableOpacity>
+                            ))}
                         </View>
-                    ))
-                    }
-
+                    </Modal>
                 </View>
-            </Modal>
+
+            </View>
         </View>
     );
 }
@@ -87,36 +84,35 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    dropdownContainer: {
+        flexDirection: 'row',
+        overflow: 'hidden',
+        paddingTop: 2,
+    },
     dropdownTrigger: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems:"center",
-        padding: 5,
-
+        paddingHorizontal: 16,
+        padding: 10,
     },
     dropdownModal: {
         position: 'absolute',
-        borderWidth: .5,
-        backgroundColor:'#FFFFFF',
-        borderColor:"#ccc",
-        borderRadius: 10,
         overflow: 'hidden',
-        justifyContent: "center",
+        elevation: 5,
+        zIndex: 1,
+        backgroundColor: white,
+
     },
     dropdownOptions:{
-        padding: 12,
-        height: 42,
+        borderWidth: .5,
+        borderColor: secondaryGray,
+        borderRadius: 0,
+        padding: 15,
         overflow: 'hidden',
-        paddingHorizontal: 16,
-        justifyContent: "center",
     },
     dropdownText:{
-        fontSize: 15,
-    },
-    separator: {
-        width: '100%',
-        borderBottomWidth: 1,
-        borderColor: '#ccc',
+        fontSize: 12,
+        color: 'black',
     },
 });
 

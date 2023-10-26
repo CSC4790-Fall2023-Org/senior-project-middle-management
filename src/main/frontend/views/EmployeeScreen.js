@@ -6,6 +6,9 @@ import EmployeeHrsStatusBar from "../components/EmployeeHrsStatusBar";
 import MyShiftList from "../components/MyShiftList";
 import AvailableShiftList from "../components/AvailableShiftList";
 import CustomDashboardHeader from "../components/CustomDashboardHeader";
+import employeeData from '../mockApiCalls/employeeData.json';
+import companyData from '../mockApiCalls/companyData.json';
+import {grayBackground} from "../utils/Colors";
 
 function EmployeeScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -27,18 +30,18 @@ function EmployeeScreen() {
 
     return (
         <View style={styles.screen}>
-            <CustomHeader title={"Employee Name"} page={ScreenNames.EMPLOYEE_SETTINGS} />
+            <CustomHeader title={employeeData.fName + ' ' + employeeData.lName} page={ScreenNames.EMPLOYEE_SETTINGS} />
             <CustomDashboardHeader onTitlePress={handleTitlePress} tabs={tabs}/>
             {selectedIndex === 0 && <MyShiftList />}
             {selectedIndex === 1 && <AvailableShiftList />}
-            <EmployeeHrsStatusBar loggedHours={20} maxWorkableHours={40} style={styles.statusBar}/>
+            <EmployeeHrsStatusBar employee={employeeData} company={companyData} style={styles.statusBar}/>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     screen: {
-        backgroundColor: '#F1F1F1',
+        backgroundColor: grayBackground,
         display: "flex",
         flexDirection: "column",
         flex: 1,

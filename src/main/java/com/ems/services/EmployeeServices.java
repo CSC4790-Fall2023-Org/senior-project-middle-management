@@ -4,18 +4,12 @@ import com.ems.Exceptions.SvcException;
 import com.ems.Utils.EmployeeUtils;
 import com.ems.Utils.JsonUtils;
 import com.ems.database.models.Employee;
-import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
 import org.bson.types.ObjectId;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
-import javax.xml.crypto.Data;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 public class EmployeeServices {
 

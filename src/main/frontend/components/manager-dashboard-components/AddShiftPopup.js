@@ -1,4 +1,3 @@
-
 import {
     Modal,
     Text,
@@ -13,13 +12,12 @@ import {
 import React, {useState} from "react";
 import CalendarPopup from "../CalendarPopup";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {X, Calendar} from '../../utils/Icons';
+import {XMark, Calendar} from '../../utils/Icons';
 import Dropdown from "../Dropdown";
 import MultiWheelPicker from "../MultiWheelPicker";
 import CustomButton from "../CustomButton";
-
-
-
+import React, {useState} from "react";
+import {grayBackground, white} from "../../utils/Colors";
 
 const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
     const screenWidth = Dimensions.get('window').width;
@@ -117,9 +115,6 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
     };
     const repeatsDropdownPress = (index) => {
         setSelectedRepeats(index);
-    }
-    const handleAddShift = () =>{
-
     }
 
 
@@ -237,22 +232,24 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
 }
 
 const styles = StyleSheet.create({
-    modal:{
-        position:"relative",
-        backgroundColor:'#F1F1F1',
-        borderRadius:20,
-        borderStyle:"solid",
-        borderColor:"#ccc",
+    modal: {
+        position: "relative",
+        backgroundColor: grayBackground,
+        borderRadius: 20,
+        borderStyle: "solid",
+        borderColor: "#ccc",
         flexDirection: "column",
-        alignItems:'center',
-        justifyContent:'center',
+        alignItems: 'center',
+        justifyContent: 'center',
         padding: 10,
+
     },
-    overlay:{
+    overlay: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+
     },
     titleContainer:{
         flexDirection:"row",
@@ -272,7 +269,7 @@ const styles = StyleSheet.create({
         padding:5,
     },
     inputContainer:{
-        backgroundColor:"#FFFFFF",
+        backgroundColor: white,
         padding:5,
         margin:5,
         alignItems:"flex-start",
@@ -285,7 +282,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     dropdownContainer:{
-        backgroundColor:"#FFFFFF",
+        backgroundColor:white,
         alignItems:"flex-start",
         justifyContent:"flex-start",
         borderColor:"#ccc",
