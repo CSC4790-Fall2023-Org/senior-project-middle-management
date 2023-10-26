@@ -55,37 +55,43 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
             onRequestClose={() => {
                 setPhoneNumberModalVisible(!phoneNumberModalVisible);
             }}>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={styles.container}>
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Edit Phone Number</Text>
-                        <TextInput
-                            style={[styles.inputText, invalidPhoneNumber ? styles.errorBorder : null]}
-                            autoCapitalize={"words"}
-                            onChangeText={setPhoneNumber}
-                            value={phoneNumber}
-                            placeholder="ex. 5555555555"
-                            placeholderTextColor={secondaryGray}
-                            autoComplete={"tel"}
-                            inputMode={"tel"}
-                        />
-                        <View style={styles.buttonsContainer}>
-                            <TouchableOpacity
-                                style={styles.buttonCancel}
-                                onPress={handleCancel}>
-                                <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.buttonSubmit}
-                                onPress={handleSubmit}>
-                                <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
-                            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.container}
+                activeOpacity={1}
+                onPressOut={() => {setPhoneNumberModalVisible(false)}}
+            >
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    style={styles.container}>
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Text style={styles.modalText}>Edit Phone Number</Text>
+                            <TextInput
+                                style={[styles.inputText, invalidPhoneNumber ? styles.errorBorder : null]}
+                                autoCapitalize={"words"}
+                                onChangeText={setPhoneNumber}
+                                value={phoneNumber}
+                                placeholder="ex. 5555555555"
+                                placeholderTextColor={secondaryGray}
+                                autoComplete={"tel"}
+                                inputMode={"tel"}
+                            />
+                            <View style={styles.buttonsContainer}>
+                                <TouchableOpacity
+                                    style={styles.buttonCancel}
+                                    onPress={handleCancel}>
+                                    <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.buttonSubmit}
+                                    onPress={handleSubmit}>
+                                    <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
-                </View>
-            </KeyboardAvoidingView>
+                </KeyboardAvoidingView>
+            </TouchableOpacity>
         </Modal>
     )
 }

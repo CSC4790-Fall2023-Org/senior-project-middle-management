@@ -10,14 +10,13 @@ import ShiftCard from "./ShiftCard";
 import EditEmailModal from "./userSettings/EditEmailModal";
 
 class MyShiftCardSwipe extends Component {
-    swipeableRef = React.createRef();
-
-    handleShiftTransfer = () => {
-        const [emailModalVisible, setEmailModalVisible] = useState(false);
-        return (
-            <EditEmailModal emailModalVisible={emailModalVisible} setEmailModalVisible={setEmailModalVisible()} />
-        )
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            emailModalVisible: false,
+        };
+        this.swipeableRef = React.createRef();
+    }
 
     handleSwipeOpen = (direction) => {
         if (direction === 'right') {
@@ -59,11 +58,8 @@ class MyShiftCardSwipe extends Component {
                         text: 'Transfer',
                         style: 'default',
                         onPress: () => {
-                            // Haptics.notificationAsync(
-                            //     Haptics.NotificationFeedbackType.Success
-                            // );
-
-                            return (this.handleShiftTransfer);
+                            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+                            this.setState({ emailModalVisible: true });
                         },
                     },
                     {
@@ -118,12 +114,26 @@ class MyShiftCardSwipe extends Component {
         );
     };
 
-    render() {
-        const { ShiftCardComponent } = this.props;
+    handleModalClose = () => {
+        this.setState({ emailModalVisible: false }); // Close the modal for this card
+    };
 
+    render() {
         return (
-                <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
-                    {ShiftCardComponent}
+                <Swipeable
+                    renderLeftActions={this.renderLeftActions}
+                    renderRightActions={this.renderRightActions}
+                    onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)}
+                    ref={this.swipeableRef}
+                    overshootFriction={8}
+                >
+                    {this.props.ShiftCardComponent}
+                    {this.state.emailModalVisible && (
+                        <EditEmailModal
+                            emailModalVisible={this.state.emailModalVisible}
+                            setEmailModalVisible={this.handleModalClose}
+                        />
+                    )}
                 </Swipeable>
         );
     }
@@ -142,7 +152,7 @@ const styles= StyleSheet.create({
         overflow: "hidden",
     },
     actionText: {
-        color: 'white',
+        color: white,
         backgroundColor: 'transparent',
     },
     rightAction: {

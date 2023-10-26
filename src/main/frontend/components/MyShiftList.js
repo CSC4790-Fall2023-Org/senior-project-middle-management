@@ -7,8 +7,9 @@ import shifts from "../mockApiCalls/myShiftCardData.json";
 const MyShiftList = () => {
     return(
         <ScrollView style={styles.scrollView}>
-            {shifts.map(shift =>
+            {shifts.map((shift, index) =>
                 <MyShiftCardSwipe
+                    key={index}
                     ShiftCardComponent={
                     <ShiftCard
                         date={shift.date}
