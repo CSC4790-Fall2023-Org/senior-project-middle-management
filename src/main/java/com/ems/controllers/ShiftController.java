@@ -24,4 +24,9 @@ public class ShiftController {
         return ShiftServices.deleteAllShifts(pPayload);
     }
 
+    @PostMapping("getShiftCreationInfo")
+    public static ResponseEntity getShiftCreationInfo(@RequestBody final String pPayload){
+        return ShiftServices.getShiftCreationInfo(pPayload);
+    }
+
 }
