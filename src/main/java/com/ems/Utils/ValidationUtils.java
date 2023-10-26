@@ -8,6 +8,8 @@ import com.ems.services.DatabaseServices;
 import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ValidationUtils {
 
@@ -62,7 +64,7 @@ public class ValidationUtils {
         }
     }
 
-    public static boolean validateShiftForEmployee(final Shift pShift, final Employee pEmployee, final int pWeeksToRelease) {
+    public static boolean validateShiftForEmployee(final Shift pShift, final Employee pEmployee, final int pWeeksToRelease, final List<Shift> pSeenShifts) {
         // location of shift is one of the locations that the employee works at
         if (!pEmployee.getLocationIdList().contains(pShift.getLocationId())) {
             return false;
@@ -88,6 +90,11 @@ public class ValidationUtils {
             return false;
         }
 
+        // if shift has already been added to result
+        if (doesResultAlreadyHaveShift(pSeenShifts, pShift)){
+            return false;
+        }
+
         // shift is open and approved to be dropped
         return pShift.isShiftOpen() && pShift.isDropApproved();
     }
@@ -100,6 +107,15 @@ public class ValidationUtils {
                 return true;
             }
 
+        }
+        return false;
+    }
+
+    public static boolean doesResultAlreadyHaveShift(final List<Shift> pSeen, final Shift pShift){
+        for (Shift shiftToTest : pSeen){
+            if (shiftToTest.equals(pShift)){
+                return true;
+            }
         }
         return false;
     }
