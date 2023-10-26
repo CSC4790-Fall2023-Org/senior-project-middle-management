@@ -56,4 +56,19 @@ public class ShiftServices {
         return ResponseEntity.status(200).body("Shifts created successfully");
     }
 
+
+    public static ResponseEntity deleteAllShifts(final String pPayload){
+        try{
+            final JSONObject request = new JSONObject(pPayload);
+            final String pass = request.getString("pass");
+            if (!pass.equals("delete")){
+                return ResponseEntity.status(500).body("invalid password to delete all shifts");
+            }
+            DatabaseUtils.deleteAllShifts();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.status(200).body("all shifts deleted");
+    }
 }

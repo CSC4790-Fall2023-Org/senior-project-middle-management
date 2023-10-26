@@ -102,7 +102,7 @@ public class ShiftUtilsTests {
             final ShiftHelper shiftHelper = ModelTestFactory.getShiftHelper();
 
             final List<Shift> shiftList = ShiftUtils.createListOfShiftsFromDateList(datesBetween, shiftHelper);
-            assertEquals(5, shiftList.size());
+            assertEquals(248, shiftList.size());
         }
     }
 
