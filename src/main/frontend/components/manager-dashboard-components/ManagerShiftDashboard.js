@@ -8,7 +8,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Calendar} from '../../utils/Icons';
 import Dropdown from "../Dropdown";
 import AddShiftPopup from "./AddShiftPopup";
-import {secondaryGray, white} from "../../utils/Colors";
+import {secondaryGray, white, primaryGreen} from "../../utils/Colors";
 
 function ManagerShiftDashboard(){
     const sortDropdown = ['All', 'Open', 'Taken'];
