@@ -111,7 +111,18 @@ public class ShiftUtilsTests {
         {
             final ShiftHelper shiftHelper = ModelTestFactory.getShiftHelper();
             final List<Shift> shiftList = ShiftUtils.createShifts(shiftHelper);
-            assertEquals(13, shiftList.size());
+            assertEquals(104, shiftList.size());
+        }
+        {
+            {
+                // shifts from 2023/10/01 -> 2023/10/31 - biweekly, monday, wednesday, friday
+                final ShiftHelper shiftHelper = ModelTestFactory.getShiftHelper();
+                shiftHelper.setStartDate(LocalDate.of(2023, 10, 1));
+                shiftHelper.setEndDate(LocalDate.of(2023, 10, 31));
+                shiftHelper.setRepeatsEvery(2);
+                final List<Shift> shiftList = ShiftUtils.createShifts(shiftHelper);
+                assertEquals(56, shiftList.size());
+            }
         }
     }
 }

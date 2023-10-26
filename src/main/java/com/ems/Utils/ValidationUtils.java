@@ -1,9 +1,15 @@
 package com.ems.Utils;
 
 import com.ems.Exceptions.SvcException;
+import com.ems.database.models.Employee;
+import com.ems.database.models.Shift;
 import com.ems.database.models.ShiftHelper;
+import com.ems.services.DatabaseServices;
+import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ValidationUtils {
 
@@ -56,5 +62,61 @@ public class ValidationUtils {
         if (!DatabaseUtils.locationExists(pShiftHelper.getLocationId())) {
             throw new SvcException("location does not exist");
         }
+    }
+
+    public static boolean validateShiftForEmployee(final Shift pShift, final Employee pEmployee, final int pWeeksToRelease, final List<Shift> pSeenShifts) {
+        // location of shift is one of the locations that the employee works at
+        if (!pEmployee.getLocationIdList().contains(pShift.getLocationId())) {
+            return false;
+        }
+
+        // start time is within release window
+        if (!pShift.getShiftStartTime().isBefore(LocalDate.now().plusWeeks(pWeeksToRelease).atStartOfDay())) {
+            return false;
+        }
+
+        // shift is after now
+        if (!pShift.getShiftStartTime().isAfter(LocalDate.now().atTime(pShift.getShiftStartTime().getHour(), pShift.getShiftStartTime().getMinute()))) {
+            return false;
+        }
+
+        // shift type is one of the guard type
+        if (!pEmployee.getEmployeeType().equals(pShift.getShiftType())) {
+            return false;
+        }
+
+        // employee has shift at same time
+        if (doesEmployeeHaveShiftAtSameTime(pEmployee, pShift)){
+            return false;
+        }
+
+        // if shift has already been added to result
+        if (doesResultAlreadyHaveShift(pSeenShifts, pShift)){
+            return false;
+        }
+
+        // shift is open and approved to be dropped
+        return pShift.isShiftOpen() && pShift.isDropApproved();
+    }
+
+
+    public static boolean doesEmployeeHaveShiftAtSameTime(final Employee pEmployee, final Shift pShift){
+        for (ObjectId shiftId : pEmployee.getShiftIdList()){
+            Shift shiftToTest = DatabaseServices.findShiftById(shiftId).orElseThrow();
+            if (shiftToTest.equals(pShift)){
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public static boolean doesResultAlreadyHaveShift(final List<Shift> pSeen, final Shift pShift){
+        for (Shift shiftToTest : pSeen){
+            if (shiftToTest.equals(pShift)){
+                return true;
+            }
+        }
+        return false;
     }
 }
