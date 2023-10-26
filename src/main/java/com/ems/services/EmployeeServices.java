@@ -9,6 +9,7 @@ import org.bson.types.ObjectId;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 public class EmployeeServices {
@@ -110,5 +111,18 @@ public class EmployeeServices {
             return ResponseEntity.status(400).body(e.getMessage());
         }
         return ResponseEntity.status(200).body("Shift assigned to employee successfully");
+    }
+
+    public static ResponseEntity getAvailableShifts(final String pPayload){
+        try{
+            final ObjectId employeeId = JsonUtils.getEmployeeIdFromJSON(new JSONObject(pPayload));
+
+
+            return ResponseEntity.status(200).body("");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 }
