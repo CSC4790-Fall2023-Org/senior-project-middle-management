@@ -21,6 +21,7 @@ public class ShiftUtils {
                 LocalDateTime.of(2023, 8, 20, 10,0),
                 LocalDateTime.of(2023, 8, 20, 18,0),
                 "Guard",
+                true,
                 true);
     }
 
@@ -65,22 +66,31 @@ public class ShiftUtils {
         }
     }
 
-    public static List<LocalDate> removeBiweekly(final List<LocalDate> pDateList){
+    public static List<LocalDate> removeBiweekly(List<LocalDate> pDateList){
         List<LocalDate> dates = new ArrayList<>();
 
 
         // get to first sunday
+        HashSet<Integer> seen = new HashSet<>();
         for (LocalDate localDate : pDateList) {
+            if (seen.contains(localDate.getDayOfWeek().getValue())){
+                break;
+            }
             if (localDate.getDayOfWeek().getValue() == 7) {
                 pDateList.remove(localDate);
                 dates.add(localDate);
                 break;
             }
-            pDateList.remove(localDate);
             dates.add(localDate);
+            seen.add(localDate.getDayOfWeek().getValue());
         }
 
-        HashSet<Integer> seen = new HashSet<>();
+        // remove seen dates
+        for (LocalDate date : dates){
+            pDateList.remove(date);
+        }
+
+        seen.clear();
         boolean skipWeek = true;
         for (LocalDate date : pDateList) {
             if(seen.contains(date.getDayOfWeek().getValue())){
@@ -155,6 +165,7 @@ public class ShiftUtils {
                     LocalDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), pShiftHelper.getStartHour(), pShiftHelper.getStartMinute()),
                     LocalDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), pShiftHelper.getEndHour(), pShiftHelper.getEndMinute()),
                     pShiftHelper.getShiftType(),
+                    true,
                     true
             ));
         }

@@ -1,9 +1,12 @@
 package com.ems.TestFactory;
 
+import com.ems.Utils.LocationUtils;
+import com.ems.database.models.Shift;
 import com.ems.database.models.ShiftHelper;
 import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ModelTestFactory {
@@ -25,6 +28,18 @@ public class ModelTestFactory {
 
 
         return shiftHelper;
+    }
+
+    public static Shift getShift(){
+        return new Shift(
+                new ObjectId("6500e9ec491cac473a9b80cd"),
+                LocationUtils.getBaseLocation().getLocationId(),
+                "Guard Shift",
+                LocalDateTime.of(2023, 8, 20, 10,0),
+                LocalDateTime.of(2023, 8, 20, 15,0),
+                "Guard",
+                true,
+                true);
     }
 
 }

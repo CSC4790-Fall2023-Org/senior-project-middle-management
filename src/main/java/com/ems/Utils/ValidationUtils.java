@@ -1,7 +1,10 @@
 package com.ems.Utils;
 
 import com.ems.Exceptions.SvcException;
+import com.ems.database.models.Employee;
+import com.ems.database.models.Shift;
 import com.ems.database.models.ShiftHelper;
+import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
 
@@ -56,5 +59,21 @@ public class ValidationUtils {
         if (!DatabaseUtils.locationExists(pShiftHelper.getLocationId())) {
             throw new SvcException("location does not exist");
         }
+    }
+
+    public static boolean validateShiftForEmployee(final Shift pShift, final Employee pEmployee, final int pWeeksToRelease){
+        if (!pEmployee.getLocationIdList().contains(pShift.getLocationId())){
+            return false;
+        }
+
+        if (!pShift.getShiftStartTime().isBefore(LocalDate.now().plusWeeks(pWeeksToRelease).atStartOfDay())){
+            return false;
+        }
+
+        if(!pShift.getShiftStartTime().isAfter(LocalDate.now().atTime(pShift.getShiftStartTime().getHour(), pShift.getShiftStartTime().getMinute()))){
+            return false;
+        }
+
+        return pShift.isShiftOpen() && pShift.isDropApproved();
     }
 }
