@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 
 @Document(collection = "shifts")
@@ -139,5 +140,28 @@ public class Shift {
                 ", shiftType='" + shiftType + '\'' +
                 ", isShiftOpen=" + isShiftOpen +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Shift shift = (Shift) o;
+
+        if (!Objects.equals(shiftName, shift.shiftName)) return false;
+        if (!Objects.equals(shiftStartTime, shift.shiftStartTime))
+            return false;
+        if (!Objects.equals(shiftEndTime, shift.shiftEndTime)) return false;
+        return Objects.equals(shiftType, shift.shiftType);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = shiftName != null ? shiftName.hashCode() : 0;
+        result = 31 * result + (shiftStartTime != null ? shiftStartTime.hashCode() : 0);
+        result = 31 * result + (shiftEndTime != null ? shiftEndTime.hashCode() : 0);
+        result = 31 * result + (shiftType != null ? shiftType.hashCode() : 0);
+        return result;
     }
 }
