@@ -19,4 +19,14 @@ public class ShiftController {
         return ShiftServices.createShifts(pPayload);
     }
 
+    @PostMapping("/deleteAllShifts")
+    public static ResponseEntity deleteAllShifts(@RequestBody final String pPayload){
+        return ShiftServices.deleteAllShifts(pPayload);
+    }
+
+    @PostMapping("getShiftCreationInfo")
+    public static ResponseEntity getShiftCreationInfo(@RequestBody final String pPayload){
+        return ShiftServices.getShiftCreationInfo(pPayload);
+    }
+
 }

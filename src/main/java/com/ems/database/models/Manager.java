@@ -27,11 +27,13 @@ public class Manager {
     private ObjectId organizationId;
     @Field
     private List<ObjectId> locationIdList;
+    @Field
+    private List<String> shiftTypeList;
 
     public Manager() {
     }
 
-    public Manager(ObjectId managerId, String firstName, String lastName, String managerEmail, String managerPhoneNumber, ObjectId organizationId, List<ObjectId> locationIdList) {
+    public Manager(ObjectId managerId, String firstName, String lastName, String managerEmail, String managerPhoneNumber, ObjectId organizationId, List<ObjectId> locationIdList, List<String> shiftTypeList) {
         this.managerId = managerId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -39,6 +41,7 @@ public class Manager {
         this.managerPhoneNumber = managerPhoneNumber;
         this.organizationId = organizationId;
         this.locationIdList = locationIdList;
+        this.shiftTypeList = shiftTypeList;
     }
 
     public Manager(final JSONObject pJsonObject) throws JSONException, SvcException {
@@ -48,6 +51,8 @@ public class Manager {
         this.managerPhoneNumber = (String) pJsonObject.get("managerPhoneNumber");
         this.organizationId = new ObjectId((String) pJsonObject.get("organizationId"));
         this.locationIdList = JsonUtils.getLocationIdListFromJson(pJsonObject.getJSONArray("locationIdList"));
+        this.shiftTypeList = JsonUtils.getShiftTypeListFromJSON(pJsonObject.getJSONArray("shiftTypeList"));
+
     }
 
     public ObjectId getManagerId() {
@@ -104,6 +109,14 @@ public class Manager {
 
     public void setLocationIdList(List<ObjectId> locationIdList) {
         this.locationIdList = locationIdList;
+    }
+
+    public List<String> getShiftTypeList() {
+        return shiftTypeList;
+    }
+
+    public void setShiftTypeList(List<String> shiftTypeList) {
+        this.shiftTypeList = shiftTypeList;
     }
 
     @Override

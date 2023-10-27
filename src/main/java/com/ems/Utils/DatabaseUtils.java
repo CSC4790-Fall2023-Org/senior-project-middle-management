@@ -28,4 +28,11 @@ public class DatabaseUtils {
         }
         return false;
     }
+
+    public static void deleteAllShifts(){
+        List<Shift> shiftList = DatabaseServices.getAllShifts();
+        for (Shift shift : shiftList){
+            DatabaseServices.deleteShift(shift);
+        }
+    }
 }

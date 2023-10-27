@@ -2,12 +2,9 @@ package com.ems.services;
 
 import com.ems.Exceptions.DatabaseException;
 import com.ems.Exceptions.SvcException;
-import com.ems.Utils.DatabaseUtils;
-import com.ems.Utils.JsonUtils;
-import com.ems.Utils.ShiftUtils;
-import com.ems.Utils.ValidationUtils;
-import com.ems.database.models.Shift;
-import com.ems.database.models.ShiftHelper;
+import com.ems.Utils.*;
+import com.ems.database.models.*;
+import org.bson.types.ObjectId;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
@@ -62,4 +59,34 @@ public class ShiftServices {
         return ResponseEntity.status(200).body("Shifts created successfully");
     }
 
+
+    public static ResponseEntity deleteAllShifts(final String pPayload){
+        try{
+            final JSONObject request = new JSONObject(pPayload);
+            final String pass = request.getString("pass");
+            if (!pass.equals("delete")){
+                return ResponseEntity.status(500).body("invalid password to delete all shifts");
+            }
+            DatabaseUtils.deleteAllShifts();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.status(200).body("all shifts deleted");
+    }
+
+    public static ResponseEntity getShiftCreationInfo(final String pPayload){
+        try{
+            final ObjectId managerId = JsonUtils.getManagerIdFromJSON(new JSONObject(pPayload));
+            final Manager manager = DatabaseServices.findManagerById(managerId).orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_MANAGER, managerId));
+            final Organization organization = DatabaseServices.findOrganizationById(manager.getOrganizationId()).orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_ORGANIZATION, manager.getOrganizationId()));
+            final List<Location> locationList = LocationUtils.getLocationListFromLocationIdList(manager.getLocationIdList(), organization);
+
+            final JSONObject response = ResponseUtils.getLocationIdListAndShiftTypeListFromManager(manager.getShiftTypeList(), locationList);
+            return ResponseEntity.status(200).body(response.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 }
