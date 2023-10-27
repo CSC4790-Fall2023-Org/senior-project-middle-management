@@ -158,7 +158,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
         const weekdays = weekdaysPressed.sort()
         const isEndPeriod = (endPeriod === "AM")
         const isStartPeriod = (startPeriod === "AM")
-        fetch('https://localhost:8080/createShifts', {
+        fetch('http://192.168.1.162:8080/createShifts', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -176,7 +176,8 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
                 isStartAM: isStartPeriod,
                 startMinute: startMinute,
                 startDate: startDate,
-                repeatsEvery: selectedRepeats.id,
+                endMinute: endMinute,
+                repeatsEvery: repeatsID,
                 numberOfShifts: 1,
             }),
         }).then(r => r.json()
@@ -299,7 +300,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
                                 )}
                             </View>
                             <View style={styles.addShiftButton}>
-                                <CustomButton buttonText={"Add Shift"} handlePress={handlePressButton} />
+                                <CustomButton buttonText={"Add Shift"} handlePress={handleShiftAdd} />
                             </View>
                         </View>
                     </TouchableWithoutFeedback>
