@@ -17,4 +17,9 @@ public class OrganizationController {
     public ResponseEntity createOrganization(@RequestBody final String pPayload) {
         return OrganizationServices.createOrganization(pPayload);
     }
+
+    @PostMapping("/deleteOrganization")
+    public ResponseEntity deleteOrganization(@RequestBody final String pPayload) {
+        return OrganizationServices.deleteOrganization(pPayload);
+    }
 }

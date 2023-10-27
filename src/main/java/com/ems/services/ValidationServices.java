@@ -103,4 +103,10 @@ public class ValidationServices {
             throw new SvcException("Organization already exists in the database.");
         }
     }
+
+    public static void validateDeleteOrganization(Organization pOrganization) throws SvcException {
+        if (DatabaseServices.getAllOrganizations().stream().noneMatch(e -> OrganizationUtils.doOrganizationsMatch(e, pOrganization))) {
+            throw new SvcException("Error: Organization not found in the database.");
+        }
+    }
 }
