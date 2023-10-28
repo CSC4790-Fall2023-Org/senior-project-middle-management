@@ -1,6 +1,7 @@
 package com.ems.Utils;
 
 import com.ems.Exceptions.DatabaseException;
+import com.ems.database.models.Employee;
 import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
 import com.ems.services.DatabaseServices;
@@ -29,10 +30,15 @@ public class DatabaseUtils {
         return false;
     }
 
-    public static void deleteAllShifts(){
+    public static void deleteAllShifts() throws DatabaseException {
         List<Shift> shiftList = DatabaseServices.getAllShifts();
         for (Shift shift : shiftList){
             DatabaseServices.deleteShift(shift);
+        }
+    }
+    public static void deleteAllEmployees() throws DatabaseException {
+        for (Employee employee : DatabaseServices.getAllEmployees()){
+            DatabaseServices.deleteEmployee(employee);
         }
     }
 }
