@@ -82,7 +82,7 @@ public class ShiftServices {
             final Organization organization = DatabaseServices.findOrganizationById(manager.getOrganizationId()).orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_ORGANIZATION, manager.getOrganizationId()));
             final List<Location> locationList = LocationUtils.getLocationListFromLocationIdList(manager.getLocationIdList(), organization);
 
-            final JSONObject response = ResponseUtils.getLocationIdListAndShiftTypeListFromManager(manager.getShiftTypeList(), locationList);
+            final JSONObject response = ResponseUtils.getLocationListAndShiftTypeListFromManager(manager.getShiftTypeList(), locationList);
             return ResponseEntity.status(200).body(response.toString());
         } catch (Exception e) {
             e.printStackTrace();
