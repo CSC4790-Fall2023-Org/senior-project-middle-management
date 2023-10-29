@@ -9,11 +9,6 @@ const ManagerEmployeeDashboard = ({buttonTitle}) => {
 
     const [selectedIndex, setSelectedIndex] = useState('All');
 
-    const [selectedEmployee, setSelectedEmployee] = useState('All');
-
-    const handleEmployeePress = (emp) => {
-        setSelectedEmployee(emp);
-    }
     const handleDropdownPress = (index) => {
         setSelectedIndex(index);
     }
@@ -25,7 +20,7 @@ const ManagerEmployeeDashboard = ({buttonTitle}) => {
                     <Dropdown items={options} dropdownPress={handleDropdownPress} left={16} top={164.5} width={200} fontSize={15} fontWht={"normal"} chvSize={20}/>
                 </View>
             </View>
-            <ManagerEmployeeView selected={selectedEmployee} handleEmpPress={handleEmployeePress} />
+            <ManagerEmployeeView />
         </View>
 
     )

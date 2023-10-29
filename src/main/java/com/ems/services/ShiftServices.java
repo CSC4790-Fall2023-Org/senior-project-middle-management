@@ -2,12 +2,14 @@ package com.ems.services;
 
 import com.ems.Exceptions.DatabaseException;
 import com.ems.Exceptions.SvcException;
-import com.ems.Utils.JsonUtils;
-import com.ems.database.models.Shift;
+import com.ems.Utils.*;
+import com.ems.database.models.*;
+import org.bson.types.ObjectId;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.ValidationUtils;
+
+import java.util.List;
 
 public class ShiftServices {
     public static ResponseEntity createShift(String pPayload) {
@@ -31,4 +33,54 @@ public class ShiftServices {
         return ResponseEntity.status(200).body("Shift created successfully");
     }
 
+    public static ResponseEntity createShifts(final String pPayload){
+        try{
+            // create shift helper from JSON
+            final ShiftHelper shiftHelper = new ShiftHelper(new JSONObject(pPayload));
+
+            // validate shift helper
+            ValidationUtils.validateShiftHelper(shiftHelper);
+
+            // create shifts from shift helper
+            List<Shift> shiftList = ShiftUtils.createShifts(shiftHelper);
+
+            // save shift list
+            DatabaseUtils.saveShiftsFromList(shiftList);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+        return ResponseEntity.status(200).body("Shifts created successfully");
+    }
+
+
+    public static ResponseEntity deleteAllShifts(final String pPayload){
+        try{
+            final JSONObject request = new JSONObject(pPayload);
+            final String pass = request.getString("pass");
+            if (!pass.equals("delete")){
+                return ResponseEntity.status(500).body("invalid password to delete all shifts");
+            }
+            DatabaseUtils.deleteAllShifts();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.status(200).body("all shifts deleted");
+    }
+
+    public static ResponseEntity getShiftCreationInfo(final String pPayload){
+        try{
+            final ObjectId managerId = JsonUtils.getManagerIdFromJSON(new JSONObject(pPayload));
+            final Manager manager = DatabaseServices.findManagerById(managerId).orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_MANAGER, managerId));
+            final Organization organization = DatabaseServices.findOrganizationById(manager.getOrganizationId()).orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_ORGANIZATION, manager.getOrganizationId()));
+            final List<Location> locationList = LocationUtils.getLocationListFromLocationIdList(manager.getLocationIdList(), organization);
+
+            final JSONObject response = ResponseUtils.getLocationIdListAndShiftTypeListFromManager(manager.getShiftTypeList(), locationList);
+            return ResponseEntity.status(200).body(response.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 }

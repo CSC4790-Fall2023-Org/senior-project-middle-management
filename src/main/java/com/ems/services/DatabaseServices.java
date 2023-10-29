@@ -128,7 +128,7 @@ public class DatabaseServices {
     // delete shift
     public static void deleteShift(Shift shift) {
         ObjectId shiftId = shift.getShiftId();
-        if (EmsApplication.visibleShiftRepository.findAll().stream().anyMatch(sh -> sh.getShiftId().equals(shiftId))){
+        if (EmsApplication.visibleShiftRepository.findAll().stream().noneMatch(sh -> sh.getShiftId().equals(shiftId))){
             System.out.println("Shift not found");
             throw new RuntimeException("Error deleting shift! Shift with id: " + shiftId + " is not present in the database");
         }
@@ -141,5 +141,11 @@ public class DatabaseServices {
 
     public static List<Manager> getAllManagers() {
         return EmsApplication.visibleManagerRepository.findAll();
+    }
+    public static List<Organization> getAllOrganizations(){
+        return EmsApplication.visibleOrganizationRepository.findAll();
+    }
+    public static List<Shift> getAllShifts(){
+        return EmsApplication.visibleShiftRepository.findAll();
     }
 }
