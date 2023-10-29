@@ -12,38 +12,31 @@ import {
 import React, {useState} from "react";
 import CalendarPopup from "../CalendarPopup";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {XMark, Calendar, ChevronDown} from '../../utils/Icons';
+import {XMark, Calendar} from '../../utils/Icons';
 import MultiWheelPicker from "../MultiWheelPicker";
 import CustomButton from "../CustomButton";
-import {grayBackground, white} from "../../utils/Colors";
+import {grayBackground, secondaryGray, white} from "../../utils/Colors";
 
 
-const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
+const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shiftOptions}) => {
+
     const screenWidth = Dimensions.get('window').width;
     //shift type info
-    const shiftOptions = ["Head Guard", "LifeGuard"]
     const [shiftType, setShiftType] = useState("Head Guard");
     const shiftDropdownPress = (index) => {
         setShiftType(index);
     }
-
     //location info
-    const locationOptions = [{
-            id: "6500e97e491cac473a9b80c9",
-            text: 'Bryn Mawr',
-        },
-        {
-            id: "1",
-            text: 'Villanova',
-        },]
-    const [location, setLocation] = useState(locationOptions[0].name);
-    const [locationId, setLocationId] = useState(locationOptions[0].id);
-    let displayedLocations = locationOptions.map(a => a.text);
+    const [location, setLocation] = useState(locationOptions[0].locationName);
+    const [locationId, setLocationId] = useState(locationOptions[0].locationId);
+    let displayedLocations = locationOptions.map(a => a.locationName);
+
+
     const locationDropdownPress = (index) => {
         setLocation(index);
         for(let i = 0; i < locationOptions.length; i++){
-            if(location === locationOptions[i].text){
-                setLocationId(locationOptions[i].id)
+            if(location === locationOptions[i].locationName){
+                setLocationId(locationOptions[i].locationId)
             }
         }
     }
@@ -70,6 +63,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
     const [isCalendarVisible, setCalendarVisible] = useState(null);
     const handleCalendar = () =>{
         setCalendarVisible(!isCalendarVisible)
+        console.log(locationOptions[0].locationName)
     }
     const [selectedStartDate, setSelectedStartDate] = useState(null);
     const startDate = selectedStartDate ? selectedStartDate.format('YYYY/MM/DD').toString() : '';
@@ -154,14 +148,18 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
         }
     }
 
+    //number of shifts
+    const [numShifts, setNumShifts] = useState(null);
+
+    //post to Mongo
     const handleShiftAdd = () => {
         const weekdays = weekdaysPressed.sort()
         const isEndPeriod = (endPeriod === "AM")
         const isStartPeriod = (startPeriod === "AM")
-        fetch('http://192.168.1.162:8080/createShifts', {
+        //update fetch url according to IPv4 of Wi-Fi
+        fetch('http://10.0.0.194:8080/createShifts', {
             method: 'POST',
             headers: {
-                Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
@@ -178,7 +176,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
                 startDate: startDate,
                 endMinute: endMinute,
                 repeatsEvery: repeatsID,
-                numberOfShifts: 1,
+                numberOfShifts: numShifts,
             }),
         }).then(r => r.json()
         ).then(json => {
@@ -211,7 +209,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
                             </View>
                             <View style={[styles.inputContainer,{width:screenWidth/1.30}]}>
                                 <TextInput
-                                    style={[styles.input]}
+                                    style={[styles.input, {width:screenWidth/1.30}]}
                                     onChangeText={setShiftName}
                                     value={shiftName}
                                     placeholder={"Type Here"}
@@ -222,20 +220,21 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
                                 <Text style={styles.inputText}>Shift Type:</Text>
                             </View>
                             <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
-                                <View style={[styles.doubleContainer, {width:screenWidth/1.35}]}>
-                                    <MultiWheelPicker wheelData={shiftOptions} selectedItem={shiftType} setSelectedItems={shiftDropdownPress} placeholder={"Select Shift Type"}/>
-                                    <FontAwesomeIcon icon={ChevronDown} size={20}/>
-                                </View>
+                                {shiftOptions.length === 1 && <View style={[styles.longContainer]}><Text style={{fontSize:20}}>{shiftOptions[0]}</Text></View>}
+                                {shiftOptions.length !== 1 &&
+                                    <View style={[styles.doubleContainer,{width:screenWidth/1.35}]}>
+                                        <MultiWheelPicker wheelData={shiftOptions} selectedItem={shiftType} setSelectedItems={shiftDropdownPress} placeholder={"Select Shift Type"} wide={screenWidth/1.40} hasChevron={true}/>
+                                    </View>}
+
                             </View>
                             <View style={[styles.longContainer,{width: screenWidth/1.30}]}>
                                 <Text style={styles.inputText}>Location:</Text>
                             </View>
                             <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
-                                {displayedLocations.length === 1 && <View style={[styles.longContainer]}><Text>{displayedLocations[0]}</Text></View>}
+                                {displayedLocations.length === 1 && <View style={[styles.longContainer]}><Text style={{fontSize:20}}>{locationOptions[0].locationName}</Text></View>}
                                 {displayedLocations.length !== 1 &&
                                 <View style={[styles.doubleContainer,{width:screenWidth/1.35}]}>
-                                    <MultiWheelPicker wheelData={displayedLocations} setSelectedItems={locationDropdownPress} selectedItem={location} placeholder={"Select A Location"}/>
-                                    <FontAwesomeIcon icon={ChevronDown} size={20}/>
+                                    <MultiWheelPicker wheelData={displayedLocations} setSelectedItems={locationDropdownPress} selectedItem={location} placeholder={"Select A Location"} wide={screenWidth/1.40} hasChevron={true}/>
                                 </View>}
 
                             </View>
@@ -285,8 +284,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
                             </View>
                             <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
                                 <View style={[styles.doubleContainer, {width: screenWidth/1.35}]}>
-                                    <MultiWheelPicker wheelData={displayedRepeats} setSelectedItems={repeatsDropdownPress} selectedItem={selectedRepeats} placeholder={"Select Option"}/>
-                                    <FontAwesomeIcon icon={ChevronDown} size={20}/>
+                                    <MultiWheelPicker wheelData={displayedRepeats} setSelectedItems={repeatsDropdownPress} selectedItem={selectedRepeats} placeholder={"Select Option"} wide={screenWidth/1.40} hasChevron={true}/>
                                 </View>
                             </View>
                             <View style={[styles.dayContainer, {width: screenWidth/1.30}]}>
@@ -299,10 +297,25 @@ const AddShiftPopup = ({isModalVisible, handlePressButton}) => {
 
                                 )}
                             </View>
+                            <View style={[styles.longContainer, {width: screenWidth/1.30}]}>
+                                <Text style={styles.inputText}>Number of Shifts:</Text>
+                            </View>
+                            <View style={[styles.inputContainer,{width:screenWidth/1.30}]}>
+                                <TextInput
+                                    style={[styles.input, {width:screenWidth/1.30}]}
+                                    onChangeText={setNumShifts}
+                                    value={numShifts}
+                                    placeholder={'Type Here'}
+                                    placeholderTextColor={"#D0D0D0"}
+                                    keyboardType = 'numeric'
+                                />
+                            </View>
+
                             <View style={styles.addShiftButton}>
                                 <CustomButton buttonText={"Add Shift"} handlePress={handleShiftAdd} />
                             </View>
                         </View>
+
                     </TouchableWithoutFeedback>
                     <CalendarPopup setSelectedEndDate={setSelectedEndDate} setSelectedStartDate={setSelectedStartDate} isCalendarVisible={isCalendarVisible} handleExitCalendar={handleCalendar}/>
                 </View>
@@ -351,11 +364,13 @@ const styles = StyleSheet.create({
     inputContainer:{
         backgroundColor: white,
         padding:5,
+        paddingHorizontal:10,
         margin:5,
         alignItems:"flex-start",
         justifyContent:"flex-start",
-        borderColor:"#ccc",
+        borderColor: secondaryGray,
         borderWidth:.5,
+        borderRadius:20,
     },
     inputText:{
         fontSize: 20,
@@ -365,7 +380,7 @@ const styles = StyleSheet.create({
         backgroundColor:white,
         alignItems:"flex-start",
         justifyContent:"flex-start",
-        borderColor:"#ccc",
+        borderColor: secondaryGray,
         borderWidth:.5,
         borderRadius:10
     },
@@ -388,7 +403,7 @@ const styles = StyleSheet.create({
         margin:0,
     },
     dayBox:{
-        borderColor:"#ccc",
+        borderColor: secondaryGray,
         borderWidth:".5",
         marginTop:10,
         padding:5,
