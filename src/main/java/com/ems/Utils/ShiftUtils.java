@@ -1,7 +1,10 @@
 package com.ems.Utils;
 
+import com.ems.database.models.Employee;
+import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
 import com.ems.database.models.ShiftHelper;
+import com.ems.services.DatabaseServices;
 import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
@@ -176,6 +179,18 @@ public class ShiftUtils {
         dates = removeUnwantedDaysOfTheWeek(dates, pShiftHelper.getDaysOfWeek());
         dates = removeUnwantedDatesBasedOnOccurrences(dates, pShiftHelper.getRepeatsEvery());
         return createListOfShiftsFromDateList(dates, pShiftHelper);
+    }
+
+    public static List<Shift> getAvailableShiftsForEmployee(final Employee pEmployee, final Organization pOrganization, final List<Shift> pShiftList){
+        List<Shift> availableShifts = new ArrayList<>();
+        ArrayList<Shift> seen = new ArrayList<>();
+        for (Shift shift : pShiftList){
+            if(ValidationUtils.validateShiftForEmployee(shift, pEmployee, pOrganization.getWeeksToRelease(), seen)){
+                availableShifts.add(shift);
+                seen.add(shift);
+            }
+        }
+        return availableShifts;
     }
 
 }
