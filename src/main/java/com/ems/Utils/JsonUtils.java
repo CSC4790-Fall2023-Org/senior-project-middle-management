@@ -117,7 +117,7 @@ public class JsonUtils {
 
     public static List<Integer> convertJsonArrayToListInteger(final JSONArray pJsonArray) throws JSONException {
         List<Integer> result = new ArrayList<>();
-        for (int i = 0; i < pJsonArray.length(); i++){
+        for (int i = 0; i < pJsonArray.length(); i++) {
             result.add((Integer) pJsonArray.get(i));
         }
         return result;
