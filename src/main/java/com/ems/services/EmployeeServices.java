@@ -3,13 +3,18 @@ import com.ems.Exceptions.DatabaseException;
 import com.ems.Exceptions.SvcException;
 import com.ems.Utils.EmployeeUtils;
 import com.ems.Utils.JsonUtils;
+import com.ems.Utils.ResponseUtils;
+import com.ems.Utils.ShiftUtils;
 import com.ems.database.models.Employee;
+import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
 import org.bson.types.ObjectId;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 
 public class EmployeeServices {
@@ -117,8 +122,19 @@ public class EmployeeServices {
         try{
             final ObjectId employeeId = JsonUtils.getEmployeeIdFromJSON(new JSONObject(pPayload));
 
+            final Employee employee = DatabaseServices.findEmployeeById(employeeId)
+                    .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_EMPLOYEE, employeeId));
 
-            return ResponseEntity.status(200).body("");
+            final Organization organization = DatabaseServices.findOrganizationById(employee.getOrganizationId())
+                    .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_ORGANIZATION, employee.getOrganizationId()));
+
+            final List<Shift> shiftList = DatabaseServices.getAllShifts();
+
+            final List<Shift> availableShifts = ShiftUtils.getAvailableShiftsForEmployee(employee, organization, shiftList);
+
+            final JSONObject shiftResponse = ResponseUtils.getAvailableShiftsResponse(availableShifts);
+
+            return ResponseEntity.status(200).body(shiftResponse.toString());
         }
         catch (Exception e){
             e.printStackTrace();
