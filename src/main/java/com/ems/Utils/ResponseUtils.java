@@ -41,5 +41,4 @@ public class ResponseUtils {
             throw new SvcException("error creating response JSON");
         }
     }
-
 }
