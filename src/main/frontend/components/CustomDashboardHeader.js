@@ -8,7 +8,7 @@ const CustomDashboardHeader = ({onTitlePress, tabs}) => {
 
     return (
         <View>
-            <View style={styles.shiftsContainer}>
+            <View style={styles.container}>
                 {tabs.map((item, index) => (
                     <TouchableOpacity key={index} onPress={()=> {setSelected(index); onTitlePress(index);}}>
                         <View>
@@ -25,16 +25,11 @@ const CustomDashboardHeader = ({onTitlePress, tabs}) => {
 }
 
 const styles = StyleSheet.create({
-    shiftsContainer: {
+    container: {
         display: "flex",
         flexDirection:"row",
         justifyContent: "space-evenly",
         paddingTop: 20,
-    },
-    loginButton: {
-        width: 200,
-        margin: 0,
-        fontWeight: "bold"
     },
     text:{
         fontWeight: "bold",
