@@ -13,7 +13,7 @@ public class JSONObjectBuilder {
         JSONObject shiftJSONObj = new JSONObject();
 
         shiftJSONObj.put("shiftId", pShift.getShiftId());
-        shiftJSONObj.put("location", );
+        shiftJSONObj.put("location","" );
         shiftJSONObj.put("shiftName", pShift.getShiftName());
         shiftJSONObj.put("shiftStartDate", DateUtils.getCorrectDateFormatFromLocalDateTime(pShift.getShiftStartTime()));
         shiftJSONObj.put("shiftStartTime", DateUtils.getCorrectTimeFromLocalDateTime(pShift.getShiftStartTime()));
