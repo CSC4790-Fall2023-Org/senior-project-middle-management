@@ -48,7 +48,13 @@ public class ShiftServices {
             DatabaseUtils.saveShiftsFromList(shiftList);
         }
         catch (Exception e){
-            return ResponseEntity.status(400).body(e.getMessage());
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("message", jsonObject.toString());
+                return ResponseEntity.status(400).body(e.getMessage());
+            } catch (JSONException ex) {
+                return ResponseEntity.status(400).body(ex.getMessage());
+            }
         }
         return ResponseEntity.status(200).body("Shifts created successfully");
     }
@@ -76,7 +82,7 @@ public class ShiftServices {
             final Organization organization = DatabaseServices.findOrganizationById(manager.getOrganizationId()).orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_ORGANIZATION, manager.getOrganizationId()));
             final List<Location> locationList = LocationUtils.getLocationListFromLocationIdList(manager.getLocationIdList(), organization);
 
-            final JSONObject response = ResponseUtils.getLocationIdListAndShiftTypeListFromManager(manager.getShiftTypeList(), locationList);
+            final JSONObject response = ResponseUtils.getLocationListAndShiftTypeListFromManager(manager.getShiftTypeList(), locationList);
             return ResponseEntity.status(200).body(response.toString());
         } catch (Exception e) {
             e.printStackTrace();
