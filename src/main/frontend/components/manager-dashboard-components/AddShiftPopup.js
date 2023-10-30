@@ -22,7 +22,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
 
     const screenWidth = Dimensions.get('window').width;
     //shift type info
-    const [shiftType, setShiftType] = useState("Head Guard");
+    const [shiftType, setShiftType] = useState(shiftOptions[0]);
     const shiftDropdownPress = (index) => {
         setShiftType(index);
     }
@@ -30,7 +30,6 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
     const [location, setLocation] = useState(locationOptions[0].locationName);
     const [locationId, setLocationId] = useState(locationOptions[0].locationId);
     let displayedLocations = locationOptions.map(a => a.locationName);
-
 
     const locationDropdownPress = (index) => {
         setLocation(index);
@@ -63,7 +62,6 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
     const [isCalendarVisible, setCalendarVisible] = useState(null);
     const handleCalendar = () =>{
         setCalendarVisible(!isCalendarVisible)
-        console.log(locationOptions[0].locationName)
     }
     const [selectedStartDate, setSelectedStartDate] = useState(null);
     const startDate = selectedStartDate ? selectedStartDate.format('YYYY/MM/DD').toString() : '';
@@ -140,6 +138,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
     };
 
     const repeatsDropdownPress = (text) => {
+        console.log(shiftType)
         setSelectedRepeats(text);
         for (let i = 0; i < repeatsOptions.length; i++) {
             if (selectedRepeats === repeatsOptions[i].text) {
@@ -153,11 +152,17 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
 
     //post to Mongo
     const handleShiftAdd = () => {
+        if(locationOptions.length === 1){
+            setLocationId(locationOptions[0].locationId)
+        }
+        if(shiftOptions.length === 1){
+            setLocationId(locationOptions[0].locationId)
+        }
         const weekdays = weekdaysPressed.sort()
         const isEndPeriod = (endPeriod === "AM")
         const isStartPeriod = (startPeriod === "AM")
         //update fetch url according to IPv4 of Wi-Fi
-        fetch('http://10.0.0.194:8080/createShifts', {
+        fetch('http://10.138.13.28:8080/createShifts', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -180,7 +185,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
             }),
         }).then(r => r.json()
         ).then(json => {
-            console.log(json.message)
+            console.log(json)
         })
             .catch(error => {
                 console.error(error);
@@ -315,7 +320,6 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
                                 <CustomButton buttonText={"Add Shift"} handlePress={handleShiftAdd} />
                             </View>
                         </View>
-
                     </TouchableWithoutFeedback>
                     <CalendarPopup setSelectedEndDate={setSelectedEndDate} setSelectedStartDate={setSelectedStartDate} isCalendarVisible={isCalendarVisible} handleExitCalendar={handleCalendar}/>
                 </View>
