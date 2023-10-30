@@ -22,14 +22,18 @@ public class Organization {
     @Field
     private List<Location> locationList;
 
+    @Field
+    private int weeksToRelease;
+
     public Organization() {
     }
 
-    public Organization(ObjectId organizationId, String organizationName, String orgOwnerEmail, List<Location> locationList) {
+public Organization(ObjectId organizationId, String organizationName, String orgOwnerEmail, List<Location> locationList, int weeksToRelease) {
         this.organizationId = organizationId;
         this.organizationName = organizationName;
         this.orgOwnerEmail = orgOwnerEmail;
         this.locationList = locationList;
+        this.weeksToRelease = weeksToRelease;
     }
 
     public ObjectId getOrganizationId() {
@@ -62,6 +66,14 @@ public class Organization {
 
     public void setLocationList(List<Location> locationList) {
         this.locationList = locationList;
+    }
+
+    public int getWeeksToRelease() {
+        return weeksToRelease;
+    }
+
+    public void setWeeksToRelease(int weeksToRelease) {
+        this.weeksToRelease = weeksToRelease;
     }
 
     @Override
