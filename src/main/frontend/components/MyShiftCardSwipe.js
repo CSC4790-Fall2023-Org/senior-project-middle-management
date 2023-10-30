@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import {Animated, StyleSheet, Alert} from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { RectButton } from 'react-native-gesture-handler';
@@ -7,13 +7,13 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {CalendarDelete, Transfer} from "../utils/Icons";
 import {white, blueAction, destructiveAction} from "../utils/Colors";
 import ShiftCard from "./ShiftCard";
-import EditEmailModal from "./userSettings/EditEmailModal";
+import TransferShiftModal from "./TransferShiftModal";
 
 class MyShiftCardSwipe extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            emailModalVisible: false,
+            transferShiftModalVisible: false,
         };
         this.swipeableRef = React.createRef();
     }
@@ -59,7 +59,7 @@ class MyShiftCardSwipe extends Component {
                         style: 'default',
                         onPress: () => {
                             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-                            this.setState({ emailModalVisible: true });
+                            this.setState({ transferShiftModalVisible: true });
                         },
                     },
                     {
@@ -115,7 +115,7 @@ class MyShiftCardSwipe extends Component {
     };
 
     handleModalClose = () => {
-        this.setState({ emailModalVisible: false }); // Close the modal for this card
+        this.setState({ transferShiftModalVisible: false }); // Close the modal for this card
     };
 
     render() {
@@ -128,10 +128,10 @@ class MyShiftCardSwipe extends Component {
                     overshootFriction={8}
                 >
                     {this.props.ShiftCardComponent}
-                    {this.state.emailModalVisible && (
-                        <EditEmailModal
-                            emailModalVisible={this.state.emailModalVisible}
-                            setEmailModalVisible={this.handleModalClose}
+                    {this.state.transferShiftModalVisible && (
+                        <TransferShiftModal
+                            transferShiftModalVisible={this.state.transferShiftModalVisible}
+                            setTransferShiftModalVisible={this.handleModalClose}
                         />
                     )}
                 </Swipeable>
