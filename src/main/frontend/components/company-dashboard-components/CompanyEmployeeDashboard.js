@@ -3,6 +3,7 @@ import {View, StyleSheet, Dimensions} from 'react-native';
 import CustomButton from "../CustomButton";
 import Dropdown from "../Dropdown";
 import CompanyEmployeeView from "./CompanyEmployeeView";
+import AddEmployeePopup from "./AddEmployeePopup";
 
 
 
@@ -13,20 +14,26 @@ const CompanyEmployeeDashboard = () => {
 
     const options = ["Default", "Name", "Hours Worked" ]
 
+    const [isModalVisible, setModalVisible] = useState(false)
+
     const [selectedIndex, setSelectedIndex] = useState('All');
+
+    const handleModalOpen = () =>{
+        setModalVisible(!isModalVisible)
+    }
     const handleDropdownPress = (index) => {
         setSelectedIndex(index);
     }
     return(
         <View style={[styles.container, {width:screenWidth}]}>
             <View style={styles.buttonContainer}>
-                <CustomButton buttonText={'Add Employee'}/>
+                <CustomButton buttonText={'Add Employee'} handlePress={handleModalOpen}/>
             </View>
-
             <View style={[styles.dropdownContainer,{width:200}]}>
                 <Dropdown chvSize={10} fontWht={10} fontSize={10} width={200} top={100} left={100} dropdownPress={handleDropdownPress} items={options}/>
             </View>
             <CompanyEmployeeView/>
+            <AddEmployeePopup isModalVisible={isModalVisible} handlePressButton={handleModalOpen}/>
         </View>
 
     )

@@ -16,6 +16,7 @@ import {XMark, Calendar} from '../../utils/Icons';
 import MultiWheelPicker from "../MultiWheelPicker";
 import CustomButton from "../CustomButton";
 import {grayBackground, secondaryGray, white} from "../../utils/Colors";
+import {AddPopupStyles} from "../../utils/AddPopupStyles";
 
 
 const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shiftOptions}) => {
@@ -195,17 +196,17 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
             onRequestClose={handlePressButton}
         >
             <TouchableWithoutFeedback onPress={handlePressButton}>
-                <View style={styles.overlay}>
+                <View style={AddPopupStyles.overlay}>
                     <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
-                        <View style={styles.modal}>
-                            <View style={[styles.titleContainer, {width: screenWidth/1.15}]}>
-                                <Text style={styles.titleText}>Add Shift</Text>
+                        <View style={AddPopupStyles.modal}>
+                            <View style={[AddPopupStyles.titleContainer, {width: screenWidth/1.15}]}>
+                                <Text style={AddPopupStyles.text}>Add Shift</Text>
                                 <TouchableOpacity onPress={handlePressButton}>
                                     <FontAwesomeIcon icon={XMark} size={24} style={styles.icon} />
                                 </TouchableOpacity>
                             </View>
-                            <View style={[styles.longContainer,{width: screenWidth/1.30}]}>
-                                <Text style={styles.inputText}>Shift Name:</Text>
+                            <View style={[AddPopupStyles.longContainer,{width: screenWidth/1.30}]}>
+                                <Text style={AddPopupStyles.text}>Shift Name:</Text>
                             </View>
                             <View style={[styles.inputContainer,{width:screenWidth/1.30}]}>
                                 <TextInput
@@ -216,22 +217,22 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
                                     placeholderTextColor={"#D0D0D0"}
                                 />
                             </View>
-                            <View style={[styles.longContainer,{width: screenWidth/1.30}]}>
-                                <Text style={styles.inputText}>Shift Type:</Text>
+                            <View style={[AddPopupStyles.longContainer,{width: screenWidth/1.30}]}>
+                                <Text style={AddPopupStyles.text}>Shift Type:</Text>
                             </View>
-                            <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
-                                {shiftOptions.length === 1 && <View style={[styles.longContainer]}><Text style={{fontSize:20}}>{shiftOptions[0]}</Text></View>}
+                            <View style={[AddPopupStyles.dropdownContainer,{width:screenWidth/1.30}]}>
+                                {shiftOptions.length === 1 && <View style={[AddPopupStyles.longContainer]}><Text style={{fontSize:20}}>{shiftOptions[0]}</Text></View>}
                                 {shiftOptions.length !== 1 &&
                                     <View style={[styles.doubleContainer,{width:screenWidth/1.35}]}>
                                         <MultiWheelPicker wheelData={shiftOptions} selectedItem={shiftType} setSelectedItems={shiftDropdownPress} placeholder={"Select Shift Type"} wide={screenWidth/1.40} hasChevron={true}/>
                                     </View>}
 
                             </View>
-                            <View style={[styles.longContainer,{width: screenWidth/1.30}]}>
-                                <Text style={styles.inputText}>Location:</Text>
+                            <View style={[AddPopupStyles.longContainer,{width: screenWidth/1.30}]}>
+                                <Text style={AddPopupStyles.text}>Location:</Text>
                             </View>
-                            <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
-                                {displayedLocations.length === 1 && <View style={[styles.longContainer]}><Text style={{fontSize:20}}>{locationOptions[0].locationName}</Text></View>}
+                            <View style={[AddPopupStyles.dropdownContainer,{width:screenWidth/1.30}]}>
+                                {displayedLocations.length === 1 && <View style={[AddPopupStyles.longContainer]}><Text style={{fontSize:20}}>{locationOptions[0].locationName}</Text></View>}
                                 {displayedLocations.length !== 1 &&
                                 <View style={[styles.doubleContainer,{width:screenWidth/1.35}]}>
                                     <MultiWheelPicker wheelData={displayedLocations} setSelectedItems={locationDropdownPress} selectedItem={location} placeholder={"Select A Location"} wide={screenWidth/1.40} hasChevron={true}/>
@@ -240,28 +241,27 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
                             </View>
                             <View style={[styles.doubleContainer, {width: screenWidth/1.30}]}>
                                 <View style={styles.shortContainer}>
-
                                     <TouchableOpacity onPress={handleCalendar}>
                                         <FontAwesomeIcon icon={Calendar} size={35}/>
                                     </TouchableOpacity>
                                 </View>
                                 <View style={[styles.shortContainer]}>
-                                    <Text style={styles.inputText}>From:</Text>
+                                    <Text style={AddPopupStyles.text}>From:</Text>
                                     {startDate && <Text>{startDate}</Text>}
                                     {!startDate && <Text>Press Calendar</Text>}
                                 </View>
                                 <View style={styles.shortContainer}>
-                                    <Text style={styles.inputText}>To:</Text>
+                                    <Text style={AddPopupStyles.text}>To:</Text>
                                     {endDate && <Text>{endDate}</Text>}
                                     {!endDate && <Text>Press Calendar</Text>}
                                 </View>
                             </View>
                             <View style={[styles.doubleContainer,{width: screenWidth/1.30}]}>
                                 <View style={styles.shortContainer}>
-                                    <Text style={styles.inputText}>Start Hour:</Text>
+                                    <Text style={AddPopupStyles.text}>Start Hour:</Text>
                                     <View style={styles.doubleContainer}>
                                         <MultiWheelPicker wheelData={hourOptions} placeholder={"1"} selectedItem={startHour} setSelectedItems={setStartHour}/>
-                                        <Text style={styles.inputText}>:</Text>
+                                        <Text style={AddPopupStyles.text}>:</Text>
                                         <MultiWheelPicker wheelData={minOptions} placeholder={"00"} selectedItem={startMinute} setSelectedItems={setStartMinute}/>
                                         <Text> </Text>
                                         <MultiWheelPicker wheelData={timePeriods} placeholder={"AM"} selectedItem={startPeriod} setSelectedItems={setStartPeriod}/>
@@ -269,20 +269,20 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
 
                                 </View>
                                 <View style={styles.shortContainer}>
-                                    <Text style={styles.inputText}>End Hour:</Text>
+                                    <Text style={AddPopupStyles.text}>End Hour:</Text>
                                     <View style={styles.doubleContainer}>
                                         <MultiWheelPicker wheelData={hourOptions} placeholder={"1"} selectedItem={endHour} setSelectedItems={setEndHour}/>
-                                        <Text style={styles.inputText}>:</Text>
+                                        <Text style={AddPopupStyles.text}>:</Text>
                                         <MultiWheelPicker wheelData={minOptions} placeholder={"00"} selectedItem={endMinute} setSelectedItems={setEndMinute}/>
                                         <Text> </Text>
                                         <MultiWheelPicker wheelData={timePeriods} placeholder={"AM"} selectedItem={endPeriod} setSelectedItems={setEndPeriod}/>
                                     </View>
                                 </View>
                             </View>
-                            <View style={[styles.longContainer, {width: screenWidth/1.30}]}>
-                                <Text style={styles.inputText}>Repeats:</Text>
+                            <View style={[AddPopupStyles.longContainer, {width: screenWidth/1.30}]}>
+                                <Text style={AddPopupStyles.text}>Repeats:</Text>
                             </View>
-                            <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
+                            <View style={[AddPopupStyles.dropdownContainer,{width:screenWidth/1.30}]}>
                                 <View style={[styles.doubleContainer, {width: screenWidth/1.35}]}>
                                     <MultiWheelPicker wheelData={displayedRepeats} setSelectedItems={repeatsDropdownPress} selectedItem={selectedRepeats} placeholder={"Select Option"} wide={screenWidth/1.40} hasChevron={true}/>
                                 </View>
@@ -297,8 +297,8 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
 
                                 )}
                             </View>
-                            <View style={[styles.longContainer, {width: screenWidth/1.30}]}>
-                                <Text style={styles.inputText}>Number of Shifts:</Text>
+                            <View style={[AddPopupStyles.longContainer, {width: screenWidth/1.30}]}>
+                                <Text style={AddPopupStyles.text}>Number of Shifts:</Text>
                             </View>
                             <View style={[styles.inputContainer,{width:screenWidth/1.30}]}>
                                 <TextInput
@@ -325,42 +325,6 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
 }
 
 const styles = StyleSheet.create({
-    modal: {
-        position: "relative",
-        backgroundColor: grayBackground,
-        borderRadius: 20,
-        borderStyle: "solid",
-        borderColor: "#ccc",
-        flexDirection: "column",
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 10,
-
-    },
-    overlay: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-
-    },
-    titleContainer:{
-        flexDirection:"row",
-        justifyContent:"space-between",
-        alignItems:"center",
-        padding:10,
-
-    },
-    titleText:{
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    longContainer:{
-        flexDirection:"column",
-        justifyContent:"center",
-        alignItems:"flex-start",
-        padding:5,
-    },
     inputContainer:{
         backgroundColor: white,
         padding:5,
@@ -371,18 +335,6 @@ const styles = StyleSheet.create({
         borderColor: secondaryGray,
         borderWidth:.5,
         borderRadius:20,
-    },
-    inputText:{
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    dropdownContainer:{
-        backgroundColor:white,
-        alignItems:"flex-start",
-        justifyContent:"flex-start",
-        borderColor: secondaryGray,
-        borderWidth:.5,
-        borderRadius:10
     },
     doubleContainer:{
         flexDirection:"row",

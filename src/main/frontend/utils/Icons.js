@@ -20,5 +20,4 @@ export const TrashCan = faTrashCan;
 export const Transfer = faArrowRightArrowLeft;
 export const Check = faCheck;
 export const XMark = faXmark;
-
 export const ChevronDown = faChevronDown;
