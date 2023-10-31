@@ -163,7 +163,6 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
     }
     const handleErrors = () =>{
         let timeStart = startHour+(startMinute/100)
-        console.log(timeStart)
         let timeEnd = endHour+(endMinute/100)
         if(endPeriod === "PM"){
             timeEnd += 12
@@ -171,8 +170,6 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
         if(startPeriod === "PM"){
             timeStart += 12
         }
-        console.log(timeStart)
-
         if(locationOptions.length === 1){
             setLocationId(locationOptions[0].locationId)
         }
@@ -218,7 +215,6 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
         const weekdays = weekdaysPressed.sort()
         const isEndPeriod = (endPeriod === "AM")
         const isStartPeriod = (startPeriod === "AM")
-        
         //update fetch url according to IPv4 of Wi-Fi
         fetch('http://10.138.27.56:8080/createShifts', {
             method: 'POST',
