@@ -13,7 +13,7 @@ class MyShiftCardSwipe extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            transferShiftModalVisible: false,
+            transferShiftModal: false,
         };
         this.swipeableRef = React.createRef();
     }
@@ -59,7 +59,7 @@ class MyShiftCardSwipe extends Component {
                         style: 'default',
                         onPress: () => {
                             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-                            this.setState({ transferShiftModalVisible: true });
+                            this.setState({ transferShiftModal: true });
                         },
                     },
                     {
@@ -115,7 +115,7 @@ class MyShiftCardSwipe extends Component {
     };
 
     handleModalClose = () => {
-        this.setState({ transferShiftModalVisible: false }); // Close the modal for this card
+        this.setState({ transferShiftModal: false }); // Close the modal for this card
     };
 
     render() {
@@ -128,10 +128,10 @@ class MyShiftCardSwipe extends Component {
                     overshootFriction={8}
                 >
                     {this.props.ShiftCardComponent}
-                    {this.state.transferShiftModalVisible && (
+                    {this.state.transferShiftModal && (
                         <TransferShiftModal
-                            transferShiftModalVisible={this.state.transferShiftModalVisible}
-                            setTransferShiftModalVisible={this.handleModalClose}
+                            transferShiftModal={this.state.transferShiftModal}
+                            setTransferShiftModal={this.handleModalClose}
                         />
                     )}
                 </Swipeable>
