@@ -20,7 +20,7 @@ import * as Haptics from "expo-haptics";
 import TimeWarnPopup from "./TimeWarnPopup";
 
 
-const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shiftOptions}) => {
+const AddShiftPopup = ({handlePressButton, locationOptions, shiftOptions}) => {
 
     const screenWidth = Dimensions.get('window').width;
     //shift type info
@@ -239,7 +239,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
             }),
         }).then(r => r.json()
         ).then(json => {
-            console.log(json)
+            console.log(json.message)
         })
             .catch(error => {
                 console.error(error);
@@ -248,146 +248,136 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
     }
 
     return(
-        <Modal
-            animationType="none"
-            transparent={true}
-            visible={isModalVisible}
-            onRequestClose={handlePressButton}
-        >
-            <TouchableWithoutFeedback onPress={handlePressButton}>
-                <View style={styles.overlay}>
-                    <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
-                        <View style={styles.modal}>
-                            <View style={[styles.titleContainer, {width: screenWidth/1.15}]}>
-                                <Text style={styles.titleText}>Add Shift</Text>
-                                <TouchableOpacity onPress={handlePressButton}>
-                                    <FontAwesomeIcon icon={XMark} size={24} style={styles.icon} />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={[styles.longContainer,{width: screenWidth/1.30}]}>
-                                <Text style={styles.inputText}>Shift Name:</Text>
-                            </View>
-                            <View style={[styles.inputContainer,{width:screenWidth/1.30},isShiftNameEmpty ? styles.destructiveAction:{borderColor:secondaryGray}]}>
-                                <TextInput
-                                    style={[styles.input, {width:screenWidth/1.30}]}
-                                    onChangeText={(shiftName) =>{
-                                        setShiftName(shiftName)
-                                        setShiftNameEmpty(false)
-                                    }}
-                                    value={shiftName}
-                                    placeholder={"Type Here"}
-                                    placeholderTextColor={"#D0D0D0"}
-                                />
-                            </View>
-                            <View style={[styles.longContainer,{width: screenWidth/1.30}]}>
-                                <Text style={styles.inputText}>Shift Type:</Text>
-                            </View>
-                            <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
-                                {shiftOptions.length === 1 && <View style={[styles.longContainer]}><Text style={{fontSize:20}}>{shiftOptions[0]}</Text></View>}
-                                {shiftOptions.length !== 1 &&
-                                    <View style={[styles.doubleContainer,{width:screenWidth/1.35}]}>
-                                        <MultiWheelPicker wheelData={shiftOptions} selectedItem={shiftType} setSelectedItems={shiftDropdownPress} placeholder={"Select Shift Type"} wide={screenWidth/1.40} hasChevron={true}/>
-                                    </View>}
-
-                            </View>
-                            <View style={[styles.longContainer,{width: screenWidth/1.30}]}>
-                                <Text style={styles.inputText}>Location:</Text>
-                            </View>
-                            <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
-                                {displayedLocations.length === 1 && <View style={[styles.longContainer]}><Text style={{fontSize:20}}>{locationOptions[0].locationName}</Text></View>}
-                                {displayedLocations.length !== 1 &&
-                                <View style={[styles.doubleContainer,{width:screenWidth/1.35}, isLocationError ? styles.destructiveAction:{}]}>
-                                    <MultiWheelPicker wheelData={displayedLocations} setSelectedItems={locationDropdownPress} selectedItem={location} placeholder={"Select A Location"} wide={screenWidth/1.40} hasChevron={true}/>
-                                </View>}
-
-                            </View>
-                            <View style={[styles.doubleContainer, {width: screenWidth/1.30}]}>
-                                <View style={styles.shortContainer}>
-                                    <TouchableOpacity onPress={() =>{
-                                        handleCalendar()
-                                        setDateWrong(false)}}>
-                                        <FontAwesomeIcon icon={Calendar} size={35} style={dateWrong ? {color:destructiveAction}:{color:black}}/>
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={[styles.shortContainer]}>
-                                    <Text style={styles.inputText}>From:</Text>
-                                    {startDate && <Text>{startDate}</Text>}
-                                    {!startDate && <Text>Press Calendar</Text>}
-                                </View>
-                                <View style={styles.shortContainer}>
-                                    <Text style={styles.inputText}>To:</Text>
-                                    {endDate && <Text>{endDate}</Text>}
-                                    {!endDate && <Text>Press Calendar</Text>}
-                                </View>
-                            </View>
-                            <View style={[styles.doubleContainer,{width: screenWidth/1.30}]}>
-                                <View style={styles.shortContainer}>
-                                    <Text style={styles.inputText}>Start Hour:</Text>
-                                    <View style={styles.doubleContainer}>
-                                        <MultiWheelPicker wheelData={hourOptions} placeholder={1} selectedItem={startHour} setSelectedItems={setStartHour}/>
-                                        <Text style={styles.inputText}>:</Text>
-                                        <MultiWheelPicker wheelData={minOptions} placeholder={"00"} selectedItem={startMinute} setSelectedItems={setStartMinute}/>
-                                        <Text> </Text>
-                                        <MultiWheelPicker wheelData={timePeriods} placeholder={"AM"} selectedItem={startPeriod} setSelectedItems={setStartPeriod}/>
-                                    </View>
-
-                                </View>
-                                <View style={styles.shortContainer}>
-                                    <Text style={styles.inputText}>End Hour:</Text>
-                                    <View style={styles.doubleContainer}>
-                                        <MultiWheelPicker wheelData={hourOptions} placeholder={1} selectedItem={endHour} setSelectedItems={setEndHour}/>
-                                        <Text style={styles.inputText}>:</Text>
-                                        <MultiWheelPicker wheelData={minOptions} placeholder={"00"} selectedItem={endMinute} setSelectedItems={setEndMinute}/>
-                                        <Text> </Text>
-                                        <MultiWheelPicker wheelData={timePeriods} placeholder={"AM"} selectedItem={endPeriod} setSelectedItems={setEndPeriod}/>
-                                    </View>
-                                </View>
-                            </View>
-                            <View style={[styles.longContainer, {width: screenWidth/1.30}]}>
-                                <Text style={styles.inputText}>Repeats:</Text>
-                            </View>
-                            <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
-                                <View style={[styles.doubleContainer, {width: screenWidth/1.35}]}>
-                                    <MultiWheelPicker wheelData={displayedRepeats} setSelectedItems={repeatsDropdownPress} selectedItem={selectedRepeats} placeholder={"Select Option"} wide={screenWidth/1.40} hasChevron={true}/>
-                                </View>
-                            </View>
-                            <View style={[styles.dayContainer, {width: screenWidth/1.30}, noWeekdaysPressed ? styles.destructiveAction:{}]}>
-                                {weekdays.map(day  =>
-                                    <TouchableOpacity onPress={() => handleWeekdayPress(day.key)} key={day.key}>
-                                        <View style={[weekdaysPressed.includes(day.key) ? {backgroundColor:primaryGreen}:{backgroundColor:white}, styles.dayBox, day.key === 1 ? {borderTopLeftRadius:15,borderBottomLeftRadius:15,}:{}, day.key === 7 ? {borderTopRightRadius:15,borderBottomRightRadius:15,}:{}]}>
-                                            <Text style={[!weekdaysPressed.includes(day.key) ? {color:black}:{color:white}]} >{day.text}</Text>
-                                        </View>
-                                    </TouchableOpacity>
-
-                                )}
-                            </View>
-                            <View style={[styles.longContainer, {width: screenWidth/1.30}]}>
-                                <Text style={styles.inputText}>Number of Shifts:</Text>
-                            </View>
-                            <View style={[styles.inputContainer,{width:screenWidth/1.30}, numShiftsError? styles.destructiveAction:{}]}>
-                                <TextInput
-                                    style={[styles.input, {width:screenWidth/1.30}]}
-                                    onChangeText={(numShifts)=>{
-                                        setNumShifts(numShifts)
-                                        setNumShiftsError(false)
-                                    }}
-                                    value={numShifts}
-                                    placeholder={'Type Here'}
-                                    placeholderTextColor={"#D0D0D0"}
-                                    keyboardType = 'numeric'
-                                />
-                            </View>
-
-                            <View style={styles.addShiftButton}>
-                                <CustomButton buttonText={"Add Shift"} handlePress={handleErrors} />
-                            </View>
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <TimeWarnPopup handlePressButton={handleWarnVisible} isModalVisible={warnModal} submitForm={handleShiftAdd}/>
-                    <CalendarPopup setSelectedEndDate={setSelectedEndDate} setSelectedStartDate={setSelectedStartDate} isCalendarVisible={isCalendarVisible} handleExitCalendar={handleCalendar}/>
+        <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+            <View style={styles.modal}>
+                <View style={[styles.titleContainer, {width: screenWidth/1.15}]}>
+                    <Text style={styles.titleText}>Add Shift</Text>
+                    <TouchableOpacity onPress={handlePressButton}>
+                        <FontAwesomeIcon icon={XMark} size={24} style={styles.icon} />
+                    </TouchableOpacity>
                 </View>
-            </TouchableWithoutFeedback>
-        </Modal>
+                <View style={[styles.longContainer,{width: screenWidth/1.30}]}>
+                    <Text style={styles.inputText}>Shift Name:</Text>
+                </View>
+                <View style={[styles.inputContainer,{width:screenWidth/1.30},isShiftNameEmpty ? styles.destructiveAction:{borderColor:secondaryGray}]}>
+                    <TextInput
+                        style={[styles.input, {width:screenWidth/1.30}]}
+                        onChangeText={(shiftName) =>{
+                            setShiftName(shiftName)
+                            setShiftNameEmpty(false)
+                        }}
+                        value={shiftName}
+                        placeholder={"Type Here"}
+                        placeholderTextColor={"#D0D0D0"}
+                    />
+                </View>
+                <View style={[styles.longContainer,{width: screenWidth/1.30}]}>
+                    <Text style={styles.inputText}>Shift Type:</Text>
+                </View>
+                <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
+                    {shiftOptions.length === 1 && <View style={[styles.longContainer]}><Text style={{fontSize:20}}>{shiftOptions[0]}</Text></View>}
+                    {shiftOptions.length !== 1 &&
+                        <View style={[styles.doubleContainer,{width:screenWidth/1.35}]}>
+                            <MultiWheelPicker wheelData={shiftOptions} selectedItem={shiftType} setSelectedItems={shiftDropdownPress} placeholder={"Select Shift Type"} wide={screenWidth/1.40} hasChevron={true}/>
+                        </View>}
+
+                </View>
+                <View style={[styles.longContainer,{width: screenWidth/1.30}]}>
+                    <Text style={styles.inputText}>Location:</Text>
+                </View>
+                <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
+                    {displayedLocations.length === 1 && <View style={[styles.longContainer]}><Text style={{fontSize:20}}>{locationOptions[0].locationName}</Text></View>}
+                    {displayedLocations.length !== 1 &&
+                    <View style={[styles.doubleContainer,{width:screenWidth/1.35}, isLocationError ? styles.destructiveAction:{}]}>
+                        <MultiWheelPicker wheelData={displayedLocations} setSelectedItems={locationDropdownPress} selectedItem={location} placeholder={"Select A Location"} wide={screenWidth/1.40} hasChevron={true}/>
+                    </View>}
+
+                </View>
+                <View style={[styles.doubleContainer, {width: screenWidth/1.30}]}>
+                    <View style={styles.shortContainer}>
+                        <TouchableOpacity onPress={() =>{
+                            handleCalendar()
+                            setDateWrong(false)}}>
+                            <FontAwesomeIcon icon={Calendar} size={35} style={dateWrong ? {color:destructiveAction}:{color:black}}/>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={[styles.shortContainer]}>
+                        <Text style={styles.inputText}>From:</Text>
+                        {startDate && <Text>{startDate}</Text>}
+                        {!startDate && <Text>Press Calendar</Text>}
+                    </View>
+                    <View style={styles.shortContainer}>
+                        <Text style={styles.inputText}>To:</Text>
+                        {endDate && <Text>{endDate}</Text>}
+                        {!endDate && <Text>Press Calendar</Text>}
+                    </View>
+                </View>
+                <View style={[styles.doubleContainer,{width: screenWidth/1.30}]}>
+                    <View style={styles.shortContainer}>
+                        <Text style={styles.inputText}>Start Hour:</Text>
+                        <View style={styles.doubleContainer}>
+                            <MultiWheelPicker wheelData={hourOptions} placeholder={1} selectedItem={startHour} setSelectedItems={setStartHour}/>
+                            <Text style={styles.inputText}>:</Text>
+                            <MultiWheelPicker wheelData={minOptions} placeholder={"00"} selectedItem={startMinute} setSelectedItems={setStartMinute}/>
+                            <Text> </Text>
+                            <MultiWheelPicker wheelData={timePeriods} placeholder={"AM"} selectedItem={startPeriod} setSelectedItems={setStartPeriod}/>
+                        </View>
+
+                    </View>
+                    <View style={styles.shortContainer}>
+                        <Text style={styles.inputText}>End Hour:</Text>
+                        <View style={styles.doubleContainer}>
+                            <MultiWheelPicker wheelData={hourOptions} placeholder={1} selectedItem={endHour} setSelectedItems={setEndHour}/>
+                            <Text style={styles.inputText}>:</Text>
+                            <MultiWheelPicker wheelData={minOptions} placeholder={"00"} selectedItem={endMinute} setSelectedItems={setEndMinute}/>
+                            <Text> </Text>
+                            <MultiWheelPicker wheelData={timePeriods} placeholder={"AM"} selectedItem={endPeriod} setSelectedItems={setEndPeriod}/>
+                        </View>
+                    </View>
+                </View>
+                <View style={[styles.longContainer, {width: screenWidth/1.30}]}>
+                    <Text style={styles.inputText}>Repeats:</Text>
+                </View>
+                <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
+                    <View style={[styles.doubleContainer, {width: screenWidth/1.35}]}>
+                        <MultiWheelPicker wheelData={displayedRepeats} setSelectedItems={repeatsDropdownPress} selectedItem={selectedRepeats} placeholder={"Select Option"} wide={screenWidth/1.40} hasChevron={true}/>
+                    </View>
+                </View>
+                <View style={[styles.dayContainer, {width: screenWidth/1.30}, noWeekdaysPressed ? styles.destructiveAction:{}]}>
+                    {weekdays.map(day  =>
+                        <TouchableOpacity onPress={() => handleWeekdayPress(day.key)} key={day.key}>
+                            <View style={[weekdaysPressed.includes(day.key) ? {backgroundColor:primaryGreen}:{backgroundColor:white}, styles.dayBox, day.key === 1 ? {borderTopLeftRadius:15,borderBottomLeftRadius:15,}:{}, day.key === 7 ? {borderTopRightRadius:15,borderBottomRightRadius:15,}:{}]}>
+                                <Text style={[!weekdaysPressed.includes(day.key) ? {color:black}:{color:white}]} >{day.text}</Text>
+                            </View>
+                        </TouchableOpacity>
+
+                    )}
+                </View>
+                <View style={[styles.longContainer, {width: screenWidth/1.30}]}>
+                    <Text style={styles.inputText}>Number of Shifts:</Text>
+                </View>
+                <View style={[styles.inputContainer,{width:screenWidth/1.30}, numShiftsError? styles.destructiveAction:{}]}>
+                    <TextInput
+                        style={[styles.input, {width:screenWidth/1.30}]}
+                        onChangeText={(numShifts)=>{
+                            setNumShifts(numShifts)
+                            setNumShiftsError(false)
+                        }}
+                        value={numShifts}
+                        placeholder={'Type Here'}
+                        placeholderTextColor={"#D0D0D0"}
+                        keyboardType = 'numeric'
+                    />
+                </View>
+
+                <View style={styles.addShiftButton}>
+                    <CustomButton buttonText={"Add Shift"} handlePress={handleErrors} />
+                </View>
+                <TimeWarnPopup handlePressButton={handleWarnVisible} isModalVisible={warnModal} submitForm={handleShiftAdd}/>
+                <CalendarPopup setSelectedEndDate={setSelectedEndDate} setSelectedStartDate={setSelectedStartDate} isCalendarVisible={isCalendarVisible} handleExitCalendar={handleCalendar}/>
+
+            </View>
+        </TouchableWithoutFeedback>
     )
 }
 
