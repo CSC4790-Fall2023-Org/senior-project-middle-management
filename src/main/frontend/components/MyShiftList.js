@@ -12,12 +12,19 @@ const MyShiftList = () => {
                     key={index}
                     ShiftCardComponent={
                     <ShiftCard
-                        date={shift.date}
+                        startDate={shift.startDate}
                         shiftType={shift.shiftType}
                         startTime={shift.startTime}
                         endTime={shift.endTime}
-                        locationId={shift.locationId}
+                        location={shift.location}
+                        shiftHours={shift.shiftHours}
                     />}
+                    startDate={shift.startDate}
+                    shiftName={shift.shiftType}
+                    startTime={shift.startTime}
+                    endTime={shift.endTime}
+                    location={shift.location}
+                    shiftHours={shift.shiftHours}
                 />
             )}
         </ScrollView>

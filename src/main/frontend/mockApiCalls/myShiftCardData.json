@@ -1,29 +1,57 @@
 [
   {
     "shiftId": "123",
-    "date": "10/03/2023",
+    "startDate": "Wed Nov 1",
+    "endDate": "Wed Nov 1",
     "startTime": "12:00pm",
     "endTime": "6:00pm",
+    "shiftHours": "8",
     "shiftType": "Lifeguard",
-    "locationId": "Pool",
+    "location": "Pool",
     "droppable": false
   },
   {
     "shiftId": "456",
-    "date": "10/04/2023",
+    "startDate": "Mon Oct 30",
+    "endDate": "Mon Oct 30",
     "startTime": "11:00am",
     "endTime": "5:00pm",
+    "shiftHours": "1",
     "shiftType": "Lifeguard",
-    "locationId": "Pool",
+    "location": "Pool",
     "droppable": true
   },
   {
     "shiftId": "789",
-    "date": "10/05/2023",
+    "startDate": "Tue Oct 31",
+    "endDate": "Tue Oct 31",
     "startTime": "4:00pm",
     "endTime": "10:00pm",
-    "shiftType": "Lifeguard",
-    "locationId": "Pool",
+    "shiftHours": "5",
+    "shiftType": "Head Guard",
+    "location": "Pool",
+    "droppable": false
+  },
+  {
+    "shiftId": "789",
+    "startDate": "Tue Oct 31",
+    "endDate": "Tue Oct 31",
+    "startTime": "4:00pm",
+    "endTime": "10:00pm",
+    "shiftHours": "5",
+    "shiftType": "Head Guard",
+    "location": "Pool",
+    "droppable": false
+  },
+  {
+    "shiftId": "789",
+    "startDate": "Tue Oct 31",
+    "endDate": "Tue Oct 31",
+    "startTime": "4:00pm",
+    "endTime": "10:00pm",
+    "shiftHours": "5",
+    "shiftType": "Head Guard",
+    "location": "Pool",
     "droppable": false
   }
 ]

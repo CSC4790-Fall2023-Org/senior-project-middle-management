@@ -16,7 +16,14 @@ import {
     white
 } from "../utils/Colors";
 
-function TransferShiftModal({transferShiftModal, setTransferShiftModal}) {
+function TransferShiftModal({transferShiftModal,
+                                setTransferShiftModal,
+                                shiftName,
+                                startDate,
+                                shiftStartTime,
+                                shiftEndTime,
+                                shiftHours,
+                                shiftLocation}) {
     const [recipientSelected, setRecipientSelected] = useState(false);
     const [recipientListModal, setRecipientListModal] = useState(false);
 
@@ -36,6 +43,11 @@ function TransferShiftModal({transferShiftModal, setTransferShiftModal}) {
         }
     }
 
+    const handleSingularHours = () => {
+        const hours = parseInt(shiftHours, 10);
+        return (hours === 1 ? 'Hour' : 'Hours');
+    }
+
     return (
         <View>
             { transferShiftModal &&
@@ -48,7 +60,7 @@ function TransferShiftModal({transferShiftModal, setTransferShiftModal}) {
                         <View style={styles.container}>
                             <TouchableWithoutFeedback>
                                 <View style={styles.modalView}>
-                                    <Text style={styles.modalText}>Transfer SHIFT NAME Shift</Text>
+                                    <Text style={styles.modalText} numberOfLines={2} ellipsizeMode={"middle"}>Transfer '{shiftName}' Shift</Text>
                                     <TouchableOpacity
                                         onPress={closeModal}
                                         style={{width: "100%"}}
@@ -58,10 +70,10 @@ function TransferShiftModal({transferShiftModal, setTransferShiftModal}) {
                                         </View>
                                     </TouchableOpacity>
                                     <View style={styles.shiftContainer}>
-                                        <Text style={styles.shiftDate}>Mon. Oct. 30</Text>
-                                        <Text style={styles.shiftTime}>12:00pm – 5:00pm</Text>
-                                        <Text style={styles.shiftHours}>Shift Hours</Text>
-                                        <Text style={styles.shiftLocation}>Location</Text>
+                                        <Text style={styles.shiftDate}>{startDate}</Text>
+                                        <Text style={styles.shiftTime}>{shiftStartTime} – {shiftEndTime}</Text>
+                                        <Text style={styles.shiftHours}>{shiftHours} {handleSingularHours()}</Text>
+                                        <Text style={styles.shiftLocation}>{shiftLocation}</Text>
                                     </View>
                                     <View style={[styles.submitButton,
                                         recipientSelected ? {backgroundColor: primaryGreen}

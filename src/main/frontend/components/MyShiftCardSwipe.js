@@ -16,7 +16,6 @@ class MyShiftCardSwipe extends Component {
             transferShiftModal: false,
         };
         this.swipeableRef = React.createRef();
-        let currCard;
     }
 
     handleSwipeOpen = (direction) => {
@@ -116,6 +115,12 @@ class MyShiftCardSwipe extends Component {
                         <TransferShiftModal
                             transferShiftModal={this.state.transferShiftModal}
                             setTransferShiftModal={this.handleTransferClose}
+                            shiftName={this.props.shiftName}
+                            startDate={this.props.startDate}
+                            shiftStartTime={this.props.startTime}
+                            shiftEndTime={this.props.endTime}
+                            shiftHours={this.props.shiftHours}
+                            shiftLocation={this.props.location}
                         />
                     )}
                 </Swipeable>
