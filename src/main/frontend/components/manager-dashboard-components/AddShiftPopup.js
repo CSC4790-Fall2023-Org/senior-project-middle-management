@@ -15,7 +15,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {XMark, Calendar} from '../../utils/Icons';
 import MultiWheelPicker from "../MultiWheelPicker";
 import CustomButton from "../CustomButton";
-import {grayBackground, secondaryGray, white} from "../../utils/Colors";
+import {black, destructiveAction, grayBackground, primaryGreen, secondaryGray, white} from "../../utils/Colors";
+import * as Haptics from "expo-haptics";
+import TimeWarnPopup from "./TimeWarnPopup";
 
 
 const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shiftOptions}) => {
@@ -29,9 +31,11 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
     //location info
     const [location, setLocation] = useState(locationOptions[0].locationName);
     const [locationId, setLocationId] = useState(locationOptions[0].locationId);
+    const [isLocationError, setLocationError] = useState(false)
     let displayedLocations = locationOptions.map(a => a.locationName);
 
     const locationDropdownPress = (index) => {
+        setLocationError(false)
         setLocation(index);
         for(let i = 0; i < locationOptions.length; i++){
             if(location === locationOptions[i].locationName){
@@ -67,9 +71,10 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
     const startDate = selectedStartDate ? selectedStartDate.format('YYYY/MM/DD').toString() : '';
     const [selectedEndDate, setSelectedEndDate] = useState(null);
     const endDate = selectedEndDate ? selectedEndDate.format('YYYY/MM/DD').toString() : '';
-
+    const [dateWrong, setDateWrong] = useState(false)
     //shift name info
     const [shiftName, setShiftName] = useState("");
+    const [isShiftNameEmpty, setShiftNameEmpty] = useState(false);
 
     //repeats info
     const repeatsOptions = [{
@@ -94,39 +99,40 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
     const [repeatsID, setRepeatsID] = useState(repeatsOptions[0].id);
     const weekdays = [
         {
-            id: 1,
+            key: 1,
             text: 'Mon',
         },
         {
-            id: 2,
+            key: 2,
             text: 'Tue',
         },
         {
-            id: 3,
+            key: 3,
             text: 'Wed',
         },
         {
-            id: 4,
+            key: 4,
             text: 'Thu',
         },
         {
-            id: 5,
+            key: 5,
             text: 'Fri',
         },
         {
-            id: 6,
+            key: 6,
             text: 'Sat',
         },
         {
-            id: 7,
+            key: 7,
             text: 'Sun',
         },]
 
     const [weekdaysPressed, setWeekdaysPressed] = useState([]);
-
+    const [noWeekdaysPressed, setNoWeekdaysPressed] = useState(false)
 
 
     const handleWeekdayPress = (index) => {
+        setNoWeekdaysPressed(false)
         if (weekdaysPressed.includes(index)) {
             const newData = weekdaysPressed.filter((item) => item !== index);
             setWeekdaysPressed(newData);
@@ -138,7 +144,6 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
     };
 
     const repeatsDropdownPress = (text) => {
-        console.log(shiftType)
         setSelectedRepeats(text);
         for (let i = 0; i < repeatsOptions.length; i++) {
             if (selectedRepeats === repeatsOptions[i].text) {
@@ -148,21 +153,70 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
     }
 
     //number of shifts
-    const [numShifts, setNumShifts] = useState(null);
+    const [numShifts, setNumShifts] = useState("");
+    const [numShiftsError, setNumShiftsError] = useState(false)
 
-    //post to Mongo
-    const handleShiftAdd = () => {
+    //check all fields are filled
+    const [warnModal, setWarnModal] = useState(false)
+    const handleWarnVisible = () =>{
+        setWarnModal(!warnModal)
+    }
+    const handleErrors = () =>{
+        let timeStart = startHour+(startMinute/100)
+        let timeEnd = endHour+(endMinute/100)
+        if(endPeriod === "PM"){
+            timeEnd += 12
+        }
+        if(startPeriod === "PM"){
+            timeStart += 12
+        }
         if(locationOptions.length === 1){
             setLocationId(locationOptions[0].locationId)
         }
         if(shiftOptions.length === 1){
-            setLocationId(locationOptions[0].locationId)
+            setShiftType(shiftOptions[0])
         }
+        if(shiftName.trim() === ''){
+            setShiftNameEmpty(true);
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        }else if(!endDate || !startDate){
+            setDateWrong(true);
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        }else if(!locationId){
+            setLocationError(true);
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        }else if(weekdaysPressed.length === 0){
+            setNoWeekdaysPressed(true);
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        }else if(!numShifts){
+            setNumShiftsError(true);
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        }
+        else if(timeEnd<timeStart){
+            setWarnModal(true)
+        }else{
+            handleShiftAdd()
+        }
+
+    }
+    //post to Mongo
+    const handleShiftAdd = () => {
+        setWarnModal(false)
         const weekdays = weekdaysPressed.sort()
         const isEndPeriod = (endPeriod === "AM")
         const isStartPeriod = (startPeriod === "AM")
         //update fetch url according to IPv4 of Wi-Fi
-        fetch('http://10.138.13.28:8080/createShifts', {
+        fetch('http://10.138.27.56:8080/createShifts', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -190,6 +244,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
             .catch(error => {
                 console.error(error);
             });
+        handlePressButton(false)
     }
 
     return(
@@ -212,10 +267,13 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
                             <View style={[styles.longContainer,{width: screenWidth/1.30}]}>
                                 <Text style={styles.inputText}>Shift Name:</Text>
                             </View>
-                            <View style={[styles.inputContainer,{width:screenWidth/1.30}]}>
+                            <View style={[styles.inputContainer,{width:screenWidth/1.30},isShiftNameEmpty ? styles.destructiveAction:{borderColor:secondaryGray}]}>
                                 <TextInput
                                     style={[styles.input, {width:screenWidth/1.30}]}
-                                    onChangeText={setShiftName}
+                                    onChangeText={(shiftName) =>{
+                                        setShiftName(shiftName)
+                                        setShiftNameEmpty(false)
+                                    }}
                                     value={shiftName}
                                     placeholder={"Type Here"}
                                     placeholderTextColor={"#D0D0D0"}
@@ -238,16 +296,17 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
                             <View style={[styles.dropdownContainer,{width:screenWidth/1.30}]}>
                                 {displayedLocations.length === 1 && <View style={[styles.longContainer]}><Text style={{fontSize:20}}>{locationOptions[0].locationName}</Text></View>}
                                 {displayedLocations.length !== 1 &&
-                                <View style={[styles.doubleContainer,{width:screenWidth/1.35}]}>
+                                <View style={[styles.doubleContainer,{width:screenWidth/1.35}, isLocationError ? styles.destructiveAction:{}]}>
                                     <MultiWheelPicker wheelData={displayedLocations} setSelectedItems={locationDropdownPress} selectedItem={location} placeholder={"Select A Location"} wide={screenWidth/1.40} hasChevron={true}/>
                                 </View>}
 
                             </View>
                             <View style={[styles.doubleContainer, {width: screenWidth/1.30}]}>
                                 <View style={styles.shortContainer}>
-
-                                    <TouchableOpacity onPress={handleCalendar}>
-                                        <FontAwesomeIcon icon={Calendar} size={35}/>
+                                    <TouchableOpacity onPress={() =>{
+                                        handleCalendar()
+                                        setDateWrong(false)}}>
+                                        <FontAwesomeIcon icon={Calendar} size={35} style={dateWrong ? {color:destructiveAction}:{color:black}}/>
                                     </TouchableOpacity>
                                 </View>
                                 <View style={[styles.shortContainer]}>
@@ -265,7 +324,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
                                 <View style={styles.shortContainer}>
                                     <Text style={styles.inputText}>Start Hour:</Text>
                                     <View style={styles.doubleContainer}>
-                                        <MultiWheelPicker wheelData={hourOptions} placeholder={"1"} selectedItem={startHour} setSelectedItems={setStartHour}/>
+                                        <MultiWheelPicker wheelData={hourOptions} placeholder={1} selectedItem={startHour} setSelectedItems={setStartHour}/>
                                         <Text style={styles.inputText}>:</Text>
                                         <MultiWheelPicker wheelData={minOptions} placeholder={"00"} selectedItem={startMinute} setSelectedItems={setStartMinute}/>
                                         <Text> </Text>
@@ -276,7 +335,7 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
                                 <View style={styles.shortContainer}>
                                     <Text style={styles.inputText}>End Hour:</Text>
                                     <View style={styles.doubleContainer}>
-                                        <MultiWheelPicker wheelData={hourOptions} placeholder={"1"} selectedItem={endHour} setSelectedItems={setEndHour}/>
+                                        <MultiWheelPicker wheelData={hourOptions} placeholder={1} selectedItem={endHour} setSelectedItems={setEndHour}/>
                                         <Text style={styles.inputText}>:</Text>
                                         <MultiWheelPicker wheelData={minOptions} placeholder={"00"} selectedItem={endMinute} setSelectedItems={setEndMinute}/>
                                         <Text> </Text>
@@ -292,11 +351,11 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
                                     <MultiWheelPicker wheelData={displayedRepeats} setSelectedItems={repeatsDropdownPress} selectedItem={selectedRepeats} placeholder={"Select Option"} wide={screenWidth/1.40} hasChevron={true}/>
                                 </View>
                             </View>
-                            <View style={[styles.dayContainer, {width: screenWidth/1.30}]}>
-                                {weekdays.map(day =>
-                                    <TouchableOpacity onPress={() => handleWeekdayPress(day.id)}>
-                                        <View style={[weekdaysPressed.includes(day.id) ? {backgroundColor:'#50C878'}:{backgroundColor:'#FFFFFF'}, styles.dayBox, day.id === 1 ? {borderTopLeftRadius:15,borderBottomLeftRadius:15,}:{}, day.id === 7 ? {borderTopRightRadius:15,borderBottomRightRadius:15,}:{}]}>
-                                            <Text style={[!weekdaysPressed.includes(day.id) ? {color:'#000000'}:{color:'#FFFFFF'}]}>{day.text}</Text>
+                            <View style={[styles.dayContainer, {width: screenWidth/1.30}, noWeekdaysPressed ? styles.destructiveAction:{}]}>
+                                {weekdays.map(day  =>
+                                    <TouchableOpacity onPress={() => handleWeekdayPress(day.key)} key={day.key}>
+                                        <View style={[weekdaysPressed.includes(day.key) ? {backgroundColor:primaryGreen}:{backgroundColor:white}, styles.dayBox, day.key === 1 ? {borderTopLeftRadius:15,borderBottomLeftRadius:15,}:{}, day.key === 7 ? {borderTopRightRadius:15,borderBottomRightRadius:15,}:{}]}>
+                                            <Text style={[!weekdaysPressed.includes(day.key) ? {color:black}:{color:white}]} >{day.text}</Text>
                                         </View>
                                     </TouchableOpacity>
 
@@ -305,10 +364,13 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
                             <View style={[styles.longContainer, {width: screenWidth/1.30}]}>
                                 <Text style={styles.inputText}>Number of Shifts:</Text>
                             </View>
-                            <View style={[styles.inputContainer,{width:screenWidth/1.30}]}>
+                            <View style={[styles.inputContainer,{width:screenWidth/1.30}, numShiftsError? styles.destructiveAction:{}]}>
                                 <TextInput
                                     style={[styles.input, {width:screenWidth/1.30}]}
-                                    onChangeText={setNumShifts}
+                                    onChangeText={(numShifts)=>{
+                                        setNumShifts(numShifts)
+                                        setNumShiftsError(false)
+                                    }}
                                     value={numShifts}
                                     placeholder={'Type Here'}
                                     placeholderTextColor={"#D0D0D0"}
@@ -317,10 +379,11 @@ const AddShiftPopup = ({isModalVisible, handlePressButton, locationOptions, shif
                             </View>
 
                             <View style={styles.addShiftButton}>
-                                <CustomButton buttonText={"Add Shift"} handlePress={handleShiftAdd} />
+                                <CustomButton buttonText={"Add Shift"} handlePress={handleErrors} />
                             </View>
                         </View>
                     </TouchableWithoutFeedback>
+                    <TimeWarnPopup handlePressButton={handleWarnVisible} isModalVisible={warnModal} submitForm={handleShiftAdd}/>
                     <CalendarPopup setSelectedEndDate={setSelectedEndDate} setSelectedStartDate={setSelectedStartDate} isCalendarVisible={isCalendarVisible} handleExitCalendar={handleCalendar}/>
                 </View>
             </TouchableWithoutFeedback>
@@ -334,7 +397,7 @@ const styles = StyleSheet.create({
         backgroundColor: grayBackground,
         borderRadius: 20,
         borderStyle: "solid",
-        borderColor: "#ccc",
+        borderColor: secondaryGray,
         flexDirection: "column",
         alignItems: 'center',
         justifyContent: 'center',
@@ -404,15 +467,20 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         alignItems:"center",
         justifyContent:"center",
-        margin:0,
+        marginTop:10,
     },
     dayBox:{
         borderColor: secondaryGray,
         borderWidth:".5",
-        marginTop:10,
+        marginTop:0,
         padding:5,
         paddingHorizontal:8
+    },
+    destructiveAction:{
+        borderColor:destructiveAction,
+        borderWidth: 2
     }
+
 
 
 })
