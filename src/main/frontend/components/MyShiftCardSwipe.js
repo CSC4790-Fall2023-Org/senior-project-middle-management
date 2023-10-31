@@ -16,6 +16,7 @@ class MyShiftCardSwipe extends Component {
             transferShiftModal: false,
         };
         this.swipeableRef = React.createRef();
+        let currCard;
     }
 
     handleSwipeOpen = (direction) => {
@@ -47,30 +48,7 @@ class MyShiftCardSwipe extends Component {
                 ]
             );
         } else if (direction === 'left') {
-            Haptics.notificationAsync(
-                Haptics.NotificationFeedbackType.Warning
-            );
-            Alert.alert(
-                'Transfer Shift',
-                'Are you sure you want to transfer this shift?',
-                [
-                    {
-                        text: 'Transfer',
-                        style: 'default',
-                        onPress: () => {
-                            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-                            this.setState({ transferShiftModal: true });
-                        },
-                    },
-                    {
-                        text: 'Cancel',
-                        style: 'cancel',
-                        onPress: () => {
-                            this.swipeableRef.current.close();
-                        }
-                    }
-                ]
-            )
+            this.handleTransferOpen();
         }
     };
 
@@ -114,9 +92,15 @@ class MyShiftCardSwipe extends Component {
         );
     };
 
-    handleModalClose = () => {
-        this.setState({ transferShiftModal: false }); // Close the modal for this card
-    };
+    handleTransferClose = () => {
+        this.swipeableRef.current.close();
+        this.setState({ transferShiftModal: false }); // Close the modal.
+    }
+
+    handleTransferOpen = () => {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+        this.setState({transferShiftModal: true});
+    }
 
     render() {
         return (
@@ -131,7 +115,7 @@ class MyShiftCardSwipe extends Component {
                     {this.state.transferShiftModal && (
                         <TransferShiftModal
                             transferShiftModal={this.state.transferShiftModal}
-                            setTransferShiftModal={this.handleModalClose}
+                            setTransferShiftModal={this.handleTransferClose}
                         />
                     )}
                 </Swipeable>

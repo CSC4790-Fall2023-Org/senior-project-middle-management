@@ -20,8 +20,8 @@ function TransferShiftModal({transferShiftModal, setTransferShiftModal}) {
     const [recipientSelected, setRecipientSelected] = useState(false);
     const [recipientListModal, setRecipientListModal] = useState(false);
 
-    const closeTransfer = () => {
-        setTransferShiftModal(false);
+    const closeModal = () => {
+        setTransferShiftModal();
     }
 
     const openList = () => {
@@ -50,7 +50,7 @@ function TransferShiftModal({transferShiftModal, setTransferShiftModal}) {
                                 <View style={styles.modalView}>
                                     <Text style={styles.modalText}>Transfer SHIFT NAME Shift</Text>
                                     <TouchableOpacity
-                                        onPress={closeTransfer}
+                                        onPress={closeModal}
                                         style={{width: "100%"}}
                                     >
                                         <View style={styles.selectorContainer}>
