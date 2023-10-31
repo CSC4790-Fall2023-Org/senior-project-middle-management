@@ -48,15 +48,9 @@ public class ShiftServices {
             DatabaseUtils.saveShiftsFromList(shiftList);
         }
         catch (Exception e){
-            try {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("message", jsonObject.toString());
-                return ResponseEntity.status(400).body(e.getMessage());
-            } catch (JSONException ex) {
-                return ResponseEntity.status(400).body(ex.getMessage());
-            }
+            return ResponseUtils.errorResponse(e);
         }
-        return ResponseEntity.status(200).body("Shifts created successfully");
+        return ResponseUtils.successfulCreationResponse("Shift created successfully");
     }
 
 
