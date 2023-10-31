@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
     },
     warnText:{
         fontWeight:'bold',
-        fontSize:'12',
+        fontSize: 20,
+        textAlign: 'center',
     },
 });
 export default TimeWarnPopup;

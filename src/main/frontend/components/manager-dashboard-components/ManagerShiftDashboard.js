@@ -17,7 +17,7 @@ function ManagerShiftDashboard(){
 
     const getShiftData = () => {
         //update fetch url according to IPv4 of Wi-Fi
-        fetch('http://10.132.29.200:8080/getShiftCreationInfo', {
+        fetch('http://10.138.27.56:8080/getShiftCreationInfo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
