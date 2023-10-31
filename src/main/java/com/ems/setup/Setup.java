@@ -11,28 +11,28 @@ import java.util.List;
 public class Setup {
 
     public static void runSetup() {
-        System.out.println("RUNNING SETUP");
+        System.out.println("STARTING SETUP");
 
         // database clearing
         if (SetupFields.CLEAR_ALL_DATABASES) {
-            System.out.println("clearing all databases");
+            System.out.println("STARTING CLEARING DATABASES");
             DatabaseUtils.clearAllDatabases();
         } else {
             try {
                 if (SetupFields.CLEAR_ALL_EMPLOYEES) {
-                    System.out.println("clearing all employees");
+                    System.out.println("STARTING CLEARING EMPLOYEES");
                     DatabaseUtils.deleteAllEmployees();
                 }
                 if (SetupFields.CLEAR_ALL_MANAGERS) {
-                    System.out.println("clearing all managers");
+                    System.out.println("STARTING CLEARING MANAGERS");
                     DatabaseUtils.deleteAllManagers();
                 }
                 if (SetupFields.CLEAR_ALL_ORGANIZATIONS) {
-                    System.out.println("clearing all organizations");
+                    System.out.println("STARTING CLEARING MANAGERS");
                     DatabaseUtils.deleteAllOrganizations();
                 }
                 if (SetupFields.CLEAR_ALL_SHIFTS) {
-                    System.out.println("clearing all shifts");
+                    System.out.println("STARTING CLEARING MANAGERS");
                     DatabaseUtils.deleteAllShifts();
                 }
             } catch (DatabaseException e) {
@@ -41,9 +41,10 @@ public class Setup {
         }
 
 
+
         // database creation
         if (SetupFields.CREATE_EMPLOYEES) {
-            System.out.println("creating employees");
+            System.out.println("STARTING CREATING EMPLOYEES");
             List<Employee> employees = DemoEmployees.createDemoEmployeeList();
             try {
                 DatabaseUtils.saveEmployeesFromList(employees);
@@ -53,7 +54,7 @@ public class Setup {
         }
 
         if (SetupFields.CREATE_MANAGERS) {
-            System.out.println("creating managers");
+            System.out.println("STARTING CREATING MANAGERS");
             List<Manager> managers = DemoManagers.createDemoManagerList();
             try {
                 DatabaseUtils.saveManagersFromList(managers);
@@ -63,7 +64,7 @@ public class Setup {
         }
 
         if (SetupFields.CREATE_ORGANIZATIONS) {
-            System.out.println("creating organizations");
+            System.out.println("STARTING CREATING ORGANIZATIONS");
             List<com.ems.database.models.Organization> organizations = DemoOrganizations.createDemoOrganizationList();
             try {
                 DatabaseUtils.saveOrganizationsFromList(organizations);
@@ -73,15 +74,14 @@ public class Setup {
         }
 
         if (SetupFields.CREATE_SHIFTS) {
-            System.out.println("creating shifts");
+            System.out.println("STARTING CREATING SHIFTS");
             List<com.ems.database.models.Shift> shifts = DemoShifts.createDemoShiftList();
             try {
                 DatabaseUtils.saveShiftsFromList(shifts);
             } catch (SvcException e) {
                 e.printStackTrace();
             }
-
-
         }
+        System.out.println("ENDING SETUP");
     }
 }

@@ -10,16 +10,16 @@ public class DateUtils {
     }
 
     public static String getCorrectDateFormatFromLocalDateTime(final LocalDateTime pDate){
-        return pDate.getDayOfWeek().name().substring(0, 3)+ "" + pDate.getMonth().name().substring(0,3) + " " + pDate.getDayOfMonth();
+        return getCorrectAbvDayOfWeek(pDate)+ " " +getCorrectAbvMonth(pDate)+ " " + pDate.getDayOfMonth();
     }
 
-    public static String getCorrectTimeFromLocalDateTime(final LocalDateTime pDate){
-        String isAMORPM = pDate.getHour() < 12 ? "am" : "pm";
-//        String
-        return pDate.getHour() + ":" + pDate.getMinute() + "" + isAMORPM;
+    public static String getCorrectAbvMonth(final LocalDateTime pDate){
+        return pDate.getMonth().name().substring(0,1).toUpperCase() + "" + pDate.getMonth().name().substring(1,3).toLowerCase();
     }
 
-
+    public static String getCorrectAbvDayOfWeek(final LocalDateTime pDate){
+        return pDate.getDayOfWeek().name().substring(0,1).toUpperCase() + "" + pDate.getDayOfWeek().name().substring(1,3).toLowerCase();
+    }
     public static String convertFromMilitaryTimeToUsable(final LocalDateTime pDate){
         final DecimalFormat df = new DecimalFormat("#00");
         String isAMORPM = pDate.getHour() < 12 ? "am" : "pm";

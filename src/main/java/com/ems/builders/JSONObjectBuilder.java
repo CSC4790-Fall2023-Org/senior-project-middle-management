@@ -24,8 +24,9 @@ public class JSONObjectBuilder {
         shiftJSONObj.put("location", locationJSONObj);
         shiftJSONObj.put("shiftName", pShift.getShiftName());
         shiftJSONObj.put("shiftStartDate", DateUtils.getCorrectDateFormatFromLocalDateTime(pShift.getShiftStartTime()));
-        shiftJSONObj.put("shiftStartTime", DateUtils.getCorrectTimeFromLocalDateTime(pShift.getShiftStartTime()));
-        shiftJSONObj.put("shiftEndTime", DateUtils.getCorrectTimeFromLocalDateTime(pShift.getShiftEndTime()));
+        shiftJSONObj.put("shiftEndDate", DateUtils.getCorrectDateFormatFromLocalDateTime(pShift.getShiftEndTime()));
+        shiftJSONObj.put("shiftStartTime", DateUtils.convertFromMilitaryTimeToUsable(pShift.getShiftStartTime()));
+        shiftJSONObj.put("shiftEndTime", DateUtils.convertFromMilitaryTimeToUsable(pShift.getShiftEndTime()));
         shiftJSONObj.put("shiftHours", DateUtils.getHoursBetweenShifts(pShift.getShiftStartTime(), pShift.getShiftEndTime()));
         shiftJSONObj.put("shiftType", pShift.getShiftType());
         shiftJSONObj.put("isShiftOpen", pShift.isShiftOpen());
