@@ -1,7 +1,13 @@
 package com.ems.builders;
 
+import com.ems.Exceptions.SvcException;
 import com.ems.Utils.DateUtils;
+import com.ems.Utils.LocationUtils;
+import com.ems.Utils.ResponseUtils;
+import com.ems.database.models.Location;
+import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
+import com.ems.services.DatabaseServices;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,11 +15,13 @@ import java.util.Date;
 
 public class JSONObjectBuilder {
 
-    public static JSONObject buildJSONObjectFromShift(final Shift pShift) throws JSONException {
+    public static JSONObject buildJSONObjectFromShift(final Shift pShift) throws JSONException, SvcException {
         JSONObject shiftJSONObj = new JSONObject();
 
         shiftJSONObj.put("shiftId", pShift.getShiftId());
-        shiftJSONObj.put("location","" );
+        final Location location = LocationUtils.getLocationFromShift(pShift);
+        JSONObject locationJSONObj = ResponseUtils.getLocationJSONObjectFromLocation(location);
+        shiftJSONObj.put("location", locationJSONObj);
         shiftJSONObj.put("shiftName", pShift.getShiftName());
         shiftJSONObj.put("shiftStartDate", DateUtils.getCorrectDateFormatFromLocalDateTime(pShift.getShiftStartTime()));
         shiftJSONObj.put("shiftStartTime", DateUtils.getCorrectTimeFromLocalDateTime(pShift.getShiftStartTime()));
