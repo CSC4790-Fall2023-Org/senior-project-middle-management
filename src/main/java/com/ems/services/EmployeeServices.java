@@ -20,31 +20,15 @@ import java.util.List;
 public class EmployeeServices {
 
     public static ResponseEntity createEmployee(final String pPayload) {
-        Employee employee;
         try{
-            employee = JsonUtils.getEmployeeFromJSON(new JSONObject(pPayload));
-        } catch (SvcException | JSONException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
-
-        }
-
-        try {
+            Employee employee = JsonUtils.getEmployeeFromJSON(new JSONObject(pPayload));
             ValidationServices.validateCreateEmployee(employee);
-        }
-        catch (SvcException e){
-            e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
-
-        try{
             DatabaseServices.saveEmployee(employee);
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
         }
-
-        return ResponseEntity.status(200).body("Employee created successfully");
+        catch (Exception e){
+            return ResponseUtils.errorResponse(e);
+        }
+        return ResponseEntity.status(200).body(ResponseUtils.successfulCreationResponse("Employee created successfully"));
     }
 
     public static ResponseEntity deleteEmployee(final String pPayload) {

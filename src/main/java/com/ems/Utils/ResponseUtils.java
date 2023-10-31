@@ -9,6 +9,7 @@ import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -57,5 +58,26 @@ public class ResponseUtils {
         jsonObject.put("locationId", pLocation.getLocationId());
         jsonObject.put("locationName", pLocation.getLocationName());
         return jsonObject;
+    }
+
+    public static ResponseEntity errorResponse(final Exception pException) {
+        try {
+            pException.printStackTrace();
+            JSONObject responses = new JSONObject();
+            responses.put("message", pException.getMessage());
+            return ResponseEntity.status(400).body(responses.toString());
+        } catch (JSONException ex) {
+            return ResponseEntity.status(400).body("{\"message\": \"error creating response JSON\"}");
+        }
+    }
+
+    public static ResponseEntity successfulCreationResponse(final String pMessage){
+        try {
+            JSONObject responses = new JSONObject();
+            responses.put("message", pMessage);
+            return ResponseEntity.status(200).body(responses.toString());
+        } catch (JSONException ex) {
+            return ResponseEntity.status(400).body("{\"message\": \"error creating response JSON\"}");
+        }
     }
 }
