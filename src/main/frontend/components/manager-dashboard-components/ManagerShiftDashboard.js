@@ -11,6 +11,37 @@ import AddShiftPopup from "./AddShiftPopup";
 import {secondaryGray, white, primaryGreen} from "../../utils/Colors";
 
 function ManagerShiftDashboard(){
+    //Fetch Shift Info
+    const [locationOptions, setLocationOptions] = useState([{}]);
+    const [shiftOptions, setShiftOptions] = useState([]);
+
+    const getShiftData = () => {
+        //update fetch url according to IPv4 of Wi-Fi
+        fetch('http://10.138.27.56:8080/getShiftCreationInfo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                //change this according to manager ID needed
+                managerId: "653ae4acd7a53f248d8f2223"
+            }),
+        }).then(r => r.json()
+        ).then(json => {
+            setLocationOptions(json.locationList)
+            setShiftOptions(json.shiftTypeList)
+        }).catch(e => {
+                console.error(e);
+            });
+    }
+    const handleAddShiftClick = async () => {
+        try {
+            await getShiftData()
+            handlePressButton()
+        } catch (error) {
+            console.log(error);
+        }
+    };
     const sortDropdown = ['All', 'Open', 'Taken'];
 
     const [isModalVisible, setModalVisible] = useState(false);
@@ -38,7 +69,7 @@ function ManagerShiftDashboard(){
         <View>
             <View style={styles.buttonsContainer}>
                 <View style={styles.addShiftButton}>
-                    <CustomButton buttonText={"Add Shift"} handlePress={handlePressButton} />
+                    <CustomButton buttonText={"Add Shift"} handlePress={handleAddShiftClick} />
                 </View>
                 <TouchableOpacity onPress={handleUserClick}>
                     <FontAwesomeIcon icon={Calendar} size={48} style={styles.icon} />
@@ -50,7 +81,7 @@ function ManagerShiftDashboard(){
                 </View>
             </View>
             <ManagerShiftView available={selectedIndex}/>
-            <AddShiftPopup handlePressButton={handlePressButton} isModalVisible={isModalVisible}/>
+            <AddShiftPopup handlePressButton={handleAddShiftClick} isModalVisible={isModalVisible} locationOptions={locationOptions} shiftOptions={shiftOptions}/>
         </View>
     );
 }

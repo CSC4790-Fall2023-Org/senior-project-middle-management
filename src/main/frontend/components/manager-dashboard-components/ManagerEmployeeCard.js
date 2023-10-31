@@ -18,7 +18,6 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
                     <View style={{paddingTop:5}}>
                         <Text style={styles.name}>{name}</Text>
                     </View>
-
                     <FontAwesomeIcon icon={faChevronRight} size={25} />
                 </View>
             </TouchableWithoutFeedback>
