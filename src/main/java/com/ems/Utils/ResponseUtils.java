@@ -7,6 +7,7 @@ import com.ems.database.models.Manager;
 import com.ems.database.models.Shift;
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -17,13 +18,7 @@ public class ResponseUtils {
         try {
             JSONObject response = new JSONObject();
             response.put("shiftTypeList" ,pShiftTypeList);
-            JSONArray jsonArray = new JSONArray();
-            for (Location location : pLocationList) {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("locationId", location.getLocationId());
-                jsonObject.put("locationName", location.getLocationName());
-                jsonArray.put(jsonObject);
-            }
+            JSONArray jsonArray = getLocationJSONFromLocationList(pLocationList);
             response.put("locationList", jsonArray);
             return response;
         }
@@ -48,4 +43,19 @@ public class ResponseUtils {
         }
     }
 
+    public static JSONArray getLocationJSONFromLocationList(final List<Location> pLocationList) throws JSONException {
+        JSONArray jsonArray = new JSONArray();
+        for (Location location : pLocationList) {
+            JSONObject jsonObject = getLocationJSONObjectFromLocation(location);
+            jsonArray.put(jsonObject);
+        }
+        return jsonArray;
+    }
+
+    public static JSONObject getLocationJSONObjectFromLocation(final Location pLocation) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("locationId", pLocation.getLocationId());
+        jsonObject.put("locationName", pLocation.getLocationName());
+        return jsonObject;
+    }
 }

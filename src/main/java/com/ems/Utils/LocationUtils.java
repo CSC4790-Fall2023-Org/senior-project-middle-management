@@ -3,6 +3,8 @@ package com.ems.Utils;
 import com.ems.Exceptions.SvcException;
 import com.ems.database.models.Location;
 import com.ems.database.models.Organization;
+import com.ems.database.models.Shift;
+import com.ems.services.DatabaseServices;
 import org.bson.types.ObjectId;
 
 import java.util.List;
@@ -32,5 +34,17 @@ public class LocationUtils {
                     }
                 })
                 .collect(Collectors.toList());
+    }
+
+    public static Location getLocationFromShift(final Shift pShift) throws SvcException {
+        final List<Organization> organizationList = DatabaseServices.getAllOrganizations();
+        for (Organization organization : organizationList){
+            for (Location location : organization.getLocationList()){
+                if (location.getLocationId().equals(pShift.getLocationId())){
+                    return location;
+                }
+            }
+        }
+        throw new SvcException("error finding location");
     }
 }
