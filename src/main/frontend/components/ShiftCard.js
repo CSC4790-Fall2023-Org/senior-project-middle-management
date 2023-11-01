@@ -3,6 +3,26 @@ import {StyleSheet, Text, View} from "react-native";
 import {white} from "../utils/Colors";
 
 const ShiftCard = ({shiftStartDate, shiftEndDate, shiftStartTime, shiftEndTime, shiftName, shiftHours, location}) => {
+
+    const handleMultipleDays = () => {
+        console.log(shiftStartDate);
+        console.log(shiftEndDate);
+        try {
+            if (shiftStartDate === shiftEndDate) {
+                return (
+                    shiftStartDate
+                )
+            } else {
+                return (
+                    shiftStartDate + ' - ' + shiftEndDate
+                )
+            }
+            // return JSON.stringify(shiftStartDate) === JSON.stringify(shiftEndDate);
+        } catch (error) {
+            return false;
+        }
+    }
+
     const handleSingularHours = (shiftHours) => {
         const hours = parseInt(shiftHours, 10);
         return hours === 1 ? 'Hour' : 'Hours';
@@ -11,7 +31,7 @@ const ShiftCard = ({shiftStartDate, shiftEndDate, shiftStartTime, shiftEndTime, 
     return (
         <View style={styles.container}>
             <View style={styles.leftContainer}>
-                <Text style={styles.date}>{shiftStartDate}</Text>
+                <Text style={styles.date}>{handleMultipleDays()}</Text>
                 <Text style={styles.time}>{shiftStartTime} – {shiftEndTime}</Text>
                 <Text style={styles.shiftType}>{shiftName}</Text>
             </View>

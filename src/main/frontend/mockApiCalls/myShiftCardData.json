@@ -1,29 +1,35 @@
 [
   {
     "shiftId": "123",
-    "date": "10/03/2023",
-    "startTime": "12:00pm",
-    "endTime": "6:00pm",
-    "shiftType": "Lifeguard",
-    "locationId": "Pool",
+    "shiftStartDate": "Wed Nov 1",
+    "shiftEndDate": "Wed Nov 1",
+    "shiftStartTime": "12:00pm",
+    "shiftEndTime": "6:00pm",
+    "shiftName": "Lifeguard",
+    "shiftHours": "5",
+    "location": "Pool",
     "droppable": false
   },
   {
     "shiftId": "456",
-    "date": "10/04/2023",
-    "startTime": "11:00am",
-    "endTime": "5:00pm",
-    "shiftType": "Lifeguard",
-    "locationId": "Pool",
+    "shiftStartDate": "Wed Nov 29",
+    "shiftEndDate": "Thu Nov 30",
+    "shiftStartTime": "11:00am",
+    "shiftEndTime": "5:00pm",
+    "shiftName": "Lifeguard",
+    "shiftHours": "1",
+    "location": "Pool",
     "droppable": true
   },
   {
     "shiftId": "789",
-    "date": "10/05/2023",
-    "startTime": "4:00pm",
-    "endTime": "10:00pm",
-    "shiftType": "Lifeguard",
-    "locationId": "Pool",
+    "shiftStartDate": "Fri Nov 3",
+    "shiftEndDate": "Fri Nov 3",
+    "shiftStartTime": "4:00pm",
+    "shiftEndTime": "10:00pm",
+    "shiftName": "Lifeguard",
+    "shiftHours": "8",
+    "location": "Pool",
     "droppable": false
   }
 ]
