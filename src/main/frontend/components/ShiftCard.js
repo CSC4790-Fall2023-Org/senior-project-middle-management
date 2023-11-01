@@ -2,18 +2,22 @@ import React from 'react';
 import {StyleSheet, Text, View} from "react-native";
 import {white} from "../utils/Colors";
 
-const ShiftCard = ({date, startTime, endTime, shiftType, locationId}) => {
-    //TODO: calc shift hours to pass into card
+const ShiftCard = ({shiftStartDate, shiftEndDate, shiftStartTime, shiftEndTime, shiftName, shiftHours, location}) => {
+    const handleSingularHours = (shiftHours) => {
+        const hours = parseInt(shiftHours, 10);
+        return hours === 1 ? 'Hour' : 'Hours';
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.leftContainer}>
-                <Text style={styles.date}>{date}</Text>
-                <Text style={styles.time}>{startTime} – {endTime}</Text>
-                <Text style={styles.shiftType}>{shiftType}</Text>
+                <Text style={styles.date}>{shiftStartDate}</Text>
+                <Text style={styles.time}>{shiftStartTime} – {shiftEndTime}</Text>
+                <Text style={styles.shiftType}>{shiftName}</Text>
             </View>
             <View style={styles.rightContainer}>
-                <Text style={styles.hours}>8.5 hrs</Text>
-                <Text style={styles.location}>{locationId}</Text>
+                <Text style={styles.hours}>{shiftHours} {handleSingularHours()}</Text>
+                <Text style={styles.location}>{location}</Text>
             </View>
         </View>
     );
