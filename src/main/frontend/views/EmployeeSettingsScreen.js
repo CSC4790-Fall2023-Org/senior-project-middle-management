@@ -1,10 +1,11 @@
 import React from "react";
-import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
+import {StyleSheet, View, Text, ScrollView, Pressable} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../utils/ScreenNames";
 import {ChevronLeft} from "../utils/Icons";
-import {secondaryGray} from "../utils/Colors";
+import {black, secondaryGray, white} from "../utils/Colors";
+import ProfileSettingsContainer from "../components/ProfileSettingsContainer";
 
 function EmployeeSettingsScreen() {
     const navigation = useNavigation();
@@ -16,11 +17,14 @@ function EmployeeSettingsScreen() {
     return (
         <View>
             <View style={styles.headerContainer}>
-                <TouchableOpacity onPress={() => handleUserClick()} style={styles.icon}>
+                <Pressable onPress={() => handleUserClick()} style={styles.icon}>
                     <FontAwesomeIcon icon={ChevronLeft} size={24}/>
-                </TouchableOpacity>
+                </Pressable>
                 <Text style={styles.headerText}>Settings</Text>
             </View>
+            <ScrollView style={styles.pageScroll}>
+                <ProfileSettingsContainer />
+            </ScrollView>
         </View>
     );
 }
@@ -31,24 +35,27 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         height: 100,
-        backgroundColor: "white",
+        backgroundColor: white,
         alignItems: "flex-end",
         borderBottomWidth: 1,
         borderBottomColor: secondaryGray,
     },
     headerText: {
-        color: "black",
+        color: black,
         fontSize: 24,
         marginBottom: 12,
         fontWeight: 'bold',
     },
     icon: {
-        color: 'black',
+        color: black,
         position: 'absolute',
         left: 12,
         bottom: 12,
         width: 48,
-    }
+    },
+    pageScroll: {
+        height: "100%",
+    },
 });
 
 export default EmployeeSettingsScreen;

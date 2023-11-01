@@ -5,7 +5,7 @@ import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {CalendarDelete, Transfer} from "../utils/Icons";
-import {whiteColor, blueAction, destructiveAction} from "../utils/Colors";
+import {white, blueAction, destructiveAction} from "../utils/Colors";
 import ShiftCard from "./ShiftCard";
 
 class MyShiftCardSwipe extends Component {
@@ -81,7 +81,7 @@ class MyShiftCardSwipe extends Component {
                             transform: [{ translateX: trans }],
                         },
                     ]}>
-                    <FontAwesomeIcon icon={Transfer} size={36} color={whiteColor}/>
+                    <FontAwesomeIcon icon={Transfer} size={36} color={white}/>
                 </Animated.Text>
             </RectButton>
         );
@@ -101,7 +101,7 @@ class MyShiftCardSwipe extends Component {
                             transform: [{ translateX: trans }],
                         },
                     ]}>
-                    <FontAwesomeIcon icon={CalendarDelete} size={36} color={whiteColor}/>
+                    <FontAwesomeIcon icon={CalendarDelete} size={36} color={white}/>
                 </Animated.Text>
             </RectButton>
         );
@@ -111,7 +111,13 @@ class MyShiftCardSwipe extends Component {
         const { ShiftCardComponent } = this.props;
 
         return (
-                <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
+                <Swipeable
+                    renderLeftActions={this.renderLeftActions}
+                    renderRightActions={this.renderRightActions}
+                    onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)}
+                    ref={this.swipeableRef}
+                    overshootFriction={8}
+                >
                     {ShiftCardComponent}
                 </Swipeable>
         );

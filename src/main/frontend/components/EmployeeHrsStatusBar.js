@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from "react-native";
-import {primaryGreen, secondaryGray, whiteColor} from "../utils/Colors";
+import {black, primaryGreen, secondaryGray, white} from "../utils/Colors";
 
 const EmployeeHrsStatusBar = (props) => {
     const bottomBarWidth = 272;
@@ -26,9 +26,12 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         height: 80,
-        backgroundColor: whiteColor,
+        backgroundColor: white,
         paddingTop: 20,
-        marginTop: 12,
+        shadowColor: black,
+        shadowOffset: { width: 0, height: -4 },
+        shadowOpacity: 0.15,
+        shadowRadius: 8,
     },
     leftContainer: {
         flex: 0,

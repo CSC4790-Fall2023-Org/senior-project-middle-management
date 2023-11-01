@@ -2,6 +2,7 @@ package com.ems;
 
 import com.ems.database.models.*;
 import com.ems.database.repositories.*;
+import com.ems.setup.Setup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -42,20 +43,7 @@ public class EmsApplication implements CommandLineRunner {
         visibleManagerRepository = managerRepository;
         visibleShiftRepository = shiftRepository;
 
-        for (Organization organization : organizationRepository.findAll()) {
-            System.out.println(organization.getOrganizationId());
-        }
-
-        for (Employee employee : employeeRepository.findAll()) {
-            System.out.println(employee.getEmployeeId());
-        }
-
-        for (Manager manager : managerRepository.findAll()) {
-            System.out.println(manager.getManagerId());
-        }
-
-        for (Shift shift : shiftRepository.findAll()) {
-            System.out.println(shift.getShiftId());
-        }
+        // run demo setup
+        Setup.runSetup();
     }
 }

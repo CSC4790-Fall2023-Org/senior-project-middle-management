@@ -3,42 +3,31 @@ import com.ems.Exceptions.DatabaseException;
 import com.ems.Exceptions.SvcException;
 import com.ems.Utils.EmployeeUtils;
 import com.ems.Utils.JsonUtils;
+import com.ems.Utils.ResponseUtils;
+import com.ems.Utils.ShiftUtils;
 import com.ems.database.models.Employee;
+import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
 import org.bson.types.ObjectId;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 
 public class EmployeeServices {
 
     public static ResponseEntity createEmployee(final String pPayload) {
-        Employee employee;
         try{
-            employee = JsonUtils.getEmployeeFromJSON(new JSONObject(pPayload));
-        } catch (SvcException | JSONException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
-
-        }
-
-        try {
+            Employee employee = JsonUtils.getEmployeeFromJSON(new JSONObject(pPayload));
             ValidationServices.validateCreateEmployee(employee);
-        }
-        catch (SvcException e){
-            e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
-
-        try{
             DatabaseServices.saveEmployee(employee);
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
         }
-
-        return ResponseEntity.status(200).body("Employee created successfully");
+        catch (Exception e){
+            return ResponseUtils.errorResponse(e);
+        }
+        return ResponseEntity.status(200).body(ResponseUtils.successfulCreationResponse("Employee created successfully"));
     }
 
     public static ResponseEntity deleteEmployee(final String pPayload) {
@@ -110,5 +99,49 @@ public class EmployeeServices {
             return ResponseEntity.status(400).body(e.getMessage());
         }
         return ResponseEntity.status(200).body("Shift assigned to employee successfully");
+    }
+
+    public static ResponseEntity getAvailableShifts(final String pPayload){
+        try{
+            final ObjectId employeeId = JsonUtils.getEmployeeIdFromJSON(new JSONObject(pPayload));
+
+            final Employee employee = DatabaseServices.findEmployeeById(employeeId)
+                    .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_EMPLOYEE, employeeId));
+
+            final Organization organization = DatabaseServices.findOrganizationById(employee.getOrganizationId())
+                    .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_ORGANIZATION, employee.getOrganizationId()));
+
+            final List<Shift> shiftList = DatabaseServices.getAllShifts();
+
+            final List<Shift> availableShifts = ShiftUtils.getAvailableShiftsForEmployee(employee, organization, shiftList);
+
+            final JSONObject shiftResponse = ResponseUtils.getShiftsResponse(availableShifts);
+
+            return ResponseEntity.status(200).body(shiftResponse.toString());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    public static ResponseEntity getClaimedShifts(final String pPayload){
+        try{
+            final ObjectId employeeId = JsonUtils.getEmployeeIdFromJSON(new JSONObject(pPayload));
+            final Employee employee = DatabaseServices.findEmployeeById(employeeId)
+                    .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_EMPLOYEE, employeeId));
+            final List<ObjectId> claimedShifts = employee.getShiftIdList();
+
+            final List<Shift> shiftList = DatabaseServices.getAllShifts();
+
+            final List<Shift> claimedShiftsList = ShiftUtils.getClaimedShiftsList(claimedShifts, shiftList);
+
+            final JSONObject shiftResponse = ResponseUtils.getShiftsResponse(claimedShiftsList);
+
+            return ResponseEntity.status(200).body(shiftResponse.toString());
+
+        } catch (Exception e) {
+            return ResponseUtils.errorResponse(e);
+        }
     }
 }

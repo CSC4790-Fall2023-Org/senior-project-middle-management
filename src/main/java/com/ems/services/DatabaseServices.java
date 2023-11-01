@@ -71,13 +71,6 @@ public class DatabaseServices {
             throw new DatabaseException(DatabaseException.SAVING_MANAGER, manager.getManagerId());
         }
     }
-
-    // get all organizations
-    public static List<Organization> getAllOrganizations() {
-        return EmsApplication.visibleOrganizationRepository.findAll();
-    }
-
-
     // save organization
     public static void saveOrganization(Organization organization) throws DatabaseException {
         try{
@@ -110,7 +103,7 @@ public class DatabaseServices {
     }
 
     // delete manager
-    public static void deleteManager(Manager manager) throws DatabaseException {
+    public static void deleteManager(Manager manager) {
         ObjectId managerId = manager.getManagerId();
         if (EmsApplication.visibleManagerRepository.findAll().stream().noneMatch(ma -> ma.getManagerId().equals(managerId))){
             System.out.println("Manager not found");
@@ -129,11 +122,11 @@ public class DatabaseServices {
     }
 
     // delete shift
-    public static void deleteShift(Shift shift) {
+    public static void deleteShift(Shift shift) throws DatabaseException {
         ObjectId shiftId = shift.getShiftId();
-        if (EmsApplication.visibleShiftRepository.findAll().stream().anyMatch(sh -> sh.getShiftId().equals(shiftId))){
+        if (EmsApplication.visibleShiftRepository.findAll().stream().noneMatch(sh -> sh.getShiftId().equals(shiftId))){
             System.out.println("Shift not found");
-            throw new RuntimeException("Error deleting shift! Shift with id: " + shiftId + " is not present in the database");
+            throw new DatabaseException(DatabaseException.DELETING_SHIFT, shiftId);
         }
         EmsApplication.visibleShiftRepository.delete(shift);
     }
@@ -144,5 +137,11 @@ public class DatabaseServices {
 
     public static List<Manager> getAllManagers() {
         return EmsApplication.visibleManagerRepository.findAll();
+    }
+    public static List<Organization> getAllOrganizations(){
+        return EmsApplication.visibleOrganizationRepository.findAll();
+    }
+    public static List<Shift> getAllShifts(){
+        return EmsApplication.visibleShiftRepository.findAll();
     }
 }

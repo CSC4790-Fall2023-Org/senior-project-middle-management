@@ -4,21 +4,18 @@ import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../utils/ScreenNames";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
-import {primaryGreen, secondaryGray, whiteColor} from "../utils/Colors";
+import {primaryGreen, secondaryGray, white} from "../utils/Colors";
 
 
 function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, chvSize}){
     const [showDropdown, setShowDropdown] = useState(false);
     const [selectedValue, setSelectedValue] = useState(items[0]);
-    const options = items;
+
 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };
 
-    const closeModal = () => {
-        setShowDropdown(false);
-    };
 
     const selectOption = (option) => {
         setSelectedValue(option);
@@ -26,7 +23,7 @@ function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, c
     };
 
 
-    const filteredOptions = options.filter((option) => option !== selectedValue);
+    const filteredOptions = items.filter((option) => option !== selectedValue);
 
     const navigation = useNavigation();
     const handleUserClick = () => {
@@ -47,7 +44,9 @@ function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, c
                         animationType="none"
                         transparent={true}
                         visible={showDropdown}
-                        onRequestClose={() => setShowDropdown(false)}
+                        onRequestClose={() => {
+                            setShowDropdown(false)
+                        }}
                     >
                         <TouchableOpacity
                             style={styles.overlay}
@@ -62,7 +61,7 @@ function Dropdown({ items, dropdownPress, top, width, left, fontWht, fontSize, c
                                 <TouchableOpacity
                                     style={styles.dropdownOptions}
                                     key={option}
-                                    onPress={() => {selectOption(option); dropdownPress(option);}}
+                                    onPress={() => {selectOption(option);}}
                                 >
                                     <Text style={styles.dropdownText}>{option}</Text>
                                 </TouchableOpacity>
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         elevation: 5,
         zIndex: 1,
-        backgroundColor: whiteColor,
+        backgroundColor: white,
 
     },
     dropdownOptions:{

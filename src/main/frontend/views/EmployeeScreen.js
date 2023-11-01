@@ -30,8 +30,10 @@ function EmployeeScreen() {
 
     return (
         <View style={styles.screen}>
-            <CustomHeader title={"Employee Name"} page={ScreenNames.EMPLOYEE_SETTINGS} />
-            <CustomDashboardHeader onTitlePress={handleTitlePress} tabs={tabs}/>
+            <CustomHeader title={employeeData.fName + ' ' + employeeData.lName} page={ScreenNames.EMPLOYEE_SETTINGS} />
+            <View style={styles.headerContainer}>
+                <CustomDashboardHeader onTitlePress={handleTitlePress} tabs={tabs} />
+            </View>
             {selectedIndex === 0 && <MyShiftList />}
             {selectedIndex === 1 && <AvailableShiftList />}
             <EmployeeHrsStatusBar employee={employeeData} company={companyData} style={styles.statusBar}/>
@@ -45,6 +47,14 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         flex: 1,
+    },
+    headerContainer: {
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.15,
+        shadowRadius: 8,
+        elevation: 2, // Adjust the elevation value as needed (works for Android)
+        zIndex: 2, // Adjust the zIndex value as needed (works for iOS)
     },
     statusBar: {
         alignSelf: "stretch",
