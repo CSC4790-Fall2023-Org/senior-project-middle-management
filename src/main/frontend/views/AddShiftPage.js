@@ -4,7 +4,7 @@ import {useNavigation} from "@react-navigation/native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronLeft} from "../utils/Icons";
 import {secondaryGray} from "../utils/Colors";
-import AddShiftPopup from "../components/manager-dashboard-components/AddShiftPopup";
+import AddShiftBody from "../components/manager-dashboard-components/AddShiftBody";
 
 
 const AddShiftPage = ({ route }) => {
@@ -24,8 +24,9 @@ const AddShiftPage = ({ route }) => {
                 <Text style={styles.headerText}>Add Shift</Text>
             </View>
             <ScrollView style={styles.pageScroll}>
-                <AddShiftPopup handlePressButton={backPress} shiftOptions={shiftOptions} locationOptions={locationOptions}/>
+                <AddShiftBody handlePressButton={backPress} shiftOptions={shiftOptions} locationOptions={locationOptions}/>
             </ScrollView>
+
         </View>
 
     );
@@ -56,7 +57,8 @@ const styles = StyleSheet.create({
         width: 48,
     },
     pageScroll: {
-        height: "100%",
+        height: "88%",
+
     },
 });
 export default AddShiftPage;

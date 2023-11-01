@@ -7,7 +7,7 @@ import CustomButton from "../CustomButton";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Calendar} from '../../utils/Icons';
 import Dropdown from "../Dropdown";
-import AddShiftPopup from "./AddShiftPopup";
+import AddShiftBody from "./AddShiftBody";
 import {secondaryGray, white, primaryGreen} from "../../utils/Colors";
 import {waitFor} from "@babel/core/lib/gensync-utils/async";
 
