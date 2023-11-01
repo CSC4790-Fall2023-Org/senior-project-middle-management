@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.lang.NonNullFields;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,22 +48,19 @@ public class Organization {
     }
 
     public Organization(JSONObject jsonObject) throws JSONException {
-        this.organizationId = new ObjectId(jsonObject.getString("organizationId"));
+        if (jsonObject.has("organizationId")) {
+            this.organizationId = new ObjectId(jsonObject.getString("organizationId"));
+        } else {
+            this.organizationId = new ObjectId();
+        }
+
         this.organizationName = jsonObject.getString("organizationName");
         this.orgOwnerEmail = jsonObject.getString("orgOwnerEmail");
 
-        // initialize locationList as an empty list
-        this.locationList = new ArrayList<>();
+        // parse the locationList JSON array using parseLocationListFromJSONArray method below
+        JSONArray locationArray = jsonObject.getJSONArray("locationList");
+        this.locationList = parseLocationListFromJSONArray(locationArray);
 
-        // parse the locationlist JSON array
-        JSONArray locationArray = jsonObject.getJSONArray("locationlist");
-        for (int i = 0; i < locationArray.length(); i++) {
-            JSONObject locationObject = locationArray.getJSONObject(i);
-            Location location = new Location(locationObject);
-            this.locationList.add(location);
-        }
-
-        this.locationList = parseLocationListFromJSON(jsonObject.getJSONArray("locationlist"));
         this.weeksToReleaseShifts = jsonObject.getInt("weeksToReleaseShifts");
     }
 
@@ -100,7 +96,13 @@ public class Organization {
         this.locationList = locationList;
     }
 
-    private List<Location> parseLocationListFromJSON(JSONArray locationlist) {
+    private List<Location> parseLocationListFromJSONArray(JSONArray locationArray) throws JSONException {
+        List<Location> locationList = new ArrayList<>();
+        for (int i = 0; i < locationArray.length(); i++) {
+            JSONObject locationObject = locationArray.getJSONObject(i);
+            Location location = new Location(locationObject);
+            locationList.add(location);
+        }
         return locationList;
     }
 

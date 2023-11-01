@@ -122,7 +122,7 @@ public class DatabaseServices {
     // delete organization
     public static void deleteOrganization(Organization organization) {
         ObjectId organizationId = organization.getOrganizationId();
-        if (EmsApplication.visibleOrganizationRepository.findAll().stream().anyMatch(or -> or.getOrganizationId().equals(organizationId))){
+        if (EmsApplication.visibleOrganizationRepository.findAll().stream().noneMatch(or -> or.getOrganizationId().equals(organizationId))){
             System.out.println("Organization not found");
             throw new RuntimeException("Error deleting organization! Organization with id: " + organizationId + " is not present in the database");
         }

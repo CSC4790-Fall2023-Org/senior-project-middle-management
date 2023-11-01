@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 
 import javax.xml.crypto.Data;
+import java.util.Optional;
 
 public class OrganizationServices {
     public static ResponseEntity createOrganization(final String pPayload) {
@@ -31,12 +32,13 @@ public class OrganizationServices {
             ObjectId organizationId;
 
             organizationId = JsonUtils.getOrganizationIdFromJSON(new JSONObject(pPayload));
-            Organization organization = DatabaseServices.findOrganizationById(organizationId)
-                    .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_ORGANIZATION, organizationId));
+            Optional<Organization> organizationOptional = DatabaseServices.findOrganizationById(organizationId);
 
-            ValidationServices.validateDeleteOrganization(organization);
-
-            DatabaseServices.deleteOrganization(organization);
+            if (organizationOptional.isPresent()) {
+                Organization organization = organizationOptional.get();
+                ValidationServices.validateDeleteOrganization(organization);
+                DatabaseServices.deleteOrganization(organization);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(400).body(e.getMessage());
