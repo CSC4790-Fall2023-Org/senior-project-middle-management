@@ -1,12 +1,14 @@
 import React from 'react';
 import {StyleSheet, Text, View} from "react-native";
-import {white} from "../utils/Colors";
+import {primaryGreen, white} from "../utils/Colors";
+import {Clock, LocationArrow, User} from "../utils/Icons";
+import {faCalendar} from "@fortawesome/free-regular-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 
 const ShiftCard = ({shiftStartDate, shiftEndDate, shiftStartTime, shiftEndTime, shiftName, shiftHours, location}) => {
+    const space = '  ';
 
     const handleMultipleDays = () => {
-        console.log(shiftStartDate);
-        console.log(shiftEndDate);
         try {
             if (shiftStartDate === shiftEndDate) {
                 return (
@@ -17,27 +19,42 @@ const ShiftCard = ({shiftStartDate, shiftEndDate, shiftStartTime, shiftEndTime, 
                     shiftStartDate + ' - ' + shiftEndDate
                 )
             }
-            // return JSON.stringify(shiftStartDate) === JSON.stringify(shiftEndDate);
         } catch (error) {
             return false;
         }
     }
 
-    const handleSingularHours = (shiftHours) => {
+    const handleSingularHours = () => {
         const hours = parseInt(shiftHours, 10);
         return hours === 1 ? 'Hour' : 'Hours';
     }
 
     return (
         <View style={styles.container}>
-            <View style={styles.leftContainer}>
-                <Text style={styles.date}>{handleMultipleDays()}</Text>
-                <Text style={styles.time}>{shiftStartTime} – {shiftEndTime}</Text>
-                <Text style={styles.shiftType}>{shiftName}</Text>
-            </View>
-            <View style={styles.rightContainer}>
+            <Text style={styles.date}>
+                <FontAwesomeIcon icon={faCalendar} size={18} style={styles.icon} />
+                {space}
+                {handleMultipleDays()}
+            </Text>
+            <View style={styles.timeHoursContainer}>
+                <Text style={styles.time}>
+                    <FontAwesomeIcon icon={Clock} size={12} style={styles.icon} />
+                    {space}
+                    {shiftStartTime} – {shiftEndTime}
+                </Text>
                 <Text style={styles.hours}>{shiftHours} {handleSingularHours()}</Text>
-                <Text style={styles.location}>{location}</Text>
+            </View>
+            <View style={styles.nameLocationContainer}>
+                <Text style={styles.shiftName}>
+                    <FontAwesomeIcon icon={User} size={16} style={styles.icon}/>
+                    {space}
+                    {shiftName}
+                </Text>
+                <Text style={styles.location}>
+                    <FontAwesomeIcon icon={LocationArrow} size={16} style={styles.icon}/>
+                    {space}
+                    {location}
+                </Text>
             </View>
         </View>
     );
@@ -46,7 +63,7 @@ const ShiftCard = ({shiftStartDate, shiftEndDate, shiftStartTime, shiftEndTime, 
 const styles = StyleSheet.create({
     container: {
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "column",
         backgroundColor: white,
         margin: 16,
         marginBottom: 0,
@@ -54,13 +71,14 @@ const styles = StyleSheet.create({
         padding: 16,
         paddingTop: 12,
     },
-    leftContainer: {
-        flexGrow: 1,
-        alignContent: "center",
+    timeHoursContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
     },
-    rightContainer: {
-        flexDirection: "column",
-        alignContent: "center",
+    nameLocationContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
     },
     date: {
         fontSize: 24,
@@ -71,19 +89,20 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 10,
     },
-    shiftType: {
+    shiftName: {
         fontSize: 20,
         fontWeight: "500",
     },
     hours: {
-        fontSize: 24,
-        marginTop: 10,
-        textAlign: "right",
+        fontSize: 16,
+        marginBottom: 10,
     },
     location: {
-        fontSize: 16,
-        textAlign: "right",
-        marginTop: 14,
+        fontSize: 20,
+        fontWeight: "500",
+    },
+    icon: {
+        color: primaryGreen,
     },
 });
 
