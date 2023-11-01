@@ -6,9 +6,11 @@ import {
     faCalendar,
     faXmark,
     faCheck,
-    faChevronDown
+    faChevronDown,
+    faLocationArrow,
+    faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import {faCalendarPlus, faCalendarXmark, faTrashCan} from "@fortawesome/free-regular-svg-icons";
+import {faCalendarPlus, faCalendarXmark, faTrashCan, faClock} from "@fortawesome/free-regular-svg-icons";
 
 export const ChevronLeft = faChevronLeft;
 export const ChevronRight = faChevronRight;
@@ -20,5 +22,7 @@ export const TrashCan = faTrashCan;
 export const Transfer = faArrowRightArrowLeft;
 export const Check = faCheck;
 export const XMark = faXmark;
-
 export const ChevronDown = faChevronDown;
+export const LocationArrow = faLocationArrow;
+export const Clock = faClock;
+export const User = faUser;
