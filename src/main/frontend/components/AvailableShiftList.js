@@ -20,7 +20,6 @@ const AvailableShiftList = () => {
             return response.json();
         })
             .then(data => {
-                // console.log(data);
                 setShiftData(data);
             })
             .catch(error => {
@@ -28,14 +27,24 @@ const AvailableShiftList = () => {
             });
     }, []);
 
-    console.log("shift data: ", shiftData);
-
     return(
         <ScrollView style={styles.scrollView}>
             { shiftData ? (
                 <View>
                     {shiftData.shiftList.map(shift =>
-                        <AvailableShiftCardSwipe ShiftCardComponent={<ShiftCard shiftStartDate={shift.shiftStartDate} shiftEndDate={shift.shiftEndDate} shiftName={shift.shiftName} shiftStartTime={shift.shiftStartTime} shiftEndTime={shift.shiftEndTime} location={shift.location.locationName} shiftHours={shift.shiftHours}/>} />
+                        <AvailableShiftCardSwipe
+                            key={shift.shiftId}
+                            ShiftCardComponent={
+                            <ShiftCard
+                                shiftStartDate={shift.shiftStartDate}
+                                shiftEndDate={shift.shiftEndDate}
+                                shiftName={shift.shiftName}
+                                shiftStartTime={shift.shiftStartTime}
+                                shiftEndTime={shift.shiftEndTime}
+                                location={shift.location.locationName}
+                                shiftHours={shift.shiftHours}
+                            />}
+                        />
                     )}
                 </View>
             ) : (

@@ -6,7 +6,7 @@
     "shiftStartTime": "12:00pm",
     "shiftEndTime": "6:00pm",
     "shiftName": "Lifeguard",
-    "shiftHours": "5",
+    "shiftHours": 5,
     "location": "Pool",
     "droppable": false
   },
@@ -17,7 +17,7 @@
     "shiftStartTime": "11:00am",
     "shiftEndTime": "5:00pm",
     "shiftName": "Lifeguard",
-    "shiftHours": "1",
+    "shiftHours": 1,
     "location": "Pool",
     "droppable": true
   },
@@ -28,7 +28,7 @@
     "shiftStartTime": "4:00pm",
     "shiftEndTime": "10:00pm",
     "shiftName": "Lifeguard",
-    "shiftHours": "8",
+    "shiftHours": 8,
     "location": "Pool",
     "droppable": false
   }
