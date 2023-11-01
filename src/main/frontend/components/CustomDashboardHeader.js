@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {black, primaryGreen} from "../utils/Colors";
+import {black, grayBackground, primaryGreen} from "../utils/Colors";
 
 
 const CustomDashboardHeader = ({onTitlePress, tabs}) => {
@@ -28,10 +28,7 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent: "space-evenly",
         paddingTop: 20,
-        shadowColor: black,
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.15,
-        shadowRadius: 8,
+        backgroundColor: grayBackground,
     },
     text:{
         fontWeight: "bold",
