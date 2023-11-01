@@ -8,6 +8,7 @@ import com.ems.services.DatabaseServices;
 import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,5 +119,20 @@ public class ValidationUtils {
             }
         }
         return false;
+    }
+
+    public static boolean validateClaimedShiftForEmployee(final Shift pShift){
+
+        // shift start time is before now
+        if (pShift.getShiftStartTime().isBefore(LocalDateTime.now())){
+            return false;
+        }
+
+        // shift is being reviewed by manager
+        if (!pShift.isDropApproved()){
+            return false;
+        }
+
+        return true;
     }
 }
