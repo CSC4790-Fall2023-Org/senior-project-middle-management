@@ -10,15 +10,7 @@ const ShiftCard = ({shiftStartDate, shiftEndDate, shiftStartTime, shiftEndTime, 
 
     const handleMultipleDays = () => {
         try {
-            if (shiftStartDate === shiftEndDate) {
-                return (
-                    shiftStartDate
-                )
-            } else {
-                return (
-                    shiftStartDate + ' - ' + shiftEndDate
-                )
-            }
+            return ((shiftStartDate === shiftEndDate) ? shiftStartDate : shiftStartDate + ' - ' + shiftEndDate);
         } catch (error) {
             return false;
         }
@@ -30,6 +22,15 @@ const ShiftCard = ({shiftStartDate, shiftEndDate, shiftStartTime, shiftEndTime, 
     }
 
     return (
+        //  shift card container (flexDirection: "row")
+        //  icons container (flexDirection: "column", paddingRight: 12)
+        //      calendar icon
+        //      clock icon
+        //      user icon
+        //  info container (flexDirection: "column")
+        //      inside View with align items center: date
+        //      inside View with align items center: time and hours (justifyContent: "space-between")
+        //      inside View with align items center: name and location (justifyContent: "space-between")
         <View style={styles.container}>
             <Text style={styles.date}>
                 <FontAwesomeIcon icon={faCalendar} size={18} style={styles.icon} />
