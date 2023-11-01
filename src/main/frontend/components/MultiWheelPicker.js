@@ -20,12 +20,12 @@ const MultiWheelPicker = ({wheelData,placeholder, selectedItem, setSelectedItems
                             inputIOS: {
                                 width:wide,
                                 color: black,
-                                fontSize: 20,
+                                fontSize: 24,
                             },
                             inputAndroid: {
                                 width:wide,
                                 color: black,
-                                fontSize: 20,
+                                fontSize: 24,
                             },
 
                         }}
@@ -36,7 +36,7 @@ const MultiWheelPicker = ({wheelData,placeholder, selectedItem, setSelectedItems
                         value={selectedItem}
                         Icon={() => {
                             if (hasChevron) {
-                                return <FontAwesomeIcon icon={ChevronDown} color={black} size={22.5}/>;
+                                return <FontAwesomeIcon icon={ChevronDown} color={black} size={27}/>;
                             }
 
                         }}
@@ -62,7 +62,7 @@ const pickerSelectStyles = StyleSheet.create({
     },
     placeholder: {
         color: "#000000",
-        fontSize:20
+        fontSize:24
     },
 });
 export default MultiWheelPicker;
