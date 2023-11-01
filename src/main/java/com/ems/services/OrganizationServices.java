@@ -29,17 +29,16 @@ public class OrganizationServices {
 
     public static ResponseEntity deleteOrganization(final String pPayload) {
         try {
-            ObjectId organizationId;
+            final ObjectId organizationId = JsonUtils.getOrganizationIdFromJSON(new JSONObject(pPayload));
+            final Organization organization = DatabaseServices.findOrganizationById(organizationId)
+                    .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_ORGANIZATION, organizationId));
 
-            organizationId = JsonUtils.getOrganizationIdFromJSON(new JSONObject(pPayload));
-            Optional<Organization> organizationOptional = DatabaseServices.findOrganizationById(organizationId);
+            ValidationServices.validateDeleteOrganization(organization);
 
-            if (organizationOptional.isPresent()) {
-                Organization organization = organizationOptional.get();
-                ValidationServices.validateDeleteOrganization(organization);
-                DatabaseServices.deleteOrganization(organization);
-            }
-        } catch (Exception e) {
+            DatabaseServices.deleteOrganization(organization);
+
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(400).body(e.getMessage());
         }

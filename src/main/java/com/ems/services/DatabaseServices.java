@@ -110,7 +110,7 @@ public class DatabaseServices {
     }
 
     // delete manager
-    public static void deleteManager(Manager manager) {
+    public static void deleteManager(Manager manager) throws DatabaseException {
         ObjectId managerId = manager.getManagerId();
         if (EmsApplication.visibleManagerRepository.findAll().stream().noneMatch(ma -> ma.getManagerId().equals(managerId))){
             System.out.println("Manager not found");
@@ -120,11 +120,10 @@ public class DatabaseServices {
     }
 
     // delete organization
-    public static void deleteOrganization(Organization organization) {
+    public static void deleteOrganization(Organization organization) throws DatabaseException {
         ObjectId organizationId = organization.getOrganizationId();
         if (EmsApplication.visibleOrganizationRepository.findAll().stream().noneMatch(or -> or.getOrganizationId().equals(organizationId))){
-            System.out.println("Organization not found");
-            throw new RuntimeException("Error deleting organization! Organization with id: " + organizationId + " is not present in the database");
+            throw new DatabaseException(DatabaseException.DELETING_ORGANIZATION, organizationId);
         }
         EmsApplication.visibleOrganizationRepository.delete(organization);
     }
