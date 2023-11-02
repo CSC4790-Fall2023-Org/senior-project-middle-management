@@ -123,4 +123,14 @@ public class JsonUtils {
         }
         return result;
     }
+
+    public static JSONObject getLocationJSONFromJSONObject(final JSONObject pJsonObject) throws SvcException {
+        try{
+            return pJsonObject.getJSONObject("location");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new SvcException("Error getting location JSON from JSON");
+        }
+    }
 }

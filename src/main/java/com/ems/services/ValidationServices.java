@@ -109,4 +109,17 @@ public class ValidationServices {
             throw new SvcException("Error: Organization not found in the database.");
         }
     }
+
+    public static void validateCreateLocation(Organization organization, Location location) throws SvcException{
+        // validate that the location is not already in the organization
+        if (organization.getLocationList().stream().anyMatch(l -> doLocationsMatch(l, location))) {
+            throw new SvcException("Error: Location already exists in the organization.");
+        }
+
+
+    }
+
+    public static boolean doLocationsMatch(Location location1, Location location2){
+        return location1.getLocationName().equals(location2.getLocationName());
+    }
 }
