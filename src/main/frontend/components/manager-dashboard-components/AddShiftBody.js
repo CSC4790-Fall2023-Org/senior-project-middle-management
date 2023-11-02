@@ -17,6 +17,7 @@ import CustomButton from "../CustomButton";
 import {black, destructiveAction, grayBackground, primaryGreen, secondaryGray, white} from "../../utils/Colors";
 import * as Haptics from "expo-haptics";
 import TimeWarnPopup from "./TimeWarnPopup";
+import {ipAddy} from "../../utils/IPAddress";
 
 
 const AddShiftBody = ({handlePressButton, locationOptions, shiftOptions}) => {
@@ -227,7 +228,7 @@ const AddShiftBody = ({handlePressButton, locationOptions, shiftOptions}) => {
         const isEndPeriod = (endPeriod === "AM")
         const isStartPeriod = (startPeriod === "AM")
         //update fetch url according to IPv4 of Wi-Fi
-        fetch('http://10.138.27.56:8080/createShifts', {
+        fetch('http://'+ipAddy+':8080/createShifts', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

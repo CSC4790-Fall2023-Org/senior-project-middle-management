@@ -2,12 +2,13 @@ import ShiftCard from "./ShiftCard";
 import {ScrollView, StyleSheet, View} from "react-native";
 import React, {useEffect, useState} from "react";
 import AvailableShiftCardSwipe from "./AvailableShiftCardSwipe";
+import {ipAddy} from "../utils/IPAddress";
 
 const AvailableShiftList = () => {
     const [shiftData, setShiftData] = useState(null);
 
     useEffect(() => {
-        fetch('http://10.137.22.96:8080/getAvailableShifts', {
+        fetch('http://'+ipAddy+ ':8080/getAvailableShifts', {
             method: 'POST',
             headers: {},
             body: JSON.stringify({
