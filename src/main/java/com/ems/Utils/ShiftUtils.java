@@ -32,6 +32,7 @@ public class ShiftUtils {
         for (LocalDate date = pStartDate; date.isBefore(pEndDate); date = date.plusDays(1)){
             dates.add(date);
         }
+        dates.add(pEndDate);
         return dates;
     }
 
