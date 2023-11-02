@@ -21,9 +21,19 @@ public class LocationUtilsTests {
          final List<Location> locationList = LocationUtils.addLocationToLocationList(organization.getLocationList(), locationToAdd);
 
          assertEquals(2, locationList.size());
+        }
+    }
 
+    @Test
+    public void testRemoveLocationFromLocationList(){
+        {
+            final Organization organization = OrganizationUtils.getBaseOrganization();
+            final List<Location> locationList = LocationUtils.addLocationToLocationList(organization.getLocationList(), new Location(new ObjectId(), "Town Park", 40));
+            final ObjectId locationIdToRemove = organization.getLocationList().get(0).getLocationId();
 
+            final List<Location> finalLocationList = LocationUtils.removeLocationFromLocationList(locationList, locationIdToRemove);
 
+            assertEquals(1, finalLocationList.size());
         }
     }
 }
