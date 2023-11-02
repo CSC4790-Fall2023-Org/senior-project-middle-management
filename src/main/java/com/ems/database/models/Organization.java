@@ -1,5 +1,6 @@
 package com.ems.database.models;
 
+import com.ems.Exceptions.SvcException;
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,21 +48,18 @@ public class Organization {
         this.locationList = locationList;
     }
 
-    public Organization(JSONObject jsonObject) throws JSONException {
-        if (jsonObject.has("organizationId")) {
+    public Organization(JSONObject jsonObject) throws SvcException {
+        try{
             this.organizationId = new ObjectId(jsonObject.getString("organizationId"));
-        } else {
-            this.organizationId = new ObjectId();
+            this.organizationName = jsonObject.getString("organizationName");
+            this.orgOwnerEmail = jsonObject.getString("orgOwnerEmail");
+            this.locationList = parseLocationListFromJSONArray(jsonObject.getJSONArray("locationList"));
+            this.weeksToReleaseShifts = jsonObject.getInt("weeksToReleaseShifts");
         }
-
-        this.organizationName = jsonObject.getString("organizationName");
-        this.orgOwnerEmail = jsonObject.getString("orgOwnerEmail");
-
-        // parse the locationList JSON array using parseLocationListFromJSONArray method below
-        JSONArray locationArray = jsonObject.getJSONArray("locationList");
-        this.locationList = parseLocationListFromJSONArray(locationArray);
-
-        this.weeksToReleaseShifts = jsonObject.getInt("weeksToReleaseShifts");
+        catch (Exception e){
+            e.printStackTrace();
+            throw new SvcException("error creating organization from JSON");
+        }
     }
 
     public ObjectId getOrganizationId() {

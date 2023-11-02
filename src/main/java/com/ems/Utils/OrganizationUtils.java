@@ -37,7 +37,5 @@ public class OrganizationUtils {
             }
         }
         return true;
-                List.of(LocationUtils.getBaseLocation()),
-                2);
     }
 }

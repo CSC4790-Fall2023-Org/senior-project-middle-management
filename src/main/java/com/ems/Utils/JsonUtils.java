@@ -38,7 +38,7 @@ public class JsonUtils {
 
     public static ObjectId getOrganizationIdFromJSON(final JSONObject pJsonObject) throws SvcException {
         try{
-            return new ObjectId((String) pJsonObject.get("organizationId"));
+            return new ObjectId(pJsonObject.getString("organizationId"));
         }
         catch (Exception e){
             e.printStackTrace();
