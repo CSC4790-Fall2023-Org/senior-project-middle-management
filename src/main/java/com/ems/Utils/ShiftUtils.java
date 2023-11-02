@@ -4,7 +4,6 @@ import com.ems.database.models.Employee;
 import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
 import com.ems.database.models.ShiftHelper;
-import com.ems.services.DatabaseServices;
 import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
@@ -185,7 +184,7 @@ public class ShiftUtils {
         List<Shift> availableShifts = new ArrayList<>();
         ArrayList<Shift> seen = new ArrayList<>();
         for (Shift shift : pShiftList){
-            if(ValidationUtils.validateShiftForEmployee(shift, pEmployee, pOrganization.getWeeksToRelease(), seen)){
+            if(ValidationUtils.validateShiftForEmployee(shift, pEmployee, pOrganization.getWeeksToReleaseShifts(), seen)){
                 availableShifts.add(shift);
                 seen.add(shift);
             }
@@ -193,4 +192,13 @@ public class ShiftUtils {
         return availableShifts;
     }
 
+    public static List<Shift> getClaimedShiftsList(List<ObjectId> claimedShifts, List<Shift> shiftList) {
+        List<Shift> claimedShiftsList = new ArrayList<>();
+        for (Shift shift : shiftList){
+            if (claimedShifts.contains(shift.getShiftId()) && ValidationUtils.validateClaimedShiftForEmployee(shift)){
+                claimedShiftsList.add(shift);
+            }
+        }
+        return claimedShiftsList;
+    }
 }

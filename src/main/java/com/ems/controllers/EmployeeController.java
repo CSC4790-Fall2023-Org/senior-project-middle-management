@@ -32,4 +32,8 @@ public class EmployeeController {
     public ResponseEntity getAvailableShifts(@RequestBody final String pPayload){
         return EmployeeServices.getAvailableShifts(pPayload);
     }
+    @PostMapping("/getClaimedShifts")
+    public ResponseEntity getClaimedShifts(@RequestBody final String pPayload){
+        return EmployeeServices.getClaimedShifts(pPayload);
+    }
 }

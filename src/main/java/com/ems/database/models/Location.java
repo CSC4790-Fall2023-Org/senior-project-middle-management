@@ -55,7 +55,7 @@ public class Location {
     }
 
     public Location(final JSONObject pJsonObject) throws JSONException {
-        this.locationId = new ObjectId(pJsonObject.getString("locationId"));
+        this.locationId = new ObjectId();
         this.locationName = pJsonObject.getString("locationName");
         this.maxHours = pJsonObject.getDouble("maxHours");
     }

@@ -1,8 +1,7 @@
 import ShiftCard from "./ShiftCard";
-import {ScrollView, StyleSheet, View, Text} from "react-native";
+import {ScrollView, StyleSheet, View} from "react-native";
 import React, {useEffect, useState} from "react";
 import AvailableShiftCardSwipe from "./AvailableShiftCardSwipe";
-import {primaryGreen} from "../utils/Colors";
 import {ipAddy} from "../utils/IPAddress";
 
 const AvailableShiftList = () => {
@@ -19,12 +18,9 @@ const AvailableShiftList = () => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.json(); // Parse the JSON data
+            return response.json();
         })
             .then(data => {
-                // Now you can work with the data as an array of objects
-                console.log(data);
-                // Example: Accessing individual objects in the array
                 setShiftData(data);
             })
             .catch(error => {
@@ -32,14 +28,24 @@ const AvailableShiftList = () => {
             });
     }, []);
 
-    console.log("shift data: ", shiftData);
-
     return(
         <ScrollView style={styles.scrollView}>
             { shiftData ? (
                 <View>
                     {shiftData.shiftList.map(shift =>
-                        <AvailableShiftCardSwipe ShiftCardComponent={<ShiftCard date={shift.shiftStartDate} shiftType={shift.shiftName} startTime={shift.shiftStartTime} endTime={shift.shiftEndTime} locationId={shift.location.locationName} />} />
+                        <AvailableShiftCardSwipe
+                            key={shift.shiftId}
+                            ShiftCardComponent={
+                            <ShiftCard
+                                shiftStartDate={shift.shiftStartDate}
+                                shiftEndDate={shift.shiftEndDate}
+                                shiftName={shift.shiftName}
+                                shiftStartTime={shift.shiftStartTime}
+                                shiftEndTime={shift.shiftEndTime}
+                                location={shift.location.locationName}
+                                shiftHours={shift.shiftHours}
+                            />}
+                        />
                     )}
                 </View>
             ) : (

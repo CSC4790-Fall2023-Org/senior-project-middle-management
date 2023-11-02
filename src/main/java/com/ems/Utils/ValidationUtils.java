@@ -2,12 +2,14 @@ package com.ems.Utils;
 
 import com.ems.Exceptions.SvcException;
 import com.ems.database.models.Employee;
+import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
 import com.ems.database.models.ShiftHelper;
 import com.ems.services.DatabaseServices;
 import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,5 +120,32 @@ public class ValidationUtils {
             }
         }
         return false;
+    }
+
+    public static boolean validateClaimedShiftForEmployee(final Shift pShift){
+
+        // shift start time is before now
+        if (pShift.getShiftStartTime().isBefore(LocalDateTime.now())){
+            return false;
+        }
+
+        // shift is being reviewed by manager
+        if (!pShift.isDropApproved()){
+            return false;
+        }
+
+        return true;
+    }
+
+    public static void validateDeleteLocation(final Organization pOrganization, final ObjectId pLocationId) throws SvcException {
+        // if organization only has one location
+        if (pOrganization.getLocationList().size() == 1){
+            throw new SvcException("organization only has one location");
+        }
+
+        // if location is not in organization
+        if (pOrganization.getLocationList().stream().noneMatch(location -> location.getLocationId().equals(pLocationId))){
+            throw new SvcException("location is not in organization");
+        }
     }
 }

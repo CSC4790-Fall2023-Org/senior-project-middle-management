@@ -12,7 +12,6 @@ import org.bson.types.ObjectId;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -116,13 +115,33 @@ public class EmployeeServices {
 
             final List<Shift> availableShifts = ShiftUtils.getAvailableShiftsForEmployee(employee, organization, shiftList);
 
-            final JSONObject shiftResponse = ResponseUtils.getAvailableShiftsResponse(availableShifts);
+            final JSONObject shiftResponse = ResponseUtils.getShiftsResponse(availableShifts);
 
             return ResponseEntity.status(200).body(shiftResponse.toString());
         }
         catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    public static ResponseEntity getClaimedShifts(final String pPayload){
+        try{
+            final ObjectId employeeId = JsonUtils.getEmployeeIdFromJSON(new JSONObject(pPayload));
+            final Employee employee = DatabaseServices.findEmployeeById(employeeId)
+                    .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_EMPLOYEE, employeeId));
+            final List<ObjectId> claimedShifts = employee.getShiftIdList();
+
+            final List<Shift> shiftList = DatabaseServices.getAllShifts();
+
+            final List<Shift> claimedShiftsList = ShiftUtils.getClaimedShiftsList(claimedShifts, shiftList);
+
+            final JSONObject shiftResponse = ResponseUtils.getShiftsResponse(claimedShiftsList);
+
+            return ResponseEntity.status(200).body(shiftResponse.toString());
+
+        } catch (Exception e) {
+            return ResponseUtils.errorResponse(e);
         }
     }
 }
