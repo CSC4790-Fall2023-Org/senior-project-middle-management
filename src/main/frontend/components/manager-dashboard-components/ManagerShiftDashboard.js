@@ -10,19 +10,21 @@ import Dropdown from "../Dropdown";
 import AddShiftBody from "./AddShiftBody";
 import {secondaryGray, white, primaryGreen} from "../../utils/Colors";
 import {waitFor} from "@babel/core/lib/gensync-utils/async";
+import {ipAddy} from "../../utils/IPAddress";
 
 function ManagerShiftDashboard(){
+
     //Fetch Shift Info
     const getShiftData = async () => {
         //update fetch url according to IPv4 of Wi-Fi
-        await fetch('http://10.138.27.56:8080/getShiftCreationInfo', {
+        await fetch('http://'+ipAddy+':8080/getShiftCreationInfo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 //change this according to manager ID needed
-                managerId: "653d70c730cd4ad7a58ee7fb"
+                managerId: "651f4001631f63367d896197"
             }),
         }).then(r => r.json()
         ).then(async json => {
