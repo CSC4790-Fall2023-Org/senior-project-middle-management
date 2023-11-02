@@ -7,10 +7,12 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {CalendarAdd, TrashCan} from "../utils/Icons";
 import {greenAction, grayAction, white} from "../utils/Colors";
 import ShiftCard from "./ShiftCard";
+import {ipAddy} from "../utils/IPAddress";
 
-class AvailableShiftCardSwipe extends Component {
-    swipeableRef = React.createRef();
-    handleSwipeOpen = (direction) => {
+function AvailableShiftCardSwipe({ShiftCardComponent}) {
+    let swipeableRef = React.createRef();
+    // const { ShiftCardComponent } = this.props;
+    const handleSwipeOpen = (direction) => {
         if (direction === 'right') {
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Warning
@@ -32,7 +34,7 @@ class AvailableShiftCardSwipe extends Component {
                         text: 'Cancel',
                         style: 'cancel',
                         onPress: () => {
-                            this.swipeableRef.current.close();
+                            swipeableRef.current.close();
                         }
                     }
                 ]
@@ -49,7 +51,7 @@ class AvailableShiftCardSwipe extends Component {
                         text: 'Pick Up',
                         style: 'default',
                         onPress: () => {
-                            this.handleShiftAdd();
+                            handleShiftAdd();
                             // Haptics.notificationAsync(
                             //     Haptics.NotificationFeedbackType.Success
                             // );
@@ -59,7 +61,7 @@ class AvailableShiftCardSwipe extends Component {
                         text: 'Cancel',
                         style: 'cancel',
                         onPress: () => {
-                            this.swipeableRef.current.close();
+                            swipeableRef.current.close();
                         }
                     }
                 ]
@@ -67,13 +69,13 @@ class AvailableShiftCardSwipe extends Component {
         }
     };
 
-    renderLeftActions = (progress, dragX) => {
+    const renderLeftActions = (progress, dragX) => {
         const trans = dragX.interpolate({
             inputRange: [0, 50, 100, 101],
             outputRange: [-20, -10, 0, 1],
         });
         return (
-            <RectButton style={styles.leftAction} onPress={this.close}>
+            <RectButton style={styles.leftAction} onPress={close}>
                 <Animated.Text
                     style={[
                         styles.actionText,
@@ -87,13 +89,13 @@ class AvailableShiftCardSwipe extends Component {
         );
     };
 
-    renderRightActions = (progress, dragX) => {
+    const renderRightActions = (progress, dragX) => {
         const trans = dragX.interpolate({
             inputRange: [-101, -100, -50, 0],
             outputRange: [-1, 0, 10, 20],
         });
         return (
-            <RectButton style={styles.rightAction} onPress={this.close}>
+            <RectButton style={styles.rightAction} onPress={close}>
                 <Animated.Text
                     style={[
                         styles.actionText,
@@ -107,45 +109,41 @@ class AvailableShiftCardSwipe extends Component {
         );
     };
 
-    handleShiftAdd = () => {
+    const handleShiftAdd = () => {
         const [addResponse, setAddResponse] = useState(null);
-        useEffect(() => {
-            fetch('http://10.138.29.47:8080/assignShift', {
-                method: 'POST',
-                headers: {},
-                body: JSON.stringify({
-                    employeeId: "651f3f35631f63367d896196"
-                }),
-            }).then(response => {
+        fetch('http://' + ipAddy + '/assignShift', {
+            method: 'POST',
+            headers: {},
+            body: JSON.stringify({
+                employeeId: "651f3f35631f63367d896196"
+            }),
+        })
+            .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
             })
-                .then(data => {
-                    setShiftData(data);
-                })
-                .catch(error => {
-                    console.error('There was a problem with the fetch operation:', error);
-                });
-        }, []);
-    }
+            .then(data => {
+                setAddResponse(data);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    };
 
-    render() {
-        const { ShiftCardComponent } = this.props;
 
-        return (
-            <Swipeable
-                renderLeftActions={this.renderLeftActions}
-                renderRightActions={this.renderRightActions}
-                onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)}
-                ref={this.swipeableRef}
-                overshootFriction={8}
-            >
-                {ShiftCardComponent}
-            </Swipeable>
-        );
-    }
+    return (
+        <Swipeable
+            renderLeftActions={renderLeftActions}
+            renderRightActions={renderRightActions}
+            onSwipeableOpen={(direction) => handleSwipeOpen(direction)}
+            ref={swipeableRef}
+            overshootFriction={8}
+        >
+            {ShiftCardComponent}
+        </Swipeable>
+    );
 }
 
 const styles= StyleSheet.create({
