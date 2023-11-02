@@ -11,6 +11,7 @@ import AddShiftBody from "./AddShiftBody";
 import {secondaryGray, white, primaryGreen} from "../../utils/Colors";
 import {waitFor} from "@babel/core/lib/gensync-utils/async";
 import {ipAddy} from "../../utils/IPAddress";
+import AvailableShiftList from "../AvailableShiftList";
 
 function ManagerShiftDashboard(){
 
@@ -81,7 +82,7 @@ function ManagerShiftDashboard(){
                     <Dropdown items={sortDropdown} dropdownPress={handleSortPress} left={10} top={290} width={200} fontSize={24} fontWht={"bold"} chvSize={32}/>
                 </View>
             </View>
-            <ManagerShiftView available={selectedIndex}/>
+            <AvailableShiftList/>
         </View>
     );
 }
