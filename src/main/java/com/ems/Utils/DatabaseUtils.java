@@ -108,4 +108,16 @@ public class DatabaseUtils {
     }
 
 
+    public static Organization findOrganizationByLocationId(final ObjectId pLocationId, final List<Organization> pOrganizationList) throws SvcException {
+        try{
+            return pOrganizationList.stream()
+                    .filter(organization -> organization.getLocationList().stream()
+                            .anyMatch(location -> location.getLocationId().equals(pLocationId)))
+                    .findFirst().get();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new SvcException("error finding organization by locationId");
+        }
+    }
 }

@@ -55,4 +55,10 @@ public class LocationUtils {
 
         return locationList;
     }
+
+    public static List<Location> removeLocationFromLocationList(final List<Location> pLocationList, final ObjectId pLocationId) {
+        return pLocationList.stream()
+                .filter(location -> !location.getLocationId().equals(pLocationId))
+                .collect(Collectors.toList());
+    }
 }

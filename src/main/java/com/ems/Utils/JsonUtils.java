@@ -133,4 +133,14 @@ public class JsonUtils {
             throw new SvcException("Error getting location JSON from JSON");
         }
     }
+
+    public static ObjectId getLocationIdFromJSON(final JSONObject pJsonObject) throws SvcException {
+        try{
+            return new ObjectId(pJsonObject.getString("locationId"));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new SvcException("Error getting locationId from JSON");
+        }
+    }
 }
