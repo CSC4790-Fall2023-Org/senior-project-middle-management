@@ -50,7 +50,6 @@ public class Organization {
 
     public Organization(JSONObject jsonObject) throws SvcException {
         try{
-            this.organizationId = new ObjectId(jsonObject.getString("organizationId"));
             this.organizationName = jsonObject.getString("organizationName");
             this.orgOwnerEmail = jsonObject.getString("orgOwnerEmail");
             this.locationList = parseLocationListFromJSONArray(jsonObject.getJSONArray("locationList"));
