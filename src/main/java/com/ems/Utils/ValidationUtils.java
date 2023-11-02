@@ -2,6 +2,7 @@ package com.ems.Utils;
 
 import com.ems.Exceptions.SvcException;
 import com.ems.database.models.Employee;
+import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
 import com.ems.database.models.ShiftHelper;
 import com.ems.services.DatabaseServices;
@@ -134,5 +135,17 @@ public class ValidationUtils {
         }
 
         return true;
+    }
+
+    public static void validateDeleteLocation(final Organization pOrganization, final ObjectId pLocationId) throws SvcException {
+        // if organization only has one location
+        if (pOrganization.getLocationList().size() == 1){
+            throw new SvcException("organization only has one location");
+        }
+
+        // if location is not in organization
+        if (pOrganization.getLocationList().stream().noneMatch(location -> location.getLocationId().equals(pLocationId))){
+            throw new SvcException("location is not in organization");
+        }
     }
 }
