@@ -7,7 +7,7 @@ const AvailableShiftList = () => {
     const [shiftData, setShiftData] = useState(null);
 
     useEffect(() => {
-        fetch('http://10.137.22.96:8080/getAvailableShifts', {
+        fetch('http://10.138.29.47:8080/getAvailableShifts', {
             method: 'POST',
             headers: {},
             body: JSON.stringify({

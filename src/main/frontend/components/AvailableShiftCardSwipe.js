@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {Animated, StyleSheet, Alert} from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { RectButton } from 'react-native-gesture-handler';
@@ -33,7 +33,6 @@ class AvailableShiftCardSwipe extends Component {
                         style: 'cancel',
                         onPress: () => {
                             this.swipeableRef.current.close();
-
                         }
                     }
                 ]
@@ -50,9 +49,10 @@ class AvailableShiftCardSwipe extends Component {
                         text: 'Pick Up',
                         style: 'default',
                         onPress: () => {
-                            Haptics.notificationAsync(
-                                Haptics.NotificationFeedbackType.Success
-                            );
+                            this.handleShiftAdd();
+                            // Haptics.notificationAsync(
+                            //     Haptics.NotificationFeedbackType.Success
+                            // );
                         },
                     },
                     {
@@ -106,6 +106,30 @@ class AvailableShiftCardSwipe extends Component {
             </RectButton>
         );
     };
+
+    handleShiftAdd = () => {
+        const [addResponse, setAddResponse] = useState(null);
+        useEffect(() => {
+            fetch('http://10.138.29.47:8080/assignShift', {
+                method: 'POST',
+                headers: {},
+                body: JSON.stringify({
+                    employeeId: "651f3f35631f63367d896196"
+                }),
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+                .then(data => {
+                    setShiftData(data);
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }, []);
+    }
 
     render() {
         const { ShiftCardComponent } = this.props;
