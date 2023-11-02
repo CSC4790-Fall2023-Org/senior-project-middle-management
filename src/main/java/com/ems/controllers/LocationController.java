@@ -15,4 +15,9 @@ public class LocationController {
         return LocationServices.createLocation(pPayload);
     }
 
+    @PostMapping("/deleteLocation")
+    public ResponseEntity deleteLocation(@RequestBody final String pPayload) {
+        return LocationServices.deleteLocation(pPayload);
+    }
+
 }
