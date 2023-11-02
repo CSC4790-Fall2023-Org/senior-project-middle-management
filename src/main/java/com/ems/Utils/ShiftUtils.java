@@ -184,7 +184,7 @@ public class ShiftUtils {
         List<Shift> availableShifts = new ArrayList<>();
         ArrayList<Shift> seen = new ArrayList<>();
         for (Shift shift : pShiftList){
-            if(ValidationUtils.validateShiftForEmployee(shift, pEmployee, pOrganization.getWeeksToRelease(), seen)){
+            if(ValidationUtils.validateShiftForEmployee(shift, pEmployee, pOrganization.getWeeksToReleaseShifts(), seen)){
                 availableShifts.add(shift);
                 seen.add(shift);
             }

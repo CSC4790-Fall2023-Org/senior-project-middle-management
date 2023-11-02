@@ -3,6 +3,7 @@ package com.ems.services;
 import com.ems.Exceptions.SvcException;
 import com.ems.Utils.EmployeeUtils;
 import com.ems.Utils.ManagerUtils;
+import com.ems.Utils.OrganizationUtils;
 import com.ems.database.models.*;
 import org.bson.types.ObjectId;
 
@@ -95,5 +96,17 @@ public class ValidationServices {
 
     public static void validateCreateShift(final Shift pShift){
 
+    }
+
+    public static void validateCreateOrganization(final Organization pOrganization) throws SvcException {
+        if (DatabaseServices.getAllOrganizations().stream().anyMatch(e -> OrganizationUtils.doOrganizationsMatch(e, pOrganization))) {
+            throw new SvcException("Organization already exists in the database.");
+        }
+    }
+
+    public static void validateDeleteOrganization(Organization pOrganization) throws SvcException {
+        if (DatabaseServices.getAllOrganizations().stream().noneMatch(e -> OrganizationUtils.doOrganizationsMatch(e, pOrganization))) {
+            throw new SvcException("Error: Organization not found in the database.");
+        }
     }
 }

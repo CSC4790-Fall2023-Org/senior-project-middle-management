@@ -3,6 +3,7 @@ package com.ems.Utils;
 import com.ems.Exceptions.SvcException;
 import com.ems.database.models.Employee;
 import com.ems.database.models.Manager;
+import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
@@ -37,7 +38,7 @@ public class JsonUtils {
 
     public static ObjectId getOrganizationIdFromJSON(final JSONObject pJsonObject) throws SvcException {
         try{
-            return new ObjectId((String) pJsonObject.get("organizationId"));
+            return new ObjectId(pJsonObject.getString("organizationId"));
         }
         catch (Exception e){
             e.printStackTrace();
