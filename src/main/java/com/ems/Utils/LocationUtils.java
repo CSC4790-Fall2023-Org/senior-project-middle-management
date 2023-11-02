@@ -7,6 +7,7 @@ import com.ems.database.models.Shift;
 import com.ems.services.DatabaseServices;
 import org.bson.types.ObjectId;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,5 +47,12 @@ public class LocationUtils {
             }
         }
         throw new SvcException("error finding location");
+    }
+
+    public static List<Location> addLocationToLocationList(List<Location> pCurrentLocationList, final Location pLocationToAdd){
+        ArrayList<Location> locationList = new ArrayList<>(pCurrentLocationList);
+        locationList.add(pLocationToAdd);
+
+        return locationList;
     }
 }
