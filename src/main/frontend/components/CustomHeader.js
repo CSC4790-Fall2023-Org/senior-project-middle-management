@@ -28,21 +28,19 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "flex-end",
-
+        paddingHorizontal: 16,
     },
     title: {
         color: white,
         fontSize: 32,
         marginBottom: 8,
-        marginLeft: 12,
         overflow: "hidden",
-        maxWidth: "85%",
+        maxWidth: "90%",
         maxHeight: 32,
     },
     icon: {
         color: white,
         marginBottom: 8,
-        marginRight: 12,
     }
 });
 
