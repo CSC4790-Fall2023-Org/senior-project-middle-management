@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     View,
     KeyboardAvoidingView,
-    Platform
+    Platform, TouchableWithoutFeedback
 } from "react-native";
 import * as Haptics from 'expo-haptics';
 import {black, destructiveAction, primaryGreen, secondaryGray} from "../../utils/Colors";
@@ -71,51 +71,59 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
             visible={nameModalVisible}
             onRequestClose={() => {
                 setNameModalVisible(!nameModalVisible);
-            }}>
+            }}
+        >
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={styles.container}>
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Edit Name</Text>
-                        <TextInput
-                            style={[styles.inputText, emptyFName ? styles.errorBorder : null]}
-                            autoCapitalize={"words"}
-                            onChangeText={(fName) => {
-                                setFName(fName);
-                                setEmptyFName(false);
-                            }}
-                            value={fName}
-                            placeholder="First Name"
-                            placeholderTextColor={secondaryGray}
-                            autoComplete={"name-given"}
-                        />
-                        <TextInput
-                            style={[styles.inputText, emptyLName ? styles.errorBorder : null]}
-                            autoCapitalize={"words"}
-                            onChangeText={(lName) => {
-                                setLName(lName);
-                                setEmptyLName(false);
-                            }}
-                            value={lName}
-                            placeholder="Last Name"
-                            placeholderTextColor={secondaryGray}
-                            autoComplete={"name-family"}
-                        />
-                        <View style={styles.buttonsContainer}>
-                            <TouchableOpacity
-                                style={styles.buttonCancel}
-                                onPress={handleCancel}>
-                                <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.buttonSubmit}
-                                onPress={handleSubmit}>
-                                <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
-                            </TouchableOpacity>
-                        </View>
+                style={styles.container}
+            >
+                <TouchableWithoutFeedback onPress={handleCancel}>
+                    <View style={styles.centeredView}>
+                        <TouchableWithoutFeedback>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText}>Edit Name</Text>
+                                <TextInput
+                                    style={[styles.inputText, emptyFName ? styles.errorBorder : null]}
+                                    autoCapitalize={"words"}
+                                    onChangeText={(fName) => {
+                                        setFName(fName);
+                                        setEmptyFName(false);
+                                    }}
+                                    value={fName}
+                                    placeholder="First Name"
+                                    placeholderTextColor={secondaryGray}
+                                    autoComplete={"name-given"}
+                                />
+                                <TextInput
+                                    style={[styles.inputText, emptyLName ? styles.errorBorder : null]}
+                                    autoCapitalize={"words"}
+                                    onChangeText={(lName) => {
+                                        setLName(lName);
+                                        setEmptyLName(false);
+                                    }}
+                                    value={lName}
+                                    placeholder="Last Name"
+                                    placeholderTextColor={secondaryGray}
+                                    autoComplete={"name-family"}
+                                />
+                                <View style={styles.buttonsContainer}>
+                                    <TouchableOpacity
+                                        style={styles.buttonCancel}
+                                        onPress={handleCancel}
+                                    >
+                                        <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.buttonSubmit}
+                                        onPress={handleSubmit}
+                                    >
+                                        <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </TouchableWithoutFeedback>
                     </View>
-                </View>
+                </TouchableWithoutFeedback>
             </KeyboardAvoidingView>
         </Modal>
     )
