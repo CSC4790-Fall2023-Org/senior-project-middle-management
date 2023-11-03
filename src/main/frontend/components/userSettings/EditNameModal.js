@@ -22,6 +22,8 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
     const [emptyLName, setEmptyLName] = useState(false);
     const [originalFName, setOriginalFName] = useState(employeeData.fName);
     const [originalLName, setOriginalLName] = useState(employeeData.lName);
+    const [fNameSaveError, setFNameSaveError] = useState(false);
+    const [lNameSaveError, setLNameSaveError] = useState(false);
 
     const isValueChanged = (originalFName !== fName) || (originalLName !== lName);
 
@@ -33,32 +35,50 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
         setLName(originalLName);
     };
 
+    const onHandleChangeTextFName = (text) => {
+        setFName(text);
+        setFNameSaveError(false);
+        setEmptyFName(false);
+    }
+
+    const onHandleChangeTextLName = (text) => {
+        setLName(text);
+        setLNameSaveError(false);
+        setEmptyLName(false);
+    }
+
     const handleCancel = () => {
         setNameModalVisible(!nameModalVisible);
         resetFName();
         resetLName();
         setEmptyFName(false);
         setEmptyLName(false);
+        setFNameSaveError(false);
+        setLNameSaveError(false);
     }
 
     const handleSubmit = () => {
-        if (fName.trim() === '') {
+        if (fName.trim() === '' && !fNameSaveError) {
             setEmptyFName(true);
+            setFNameSaveError(true);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (lName.trim() === '') {
+        } else if (lName.trim() === '' && !lNameSaveError) {
             setEmptyLName(true);
+            setLNameSaveError(true);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (isValueChanged) {
+        } else if (isValueChanged  && !fNameSaveError && !lNameSaveError) {
             setNameModalVisible(!nameModalVisible);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Success
             );
             setEmptyFName(false);
             setEmptyLName(false);
+            setFNameSaveError(false);
+            setLNameSaveError(false);
             setOriginalFName(fName);
             setOriginalLName(lName);
         }
@@ -85,10 +105,7 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
                                 <TextInput
                                     style={[styles.inputText, emptyFName ? styles.errorBorder : null]}
                                     autoCapitalize={"words"}
-                                    onChangeText={(fName) => {
-                                        setFName(fName);
-                                        setEmptyFName(false);
-                                    }}
+                                    onChangeText={onHandleChangeTextFName}
                                     value={fName}
                                     placeholder="First Name"
                                     placeholderTextColor={secondaryGray}
@@ -97,17 +114,14 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
                                 <TextInput
                                     style={[styles.inputText, emptyLName ? styles.errorBorder : null]}
                                     autoCapitalize={"words"}
-                                    onChangeText={(lName) => {
-                                        setLName(lName);
-                                        setEmptyLName(false);
-                                    }}
+                                    onChangeText={onHandleChangeTextLName}
                                     value={lName}
                                     placeholder="Last Name"
                                     placeholderTextColor={secondaryGray}
                                     autoComplete={"name-family"}
                                 />
                                 <View style={[styles.submitButton,
-                                    isValueChanged ? {backgroundColor: primaryGreen}
+                                    (isValueChanged && !fNameSaveError && !lNameSaveError) ? {backgroundColor: primaryGreen}
                                         : {backgroundColor: grayAction}]}>
                                     <TouchableOpacity
                                         style={[{width: "100%"}, {alignItems: "center"}]}
