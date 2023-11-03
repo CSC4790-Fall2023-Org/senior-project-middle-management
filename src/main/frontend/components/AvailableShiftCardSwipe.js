@@ -77,7 +77,7 @@ function AvailableShiftCardSwipe({ShiftCardComponent}) {
             outputRange: [-20, -10, 0, 1],
         });
         return (
-            <RectButton style={styles.leftAction} onPress={close}>
+            <RectButton style={styles.leftAction}>
                 <Animated.Text
                     style={[
                         styles.actionText,
@@ -97,7 +97,7 @@ function AvailableShiftCardSwipe({ShiftCardComponent}) {
             outputRange: [-1, 0, 10, 20],
         });
         return (
-            <RectButton style={styles.rightAction} onPress={close}>
+            <RectButton style={styles.rightAction}>
                 <Animated.Text
                     style={[
                         styles.actionText,
