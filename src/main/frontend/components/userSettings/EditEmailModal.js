@@ -19,6 +19,7 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
     const [email, setEmail] = useState(employeeData.email);
     const [invalidEmail, setInvalidEmail] = useState(false);
     const [originalEmail, setOriginalEmail] = useState(employeeData.email);
+    const [saveError, setSaveError] = useState(false);
 
     const isValueChanged = originalEmail !== email;
 
@@ -26,26 +27,35 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
         setEmail(originalEmail);
     }
 
+    const handleChangeText = (text) => {
+        setEmail(text);
+        setSaveError(false);
+        setInvalidEmail(false);
+    }
+
     const handleCancel = () => {
         setEmailModalVisible(!emailModalVisible);
         resetEmail();
         setInvalidEmail(false);
+        setSaveError(false);
     }
 
     const handleSubmit = () => {
         const emailPattern = /^[\w\.-]+@[\w\.-]+\.\w+$/;
         const validEmail = emailPattern.test(email);
-        if (!validEmail) {
+        if (!validEmail && !saveError) {
             setInvalidEmail(true);
+            setSaveError(true);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (isValueChanged) {
+        } else if (isValueChanged && !saveError) {
             setEmailModalVisible(!emailModalVisible);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Success
             );
             setInvalidEmail(false);
+            setSaveError(false);
             setOriginalEmail(email);
         }
     }
@@ -69,7 +79,7 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
                                 <TextInput
                                     style={[styles.inputText, invalidEmail ? styles.errorBorder : null]}
                                     autoCapitalize={"none"}
-                                    onChangeText={setEmail}
+                                    onChangeText={handleChangeText}
                                     value={email}
                                     placeholder="ex. johndoe@email.com"
                                     placeholderTextColor={secondaryGray}
@@ -77,7 +87,7 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
                                     inputMode={"email"}
                                 />
                                 <View style={[styles.submitButton,
-                                    isValueChanged ? {backgroundColor: primaryGreen}
+                                    (isValueChanged && !saveError) ? {backgroundColor: primaryGreen}
                                         : {backgroundColor: grayAction}]}>
                                     <TouchableOpacity
                                         style={[{width: "100%"}, {alignItems: "center"}]}
