@@ -23,6 +23,8 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
     const [originalFName, setOriginalFName] = useState(employeeData.fName);
     const [originalLName, setOriginalLName] = useState(employeeData.lName);
 
+    const isValueChanged = (originalFName !== fName) || (originalLName !== lName);
+
     const resetFName = () => {
         setFName(originalFName);
     };
@@ -50,13 +52,15 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else {
+        } else if (isValueChanged) {
             setNameModalVisible(!nameModalVisible);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Success
             );
             setEmptyFName(false);
             setEmptyLName(false);
+            setOriginalFName(fName);
+            setOriginalLName(lName);
         }
     }
 
