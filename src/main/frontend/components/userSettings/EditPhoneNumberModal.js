@@ -17,6 +17,7 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
     const [phoneNumber, setPhoneNumber] = useState(employeeData.phoneNumber);
     const [invalidPhoneNumber, setInvalidPhoneNumber] = useState(false);
     const [originalPhoneNumber, setOriginalPhoneNumber] = useState(employeeData.phoneNumber);
+    const [saveError, setSaveError] = useState(false);
 
     const isValueChanged = originalPhoneNumber !== phoneNumber;
 
@@ -24,26 +25,36 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
         setPhoneNumber(originalPhoneNumber);
     }
 
+    const handleOnChangeText = (text) => {
+            setPhoneNumber(text);
+            setSaveError(false);
+            setInvalidPhoneNumber(false);
+    }
+
     const handleCancel = () => {
         setPhoneNumberModalVisible(!phoneNumberModalVisible);
         resetPhoneNumber();
         setInvalidPhoneNumber(false);
+        setSaveError(false);
     }
 
     const handleSubmit = () => {
         const phoneNumberPattern = /^\d{10}$/;
         const validPhoneNumber = phoneNumberPattern.test(phoneNumber);
-        if(!validPhoneNumber) {
+        if(!validPhoneNumber && !saveError) {
             setInvalidPhoneNumber(true);
+            setSaveError(true);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else {
+        } else if (isValueChanged && !saveError) {
             setPhoneNumberModalVisible(!phoneNumberModalVisible);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Success
             );
             setInvalidPhoneNumber(false);
+            setSaveError(false);
+            setOriginalPhoneNumber(phoneNumber);
         }
     }
 
@@ -66,7 +77,7 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
                                 <TextInput
                                     style={[styles.inputText, invalidPhoneNumber ? styles.errorBorder : null]}
                                     autoCapitalize={"words"}
-                                    onChangeText={setPhoneNumber}
+                                    onChangeText={handleOnChangeText}
                                     value={phoneNumber}
                                     placeholder="ex. 5555555555"
                                     placeholderTextColor={secondaryGray}
@@ -74,7 +85,7 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
                                     inputMode={"tel"}
                                 />
                                 <View style={[styles.submitButton,
-                                    isValueChanged ? {backgroundColor: primaryGreen}
+                                    (isValueChanged && !saveError) ? {backgroundColor: primaryGreen}
                                         : {backgroundColor: grayAction}]}>
                                     <TouchableOpacity
                                         style={[{width: "100%"}, {alignItems: "center"}]}

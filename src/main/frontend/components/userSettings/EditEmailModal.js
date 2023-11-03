@@ -27,7 +27,7 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
         setEmail(originalEmail);
     }
 
-    const handleChangeText = (text) => {
+    const handleOnChangeText = (text) => {
         setEmail(text);
         setSaveError(false);
         setInvalidEmail(false);
@@ -79,7 +79,7 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
                                 <TextInput
                                     style={[styles.inputText, invalidEmail ? styles.errorBorder : null]}
                                     autoCapitalize={"none"}
-                                    onChangeText={handleChangeText}
+                                    onChangeText={handleOnChangeText}
                                     value={email}
                                     placeholder="ex. johndoe@email.com"
                                     placeholderTextColor={secondaryGray}
