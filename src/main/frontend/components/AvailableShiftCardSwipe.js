@@ -11,6 +11,8 @@ import {ipAddy} from "../utils/IPAddress";
 
 function AvailableShiftCardSwipe({ShiftCardComponent}) {
     let swipeableRef = React.createRef();
+    const [addResponse, setAddResponse] = useState(null);
+
     // const { ShiftCardComponent } = this.props;
     const handleSwipeOpen = (direction) => {
         if (direction === 'right') {
@@ -110,7 +112,6 @@ function AvailableShiftCardSwipe({ShiftCardComponent}) {
     };
 
     const handleShiftAdd = () => {
-        const [addResponse, setAddResponse] = useState(null);
         fetch('http://' + ipAddy + '/assignShift', {
             method: 'POST',
             headers: {},
