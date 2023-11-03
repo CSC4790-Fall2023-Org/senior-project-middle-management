@@ -60,8 +60,7 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
             }}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={styles.container}
-            >
+                style={styles.container}>
                 <TouchableWithoutFeedback onPress={handleCancel}>
                     <View style={styles.centeredView}>
                         <TouchableWithoutFeedback>

@@ -10,7 +10,7 @@ import {
     Platform, TouchableWithoutFeedback
 } from "react-native";
 import * as Haptics from 'expo-haptics';
-import {black, destructiveAction, primaryGreen, secondaryGray} from "../../utils/Colors";
+import {black, destructiveAction, grayAction, primaryGreen, secondaryGray, white} from "../../utils/Colors";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Check, XMark} from "../../utils/Icons";
 import employeeData from "../../mockApiCalls/employeeData.json";
@@ -106,18 +106,13 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
                                     placeholderTextColor={secondaryGray}
                                     autoComplete={"name-family"}
                                 />
-                                <View style={styles.buttonsContainer}>
+                                <View style={[styles.submitButton,
+                                    isValueChanged ? {backgroundColor: primaryGreen}
+                                        : {backgroundColor: grayAction}]}>
                                     <TouchableOpacity
-                                        style={styles.buttonCancel}
-                                        onPress={handleCancel}
-                                    >
-                                        <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.buttonSubmit}
-                                        onPress={handleSubmit}
-                                    >
-                                        <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
+                                        style={[{width: "100%"}, {alignItems: "center"}]}
+                                        onPress={handleSubmit}>
+                                        <Text style={styles.submitText}>Save</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -157,32 +152,29 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     modalText: {
-        marginBottom: 16,
+        marginBottom: 24,
         textAlign: 'center',
         fontSize: 24,
         fontWeight: "500",
     },
-    buttonSubmit: {
-        width: "50%",
+    submitButton: {
+        width: "100%",
+        borderRadius: 10,
+        marginBottom: 24,
+        marginTop: 12,
         padding: 12,
         alignItems: "center",
-        paddingRight: 0,
     },
-    buttonCancel: {
-        width: "50%",
-        padding: 12,
-        alignItems: "center",
-        paddingLeft: 0,
-    },
-    buttonsContainer: {
-        flexDirection: "row",
-        paddingTop: 12,
+    submitText: {
+        fontSize: 24,
+        fontWeight: "500",
+        color: white,
     },
     inputText: {
-        width: "85%",
+        width: "100%",
         fontSize: 18,
         padding: 8,
-        marginBottom: 16,
+        marginBottom: 18,
         borderWidth: 2,
         borderColor: secondaryGray,
         borderRadius: 10,
