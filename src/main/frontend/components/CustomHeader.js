@@ -13,7 +13,7 @@ const CustomHeader = ({title, page}) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.title} numberOfLines={1} ellipsizeMode={"tail"}>{title}</Text>
             <TouchableOpacity onPress={() => handleUserClick()}>
                 <FontAwesomeIcon icon={CircleUser} size={32} style={styles.icon}/>
             </TouchableOpacity>
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         marginLeft: 12,
         overflow: "hidden",
-        maxWidth: "80%",
+        maxWidth: "85%",
         maxHeight: 32,
     },
     icon: {
