@@ -11,8 +11,6 @@ import {
 } from "react-native";
 import * as Haptics from 'expo-haptics';
 import {black, destructiveAction, grayAction, primaryGreen, secondaryGray, white} from "../../utils/Colors";
-import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {Check, XMark} from "../../utils/Icons";
 import employeeData from "../../mockApiCalls/employeeData.json";
 
 function EditNameModal({nameModalVisible, setNameModalVisible}) {
