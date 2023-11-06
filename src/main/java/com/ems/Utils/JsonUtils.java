@@ -3,6 +3,7 @@ package com.ems.Utils;
 import com.ems.Exceptions.SvcException;
 import com.ems.database.models.Employee;
 import com.ems.database.models.Manager;
+import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
@@ -37,7 +38,7 @@ public class JsonUtils {
 
     public static ObjectId getOrganizationIdFromJSON(final JSONObject pJsonObject) throws SvcException {
         try{
-            return new ObjectId((String) pJsonObject.get("organizationId"));
+            return new ObjectId(pJsonObject.getString("organizationId"));
         }
         catch (Exception e){
             e.printStackTrace();
@@ -117,9 +118,29 @@ public class JsonUtils {
 
     public static List<Integer> convertJsonArrayToListInteger(final JSONArray pJsonArray) throws JSONException {
         List<Integer> result = new ArrayList<>();
-        for (int i = 0; i < pJsonArray.length(); i++){
+        for (int i = 0; i < pJsonArray.length(); i++) {
             result.add((Integer) pJsonArray.get(i));
         }
         return result;
+    }
+
+    public static JSONObject getLocationJSONFromJSONObject(final JSONObject pJsonObject) throws SvcException {
+        try{
+            return pJsonObject.getJSONObject("location");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new SvcException("Error getting location JSON from JSON");
+        }
+    }
+
+    public static ObjectId getLocationIdFromJSON(final JSONObject pJsonObject) throws SvcException {
+        try{
+            return new ObjectId(pJsonObject.getString("locationId"));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new SvcException("Error getting locationId from JSON");
+        }
     }
 }

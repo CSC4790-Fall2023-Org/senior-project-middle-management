@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {View, TouchableOpacity, StyleSheet} from 'react-native'
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../../utils/ScreenNames";
@@ -7,37 +7,40 @@ import CustomButton from "../CustomButton";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Calendar} from '../../utils/Icons';
 import Dropdown from "../Dropdown";
-import AddShiftPopup from "./AddShiftPopup";
+import AddShiftBody from "./AddShiftBody";
 import {secondaryGray, white, primaryGreen} from "../../utils/Colors";
+import {waitFor} from "@babel/core/lib/gensync-utils/async";
+import {ipAddy} from "../../utils/IPAddress";
+import AvailableShiftList from "../AvailableShiftList";
 
 function ManagerShiftDashboard(){
-    //Fetch Shift Info
-    const [locationOptions, setLocationOptions] = useState([{}]);
-    const [shiftOptions, setShiftOptions] = useState([]);
 
-    const getShiftData = () => {
+    //Fetch Shift Info
+    const getShiftData = async () => {
         //update fetch url according to IPv4 of Wi-Fi
-        fetch('http://10.0.0.194:8080/getShiftCreationInfo', {
+        await fetch('http://'+ipAddy+':8080/getShiftCreationInfo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 //change this according to manager ID needed
-                managerId: "653ae4acd7a53f248d8f2223"
+                managerId: "651f4001631f63367d896197"
             }),
         }).then(r => r.json()
-        ).then(json => {
-            setLocationOptions(json.locationList)
-            setShiftOptions(json.shiftTypeList)
+        ).then(async json => {
+            const newLocList = await json.locationList;
+            const newShiftList = await json.shiftTypeList;
+            navigation.navigate(ScreenNames.ADD_SHIFT, {locationOptions: newLocList, shiftOptions: newShiftList})
         }).catch(e => {
-                console.error(e);
-            });
+            console.error(e);
+        });
+
+
     }
     const handleAddShiftClick = async () => {
         try {
             await getShiftData()
-            handlePressButton()
         } catch (error) {
             console.log(error);
         }
@@ -64,7 +67,6 @@ function ManagerShiftDashboard(){
 
 
 
-
     return(
         <View>
             <View style={styles.buttonsContainer}>
@@ -80,8 +82,7 @@ function ManagerShiftDashboard(){
                     <Dropdown items={sortDropdown} dropdownPress={handleSortPress} left={10} top={290} width={200} fontSize={24} fontWht={"bold"} chvSize={32}/>
                 </View>
             </View>
-            <ManagerShiftView available={selectedIndex}/>
-            <AddShiftPopup handlePressButton={handleAddShiftClick} isModalVisible={isModalVisible} locationOptions={locationOptions} shiftOptions={shiftOptions}/>
+            <AvailableShiftList/>
         </View>
     );
 }

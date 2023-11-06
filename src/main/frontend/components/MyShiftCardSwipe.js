@@ -111,7 +111,13 @@ class MyShiftCardSwipe extends Component {
         const { ShiftCardComponent } = this.props;
 
         return (
-                <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
+                <Swipeable
+                    renderLeftActions={this.renderLeftActions}
+                    renderRightActions={this.renderRightActions}
+                    onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)}
+                    ref={this.swipeableRef}
+                    overshootFriction={8}
+                >
                     {ShiftCardComponent}
                 </Swipeable>
         );
