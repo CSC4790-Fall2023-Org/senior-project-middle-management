@@ -24,7 +24,7 @@ const AddShiftPage = ({ route }) => {
                 <Text style={styles.headerText}>Add Shift</Text>
             </View>
             <ScrollView style={styles.pageScroll}>
-                <AddShiftBody handlePressButton={backPress} shiftOptions={shiftOptions} locationOptions={locationOptions}/>
+                <AddShiftBody backPress={backPress} shiftOptions={shiftOptions} locationOptions={locationOptions}/>
             </ScrollView>
 
         </View>

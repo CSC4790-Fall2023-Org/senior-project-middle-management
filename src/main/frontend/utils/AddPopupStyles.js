@@ -39,6 +39,7 @@ export const AddPopupStyles = StyleSheet.create({
         borderColor: secondaryGray,
         borderWidth:.5,
         borderRadius:10,
+        width: '95%'
     },
     input:{
         width:"95%",

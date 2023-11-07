@@ -20,7 +20,7 @@ import TimeWarnPopup from "./TimeWarnPopup";
 import {ipAddy} from "../../utils/IPAddress";
 
 
-const AddShiftBody = ({handlePressButton, locationOptions, shiftOptions}) => {
+const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
 
     const screenWidth = Dimensions.get('window').width;
     //shift type info
@@ -256,7 +256,7 @@ const AddShiftBody = ({handlePressButton, locationOptions, shiftOptions}) => {
             .catch(error => {
                 console.error(error);
             });
-        handlePressButton(false)
+        backPress()
     }
 
     return(

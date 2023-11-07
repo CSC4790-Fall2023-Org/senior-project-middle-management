@@ -25,7 +25,7 @@ const AddEmployeePage = ({ route }) => {
                 <Text style={styles.headerText}>Add Employee</Text>
             </View>
             <ScrollView style={styles.pageScroll}>
-                <AddEmployeeBody/>
+                <AddEmployeeBody backPress={backPress}/>
             </ScrollView>
 
         </View>
