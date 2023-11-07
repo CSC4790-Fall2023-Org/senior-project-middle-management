@@ -5,35 +5,31 @@ export const AddPopupStyles = StyleSheet.create({
     modal: {
         position: "relative",
         backgroundColor: grayBackground,
-        borderRadius: 20,
         borderStyle: "solid",
-        borderColor: "#ccc",
+        borderColor: secondaryGray,
         flexDirection: "column",
         alignItems: 'center',
         justifyContent: 'center',
         padding: 10,
-    },
-    overlay: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    longContainer:{
-        flexDirection:"column",
-        justifyContent:"center",
-        alignItems:"flex-start",
-        padding:5,
     },
     titleContainer:{
         flexDirection:"row",
         justifyContent:"space-between",
         alignItems:"center",
         padding:10,
+    },
+    longContainer:{
+        flexDirection:"column",
+        justifyContent:"center",
+        alignItems:"flex-start",
+        padding:5,
+        width:"95%",
+        margin:5,
 
     },
+
     text:{
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold',
     },
     dropdownContainer:{
@@ -42,6 +38,24 @@ export const AddPopupStyles = StyleSheet.create({
         justifyContent:"flex-start",
         borderColor: secondaryGray,
         borderWidth:.5,
-        borderRadius:10
+        borderRadius:10,
+    },
+    input:{
+        width:"95%",
+        height:30,
+        fontSize:24,
+        margin:5,
+    },
+    inputContainer:{
+        backgroundColor: white,
+        padding:5,
+        paddingHorizontal:10,
+        margin:10,
+        alignItems:"flex-start",
+        justifyContent:"flex-start",
+        borderColor: secondaryGray,
+        borderWidth:2,
+        borderRadius:10,
+        width:"95%",
     },
 });

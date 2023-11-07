@@ -449,8 +449,6 @@ const styles = StyleSheet.create({
         borderWidth:2,
         borderRadius:10,
         width:"95%",
-
-
     },
     inputText:{
         fontSize: 24,

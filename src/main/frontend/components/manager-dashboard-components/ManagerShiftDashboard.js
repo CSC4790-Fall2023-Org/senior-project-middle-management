@@ -1,20 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {View, TouchableOpacity, StyleSheet} from 'react-native'
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../../utils/ScreenNames";
-import ManagerShiftView from "./ManagerShiftView";
 import CustomButton from "../CustomButton";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Calendar} from '../../utils/Icons';
 import Dropdown from "../Dropdown";
-import AddShiftBody from "./AddShiftBody";
 import {secondaryGray, white, primaryGreen} from "../../utils/Colors";
-import {waitFor} from "@babel/core/lib/gensync-utils/async";
 import {ipAddy} from "../../utils/IPAddress";
 import AvailableShiftList from "../AvailableShiftList";
 
 function ManagerShiftDashboard(){
-
+    const navigation = useNavigation();
     //Fetch Shift Info
     const getShiftData = async () => {
         //update fetch url according to IPv4 of Wi-Fi
@@ -47,11 +44,6 @@ function ManagerShiftDashboard(){
     };
     const sortDropdown = ['All', 'Open', 'Taken'];
 
-    const [isModalVisible, setModalVisible] = useState(false);
-
-    const handlePressButton = () => {
-        setModalVisible(!isModalVisible);
-    };
 
     const [selectedIndex, setSelectedIndex] = useState('All');
 
@@ -59,7 +51,7 @@ function ManagerShiftDashboard(){
         setSelectedIndex(index);
     }
 
-    const navigation = useNavigation();
+
 
     const handleUserClick = () => {
         navigation.navigate(ScreenNames.LOGIN);
