@@ -21,7 +21,7 @@ const AddEmployeeBody = ({backPress}) => {
     const locationOptions =[{locationId:"6500e97e491cac473a9b80c9",locationName: "Town Pool", maxHours: 40}
                                                     ]
     const [openLocDD,setOpenLocDD] = useState(false)
-    const [locVal, setLocVal] = useState([]);
+    const [locVal, setLocVal] = useState([locationOptions[0].locationId]);
     const [displayedLoc, setDisplayedLoc] = useState(locationOptions.map(({ locationId, locationName }) => ({ "label": locationName, "value":locationId})))
 
 
@@ -33,18 +33,31 @@ const AddEmployeeBody = ({backPress}) => {
     const [empLName, setEmpLName] = useState("")
     const [empEmail, setEmpEmail] = useState("")
     const [empPhone, setEmpPhone] = useState("")
-    const [hoursPerWeek, setHoursPerWeek] = useState(0)
-    const [wage, setWage] = useState(0)
+    const [hoursPerWeek, setHoursPerWeek] = useState(0.0)
+    const [wage, setWage] = useState(0.0)
 
     //shift type info
     const shiftOptions =["Guard"]
     const [openShiftDD,setOpenShiftDD] = useState(false)
-    const [shiftVal, setShiftVal] = useState([]);
+    const [shiftVal, setShiftVal] = useState(shiftOptions[0]);
     const [displayedShift, setDisplayedShift] = useState(shiftOptions.map((shift) => ({ "label":shift, "value":shift})))
 
 
     const handleEmployeeAdd = () => {
-        //update fetch url according to IPv4 of Wi-Fi
+        let payFloat
+        let hoursFloat
+        if(typeof wage === "string"){
+            payFloat = parseFloat(wage)
+        }else{
+            payFloat = wage
+        }
+        if(typeof hoursPerWeek === "string"){
+            hoursFloat = parseFloat(hoursPerWeek)
+        }else{
+            hoursFloat = hoursPerWeek
+        }
+
+        // //update fetch url according to IPv4 of Wi-Fi
         fetch('http://10.132.7.105:8080/createEmployee', {
             method: 'POST',
             headers: {
@@ -55,11 +68,11 @@ const AddEmployeeBody = ({backPress}) => {
                 firstName: empFName,
                 lastName: empLName,
                 locationIdList: locVal,
-                maxHours: hoursPerWeek,
+                maxHours: hoursFloat,
                 employeeType: shiftVal,
                 employeePhoneNumber:empPhone,
                 employeeEmail: empEmail,
-                pay: wage,
+                pay: payFloat,
             }),
         }).then(r => r.json()
         ).then(json => {
@@ -69,7 +82,7 @@ const AddEmployeeBody = ({backPress}) => {
                 console.error(error);
             });
 
-        backPress()
+        // backPress()
     }
     const screenWidth = Dimensions.get('window').width;
 
