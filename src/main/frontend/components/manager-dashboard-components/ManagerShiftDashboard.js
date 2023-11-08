@@ -22,7 +22,7 @@ function ManagerShiftDashboard(){
             },
             body: JSON.stringify({
                 //change this according to manager ID needed
-                managerId: "651f4001631f63367d896197"
+                managerId: "653d70c730cd4ad7a58ee7fb"
             }),
         }).then(r => r.json()
         ).then(async json => {

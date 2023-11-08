@@ -12,12 +12,6 @@ export const AddPopupStyles = StyleSheet.create({
         justifyContent: 'center',
         padding: 10,
     },
-    titleContainer:{
-        flexDirection:"row",
-        justifyContent:"space-between",
-        alignItems:"center",
-        padding:10,
-    },
     longContainer:{
         flexDirection:"column",
         justifyContent:"center",
@@ -27,7 +21,6 @@ export const AddPopupStyles = StyleSheet.create({
         margin:5,
 
     },
-
     text:{
         fontSize: 24,
         fontWeight: 'bold',

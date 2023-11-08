@@ -3,7 +3,6 @@ import {
     View,
     Text,
     Keyboard,
-    Dimensions,
     TextInput,
 } from "react-native";
 import React, {useState} from "react";
