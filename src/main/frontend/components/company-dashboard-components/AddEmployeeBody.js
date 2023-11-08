@@ -10,6 +10,9 @@ import React, {useState} from "react";
 import {AddPopupStyles} from "../../utils/AddPopupStyles";
 import DropDownPicker from "react-native-dropdown-picker";
 import CustomButton from "../CustomButton";
+import {ipAddy} from "../../utils/IPAddress";
+import * as Haptics from "expo-haptics";
+import {secondaryGray} from "../../utils/Colors";
 
 
 
@@ -18,8 +21,7 @@ import CustomButton from "../CustomButton";
 const AddEmployeeBody = ({backPress}) => {
 
     //location info
-    const locationOptions =[{locationId:"6500e97e491cac473a9b80c9",locationName: "Town Pool", maxHours: 40}
-                                                    ]
+    const locationOptions =[{locationId:"6500e97e491cac473a9b80c9",locationName: "Town Pool", maxHours: 40}]
     const [openLocDD,setOpenLocDD] = useState(false)
     const [locVal, setLocVal] = useState([locationOptions[0].locationId]);
     const [displayedLoc, setDisplayedLoc] = useState(locationOptions.map(({ locationId, locationName }) => ({ "label": locationName, "value":locationId})))
@@ -30,35 +32,40 @@ const AddEmployeeBody = ({backPress}) => {
 
     //employee info
     const [empFName, setEmpFName] = useState("")
+    const [fNameEmpty, setFNameEmpty] = useState(false)
     const [empLName, setEmpLName] = useState("")
+    const [lNameEmpty, setLNameEmpty] = useState(false)
     const [empEmail, setEmpEmail] = useState("")
+    const [emailEmpty, setEmailEmpty] = useState(false)
     const [empPhone, setEmpPhone] = useState("")
-    const [hoursPerWeek, setHoursPerWeek] = useState(0.0)
-    const [wage, setWage] = useState(0.0)
+    const [phoneEmpty, setPhoneEmpty] = useState(false)
+    const [hoursPerWeek, setHoursPerWeek] = useState("")
+    const [hoursEmpty, setHoursEmpty] = useState(false)
+    const [wage, setWage] = useState("")
+    const [wageEmpty, setWageEmpty] = useState(false)
 
     //shift type info
     const shiftOptions =["Guard"]
     const [openShiftDD,setOpenShiftDD] = useState(false)
-    const [shiftVal, setShiftVal] = useState(shiftOptions[0]);
     const [displayedShift, setDisplayedShift] = useState(shiftOptions.map((shift) => ({ "label":shift, "value":shift})))
-
+    const [shiftVal, setShiftVal] = useState(null);
 
     const handleEmployeeAdd = () => {
+
         let payFloat
         let hoursFloat
-        if(typeof wage === "string"){
+        if (typeof wage === "string") {
             payFloat = parseFloat(wage)
-        }else{
+        } else {
             payFloat = wage
         }
-        if(typeof hoursPerWeek === "string"){
+        if (typeof hoursPerWeek === "string") {
             hoursFloat = parseFloat(hoursPerWeek)
-        }else{
+        } else {
             hoursFloat = hoursPerWeek
         }
-
         // //update fetch url according to IPv4 of Wi-Fi
-        fetch('http://10.132.7.105:8080/createEmployee', {
+        fetch('http://' + ipAddy + ':8080/createEmployee', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,7 +77,7 @@ const AddEmployeeBody = ({backPress}) => {
                 locationIdList: locVal,
                 maxHours: hoursFloat,
                 employeeType: shiftVal,
-                employeePhoneNumber:empPhone,
+                employeePhoneNumber: empPhone,
                 employeeEmail: empEmail,
                 pay: payFloat,
             }),
@@ -82,9 +89,60 @@ const AddEmployeeBody = ({backPress}) => {
                 console.error(error);
             });
 
-        // backPress()
+        backPress()
     }
-    const screenWidth = Dimensions.get('window').width;
+    const handleErrors = () =>{
+        let noErrors= true
+
+        if (!shiftVal) {
+            setShiftVal(displayedShift[0].label)
+        }
+        if(empFName.trim() === ''){
+            setFNameEmpty(true);
+            noErrors=false;
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        }
+        if(empLName.trim() === ''){
+            setLNameEmpty(true);
+            noErrors=false;
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        }
+        if(empPhone.trim() === ''){
+            setPhoneEmpty(true);
+            noErrors=false;
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        }
+        if(empEmail.trim() === ''){
+            setEmailEmpty(true);
+            noErrors=false;
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        }
+        if(wage.trim() === ''){
+            setWageEmpty(true);
+            noErrors=false;
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        }
+        if(hoursPerWeek.trim() === ''){
+            setHoursEmpty(true);
+            noErrors=false;
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        }
+        if(noErrors) {
+            handleEmployeeAdd()
+        }
+    }
 
     const handleDismissKeyboard = () => {
         Keyboard.dismiss();
@@ -96,11 +154,12 @@ const AddEmployeeBody = ({backPress}) => {
                 <View style={[AddPopupStyles.longContainer]}>
                     <Text style={AddPopupStyles.text}>First Name:</Text>
                 </View>
-                <View style={[AddPopupStyles.inputContainer]}>
+                <View style={[AddPopupStyles.inputContainer,fNameEmpty ? AddPopupStyles.destructiveAction:{borderColor:secondaryGray}]}>
                     <TextInput
                         style={[AddPopupStyles.input]}
                         onChangeText={(fName) =>{
                             setEmpFName(fName)
+                            setFNameEmpty(false)
                         }}
                         value={empFName}
                         placeholder={"Type Here"}
@@ -110,11 +169,12 @@ const AddEmployeeBody = ({backPress}) => {
                 <View style={[AddPopupStyles.longContainer]}>
                     <Text style={AddPopupStyles.text}>Last Name:</Text>
                 </View>
-                <View style={[AddPopupStyles.inputContainer]}>
+                <View style={[AddPopupStyles.inputContainer, lNameEmpty ? AddPopupStyles.destructiveAction:{borderColor:secondaryGray}]}>
                     <TextInput
                         style={[AddPopupStyles.input]}
                         onChangeText={(lName) =>{
                             setEmpLName(lName)
+                            setLNameEmpty(false)
                         }}
                         value={empLName}
                         placeholder={"Type Here"}
@@ -124,12 +184,13 @@ const AddEmployeeBody = ({backPress}) => {
                 <View style={[AddPopupStyles.longContainer]}>
                     <Text style={AddPopupStyles.text}>Phone Number:</Text>
                 </View>
-                <View style={[AddPopupStyles.inputContainer]}>
+                <View style={[AddPopupStyles.inputContainer, phoneEmpty ? AddPopupStyles.destructiveAction:{borderColor:secondaryGray}]}>
                     <TextInput
                         style={[AddPopupStyles.input]}
                         keyboardType={"phone-pad"}
                         onChangeText={(numb) =>{
                             setEmpPhone(numb)
+                            setPhoneEmpty(false)
                         }}
                         value={empPhone}
                         placeholder={"Type Here"}
@@ -139,11 +200,12 @@ const AddEmployeeBody = ({backPress}) => {
                 <View style={[AddPopupStyles.longContainer]}>
                     <Text style={AddPopupStyles.text}>Email:</Text>
                 </View>
-                <View style={[AddPopupStyles.inputContainer]}>
+                <View style={[AddPopupStyles.inputContainer, emailEmpty ? AddPopupStyles.destructiveAction:{borderColor:secondaryGray}]}>
                     <TextInput
                         style={[AddPopupStyles.input]}
                         onChangeText={(mail) =>{
                             setEmpEmail(mail)
+                            setEmailEmpty(false)
                         }}
                         value={empEmail}
                         placeholder={"Type Here"}
@@ -195,11 +257,12 @@ const AddEmployeeBody = ({backPress}) => {
                 <View style={[AddPopupStyles.longContainer]}>
                     <Text style={AddPopupStyles.text}>Wage Per Hour</Text>
                 </View>
-                <View style={[AddPopupStyles.inputContainer]}>
+                <View style={[AddPopupStyles.inputContainer, wageEmpty ? AddPopupStyles.destructiveAction:{borderColor:secondaryGray}]}>
                     <TextInput
                         style={[AddPopupStyles.input]}
                         onChangeText={(pay) =>{
                             setWage(pay)
+                            setWageEmpty(false)
                         }}
                         value={wage}
                         placeholder={"Type Here"}
@@ -210,11 +273,12 @@ const AddEmployeeBody = ({backPress}) => {
                 <View style={[AddPopupStyles.longContainer]}>
                     <Text style={AddPopupStyles.text}>Max Hours Per Week</Text>
                 </View>
-                <View style={[AddPopupStyles.inputContainer]}>
+                <View style={[AddPopupStyles.inputContainer, hoursEmpty ? AddPopupStyles.destructiveAction:{borderColor:secondaryGray}]}>
                     <TextInput
                         style={[AddPopupStyles.input]}
                         onChangeText={(hours) =>{
                             setHoursPerWeek(hours)
+                            setHoursEmpty(false)
                         }}
                         value={hoursPerWeek}
                         placeholder={"Type Here"}
@@ -222,7 +286,7 @@ const AddEmployeeBody = ({backPress}) => {
                         placeholderTextColor={"#D0D0D0"}
                     />
                 </View>
-                <CustomButton buttonText={"Submit Employee"} handlePress={handleEmployeeAdd}/>
+                <CustomButton buttonText={"Submit Employee"} handlePress={handleErrors}/>
             </View>
         </TouchableWithoutFeedback>
 

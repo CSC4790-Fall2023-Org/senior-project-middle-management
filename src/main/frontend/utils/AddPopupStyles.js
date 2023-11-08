@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import {grayBackground, secondaryGray, white} from "./Colors";
+import {destructiveAction, grayBackground, secondaryGray, white} from "./Colors";
 
 export const AddPopupStyles = StyleSheet.create({
     modal: {
@@ -37,7 +37,7 @@ export const AddPopupStyles = StyleSheet.create({
         alignItems:"flex-start",
         justifyContent:"flex-start",
         borderColor: secondaryGray,
-        borderWidth:.5,
+        borderWidth:2,
         borderRadius:10,
         width: '95%'
     },
@@ -58,5 +58,9 @@ export const AddPopupStyles = StyleSheet.create({
         borderWidth:2,
         borderRadius:10,
         width:"95%",
+    },
+    destructiveAction:{
+        borderColor:destructiveAction,
+        borderWidth: 2
     },
 });
