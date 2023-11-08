@@ -14,7 +14,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Calendar} from '../../utils/Icons';
 import MultiWheelPicker from "../MultiWheelPicker";
 import CustomButton from "../CustomButton";
-import {black, destructiveAction, primaryGreen, secondaryGray, white} from "../../utils/Colors";
+import {black, primaryGreen, secondaryGray, white} from "../../utils/Colors";
 import * as Haptics from "expo-haptics";
 import TimeWarnPopup from "./TimeWarnPopup";
 import {ipAddy} from "../../utils/IPAddress";
