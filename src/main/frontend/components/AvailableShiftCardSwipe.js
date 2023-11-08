@@ -9,9 +9,11 @@ import {greenAction, grayAction, white} from "../utils/Colors";
 import ShiftCard from "./ShiftCard";
 import {ipAddy} from "../utils/IPAddress";
 
-function AvailableShiftCardSwipe({ShiftCardComponent}) {
+function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
     let swipeableRef = React.createRef();
     const [addResponse, setAddResponse] = useState(null);
+    const [added, setAdded] = useState(false);
+    const [reload, setReload] = useState(false);
 
     // const { ShiftCardComponent } = this.props;
     const handleSwipeOpen = (direction) => {
@@ -77,7 +79,7 @@ function AvailableShiftCardSwipe({ShiftCardComponent}) {
             outputRange: [-20, -10, 0, 1],
         });
         return (
-            <RectButton style={styles.leftAction}>
+            <RectButton style={added ? styles.leftActionClosed : styles.leftAction}>
                 <Animated.Text
                     style={[
                         styles.actionText,
@@ -112,21 +114,30 @@ function AvailableShiftCardSwipe({ShiftCardComponent}) {
     };
 
     const handleShiftAdd = () => {
-        fetch('http://' + ipAddy + '/assignShift', {
+        fetch('http://' + ipAddy + ':8080/assignShift', {
             method: 'POST',
-            headers: {},
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
-                employeeId: "651f3f35631f63367d896196"
+                employeeId: "651f3f35631f63367d896196",
+                shiftId: shiftId
             }),
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error(`Network response was not ok. Status: ${response.status} ${response.statusText}`);
                 }
                 return response.json();
             })
             .then(data => {
                 setAddResponse(data);
+                setReload(!reload);
+                setAdded(true);
+                Haptics.notificationAsync(
+                    Haptics.NotificationFeedbackType.Success
+                );
+                console.log(added);
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
@@ -137,7 +148,7 @@ function AvailableShiftCardSwipe({ShiftCardComponent}) {
     return (
         <Swipeable
             renderLeftActions={renderLeftActions}
-            renderRightActions={renderRightActions}
+            //renderRightActions={renderRightActions}
             onSwipeableOpen={(direction) => handleSwipeOpen(direction)}
             ref={swipeableRef}
             overshootFriction={8}
@@ -154,6 +165,17 @@ const styles= StyleSheet.create({
         backgroundColor: greenAction,
         justifyContent: 'center',
         height: ShiftCard.height,
+        margin: 16,
+        marginBottom: 0,
+        borderRadius: 10,
+        overflow: "hidden",
+    },
+    leftActionClosed: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: greenAction,
+        justifyContent: 'center',
+        height: 0,
         margin: 16,
         marginBottom: 0,
         borderRadius: 10,
