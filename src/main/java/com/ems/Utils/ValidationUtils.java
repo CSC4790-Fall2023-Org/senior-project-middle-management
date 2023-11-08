@@ -10,7 +10,6 @@ import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ValidationUtils {
@@ -73,7 +72,7 @@ public class ValidationUtils {
         }
 
         // start time is within release window
-        if (!pShift.getShiftStartTime().isBefore(LocalDateTime.now())) {
+        if (!pShift.getShiftStartTime().isBefore(LocalDateTime.now().plusWeeks(pWeeksToRelease))) {
             return false;
         }
 
