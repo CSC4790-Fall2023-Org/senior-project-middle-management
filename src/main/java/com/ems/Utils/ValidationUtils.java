@@ -73,7 +73,7 @@ public class ValidationUtils {
         }
 
         // start time is within release window
-        if (!pShift.getShiftStartTime().isBefore(LocalDateTime.now())) {
+        if (!pShift.getShiftStartTime().isBefore(LocalDateTime.now().plusWeeks(pWeeksToRelease))) {
             return false;
         }
 
