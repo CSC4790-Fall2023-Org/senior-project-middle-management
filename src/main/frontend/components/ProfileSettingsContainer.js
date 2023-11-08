@@ -17,12 +17,12 @@ function ProfileSettingsContainer() {
         <View style={styles.settingContainer}>
             <TouchableOpacity style={styles.settingItem} onPress={() => setNameModalVisible(true)}>
                 <Text style={styles.settingLabel}>Name</Text>
-                <Text style={styles.labelValue}>{employeeData.fName + ' ' + employeeData.lName}</Text>
+                <Text style={styles.labelValue} numberOfLines={1} ellipsizeMode={"tail"}>{employeeData.fName + ' ' + employeeData.lName}</Text>
             </TouchableOpacity>
             <EditNameModal nameModalVisible={nameModalVisible} setNameModalVisible={setNameModalVisible} />
             <TouchableOpacity style={styles.settingItem} onPress={() => setEmailModalVisible(true)}>
                 <Text style={styles.settingLabel}>Email</Text>
-                <Text style={styles.labelValue}>{employeeData.email}</Text>
+                <Text style={styles.labelValue} numberOfLines={1} ellipsizeMode={"middle"}>{employeeData.email}</Text>
             </TouchableOpacity>
             <EditEmailModal emailModalVisible={emailModalVisible} setEmailModalVisible={setEmailModalVisible} />
             <TouchableOpacity style={styles.settingItem} onPress={() => setPhoneNumberModalVisible(true)}>
@@ -55,14 +55,17 @@ const styles = StyleSheet.create({
         borderBottomColor: secondaryGray,
     },
     settingLabel: {
+        width: "40%",
         color: black,
         fontSize: 16,
         paddingLeft: 16,
     },
     labelValue: {
+        width: "60%",
         color: grayAction,
         fontSize: 16,
         paddingRight: 16,
+        textAlign: "right",
     },
 })
 
