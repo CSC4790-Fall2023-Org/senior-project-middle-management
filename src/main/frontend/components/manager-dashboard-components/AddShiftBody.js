@@ -399,7 +399,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 </View>
 
                 <View style={styles.addShiftButton}>
-                    <CustomButton buttonText={"Add Shift"} handlePress={handleErrors} />
+                    <CustomButton buttonText={"Add Shift"} handlePress={handleErrors} color={primaryGreen} textColor={white} />
                 </View>
                 <TimeWarnPopup handlePressButton={handleWarnVisible} isModalVisible={warnModal} submitForm={handleShiftAdd}/>
                 <CalendarPopup setSelectedEndDate={setSelectedEndDate} setSelectedStartDate={setSelectedStartDate} isCalendarVisible={isCalendarVisible} handleExitCalendar={handleCalendar}/>

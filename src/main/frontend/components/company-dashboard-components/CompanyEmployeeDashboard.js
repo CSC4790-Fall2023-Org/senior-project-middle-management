@@ -5,6 +5,7 @@ import CustomButton from "../CustomButton";
 import Dropdown from "../Dropdown";
 import CompanyEmployeeView from "./CompanyEmployeeView";
 import {ScreenNames} from "../../utils/ScreenNames";
+import {primaryGreen, white} from "../../utils/Colors";
 
 
 
@@ -52,7 +53,7 @@ const CompanyEmployeeDashboard = () => {
     return(
         <View style={[styles.container, {width:screenWidth}]}>
             <View style={styles.buttonContainer}>
-                <CustomButton buttonText={'Add Employee'} handlePress={handleEmpAddClick}/>
+                <CustomButton buttonText={'Add Employee'} handlePress={handleEmpAddClick} color={primaryGreen} textColor={white}/>
             </View>
             <View style={[styles.dropdownContainer,{width:200}]}>
                 <Dropdown chvSize={10} fontWht={10} fontSize={10} width={200} top={100} left={100} dropdownPress={handleDropdownPress} items={options}/>

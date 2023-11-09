@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Text, TouchableWithoutFeedback, Modal} from 'react-native';
 import * as Haptics from "expo-haptics";
-import {grayBackground, secondaryGray} from "../../utils/Colors";
+import {black, destructiveAction, grayBackground, primaryGreen, secondaryGray, white} from "../../utils/Colors";
 import CustomButton from "../CustomButton";
 
 
@@ -25,8 +25,8 @@ const TimeWarnPopup = ({isModalVisible, handlePressButton, submitForm}) => {
                             <Text style={styles.warnText}>
                                 You are making a shift that goes overnight are you sure you want to submit it?
                             </Text>
-                            <CustomButton buttonText={"No, Cancel"} handlePress={handlePressButton}/>
-                            <CustomButton buttonText={"Yes, Submit"} handlePress={submitForm}/>
+                            <CustomButton buttonText={"No, Cancel"} handlePress={handlePressButton} color={destructiveAction} textColor={white}/>
+                            <CustomButton buttonText={"Yes, Submit"} handlePress={submitForm} color={primaryGreen} textColor={white}/>
                         </View>
                     </TouchableWithoutFeedback>
                 </View>
