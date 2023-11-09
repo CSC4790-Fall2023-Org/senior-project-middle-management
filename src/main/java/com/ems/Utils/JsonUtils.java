@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class JsonUtils {
@@ -141,6 +142,14 @@ public class JsonUtils {
         catch (Exception e){
             e.printStackTrace();
             throw new SvcException("Error getting locationId from JSON");
+        }
+    }
+
+    public static JSONObject createJsonObject(final String pPayload) throws SvcException {
+        try{
+            return new JSONObject(pPayload);
+        } catch (JSONException e) {
+            throw new SvcException("error creating json object from request string");
         }
     }
 }
