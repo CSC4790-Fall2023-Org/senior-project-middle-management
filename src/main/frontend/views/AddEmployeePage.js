@@ -4,7 +4,6 @@ import {useNavigation} from "@react-navigation/native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronLeft} from "../utils/Icons";
 import {secondaryGray} from "../utils/Colors";
-import AddShiftBody from "../components/manager-dashboard-components/AddShiftBody";
 import AddEmployeeBody from "../components/company-dashboard-components/AddEmployeeBody";
 
 

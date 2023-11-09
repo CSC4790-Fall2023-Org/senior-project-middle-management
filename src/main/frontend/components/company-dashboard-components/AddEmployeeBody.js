@@ -11,7 +11,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import CustomButton from "../CustomButton";
 import {ipAddy} from "../../utils/IPAddress";
 import * as Haptics from "expo-haptics";
-import {secondaryGray} from "../../utils/Colors";
+import {primaryGreen, secondaryGray, white} from "../../utils/Colors";
 
 
 
@@ -285,7 +285,7 @@ const AddEmployeeBody = ({backPress}) => {
                         placeholderTextColor={"#D0D0D0"}
                     />
                 </View>
-                <CustomButton buttonText={"Submit Employee"} handlePress={handleErrors}/>
+                <CustomButton buttonText={"Submit Employee"} handlePress={handleErrors} color={primaryGreen} textColor={white}/>
             </View>
         </TouchableWithoutFeedback>
 

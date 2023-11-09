@@ -63,7 +63,7 @@ function ManagerShiftDashboard(){
         <View>
             <View style={styles.buttonsContainer}>
                 <View style={styles.addShiftButton}>
-                    <CustomButton buttonText={"Add Shift"} handlePress={handleAddShiftClick} />
+                    <CustomButton buttonText={"Add Shift"} handlePress={handleAddShiftClick} color={primaryGreen} textColor={white} />
                 </View>
                 <TouchableOpacity onPress={handleUserClick}>
                     <FontAwesomeIcon icon={Calendar} size={48} style={styles.icon} />

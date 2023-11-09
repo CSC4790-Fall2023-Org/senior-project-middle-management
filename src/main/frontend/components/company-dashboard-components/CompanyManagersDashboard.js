@@ -3,6 +3,7 @@ import {View, StyleSheet, Dimensions} from 'react-native';
 import CustomButton from "../CustomButton";
 import Dropdown from "../Dropdown";
 import CompanyManagerView from "./CompanyManagerView";
+import {primaryGreen, white} from "../../utils/Colors";
 
 
 
@@ -18,7 +19,7 @@ const CompanyManagersDashboard = () => {
     return(
         <View style={[styles.container, {width:screenWidth}]}>
             <View style={styles.buttonContainer}>
-                <CustomButton buttonText={'Add Manager'}/>
+                <CustomButton buttonText={'Add Manager'} color={primaryGreen} textColor={white}/>
             </View>
 
             <View style={[styles.dropdownContainer,{width:200}]}>
