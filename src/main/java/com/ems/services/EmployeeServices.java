@@ -1,10 +1,7 @@
 package com.ems.services;
 import com.ems.Exceptions.DatabaseException;
 import com.ems.Exceptions.SvcException;
-import com.ems.Utils.EmployeeUtils;
-import com.ems.Utils.JsonUtils;
-import com.ems.Utils.ResponseUtils;
-import com.ems.Utils.ShiftUtils;
+import com.ems.Utils.*;
 import com.ems.database.models.Employee;
 import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
@@ -141,6 +138,29 @@ public class EmployeeServices {
             return ResponseEntity.status(200).body(shiftResponse.toString());
 
         } catch (Exception e) {
+            return ResponseUtils.errorResponse(e);
+        }
+    }
+
+    public static ResponseEntity updateEmployee(final String pPayload) {
+        try{
+
+            final JSONObject payload = JsonUtils.createJsonObject(pPayload);
+
+            final ObjectId employeeId = JsonUtils.getEmployeeIdFromJSON(payload);
+
+            final Employee employee = DatabaseServices.findEmployeeById(employeeId)
+                    .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_EMPLOYEE, employeeId));
+
+            final JSONObject updateMap = payload.getJSONObject("updateMap");
+
+            final Employee updatedEmployee = EmployeeUtils.updateEmployee(employee, payload);
+
+            DatabaseServices.saveEmployee(updatedEmployee);
+
+            return ResponseUtils.successfulCreationResponse("Employee updated successfully");
+        }
+        catch (Exception e){
             return ResponseUtils.errorResponse(e);
         }
     }
