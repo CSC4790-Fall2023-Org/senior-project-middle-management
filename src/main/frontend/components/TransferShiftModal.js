@@ -4,7 +4,7 @@ import {
     Modal,
     Text,
     TouchableOpacity,
-    View, TouchableWithoutFeedback,
+    View, TouchableWithoutFeedback, SafeAreaView, FlatList,
 } from "react-native";
 import * as Haptics from "expo-haptics";
 import {
@@ -103,7 +103,11 @@ function TransferShiftModal({transferShiftModal,
                         <View style={styles.container}>
                             <TouchableWithoutFeedback>
                                 <View style={styles.modalView}>
-                                    <Text>TESTING</Text>
+                                    <View>
+                                        <Text>Recipient List</Text>
+                                    </View>
+                                    <SafeAreaView>
+                                    </SafeAreaView>
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>
