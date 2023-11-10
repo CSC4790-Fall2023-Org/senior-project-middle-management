@@ -50,60 +50,64 @@ function TransferShiftModal({transferShiftModal,
 
     return (
         <View>
+            {/*{ transferShiftModal &&*/}
+            {/*    <Modal*/}
+            {/*        animationType="slide"*/}
+            {/*        transparent={true}*/}
+            {/*        visible={transferShiftModal}*/}
+            {/*    >*/}
+            {/*        <TouchableWithoutFeedback onPress={() => {setTransferShiftModal(false)}}>*/}
+            {/*            <View style={styles.container}>*/}
+            {/*                <TouchableWithoutFeedback>*/}
+            {/*                    <View style={styles.modalView}>*/}
+            {/*                        <Text style={styles.modalText} numberOfLines={2} ellipsizeMode={"middle"}>Transfer '{shiftName}' Shift</Text>*/}
+            {/*                        <TouchableOpacity*/}
+            {/*                            onPress={closeModal}*/}
+            {/*                            style={{width: "100%"}}*/}
+            {/*                        >*/}
+            {/*                            <View style={styles.selectorContainer}>*/}
+            {/*                                <Text style={styles.selectorText}>Select Recipient</Text>*/}
+            {/*                            </View>*/}
+            {/*                        </TouchableOpacity>*/}
+            {/*                        <View style={styles.shiftContainer}>*/}
+            {/*                            <Text style={styles.shiftDate}>{startDate}</Text>*/}
+            {/*                            <Text style={styles.shiftTime}>{shiftStartTime} – {shiftEndTime}</Text>*/}
+            {/*                            <Text style={styles.shiftHours}>{shiftHours} {handleSingularHours()}</Text>*/}
+            {/*                            <Text style={styles.shiftLocation}>{shiftLocation}</Text>*/}
+            {/*                        </View>*/}
+            {/*                        <View style={[styles.submitButton,*/}
+            {/*                            recipientSelected ? {backgroundColor: primaryGreen}*/}
+            {/*                                : {backgroundColor: grayAction}]}>*/}
+            {/*                            <TouchableOpacity*/}
+            {/*                                style={[{width: "100%"}, {alignItems: "center"}]}*/}
+            {/*                                onPress={handleSubmit}>*/}
+            {/*                                <Text style={styles.submitText}>Transfer</Text>*/}
+            {/*                            </TouchableOpacity>*/}
+            {/*                        </View>*/}
+            {/*                    </View>*/}
+            {/*                </TouchableWithoutFeedback>*/}
+            {/*            </View>*/}
+            {/*        </TouchableWithoutFeedback>*/}
+            {/*    </Modal>*/}
+            {/*}*/}
+
             { transferShiftModal &&
                 <Modal
                     animationType="slide"
                     transparent={true}
                     visible={transferShiftModal}
-                >
+                    onRequestClose={() => {
+                        setRecipientListModal(false);
+                    }}>
                     <TouchableWithoutFeedback onPress={() => {setTransferShiftModal(false)}}>
                         <View style={styles.container}>
                             <TouchableWithoutFeedback>
                                 <View style={styles.modalView}>
-                                    <Text style={styles.modalText} numberOfLines={2} ellipsizeMode={"middle"}>Transfer '{shiftName}' Shift</Text>
-                                    <TouchableOpacity
-                                        onPress={closeModal}
-                                        style={{width: "100%"}}
-                                    >
-                                        <View style={styles.selectorContainer}>
-                                            <Text style={styles.selectorText}>Select Recipient</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                    <View style={styles.shiftContainer}>
-                                        <Text style={styles.shiftDate}>{startDate}</Text>
-                                        <Text style={styles.shiftTime}>{shiftStartTime} – {shiftEndTime}</Text>
-                                        <Text style={styles.shiftHours}>{shiftHours} {handleSingularHours()}</Text>
-                                        <Text style={styles.shiftLocation}>{shiftLocation}</Text>
-                                    </View>
-                                    <View style={[styles.submitButton,
-                                        recipientSelected ? {backgroundColor: primaryGreen}
-                                            : {backgroundColor: grayAction}]}>
-                                        <TouchableOpacity
-                                            style={[{width: "100%"}, {alignItems: "center"}]}
-                                            onPress={handleSubmit}>
-                                            <Text style={styles.submitText}>Transfer</Text>
-                                        </TouchableOpacity>
-                                    </View>
+                                    <Text>TESTING</Text>
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>
                     </TouchableWithoutFeedback>
-                </Modal>
-            }
-
-            { recipientListModal &&
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={recipientListModal}
-                    onRequestClose={() => {
-                        setRecipientListModal(false);
-                    }}>
-                    <View style={styles.listViewContainer}>
-                        <View style={styles.modalView}>
-                            <Text>TESTING</Text>
-                        </View>
-                    </View>
                 </Modal>
             }
         </View>
