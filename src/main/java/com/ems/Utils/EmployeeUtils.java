@@ -8,6 +8,9 @@ import com.ems.database.models.Shift;
 import com.ems.services.DatabaseServices;
 import com.ems.services.ValidationServices;
 import org.bson.types.ObjectId;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,5 +65,41 @@ public class EmployeeUtils {
         pEmployee.setShiftIdList(resultList);
         pShift.setShiftOpen(false);
         return new Object[]{pEmployee, pShift};
+    }
+
+    public static Employee updateEmployee(final Employee employee, final JSONObject payload) throws JSONException {
+        if (payload.has("firstName")) {
+            employee.setFirstName(payload.getString("firstName"));
+        }
+        if (payload.has("lastName")) {
+            employee.setLastName(payload.getString("lastName"));
+        }
+        if (payload.has("employeeEmail")) {
+            employee.setEmployeeEmail(payload.getString("employeeEmail"));
+        }
+        if (payload.has("employeePhoneNumber")) {
+            employee.setEmployeePhoneNumber(payload.getString("employeePhoneNumber"));
+        }
+        if (payload.has("employeeType")) {
+            employee.setEmployeeType(payload.getString("employeeType"));
+        }
+        if (payload.has("loggedHours")) {
+            employee.setLoggedHours(payload.getInt("loggedHours"));
+        }
+        if (payload.has("pay")) {
+            employee.setPay(payload.getDouble("pay"));
+        }
+        if (payload.has("organizationId")) {
+            employee.setOrganizationId(new ObjectId(payload.getString("organizationId")));
+        }
+        if (payload.has("shiftIdList")) {
+            List<ObjectId> shiftIdList = new ArrayList<>();
+            final JSONArray jsonArray = payload.getJSONArray("shiftIdList");
+            for (int shiftIdIndex = 0; shiftIdIndex < jsonArray.length(); shiftIdIndex++) {
+                shiftIdList.add(new ObjectId(jsonArray.getString(shiftIdIndex)));
+            }
+            employee.setShiftIdList(shiftIdList);
+        }
+        return employee;
     }
 }

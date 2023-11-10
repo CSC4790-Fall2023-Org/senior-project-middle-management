@@ -4,13 +4,13 @@ import {useNavigation} from "@react-navigation/native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronLeft} from "../utils/Icons";
 import {secondaryGray} from "../utils/Colors";
-import AddShiftBody from "../components/manager-dashboard-components/AddShiftBody";
+import AddEmployeeBody from "../components/company-dashboard-components/AddEmployeeBody";
 
 
-const AddShiftPage = ({ route }) => {
+const AddEmployeePage = ({ route }) => {
     //navigation tools
     const navigation = useNavigation();
-    const { locationOptions, shiftOptions } = route.params;
+    // const { locationOptions, shiftOptions } = route.params;
 
     const backPress = () =>{
         navigation.goBack()
@@ -21,10 +21,10 @@ const AddShiftPage = ({ route }) => {
                 <TouchableOpacity onPress={() => backPress ()} style={styles.icon}>
                     <FontAwesomeIcon icon={ChevronLeft} size={24}/>
                 </TouchableOpacity>
-                <Text style={styles.headerText}>Add Shift</Text>
+                <Text style={styles.headerText}>Add Employee</Text>
             </View>
             <ScrollView style={styles.pageScroll}>
-                <AddShiftBody backPress={backPress} shiftOptions={shiftOptions} locationOptions={locationOptions}/>
+                <AddEmployeeBody backPress={backPress}/>
             </ScrollView>
 
         </View>
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
 
     },
 });
-export default AddShiftPage;
+export default AddEmployeePage;

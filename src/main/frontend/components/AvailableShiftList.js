@@ -1,5 +1,5 @@
 import ShiftCard from "./ShiftCard";
-import {ScrollView, StyleSheet, View} from "react-native";
+import {FlatList, SafeAreaView, ScrollView, StyleSheet, View} from "react-native";
 import React, {useEffect, useState} from "react";
 import AvailableShiftCardSwipe from "./AvailableShiftCardSwipe";
 import {ipAddy} from "../utils/IPAddress";
@@ -27,38 +27,38 @@ const AvailableShiftList = () => {
             });
     }, []);
 
-    return(
-        <ScrollView style={styles.scrollView}>
-            { shiftData ? (
-                <View>
-                    {shiftData.shiftList.map(shift =>
-                        <AvailableShiftCardSwipe
-                            key={shift.shiftId}
-                            ShiftCardComponent={
-                            <ShiftCard
-                                shiftStartDate={shift.shiftStartDate}
-                                shiftEndDate={shift.shiftEndDate}
-                                shiftName={shift.shiftName}
-                                shiftStartTime={shift.shiftStartTime}
-                                shiftEndTime={shift.shiftEndTime}
-                                location={shift.location.locationName}
-                                shiftHours={shift.shiftHours}
-                            />}
-                            shiftId={shift.shiftId}
+    return (
+        <FlatList
+            style={styles.scrollView}
+            contentContainerStyle={styles.contentContainer}
+            data={shiftData ? shiftData.shiftList : []}
+            keyExtractor={(shift) => shift.shiftId.toString()}
+            renderItem={({ item: shift }) => (
+                <AvailableShiftCardSwipe
+                    ShiftCardComponent={
+                        <ShiftCard
+                            shiftStartDate={shift.shiftStartDate}
+                            shiftEndDate={shift.shiftEndDate}
+                            shiftName={shift.shiftName}
+                            shiftStartTime={shift.shiftStartTime}
+                            shiftEndTime={shift.shiftEndTime}
+                            location={shift.location.locationName}
+                            shiftHours={shift.shiftHours}
                         />
-                    )}
-                </View>
-            ) : (
-                <View/>
-            )
-            }
-        </ScrollView>
+                    }
+                />
+            )}
+            ListEmptyComponent={<View />}
+        />
     );
 }
 
 const styles = StyleSheet.create({
     scrollView: {
         flexGrow: 1,
+    },
+    contentContainer: {
+        paddingVertical: 8,
     },
 });
 

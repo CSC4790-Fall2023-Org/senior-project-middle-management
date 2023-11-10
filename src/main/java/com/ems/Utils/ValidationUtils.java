@@ -7,10 +7,11 @@ import com.ems.database.models.Shift;
 import com.ems.database.models.ShiftHelper;
 import com.ems.services.DatabaseServices;
 import org.bson.types.ObjectId;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ValidationUtils {
@@ -73,12 +74,12 @@ public class ValidationUtils {
         }
 
         // start time is within release window
-        if (!pShift.getShiftStartTime().isBefore(LocalDate.now().plusWeeks(pWeeksToRelease).atStartOfDay())) {
+        if (!pShift.getShiftStartTime().isBefore(LocalDateTime.now().plusWeeks(pWeeksToRelease))) {
             return false;
         }
 
         // shift is after now
-        if (!pShift.getShiftStartTime().isAfter(LocalDate.now().atTime(pShift.getShiftStartTime().getHour(), pShift.getShiftStartTime().getMinute()))) {
+        if (!pShift.getShiftStartTime().isAfter(LocalDateTime.now())) {
             return false;
         }
 
