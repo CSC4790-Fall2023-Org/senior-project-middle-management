@@ -3,12 +3,15 @@ package com.ems.Utils;
 import com.ems.Exceptions.SvcException;
 import com.ems.database.models.Employee;
 import com.ems.database.models.Manager;
+import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class JsonUtils {
@@ -36,7 +39,7 @@ public class JsonUtils {
 
     public static ObjectId getOrganizationIdFromJSON(final JSONObject pJsonObject) throws SvcException {
         try{
-            return new ObjectId((String) pJsonObject.get("organizationId"));
+            return new ObjectId(pJsonObject.getString("organizationId"));
         }
         catch (Exception e){
             e.printStackTrace();
@@ -98,5 +101,55 @@ public class JsonUtils {
             throw new SvcException("Error getting locationIdList from JSON");
         }
 
+    }
+
+    public static List<String> getShiftTypeListFromJSON(final JSONArray pJsonArray) throws SvcException{
+        try{
+            List<String> result = new ArrayList<>();
+            for (int i = 0; i < pJsonArray.length(); i++){
+                result.add(pJsonArray.getString(i));
+            }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SvcException("Error getting shift type list from JSON");
+
+        }
+    }
+
+    public static List<Integer> convertJsonArrayToListInteger(final JSONArray pJsonArray) throws JSONException {
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < pJsonArray.length(); i++) {
+            result.add((Integer) pJsonArray.get(i));
+        }
+        return result;
+    }
+
+    public static JSONObject getLocationJSONFromJSONObject(final JSONObject pJsonObject) throws SvcException {
+        try{
+            return pJsonObject.getJSONObject("location");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new SvcException("Error getting location JSON from JSON");
+        }
+    }
+
+    public static ObjectId getLocationIdFromJSON(final JSONObject pJsonObject) throws SvcException {
+        try{
+            return new ObjectId(pJsonObject.getString("locationId"));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new SvcException("Error getting locationId from JSON");
+        }
+    }
+
+    public static JSONObject createJsonObject(final String pPayload) throws SvcException {
+        try{
+            return new JSONObject(pPayload);
+        } catch (JSONException e) {
+            throw new SvcException("error creating json object from request string");
+        }
     }
 }

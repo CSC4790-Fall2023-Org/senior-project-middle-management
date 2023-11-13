@@ -111,7 +111,13 @@ class AvailableShiftCardSwipe extends Component {
         const { ShiftCardComponent } = this.props;
 
         return (
-            <Swipeable renderLeftActions={this.renderLeftActions} renderRightActions={this.renderRightActions} onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)} ref={this.swipeableRef} overshootFriction={8}>
+            <Swipeable
+                renderLeftActions={this.renderLeftActions}
+                renderRightActions={this.renderRightActions}
+                onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)}
+                ref={this.swipeableRef}
+                overshootFriction={8}
+            >
                 {ShiftCardComponent}
             </Swipeable>
         );
@@ -125,8 +131,8 @@ const styles= StyleSheet.create({
         backgroundColor: greenAction,
         justifyContent: 'center',
         height: ShiftCard.height,
-        margin: 16,
-        marginBottom: 0,
+        marginVertical: 8,
+        marginHorizontal: 16,
         borderRadius: 10,
         overflow: "hidden",
     },
@@ -140,8 +146,8 @@ const styles= StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-end',
         height: ShiftCard.height,
-        margin: 16,
-        marginBottom: 0,
+        marginVertical: 8,
+        marginHorizontal: 16,
         borderRadius: 10,
         overflow: "hidden",
     },

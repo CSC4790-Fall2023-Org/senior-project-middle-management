@@ -7,12 +7,10 @@ import {
     TouchableOpacity,
     View,
     KeyboardAvoidingView,
-    Platform
+    Platform, TouchableWithoutFeedback
 } from "react-native";
 import * as Haptics from 'expo-haptics';
-import {black, destructiveAction, primaryGreen, secondaryGray} from "../../utils/Colors";
-import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {Check, XMark} from "../../utils/Icons";
+import {black, destructiveAction, grayAction, primaryGreen, secondaryGray, white} from "../../utils/Colors";
 import employeeData from "../../mockApiCalls/employeeData.json";
 
 function EditNameModal({nameModalVisible, setNameModalVisible}) {
@@ -22,6 +20,10 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
     const [emptyLName, setEmptyLName] = useState(false);
     const [originalFName, setOriginalFName] = useState(employeeData.fName);
     const [originalLName, setOriginalLName] = useState(employeeData.lName);
+    const [fNameSaveError, setFNameSaveError] = useState(false);
+    const [lNameSaveError, setLNameSaveError] = useState(false);
+
+    const isValueChanged = (originalFName !== fName) || (originalLName !== lName);
 
     const resetFName = () => {
         setFName(originalFName);
@@ -31,32 +33,52 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
         setLName(originalLName);
     };
 
+    const onHandleChangeTextFName = (text) => {
+        setFName(text);
+        setFNameSaveError(false);
+        setEmptyFName(false);
+    }
+
+    const onHandleChangeTextLName = (text) => {
+        setLName(text);
+        setLNameSaveError(false);
+        setEmptyLName(false);
+    }
+
     const handleCancel = () => {
         setNameModalVisible(!nameModalVisible);
         resetFName();
         resetLName();
         setEmptyFName(false);
         setEmptyLName(false);
+        setFNameSaveError(false);
+        setLNameSaveError(false);
     }
 
     const handleSubmit = () => {
-        if (fName.trim() === '') {
+        if (fName.trim() === '' && !fNameSaveError) {
             setEmptyFName(true);
+            setFNameSaveError(true);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (lName.trim() === '') {
+        } else if (lName.trim() === '' && !lNameSaveError) {
             setEmptyLName(true);
+            setLNameSaveError(true);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else {
+        } else if (isValueChanged  && !fNameSaveError && !lNameSaveError) {
             setNameModalVisible(!nameModalVisible);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Success
             );
             setEmptyFName(false);
             setEmptyLName(false);
+            setFNameSaveError(false);
+            setLNameSaveError(false);
+            setOriginalFName(fName);
+            setOriginalLName(lName);
         }
     }
 
@@ -67,58 +89,49 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
             visible={nameModalVisible}
             onRequestClose={() => {
                 setNameModalVisible(!nameModalVisible);
-            }}>
-            <TouchableOpacity
+            }}
+        >
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.container}
-                activeOpacity={1}
-                onPressOut={() => {setNameModalVisible(false)}}
             >
-                <KeyboardAvoidingView
-                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                    style={styles.container}>
+                <TouchableWithoutFeedback onPress={handleCancel}>
                     <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Edit Name</Text>
-                            <TextInput
-                                style={[styles.inputText, emptyFName ? styles.errorBorder : null]}
-                                autoCapitalize={"words"}
-                                onChangeText={(fName) => {
-                                    setFName(fName);
-                                    setEmptyFName(false);
-                                }}
-                                value={fName}
-                                placeholder="First Name"
-                                placeholderTextColor={secondaryGray}
-                                autoComplete={"name-given"}
-                            />
-                            <TextInput
-                                style={[styles.inputText, emptyLName ? styles.errorBorder : null]}
-                                autoCapitalize={"words"}
-                                onChangeText={(lName) => {
-                                    setLName(lName);
-                                    setEmptyLName(false);
-                                }}
-                                value={lName}
-                                placeholder="Last Name"
-                                placeholderTextColor={secondaryGray}
-                                autoComplete={"name-family"}
-                            />
-                            <View style={styles.buttonsContainer}>
-                                <TouchableOpacity
-                                    style={styles.buttonCancel}
-                                    onPress={handleCancel}>
-                                    <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.buttonSubmit}
-                                    onPress={handleSubmit}>
-                                    <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
-                                </TouchableOpacity>
+                        <TouchableWithoutFeedback>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText}>Edit Name</Text>
+                                <TextInput
+                                    style={[styles.inputText, emptyFName ? styles.errorBorder : null]}
+                                    autoCapitalize={"words"}
+                                    onChangeText={onHandleChangeTextFName}
+                                    value={fName}
+                                    placeholder="First Name"
+                                    placeholderTextColor={secondaryGray}
+                                    autoComplete={"name-given"}
+                                />
+                                <TextInput
+                                    style={[styles.inputText, emptyLName ? styles.errorBorder : null]}
+                                    autoCapitalize={"words"}
+                                    onChangeText={onHandleChangeTextLName}
+                                    value={lName}
+                                    placeholder="Last Name"
+                                    placeholderTextColor={secondaryGray}
+                                    autoComplete={"name-family"}
+                                />
+                                <View style={[styles.submitButton,
+                                    (isValueChanged && !fNameSaveError && !lNameSaveError) ? {backgroundColor: primaryGreen}
+                                        : {backgroundColor: grayAction}]}>
+                                    <TouchableOpacity
+                                        style={[{width: "100%"}, {alignItems: "center"}]}
+                                        onPress={handleSubmit}>
+                                        <Text style={styles.submitText}>Save</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
-                        </View>
+                        </TouchableWithoutFeedback>
                     </View>
-                </KeyboardAvoidingView>
-            </TouchableOpacity>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
         </Modal>
     )
 }
@@ -151,32 +164,29 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     modalText: {
-        marginBottom: 16,
+        marginBottom: 18,
         textAlign: 'center',
         fontSize: 24,
         fontWeight: "500",
     },
-    buttonSubmit: {
-        width: "50%",
+    submitButton: {
+        width: "100%",
+        borderRadius: 10,
+        marginBottom: 24,
+        marginTop: 12,
         padding: 12,
         alignItems: "center",
-        paddingRight: 0,
     },
-    buttonCancel: {
-        width: "50%",
-        padding: 12,
-        alignItems: "center",
-        paddingLeft: 0,
-    },
-    buttonsContainer: {
-        flexDirection: "row",
-        paddingTop: 12,
+    submitText: {
+        fontSize: 24,
+        fontWeight: "500",
+        color: white,
     },
     inputText: {
-        width: "85%",
+        width: "100%",
         fontSize: 18,
         padding: 8,
-        marginBottom: 16,
+        marginBottom: 18,
         borderWidth: 2,
         borderColor: secondaryGray,
         borderRadius: 10,

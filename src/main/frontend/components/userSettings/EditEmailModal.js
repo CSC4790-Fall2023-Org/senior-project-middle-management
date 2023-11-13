@@ -7,43 +7,54 @@ import {
     TouchableOpacity,
     View,
     Platform,
-    KeyboardAvoidingView,
+    KeyboardAvoidingView, TouchableWithoutFeedback,
 } from "react-native";
 import * as Haptics from "expo-haptics";
-import {black, destructiveAction, primaryGreen, secondaryGray} from "../../utils/Colors";
-import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {Check, XMark} from "../../utils/Icons";
+import {black, destructiveAction, grayAction, primaryGreen, secondaryGray, white} from "../../utils/Colors";
 import employeeData from "../../mockApiCalls/employeeData.json";
 
 function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
     const [email, setEmail] = useState(employeeData.email);
     const [invalidEmail, setInvalidEmail] = useState(false);
     const [originalEmail, setOriginalEmail] = useState(employeeData.email);
+    const [saveError, setSaveError] = useState(false);
+
+    const isValueChanged = originalEmail !== email;
 
     const resetEmail = () => {
         setEmail(originalEmail);
+    }
+
+    const handleOnChangeText = (text) => {
+        setEmail(text);
+        setSaveError(false);
+        setInvalidEmail(false);
     }
 
     const handleCancel = () => {
         setEmailModalVisible(!emailModalVisible);
         resetEmail();
         setInvalidEmail(false);
+        setSaveError(false);
     }
 
     const handleSubmit = () => {
         const emailPattern = /^[\w\.-]+@[\w\.-]+\.\w+$/;
         const validEmail = emailPattern.test(email);
-        if (!validEmail) {
+        if (!validEmail && !saveError) {
             setInvalidEmail(true);
+            setSaveError(true);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else {
+        } else if (isValueChanged && !saveError) {
             setEmailModalVisible(!emailModalVisible);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Success
             );
             setInvalidEmail(false);
+            setSaveError(false);
+            setOriginalEmail(email);
         }
     }
 
@@ -55,43 +66,38 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
             onRequestClose={() => {
                 setEmailModalVisible(!emailModalVisible);
             }}>
-            <TouchableOpacity
-                style={styles.container}
-                activeOpacity={1}
-                onPressOut={() => {setEmailModalVisible(false)}}
-            >
-                <KeyboardAvoidingView
-                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                    style={styles.container}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={styles.container}>
+                <TouchableWithoutFeedback onPress={handleCancel}>
                     <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Edit Email</Text>
-                            <TextInput
-                                style={[styles.inputText, invalidEmail ? styles.errorBorder : null]}
-                                autoCapitalize={"none"}
-                                onChangeText={setEmail}
-                                value={email}
-                                placeholder="ex. johndoe@email.com"
-                                placeholderTextColor={secondaryGray}
-                                autoComplete={"email"}
-                                inputMode={"email"}
-                            />
-                            <View style={styles.buttonsContainer}>
-                                <TouchableOpacity
-                                    style={styles.buttonCancel}
-                                    onPress={handleCancel}>
-                                    <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.buttonSubmit}
-                                    onPress={handleSubmit}>
-                                    <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
-                                </TouchableOpacity>
+                        <TouchableWithoutFeedback>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText}>Edit Email</Text>
+                                <TextInput
+                                    style={[styles.inputText, invalidEmail ? styles.errorBorder : null]}
+                                    autoCapitalize={"none"}
+                                    onChangeText={handleOnChangeText}
+                                    value={email}
+                                    placeholder="ex. johndoe@email.com"
+                                    placeholderTextColor={secondaryGray}
+                                    autoComplete={"email"}
+                                    inputMode={"email"}
+                                />
+                                <View style={[styles.submitButton,
+                                    (isValueChanged && !saveError) ? {backgroundColor: primaryGreen}
+                                        : {backgroundColor: grayAction}]}>
+                                    <TouchableOpacity
+                                        style={[{width: "100%"}, {alignItems: "center"}]}
+                                        onPress={handleSubmit}>
+                                        <Text style={styles.submitText}>Save</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
-                        </View>
+                        </TouchableWithoutFeedback>
                     </View>
-                </KeyboardAvoidingView>
-            </TouchableOpacity>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
         </Modal>
     )
 }
@@ -124,32 +130,28 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     modalText: {
-        marginBottom: 16,
+        marginBottom: 18,
         textAlign: 'center',
         fontSize: 24,
         fontWeight: "500",
     },
-    buttonSubmit: {
-        width: "50%",
+    submitButton: {
+        width: "100%",
+        borderRadius: 10,
+        marginBottom: 24,
         padding: 12,
         alignItems: "center",
-        paddingRight: 0,
     },
-    buttonCancel: {
-        width: "50%",
-        padding: 12,
-        alignItems: "center",
-        paddingLeft: 0,
-    },
-    buttonsContainer: {
-        flexDirection: "row",
-        paddingTop: 12,
+    submitText: {
+        fontSize: 24,
+        fontWeight: "500",
+        color: white,
     },
     inputText: {
-        width: "85%",
+        width: "100%",
         fontSize: 18,
         padding: 8,
-        marginBottom: 16,
+        marginBottom: 24,
         borderWidth: 2,
         borderColor: secondaryGray,
         borderRadius: 10,

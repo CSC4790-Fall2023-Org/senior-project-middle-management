@@ -1,23 +1,52 @@
 import React from 'react';
 import {StyleSheet, Text, View} from "react-native";
-import {white} from "../utils/Colors";
+import {primaryGreen, white} from "../utils/Colors";
+import {Clock, LocationArrow, User, Calendar} from "../utils/Icons";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 
-const ShiftCard = ({startDate, startTime, endTime, shiftType, location, shiftHours}) => {
+const ShiftCard = ({shiftStartDate, shiftEndDate, shiftStartTime, shiftEndTime, shiftName, shiftHours, location}) => {
+
+    const handleMultipleDays = () => {
+        try {
+            return ((shiftStartDate === shiftEndDate) ? shiftStartDate : shiftStartDate + ' - ' + shiftEndDate);
+        } catch (error) {
+            return false;
+        }
+    }
+
     const handleSingularHours = () => {
         const hours = parseInt(shiftHours, 10);
-        return (hours === 1 ? 'Hour' : 'Hours');
+        return hours === 1 ? 'Hour' : 'Hours';
     }
 
     return (
         <View style={styles.container}>
-            <View style={styles.leftContainer}>
-                <Text style={styles.date} numberOfLines={1}>{startDate}</Text>
-                <Text style={styles.time} numberOfLines={1}>{startTime} – {endTime}</Text>
-                <Text style={styles.shiftType} numberOfLines={1} ellipsizeMode={"tail"}>{shiftType}</Text>
+            <View style={styles.iconContainer}>
+                <FontAwesomeIcon icon={Calendar} size={18} style={styles.icon} />
+                <FontAwesomeIcon icon={Clock} size={18} style={styles.icon} />
+                <FontAwesomeIcon icon={User} size={18} style={styles.icon}/>
             </View>
-            <View style={styles.rightContainer}>
-                <Text style={styles.hours} numberOfLines={1}>{shiftHours} {handleSingularHours()}</Text>
-                <Text style={styles.location} numberOfLines={1} ellipsizeMode={"tail"}>{location}</Text>
+            <View style={styles.infoContainer}>
+                <Text style={styles.date}>
+                    {handleMultipleDays()}
+                </Text>
+                <View style={styles.timeHoursContainer}>
+                    <Text style={styles.time}>
+                        {shiftStartTime} – {shiftEndTime}
+                    </Text>
+                    <Text style={styles.hours}>{shiftHours} {handleSingularHours()}</Text>
+                </View>
+                <View style={styles.nameLocationContainer}>
+                    <Text style={styles.shiftName}>
+                        {shiftName}
+                    </Text>
+                    <Text style={styles.location}>
+                        <View style={styles.locationIcon}>
+                            <FontAwesomeIcon icon={LocationArrow} size={14} style={styles.icon}/>
+                        </View>
+                        {location}
+                    </Text>
+                </View>
             </View>
         </View>
     );
@@ -28,21 +57,30 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         backgroundColor: white,
-        margin: 16,
-        marginBottom: 0,
+        marginVertical: 8,
+        marginHorizontal: 16,
         borderRadius: 10,
         padding: 16,
         paddingTop: 12,
-        justifyContent: "space-between",
     },
-    leftContainer: {
-        flexGrow: 1,
-        alignContent: "center",
-        maxWidth: "70%",
-    },
-    rightContainer: {
+    iconContainer: {
         flexDirection: "column",
-        alignContent: "center",
+        justifyContent: "space-between",
+        marginRight: 12,
+        paddingVertical: 2,
+    },
+    infoContainer: {
+        flexDirection: "column",
+        flex: 1,
+    },
+    timeHoursContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    nameLocationContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
     },
     date: {
         fontSize: 24,
@@ -52,20 +90,26 @@ const styles = StyleSheet.create({
     time: {
         fontSize: 18,
         marginBottom: 10,
+        fontWeight: "300",
     },
-    shiftType: {
+    shiftName: {
         fontSize: 20,
         fontWeight: "500",
     },
     hours: {
-        fontSize: 24,
-        marginTop: 10,
-        textAlign: "right",
+        fontSize: 18,
+        marginBottom: 10,
+        fontWeight: "300",
+    },
+    locationIcon: {
+        marginRight: 6,
     },
     location: {
-        fontSize: 16,
-        textAlign: "right",
-        marginTop: 14,
+        fontSize: 20,
+        fontWeight: "500",
+    },
+    icon: {
+        color: primaryGreen,
     },
 });
 

@@ -7,43 +7,54 @@ import {
     TouchableOpacity,
     View,
     Platform,
-    KeyboardAvoidingView,
+    KeyboardAvoidingView, TouchableWithoutFeedback,
 } from "react-native";
 import * as Haptics from "expo-haptics";
-import {black, destructiveAction, primaryGreen, secondaryGray} from "../../utils/Colors";
-import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {Check, XMark} from "../../utils/Icons";
+import {black, destructiveAction, grayAction, primaryGreen, secondaryGray, white} from "../../utils/Colors";
 import employeeData from "../../mockApiCalls/employeeData.json";
 
 function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisible}) {
     const [phoneNumber, setPhoneNumber] = useState(employeeData.phoneNumber);
     const [invalidPhoneNumber, setInvalidPhoneNumber] = useState(false);
     const [originalPhoneNumber, setOriginalPhoneNumber] = useState(employeeData.phoneNumber);
+    const [saveError, setSaveError] = useState(false);
+
+    const isValueChanged = originalPhoneNumber !== phoneNumber;
 
     const resetPhoneNumber = () => {
         setPhoneNumber(originalPhoneNumber);
+    }
+
+    const handleOnChangeText = (text) => {
+            setPhoneNumber(text);
+            setSaveError(false);
+            setInvalidPhoneNumber(false);
     }
 
     const handleCancel = () => {
         setPhoneNumberModalVisible(!phoneNumberModalVisible);
         resetPhoneNumber();
         setInvalidPhoneNumber(false);
+        setSaveError(false);
     }
 
     const handleSubmit = () => {
         const phoneNumberPattern = /^\d{10}$/;
         const validPhoneNumber = phoneNumberPattern.test(phoneNumber);
-        if(!validPhoneNumber) {
+        if(!validPhoneNumber && !saveError) {
             setInvalidPhoneNumber(true);
+            setSaveError(true);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else {
+        } else if (isValueChanged && !saveError) {
             setPhoneNumberModalVisible(!phoneNumberModalVisible);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Success
             );
             setInvalidPhoneNumber(false);
+            setSaveError(false);
+            setOriginalPhoneNumber(phoneNumber);
         }
     }
 
@@ -55,43 +66,38 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
             onRequestClose={() => {
                 setPhoneNumberModalVisible(!phoneNumberModalVisible);
             }}>
-            <TouchableOpacity
-                style={styles.container}
-                activeOpacity={1}
-                onPressOut={() => {setPhoneNumberModalVisible(false)}}
-            >
-                <KeyboardAvoidingView
-                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                    style={styles.container}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={styles.container}>
+                <TouchableWithoutFeedback onPress={handleCancel}>
                     <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Edit Phone Number</Text>
-                            <TextInput
-                                style={[styles.inputText, invalidPhoneNumber ? styles.errorBorder : null]}
-                                autoCapitalize={"words"}
-                                onChangeText={setPhoneNumber}
-                                value={phoneNumber}
-                                placeholder="ex. 5555555555"
-                                placeholderTextColor={secondaryGray}
-                                autoComplete={"tel"}
-                                inputMode={"tel"}
-                            />
-                            <View style={styles.buttonsContainer}>
-                                <TouchableOpacity
-                                    style={styles.buttonCancel}
-                                    onPress={handleCancel}>
-                                    <FontAwesomeIcon icon={XMark} size={32} color={destructiveAction} />
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.buttonSubmit}
-                                    onPress={handleSubmit}>
-                                    <FontAwesomeIcon icon={Check} size={32} color={primaryGreen} />
-                                </TouchableOpacity>
+                        <TouchableWithoutFeedback>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText}>Edit Phone Number</Text>
+                                <TextInput
+                                    style={[styles.inputText, invalidPhoneNumber ? styles.errorBorder : null]}
+                                    autoCapitalize={"words"}
+                                    onChangeText={handleOnChangeText}
+                                    value={phoneNumber}
+                                    placeholder="ex. 5555555555"
+                                    placeholderTextColor={secondaryGray}
+                                    autoComplete={"tel"}
+                                    inputMode={"tel"}
+                                />
+                                <View style={[styles.submitButton,
+                                    (isValueChanged && !saveError) ? {backgroundColor: primaryGreen}
+                                        : {backgroundColor: grayAction}]}>
+                                    <TouchableOpacity
+                                        style={[{width: "100%"}, {alignItems: "center"}]}
+                                        onPress={handleSubmit}>
+                                        <Text style={styles.submitText}>Save</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
-                        </View>
+                        </TouchableWithoutFeedback>
                     </View>
-                </KeyboardAvoidingView>
-            </TouchableOpacity>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
         </Modal>
     )
 }
@@ -124,32 +130,28 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     modalText: {
-        marginBottom: 16,
+        marginBottom: 18,
         textAlign: 'center',
         fontSize: 24,
         fontWeight: "500",
     },
-    buttonSubmit: {
-        width: "50%",
+    submitButton: {
+        width: "100%",
+        borderRadius: 10,
+        marginBottom: 24,
         padding: 12,
         alignItems: "center",
-        paddingRight: 0,
     },
-    buttonCancel: {
-        width: "50%",
-        padding: 12,
-        alignItems: "center",
-        paddingLeft: 0,
-    },
-    buttonsContainer: {
-        flexDirection: "row",
-        paddingTop: 12,
+    submitText: {
+        fontSize: 24,
+        fontWeight: "500",
+        color: white,
     },
     inputText: {
-        width: "85%",
+        width: "100%",
         fontSize: 18,
         padding: 8,
-        marginBottom: 16,
+        marginBottom: 24,
         borderWidth: 2,
         borderColor: secondaryGray,
         borderRadius: 10,
