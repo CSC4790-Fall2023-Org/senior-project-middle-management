@@ -4,6 +4,7 @@ import {useNavigation} from "@react-navigation/native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronLeft} from "../utils/Icons";
 import {secondaryGray} from "../utils/Colors";
+import AddManagerBody from "../components/company-dashboard-components/AddManagerBody";
 
 
 
@@ -21,10 +22,10 @@ const AddManagerPage = ({ route }) => {
                 <TouchableOpacity onPress={() => backPress ()} style={styles.icon}>
                     <FontAwesomeIcon icon={ChevronLeft} size={24}/>
                 </TouchableOpacity>
-                <Text style={styles.headerText}>Add Employee</Text>
+                <Text style={styles.headerText}>Add Manager</Text>
             </View>
             <ScrollView style={styles.pageScroll}>
-
+                <AddManagerBody backPress={backPress}/>
             </ScrollView>
 
         </View>

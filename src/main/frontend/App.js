@@ -11,6 +11,7 @@ import EmployeeSettingsScreen from "./views/EmployeeSettingsScreen";
 import {ScreenNames} from "./utils/ScreenNames";
 import AddShiftPage from "./views/AddShiftPage";
 import AddEmployeePage from "./views/AddEmployeePage";
+import AddManagerPage from "./views/AddManagerPage";
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,7 @@ function App() {
             <Stack.Screen name={ScreenNames.EMPLOYEE_SETTINGS} component={EmployeeSettingsScreen} options={{headerShown: false}} />
             <Stack.Screen name={ScreenNames.ADD_SHIFT} component={AddShiftPage} options={{headerShown: false}} />
             <Stack.Screen name={ScreenNames.ADD_EMPLOYEE} component={AddEmployeePage} options={{headerShown: false}} />
+            <Stack.Screen name={ScreenNames.ADD_MANAGER} component={AddManagerPage} options={{headerShown:false}} />
         </Stack.Navigator>
       </NavigationContainer>
   );
