@@ -1,12 +1,10 @@
 import React from 'react';
 import {StyleSheet, Text, View} from "react-native";
 import {primaryGreen, white} from "../utils/Colors";
-import {Clock, LocationArrow, User} from "../utils/Icons";
-import {faCalendar} from "@fortawesome/free-regular-svg-icons";
+import {Clock, LocationArrow, User, Calendar} from "../utils/Icons";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 
 const ShiftCard = ({shiftStartDate, shiftEndDate, shiftStartTime, shiftEndTime, shiftName, shiftHours, location}) => {
-    const space = '  ';
 
     const handleMultipleDays = () => {
         try {
@@ -22,40 +20,33 @@ const ShiftCard = ({shiftStartDate, shiftEndDate, shiftStartTime, shiftEndTime, 
     }
 
     return (
-        //  shift card container (flexDirection: "row")
-        //  icons container (flexDirection: "column", paddingRight: 12)
-        //      calendar icon
-        //      clock icon
-        //      user icon
-        //  info container (flexDirection: "column")
-        //      inside View with align items center: date
-        //      inside View with align items center: time and hours (justifyContent: "space-between")
-        //      inside View with align items center: name and location (justifyContent: "space-between")
         <View style={styles.container}>
-            <Text style={styles.date}>
-                <FontAwesomeIcon icon={faCalendar} size={18} style={styles.icon} />
-                {space}
-                {handleMultipleDays()}
-            </Text>
-            <View style={styles.timeHoursContainer}>
-                <Text style={styles.time}>
-                    <FontAwesomeIcon icon={Clock} size={12} style={styles.icon} />
-                    {space}
-                    {shiftStartTime} – {shiftEndTime}
-                </Text>
-                <Text style={styles.hours}>{shiftHours} {handleSingularHours()}</Text>
+            <View style={styles.iconContainer}>
+                <FontAwesomeIcon icon={Calendar} size={18} style={styles.icon} />
+                <FontAwesomeIcon icon={Clock} size={18} style={styles.icon} />
+                <FontAwesomeIcon icon={User} size={18} style={styles.icon}/>
             </View>
-            <View style={styles.nameLocationContainer}>
-                <Text style={styles.shiftName}>
-                    <FontAwesomeIcon icon={User} size={16} style={styles.icon}/>
-                    {space}
-                    {shiftName}
+            <View style={styles.infoContainer}>
+                <Text style={styles.date}>
+                    {handleMultipleDays()}
                 </Text>
-                <Text style={styles.location}>
-                    <FontAwesomeIcon icon={LocationArrow} size={16} style={styles.icon}/>
-                    {space}
-                    {location}
-                </Text>
+                <View style={styles.timeHoursContainer}>
+                    <Text style={styles.time}>
+                        {shiftStartTime} – {shiftEndTime}
+                    </Text>
+                    <Text style={styles.hours}>{shiftHours} {handleSingularHours()}</Text>
+                </View>
+                <View style={styles.nameLocationContainer}>
+                    <Text style={styles.shiftName}>
+                        {shiftName}
+                    </Text>
+                    <Text style={styles.location}>
+                        <View style={styles.locationIcon}>
+                            <FontAwesomeIcon icon={LocationArrow} size={14} style={styles.icon}/>
+                        </View>
+                        {location}
+                    </Text>
+                </View>
             </View>
         </View>
     );
@@ -64,13 +55,23 @@ const ShiftCard = ({shiftStartDate, shiftEndDate, shiftStartTime, shiftEndTime, 
 const styles = StyleSheet.create({
     container: {
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
         backgroundColor: white,
         marginVertical: 8,
         marginHorizontal: 16,
         borderRadius: 10,
         padding: 16,
         paddingTop: 12,
+    },
+    iconContainer: {
+        flexDirection: "column",
+        justifyContent: "space-between",
+        marginRight: 12,
+        paddingVertical: 2,
+    },
+    infoContainer: {
+        flexDirection: "column",
+        flex: 1,
     },
     timeHoursContainer: {
         flexDirection: "row",
@@ -87,16 +88,21 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     time: {
-        fontSize: 16,
+        fontSize: 18,
         marginBottom: 10,
+        fontWeight: "300",
     },
     shiftName: {
         fontSize: 20,
         fontWeight: "500",
     },
     hours: {
-        fontSize: 16,
+        fontSize: 18,
         marginBottom: 10,
+        fontWeight: "300",
+    },
+    locationIcon: {
+        marginRight: 6,
     },
     location: {
         fontSize: 20,
