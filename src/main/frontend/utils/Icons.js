@@ -9,8 +9,9 @@ import {
     faChevronDown,
     faLocationArrow,
     faUser,
+    faClock,
 } from "@fortawesome/free-solid-svg-icons";
-import {faCalendarPlus, faCalendarXmark, faTrashCan, faClock} from "@fortawesome/free-regular-svg-icons";
+import {faCalendarPlus, faCalendarXmark, faTrashCan, } from "@fortawesome/free-regular-svg-icons";
 
 export const ChevronLeft = faChevronLeft;
 export const ChevronRight = faChevronRight;

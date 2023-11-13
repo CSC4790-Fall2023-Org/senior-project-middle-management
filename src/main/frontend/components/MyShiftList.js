@@ -1,15 +1,14 @@
 import ShiftCard from "./ShiftCard";
-import {FlatList, ScrollView, StyleSheet, View} from "react-native";
+import {FlatList, StyleSheet, View} from "react-native";
 import React, {useEffect, useState} from "react";
 import MyShiftCardSwipe from "./MyShiftCardSwipe";
 import {ipAddy} from "../utils/IPAddress";
-import AvailableShiftCardSwipe from "./AvailableShiftCardSwipe";
 
 const MyShiftList = () => {
     const [shiftData, setShiftData] = useState(null);
 
     useEffect(() => {
-        fetch('http://'+ ipAddy + ':8080/getClaimedShifts', {
+        fetch('http://' + ipAddy + ':8080/getClaimedShifts', {
             method: 'POST',
             headers: {},
             body: JSON.stringify({
@@ -36,7 +35,7 @@ const MyShiftList = () => {
             data={shiftData ? shiftData.shiftList : []}
             keyExtractor={(shift) => shift.shiftId.toString()}
             renderItem={({ item: shift }) => (
-                <AvailableShiftCardSwipe
+                <MyShiftCardSwipe
                     ShiftCardComponent={
                         <ShiftCard
                             shiftStartDate={shift.shiftStartDate}
