@@ -69,7 +69,7 @@ import * as Haptics from "expo-haptics";
                     console.error(error);
                 });
 
-            // backPress()
+            backPress()
         }
         const handleErrors = () =>{
             let noErrors= true
