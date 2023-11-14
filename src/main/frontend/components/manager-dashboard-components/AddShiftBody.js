@@ -16,13 +16,13 @@ import MultiWheelPicker from "../MultiWheelPicker";
 import CustomButton from "../CustomButton";
 import {black, primaryGreen, secondaryGray, white} from "../../utils/Colors";
 import * as Haptics from "expo-haptics";
-import TimeWarnPopup from "./TimeWarnPopup";
+import WarnPopup from "./WarnPopup";
 import {ipAddy} from "../../utils/IPAddress";
 import {AddPopupStyles} from "../../utils/AddPopupStyles";
 
 
 const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
-
+    const warnText=" ou are making a shift that goes overnight are you sure you want to submit it?"
     const screenWidth = Dimensions.get('window').width;
     //shift type info
     const [shiftType, setShiftType] = useState(shiftOptions[0]);
@@ -401,7 +401,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 <View style={styles.addShiftButton}>
                     <CustomButton buttonText={"Add Shift"} handlePress={handleErrors} color={primaryGreen} textColor={white} />
                 </View>
-                <TimeWarnPopup handlePressButton={handleWarnVisible} isModalVisible={warnModal} submitForm={handleShiftAdd}/>
+                <WarnPopup handleModalVisible={handleWarnVisible} isModalVisible={warnModal} submitForm={handleShiftAdd} titleText={warnText}/>
                 <CalendarPopup setSelectedEndDate={setSelectedEndDate} setSelectedStartDate={setSelectedStartDate} isCalendarVisible={isCalendarVisible} handleExitCalendar={handleCalendar}/>
             </View>
         </TouchableWithoutFeedback>

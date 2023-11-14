@@ -1,12 +1,12 @@
 import React from 'react';
 import {View, StyleSheet, Text, TouchableWithoutFeedback, Modal} from 'react-native';
 import * as Haptics from "expo-haptics";
-import {black, destructiveAction, grayBackground, primaryGreen, secondaryGray, white} from "../../utils/Colors";
+import {destructiveAction, grayBackground, primaryGreen, secondaryGray, white} from "../../utils/Colors";
 import CustomButton from "../CustomButton";
 
 
-const TimeWarnPopup = ({isModalVisible, handlePressButton, submitForm}) => {
-    const timeWarn = () =>{
+const WarnPopup = ({isModalVisible, handleModalVisible, submitForm, titleText}) => {
+    const warn = () =>{
         Haptics.notificationAsync(
             Haptics.NotificationFeedbackType.Error
         );
@@ -16,16 +16,14 @@ const TimeWarnPopup = ({isModalVisible, handlePressButton, submitForm}) => {
             animationType="none"
             transparent={true}
             visible={isModalVisible}
-            onRequestClose={handlePressButton}
+            onRequestClose={handleModalVisible}
         >
-            <TouchableWithoutFeedback onPress={timeWarn}>
+            <TouchableWithoutFeedback onPress={warn}>
                 <View style={styles.overlay}>
                     <TouchableWithoutFeedback>
                         <View style={styles.modal}>
-                            <Text style={styles.warnText}>
-                                You are making a shift that goes overnight are you sure you want to submit it?
-                            </Text>
-                            <CustomButton buttonText={"No, Cancel"} handlePress={handlePressButton} color={destructiveAction} textColor={white}/>
+                            <Text style={styles.warnText}>{titleText}</Text>
+                            <CustomButton buttonText={"No, Cancel"} handlePress={handleModalVisible} color={destructiveAction} textColor={white}/>
                             <CustomButton buttonText={"Yes, Submit"} handlePress={submitForm} color={primaryGreen} textColor={white}/>
                         </View>
                     </TouchableWithoutFeedback>
@@ -61,4 +59,4 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 });
-export default TimeWarnPopup;
+export default WarnPopup;
