@@ -27,6 +27,7 @@ function TransferShiftModal({transferShiftModal,
                                 shiftLocation}) {
     const [recipientSelected, setRecipientSelected] = useState(false);
     const [recipientListModal, setRecipientListModal] = useState(false);
+    const [closeAll, setCloseAll] = useState(false);
 
     const handleMultipleDays = () => {
         try {
@@ -36,16 +37,28 @@ function TransferShiftModal({transferShiftModal,
         }
     }
 
-    const closeModal = () => {
-        setTransferShiftModal();
+    const closeAllModals = () => {
+        setCloseAll(true);
     }
 
     const openList = () => {
+        console.log("Rec list before openList: ", recipientListModal);
+        console.log("transfer before openList: ", transferShiftModal);
+
         setRecipientListModal(true);
+        setTransferShiftModal(false);
+
     }
+
+    useEffect(() => {
+        console.log("Rec list after openList: ", recipientListModal);
+        console.log("transfer after openList: ", transferShiftModal);
+        // Your additional logic after state has been updated
+    }, [recipientListModal]);
 
     const handleSubmit = () => {
         if (recipientSelected) {
+            setCloseAll(true);
             setTransferShiftModal(false);
             setRecipientListModal(false);
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -71,7 +84,7 @@ function TransferShiftModal({transferShiftModal,
                                 <View style={styles.modalView}>
                                     <Text style={styles.modalText} numberOfLines={2} ellipsizeMode={"middle"}>Transfer '{shiftName}' Shift</Text>
                                     <TouchableOpacity
-                                        onPress={closeModal}
+                                        onPress={openList}
                                         style={{width: "100%"}}
                                     >
                                         <View style={styles.selectorContainer}>
