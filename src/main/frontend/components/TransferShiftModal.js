@@ -45,7 +45,7 @@ function TransferShiftModal({transferShiftModal,
         console.log("Rec list before openList: ", recipientListModal);
         console.log("transfer before openList: ", transferShiftModal);
 
-        setRecipientListModal(true);
+        // setRecipientListModal(true);
         setTransferShiftModal(false);
 
     }
@@ -113,13 +113,13 @@ function TransferShiftModal({transferShiftModal,
                 </Modal>
             }
 
-            { recipientListModal &&
+            { !transferShiftModal &&
                 <Modal
                     animationType="slide"
                     transparent={true}
-                    visible={recipientListModal}
+                    visible={!transferShiftModal}
                     onRequestClose={() => {
-                        setRecipientListModal(false);
+                        setTransferShiftModal(true);
                     }}>
                     <TouchableWithoutFeedback onPress={() => {setTransferShiftModal(false)}}>
                         <View style={styles.container}>
