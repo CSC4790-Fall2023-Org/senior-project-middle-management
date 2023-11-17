@@ -7,6 +7,7 @@ export const ScreenNames = {
     MANAGER_SETTINGS: "Manager Settings",
     EMPLOYEE_SETTINGS: "Employee Settings",
     ADD_SHIFT: "Add Shift",
-    ADD_EMPLOYEE:"add Employee",
+    ADD_EMPLOYEE:"Add Employee",
+    ADD_MANAGER:"Add Manager"
 
 };
