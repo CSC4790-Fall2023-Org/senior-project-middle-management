@@ -26,6 +26,8 @@
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.12.0",
     "react-native-picker-select": "^8.1.0",
+    "react-native-root-siblings": "^5.0.1",
+    "react-native-root-toast": "^3.5.1",
     "react-native-swiper": "^1.6.0",
     "swiper": "^10.2.0"
   },

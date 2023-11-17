@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Animated, StyleSheet, Alert} from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { RectButton } from 'react-native-gesture-handler';
@@ -8,6 +8,7 @@ import {CalendarAdd, TrashCan} from "../utils/Icons";
 import {greenAction, grayAction, white} from "../utils/Colors";
 import ShiftCard from "./ShiftCard";
 import {ipAddy} from "../utils/IPAddress";
+import Toast from 'react-native-root-toast';
 
 function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
     let swipeableRef = React.createRef();
@@ -56,9 +57,6 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
                         style: 'default',
                         onPress: () => {
                             handleShiftAdd();
-                            // Haptics.notificationAsync(
-                            //     Haptics.NotificationFeedbackType.Success
-                            // );
                         },
                     },
                     {
@@ -114,6 +112,13 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
     };
 
     const handleShiftAdd = () => {
+        let toast = Toast.show('Shift Claimed!', {
+            duration: Toast.durations.SHORT,
+            backgroundColor: grayAction,
+            shadow: false,
+            opacity: 1,
+            containerStyle: styles.toast,
+        })
         fetch('http://' + ipAddy + ':8080/assignShift', {
             method: 'POST',
             headers: {
@@ -138,6 +143,8 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
                     Haptics.NotificationFeedbackType.Success
                 );
                 console.log(added);
+                setVisibleToast(true);
+                return (toast);
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
@@ -195,6 +202,11 @@ const styles= StyleSheet.create({
         marginHorizontal: 16,
         borderRadius: 10,
         overflow: "hidden",
+    },
+    toast: {
+        borderRadius: 20,
+        paddingHorizontal: 24,
+        paddingVertical: 12,
     },
 })
 
