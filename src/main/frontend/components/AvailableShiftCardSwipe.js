@@ -13,10 +13,9 @@ import Toast from 'react-native-root-toast';
 function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
     let swipeableRef = React.createRef();
     const [addResponse, setAddResponse] = useState(null);
-    const [added, setAdded] = useState(false);
+    const [claimed, setClaimed] = useState(false);
     const [reload, setReload] = useState(false);
 
-    // const { ShiftCardComponent } = this.props;
     const handleSwipeOpen = (direction) => {
         if (direction === 'right') {
             Haptics.notificationAsync(
@@ -49,14 +48,14 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
                 Haptics.NotificationFeedbackType.Warning
             );
             Alert.alert(
-                'Add shift',
-                'Are you sure you want to pick this shift up?',
+                'Claim shift',
+                'Are you sure you want to claim this shift?',
                 [
                     {
                         text: 'Pick Up',
                         style: 'default',
                         onPress: () => {
-                            handleShiftAdd();
+                            handleShiftClaim();
                         },
                     },
                     {
@@ -77,7 +76,7 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
             outputRange: [-20, -10, 0, 1],
         });
         return (
-            <RectButton style={added ? styles.leftActionClosed : styles.leftAction}>
+            <RectButton style={claimed ? styles.leftActionClosed : styles.leftAction}>
                 <Animated.Text
                     style={[
                         styles.actionText,
@@ -111,7 +110,7 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
         );
     };
 
-    const handleShiftAdd = () => {
+    const handleShiftClaim = () => {
         let toast = Toast.show('Shift Claimed!', {
             duration: Toast.durations.SHORT,
             backgroundColor: grayAction,
@@ -138,19 +137,16 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
             .then(data => {
                 setAddResponse(data);
                 setReload(!reload);
-                setAdded(true);
+                setClaimed(true);
                 Haptics.notificationAsync(
                     Haptics.NotificationFeedbackType.Success
                 );
-                console.log(added);
-                setVisibleToast(true);
                 return (toast);
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
             });
     };
-
 
     return (
         <Swipeable
