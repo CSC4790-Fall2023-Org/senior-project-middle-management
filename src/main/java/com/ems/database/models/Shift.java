@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 
 @Document(collection = "shifts")
@@ -28,11 +29,12 @@ public class Shift {
     @Field
     private boolean isShiftOpen;
 
-
+    @Field
+    private boolean isDropApproved;
     public Shift() {
     }
 
-    public Shift(ObjectId shiftId, ObjectId locationId, String shiftName, LocalDateTime shiftStartTime, LocalDateTime shiftEndTime, String shiftType, boolean isShiftOpen) {
+    public Shift(ObjectId shiftId, ObjectId locationId, String shiftName, LocalDateTime shiftStartTime, LocalDateTime shiftEndTime, String shiftType, boolean isShiftOpen, boolean dropApproved) {
         this.shiftId = shiftId;
         this.locationId = locationId;
         this.shiftName = shiftName;
@@ -40,6 +42,7 @@ public class Shift {
         this.shiftEndTime = shiftEndTime;
         this.shiftType = shiftType;
         this.isShiftOpen = isShiftOpen;
+        this.isDropApproved = dropApproved;
     }
 
     public Shift(final JSONObject pJsonObject) throws JSONException {
@@ -59,6 +62,7 @@ public class Shift {
         this.shiftType = pJsonObject.getString("shiftType");
         this.isShiftOpen = true;
         this.locationId = new ObjectId(pJsonObject.getString("locationId"));
+        this.isDropApproved = true;
     }
 
     public ObjectId getShiftId() {
@@ -117,6 +121,14 @@ public class Shift {
         this.locationId = locationId;
     }
 
+    public boolean isDropApproved() {
+        return isDropApproved;
+    }
+
+    public void setDropApproved(boolean dropApproved) {
+        this.isDropApproved = dropApproved;
+    }
+
     @Override
     public String toString() {
         return "Shift{" +
@@ -128,5 +140,28 @@ public class Shift {
                 ", shiftType='" + shiftType + '\'' +
                 ", isShiftOpen=" + isShiftOpen +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Shift shift = (Shift) o;
+
+        if (!Objects.equals(shiftName, shift.shiftName)) return false;
+        if (!Objects.equals(shiftStartTime, shift.shiftStartTime))
+            return false;
+        if (!Objects.equals(shiftEndTime, shift.shiftEndTime)) return false;
+        return Objects.equals(shiftType, shift.shiftType);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = shiftName != null ? shiftName.hashCode() : 0;
+        result = 31 * result + (shiftStartTime != null ? shiftStartTime.hashCode() : 0);
+        result = 31 * result + (shiftEndTime != null ? shiftEndTime.hashCode() : 0);
+        result = 31 * result + (shiftType != null ? shiftType.hashCode() : 0);
+        return result;
     }
 }

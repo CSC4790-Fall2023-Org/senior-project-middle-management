@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import CustomRedirectButton from "../components/CustomRedirectButton";
 import {ScreenNames} from "../utils/ScreenNames";
+import {primaryGreen, white} from "../utils/Colors";
 
 function LoginScreen() {
     return (
@@ -10,9 +11,9 @@ function LoginScreen() {
                 <Text style={styles.headerTitle}>App Name</Text>
             </View>
             <View style={styles.buttonsContainer}>
-                <CustomRedirectButton buttonText={"Login as a Company"} page={ScreenNames.COMPANY}/>
-                <CustomRedirectButton buttonText={"Login as a Manager"} page={ScreenNames.MANAGER} />
-                <CustomRedirectButton buttonText={"Login as an Employee"} page={ScreenNames.EMPLOYEE} />
+                <CustomRedirectButton buttonText={"Login as a Company"} page={ScreenNames.COMPANY} color={primaryGreen} textColor={white}/>
+                <CustomRedirectButton buttonText={"Login as a Manager"} page={ScreenNames.MANAGER} color={primaryGreen} textColor={white}/>
+                <CustomRedirectButton buttonText={"Login as an Employee"} page={ScreenNames.EMPLOYEE} color={primaryGreen} textColor={white}/>
             </View>
         </View>
     );

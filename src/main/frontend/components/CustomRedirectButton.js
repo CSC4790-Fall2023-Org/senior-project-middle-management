@@ -1,15 +1,14 @@
 import React from 'react';
 import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import {primaryGreen} from "../utils/Colors";
 
-const CustomRedirectButton = ({ buttonText, page }) => {
+const CustomRedirectButton = ({ buttonText, page, color, textColor}) => {
     const navigation = useNavigation();
 
     return (
         <TouchableOpacity onPress={() => navigation.navigate(page)}>
-            <View style={styles.button}>
-                <Text style={styles.buttonTextStyle}>{buttonText}</Text>
+            <View style={[styles.button, {backgroundColor: color,}]}>
+                <Text style={[styles.buttonTextStyle, {color: textColor,}]}>{buttonText}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -25,11 +24,9 @@ const styles = StyleSheet.create({
         paddingBottom: 12,
         borderRadius: 10,
         width: 250,
-        backgroundColor: primaryGreen,
     },
     buttonTextStyle:{
         fontSize: 24,
-        color: 'white',
     },
 });
 

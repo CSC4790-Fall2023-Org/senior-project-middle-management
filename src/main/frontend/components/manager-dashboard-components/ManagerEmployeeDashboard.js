@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import {View, StyleSheet} from 'react-native';
-import {ScreenNames} from "../../utils/ScreenNames";
 import ManagerEmployeeView from "./ManagerEmployeeView";
-import {useNavigation} from "@react-navigation/native";
 import Dropdown from "../Dropdown";
 import {white} from "../../utils/Colors";
 
 const ManagerEmployeeDashboard = ({buttonTitle}) => {
-    const options = ["SortBy: None", "SortBy: Name", "SortBy: Hours Worked" ]
+    const options = ["Default", "Name", "Hours Worked" ]
 
     const [selectedIndex, setSelectedIndex] = useState('All');
 
@@ -20,10 +18,7 @@ const ManagerEmployeeDashboard = ({buttonTitle}) => {
         setSelectedIndex(index);
     }
 
-    const navigation = useNavigation();
-    const handleUserClick = () => {
-        navigation.navigate(ScreenNames.LOGIN);
-    }
+
     return(
         <View>
             <View style={styles.dropdownWrapper}>
@@ -38,25 +33,19 @@ const ManagerEmployeeDashboard = ({buttonTitle}) => {
 }
 
 const styles = StyleSheet.create({
-    buttonsContainer: {
-        paddingTop: 8,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-    },
     dropdownWrapper:{
         paddingTop:20,
         paddingLeft:16,
         paddingBottom: 16,
     },
-
     dropdownWrapperBorder:{
         backgroundColor: white,
         borderRadius: 10,
         overflow: 'hidden',
         width: 200,
         justifyContent: "center",
+        borderColor:"#ccc",
+        borderWidth:.5,
     },
-
 });
 export default ManagerEmployeeDashboard;
