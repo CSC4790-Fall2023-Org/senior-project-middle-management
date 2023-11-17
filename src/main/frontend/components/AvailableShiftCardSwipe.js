@@ -56,6 +56,9 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
                         style: 'default',
                         onPress: () => {
                             handleShiftClaim();
+                            Haptics.notificationAsync(
+                                Haptics.NotificationFeedbackType.Success
+                            );
                         },
                     },
                     {
@@ -138,9 +141,6 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
                 setAddResponse(data);
                 setReload(!reload);
                 setClaimed(true);
-                Haptics.notificationAsync(
-                    Haptics.NotificationFeedbackType.Success
-                );
                 return (toast);
             })
             .catch(error => {
