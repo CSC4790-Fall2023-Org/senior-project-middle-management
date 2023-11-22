@@ -1,11 +1,14 @@
 import ShiftCard from "./ShiftCard";
 import {FlatList, StyleSheet, View} from "react-native";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import AvailableShiftCardSwipe from "./AvailableShiftCardSwipe";
 import {ipAddy} from "../utils/IPAddress";
 
 const AvailableShiftList = () => {
     const [shiftData, setShiftData] = useState(null);
+    const [swipedIndex, setSwipedIndex] = useState(null);
+    const swipeableRefs = useRef([]);
+    const currentlySwipedRef = useRef(null); // Add this line
 
     useEffect(() => {
         fetch('http://' + ipAddy + ':8080/getAvailableShifts', {
@@ -27,13 +30,28 @@ const AvailableShiftList = () => {
             });
     }, []);
 
+    const handleSwipeOpen = (index, direction) => {
+        if (swipedIndex !== null && swipedIndex !== index) {
+            // Close the previously swiped card if one is open
+            closeSwipeable(swipedIndex);
+        }
+        setSwipedIndex(index);
+    };
+
+    const closeSwipeable = (index) => {
+        // Close the Swipeable component using its ref
+        if (swipeableRefs.current[index] && swipeableRefs.current[index].current) {
+            swipeableRefs.current[index].current.close();
+        }
+    };
+
     return (
         <FlatList
             style={styles.scrollView}
             contentContainerStyle={styles.contentContainer}
             data={shiftData ? shiftData.shiftList : []}
             keyExtractor={(shift) => shift.shiftId.toString()}
-            renderItem={({ item: shift }) => (
+            renderItem={({ item: shift, index }) => (
                 <AvailableShiftCardSwipe
                     ShiftCardComponent={
                         <ShiftCard
@@ -47,6 +65,9 @@ const AvailableShiftList = () => {
                         />
                     }
                     shiftId={shift.shiftId}
+                    onSwipeOpen={(direction) => handleSwipeOpen(index, direction)}
+                    swipeableRef={(ref) => (swipeableRefs.current[index] = ref)}
+                    currentlySwipedRef={currentlySwipedRef} // Pass the ref
                 />
             )}
             ListEmptyComponent={<View />}
