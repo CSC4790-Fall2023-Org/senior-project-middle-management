@@ -18,6 +18,8 @@ function EmployeeSettingsScreen() {
         <View>
             <StatusBar
                 barStyle={'dark-content'}
+                animated={true}
+                showHideTransition={'fade'}
             />
             <View style={styles.headerContainer}>
                 <Pressable onPress={() => handleUserClick()} style={styles.icon}>

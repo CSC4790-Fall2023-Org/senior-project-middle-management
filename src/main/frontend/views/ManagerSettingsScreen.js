@@ -18,6 +18,8 @@ function ManagerSettingsScreen() {
         <View>
             <StatusBar
                 barStyle={'dark-content'}
+                animated={true}
+                showHideTransition={'fade'}
             />
             <View style={styles.headerContainer}>
                 <TouchableOpacity onPress={() => handleUserClick()} style={styles.icon}>
