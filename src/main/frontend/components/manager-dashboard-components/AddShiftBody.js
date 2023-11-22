@@ -268,9 +268,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
 
     return(
         <View style={[AddPopupStyles.modal]}>
-            <View style={styles.titleContainer}>
-                <Text style={styles.sectionTitle}>Add Shift</Text>
-            </View>
+            <Text style={styles.sectionTitle}>Add Shift</Text>
             <TextInput
                 style={[styles.inputText, isShiftNameEmpty ? styles.errorBorder : null]}
                 onChangeText={(shiftName) =>{
@@ -281,14 +279,10 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 placeholder={"Shift Name"}
                 placeholderTextColor={placeholderText}
             />
-            <View style={styles.titleContainer}>
-                <Text style={styles.sectionSubtitle}>Shift Type</Text>
-            </View>
+            <Text style={styles.sectionSubtitle}>Shift Type</Text>
             <View style={[AddPopupStyles.dropdownContainer]}>
                 {shiftOptions.length === 1 &&
-                    <View style={[AddPopupStyles.longContainer]}>
-                        <Text style={{fontSize:18}}>{shiftOptions[0]}</Text>
-                    </View>
+                    <Text style={styles.normalText}>{shiftOptions[0]}</Text>
                 }
                 {shiftOptions.length !== 1 &&
                     <View style={[styles.doubleContainer]}>
@@ -416,9 +410,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                     </View>
                 </View>
             </View>
-            <View style={[AddPopupStyles.longContainer]}>
-                <Text style={AddPopupStyles.text}>Repeats</Text>
-            </View>
+            <Text style={styles.sectionSubtitle}>Repeats</Text>
             <View style={[AddPopupStyles.dropdownContainer]}>
                 <View style={[styles.doubleContainer]}>
                     <MultiWheelPicker
@@ -493,17 +485,18 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
 const styles = StyleSheet.create({
     titleContainer: {
         width: '100%',
-        paddingBottom: 8,
         alignItems: 'flex-start',
         flexDirection: 'row',
     },
     sectionTitle: {
+        marginBottom: 18,
         width: '100%',
         fontSize: 36,
         textAlign: 'left',
         fontWeight: 'bold',
     },
     sectionSubtitle: {
+        marginBottom: 4,
         width: '100%',
         fontSize: 24,
         textAlign: 'left',
@@ -543,7 +536,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-evenly",
-        marginTop: 20,
+        marginVertical: 18,
         width: "100%",
         backgroundColor: secondaryGray,
         borderRadius: 7,
