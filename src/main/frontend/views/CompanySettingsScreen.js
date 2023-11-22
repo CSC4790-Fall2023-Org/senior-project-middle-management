@@ -1,5 +1,5 @@
 import React from "react";
-import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, StatusBar} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../utils/ScreenNames";
@@ -15,6 +15,9 @@ function CompanySettingsScreen() {
 
     return (
         <View>
+            <StatusBar
+                barStyle={'dark-content'}
+            />
             <View style={styles.headerContainer}>
                 <TouchableOpacity onPress={() => handleUserClick()} style={styles.icon}>
                     <FontAwesomeIcon icon={ChevronLeft} size={24}/>
