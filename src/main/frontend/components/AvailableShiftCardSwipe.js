@@ -10,13 +10,16 @@ import ShiftCard from "./ShiftCard";
 import {ipAddy} from "../utils/IPAddress";
 import Toast from 'react-native-root-toast';
 
-function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
-    let swipeableRef = React.createRef();
+function AvailableShiftCardSwipe({ShiftCardComponent, shiftId, onSwipeOpen, swipeableRef, currentlySwipedRef}) {
+    //let swipeableRef = React.createRef();
     const [addResponse, setAddResponse] = useState(null);
     const [claimed, setClaimed] = useState(false);
     const [reload, setReload] = useState(false);
 
     const handleSwipeOpen = (direction) => {
+        if (swipeableRef.current && swipeableRef.current === currentlySwipedRef.current) {
+            onSwipeOpen(direction);
+        }
         if (direction === 'right') {
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Warning
@@ -118,7 +121,7 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
             duration: Toast.durations.SHORT,
             backgroundColor: grayAction,
             shadow: false,
-            opacity: 1,
+            opacity: 0.9,
             containerStyle: styles.toast,
         })
         fetch('http://' + ipAddy + ':8080/assignShift', {
@@ -153,7 +156,10 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
             renderLeftActions={renderLeftActions}
             //renderRightActions={renderRightActions}
             onSwipeableOpen={(direction) => handleSwipeOpen(direction)}
-            ref={swipeableRef}
+            ref={(ref) => {
+                swipeableRef.current = ref;
+                swipeableRef.current && (currentlySwipedRef.current = ref);
+            }}
             overshootFriction={8}
         >
             {ShiftCardComponent}
