@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, StatusBar} from 'react-native';
 import CustomRedirectButton from "../components/CustomRedirectButton";
 import {ScreenNames} from "../utils/ScreenNames";
 import {primaryGreen, white} from "../utils/Colors";
@@ -7,6 +7,9 @@ import {primaryGreen, white} from "../utils/Colors";
 function LoginScreen() {
     return (
         <View style={styles.container}>
+            <StatusBar
+                barStyle={"dark-content"}
+            />
             <View style={styles.headerContainer}>
                 <Text style={styles.headerTitle}>App Name</Text>
             </View>
