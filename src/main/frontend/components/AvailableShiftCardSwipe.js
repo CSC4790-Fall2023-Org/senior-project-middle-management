@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {useState} from 'react';
 import {Animated, StyleSheet, Alert} from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { RectButton } from 'react-native-gesture-handler';
@@ -7,10 +7,16 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {CalendarAdd, TrashCan} from "../utils/Icons";
 import {greenAction, grayAction, white} from "../utils/Colors";
 import ShiftCard from "./ShiftCard";
+import {ipAddy} from "../utils/IPAddress";
+import Toast from 'react-native-root-toast';
 
-class AvailableShiftCardSwipe extends Component {
-    swipeableRef = React.createRef();
-    handleSwipeOpen = (direction) => {
+function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
+    let swipeableRef = React.createRef();
+    const [addResponse, setAddResponse] = useState(null);
+    const [claimed, setClaimed] = useState(false);
+    const [reload, setReload] = useState(false);
+
+    const handleSwipeOpen = (direction) => {
         if (direction === 'right') {
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Warning
@@ -32,8 +38,7 @@ class AvailableShiftCardSwipe extends Component {
                         text: 'Cancel',
                         style: 'cancel',
                         onPress: () => {
-                            this.swipeableRef.current.close();
-
+                            swipeableRef.current.close();
                         }
                     }
                 ]
@@ -43,13 +48,14 @@ class AvailableShiftCardSwipe extends Component {
                 Haptics.NotificationFeedbackType.Warning
             );
             Alert.alert(
-                'Add Shift',
-                'Are you sure you want to pick this shift up?',
+                'Claim shift',
+                'Are you sure you want to claim this shift?',
                 [
                     {
                         text: 'Pick Up',
                         style: 'default',
                         onPress: () => {
+                            handleShiftClaim();
                             Haptics.notificationAsync(
                                 Haptics.NotificationFeedbackType.Success
                             );
@@ -59,7 +65,7 @@ class AvailableShiftCardSwipe extends Component {
                         text: 'Cancel',
                         style: 'cancel',
                         onPress: () => {
-                            this.swipeableRef.current.close();
+                            swipeableRef.current.close();
                         }
                     }
                 ]
@@ -67,13 +73,13 @@ class AvailableShiftCardSwipe extends Component {
         }
     };
 
-    renderLeftActions = (progress, dragX) => {
+    const renderLeftActions = (progress, dragX) => {
         const trans = dragX.interpolate({
             inputRange: [0, 50, 100, 101],
             outputRange: [-20, -10, 0, 1],
         });
         return (
-            <RectButton style={styles.leftAction} onPress={this.close}>
+            <RectButton style={claimed ? styles.leftActionClosed : styles.leftAction}>
                 <Animated.Text
                     style={[
                         styles.actionText,
@@ -87,13 +93,13 @@ class AvailableShiftCardSwipe extends Component {
         );
     };
 
-    renderRightActions = (progress, dragX) => {
+    const renderRightActions = (progress, dragX) => {
         const trans = dragX.interpolate({
             inputRange: [-101, -100, -50, 0],
             outputRange: [-1, 0, 10, 20],
         });
         return (
-            <RectButton style={styles.rightAction} onPress={this.close}>
+            <RectButton style={styles.rightAction}>
                 <Animated.Text
                     style={[
                         styles.actionText,
@@ -107,21 +113,52 @@ class AvailableShiftCardSwipe extends Component {
         );
     };
 
-    render() {
-        const { ShiftCardComponent } = this.props;
+    const handleShiftClaim = () => {
+        let toast = Toast.show('Shift Claimed!', {
+            duration: Toast.durations.SHORT,
+            backgroundColor: grayAction,
+            shadow: false,
+            opacity: 1,
+            containerStyle: styles.toast,
+        })
+        fetch('http://' + ipAddy + ':8080/assignShift', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                employeeId: "651f3f35631f63367d896196",
+                shiftId: shiftId
+            }),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok. Status: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                setAddResponse(data);
+                setReload(!reload);
+                setClaimed(true);
+                return (toast);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    };
 
-        return (
-            <Swipeable
-                renderLeftActions={this.renderLeftActions}
-                renderRightActions={this.renderRightActions}
-                onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)}
-                ref={this.swipeableRef}
-                overshootFriction={8}
-            >
-                {ShiftCardComponent}
-            </Swipeable>
-        );
-    }
+    return (
+        <Swipeable
+            renderLeftActions={renderLeftActions}
+            //renderRightActions={renderRightActions}
+            onSwipeableOpen={(direction) => handleSwipeOpen(direction)}
+            ref={swipeableRef}
+            overshootFriction={8}
+        >
+            {ShiftCardComponent}
+        </Swipeable>
+    );
 }
 
 const styles= StyleSheet.create({
@@ -133,6 +170,17 @@ const styles= StyleSheet.create({
         height: ShiftCard.height,
         marginVertical: 8,
         marginHorizontal: 16,
+        borderRadius: 10,
+        overflow: "hidden",
+    },
+    leftActionClosed: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: greenAction,
+        justifyContent: 'center',
+        height: 0,
+        margin: 16,
+        marginBottom: 0,
         borderRadius: 10,
         overflow: "hidden",
     },
@@ -150,6 +198,11 @@ const styles= StyleSheet.create({
         marginHorizontal: 16,
         borderRadius: 10,
         overflow: "hidden",
+    },
+    toast: {
+        borderRadius: 20,
+        paddingHorizontal: 24,
+        paddingVertical: 12,
     },
 })
 

@@ -10,7 +10,6 @@ const AvailableShiftList = () => {
     useEffect(() => {
         fetch('http://' + ipAddy + ':8080/getAvailableShifts', {
             method: 'POST',
-            headers: {},
             body: JSON.stringify({
                 employeeId: "651f3f35631f63367d896196"
             }),
@@ -47,6 +46,7 @@ const AvailableShiftList = () => {
                             shiftHours={shift.shiftHours}
                         />
                     }
+                    shiftId={shift.shiftId}
                 />
             )}
             ListEmptyComponent={<View />}

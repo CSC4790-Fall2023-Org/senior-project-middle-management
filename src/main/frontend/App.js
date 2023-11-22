@@ -11,26 +11,27 @@ import EmployeeSettingsScreen from "./views/EmployeeSettingsScreen";
 import {ScreenNames} from "./utils/ScreenNames";
 import AddShiftPage from "./views/AddShiftPage";
 import AddEmployeePage from "./views/AddEmployeePage";
-import AddManagerPage from "./views/AddManagerPage";
+import {RootSiblingParent} from 'react-native-root-siblings';
 
 const Stack = createStackNavigator();
 
 function App() {
   return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={ScreenNames.LOGIN}>
-            <Stack.Screen name={ScreenNames.LOGIN} component={LoginScreen} options={{headerShown: false}} />
-            <Stack.Screen name={ScreenNames.COMPANY} component={CompanyScreen} options={{headerShown: false}} />
-            <Stack.Screen name={ScreenNames.MANAGER} component={ManagerScreen} options={{headerShown: false}} />
-            <Stack.Screen name={ScreenNames.EMPLOYEE} component={EmployeeScreen} options={{headerShown: false}} />
-            <Stack.Screen name={ScreenNames.COMPANY_SETTINGS} component={CompanySettingsScreen} options={{headerShown: false}} />
-            <Stack.Screen name={ScreenNames.MANAGER_SETTINGS} component={ManagerSettingsScreen} options={{headerShown: false}} />
-            <Stack.Screen name={ScreenNames.EMPLOYEE_SETTINGS} component={EmployeeSettingsScreen} options={{headerShown: false}} />
-            <Stack.Screen name={ScreenNames.ADD_SHIFT} component={AddShiftPage} options={{headerShown: false}} />
-            <Stack.Screen name={ScreenNames.ADD_EMPLOYEE} component={AddEmployeePage} options={{headerShown: false}} />
-            <Stack.Screen name={ScreenNames.ADD_MANAGER} component={AddManagerPage} options={{headerShown:false}} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <RootSiblingParent>
+          <NavigationContainer>
+              <Stack.Navigator initialRouteName={ScreenNames.LOGIN}>
+                  <Stack.Screen name={ScreenNames.LOGIN} component={LoginScreen} options={{headerShown: false}} />
+                  <Stack.Screen name={ScreenNames.COMPANY} component={CompanyScreen} options={{headerShown: false}} />
+                  <Stack.Screen name={ScreenNames.MANAGER} component={ManagerScreen} options={{headerShown: false}} />
+                  <Stack.Screen name={ScreenNames.EMPLOYEE} component={EmployeeScreen} options={{headerShown: false}} />
+                  <Stack.Screen name={ScreenNames.COMPANY_SETTINGS} component={CompanySettingsScreen} options={{headerShown: false}} />
+                  <Stack.Screen name={ScreenNames.MANAGER_SETTINGS} component={ManagerSettingsScreen} options={{headerShown: false}} />
+                  <Stack.Screen name={ScreenNames.EMPLOYEE_SETTINGS} component={EmployeeSettingsScreen} options={{headerShown: false}} />
+                  <Stack.Screen name={ScreenNames.ADD_SHIFT} component={AddShiftPage} options={{headerShown: false}} />
+                  <Stack.Screen name={ScreenNames.ADD_EMPLOYEE} component={AddEmployeePage} options={{headerShown: false}} />
+              </Stack.Navigator>
+          </NavigationContainer>
+      </RootSiblingParent>
   );
 }
 
