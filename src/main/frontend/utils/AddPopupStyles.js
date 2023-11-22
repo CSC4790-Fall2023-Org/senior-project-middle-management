@@ -10,9 +10,11 @@ export const AddPopupStyles = StyleSheet.create({
         flexDirection: "column",
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 10,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
     },
     longContainer:{
+        backgroundColor: "red",
         flexDirection:"column",
         justifyContent:"center",
         alignItems:"flex-start",
