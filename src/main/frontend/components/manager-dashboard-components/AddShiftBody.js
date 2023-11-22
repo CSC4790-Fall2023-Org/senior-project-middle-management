@@ -14,7 +14,14 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Calendar} from '../../utils/Icons';
 import MultiWheelPicker from "../MultiWheelPicker";
 import CustomButton from "../CustomButton";
-import {black, destructiveAction, primaryGreen, secondaryGray, white} from "../../utils/Colors";
+import {
+    black,
+    destructiveAction,
+    placeholderText,
+    primaryGreen,
+    secondaryGray,
+    white
+} from "../../utils/Colors";
 import * as Haptics from "expo-haptics";
 import WarnPopup from "./WarnPopup";
 import {ipAddy} from "../../utils/IPAddress";
@@ -131,7 +138,6 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     const [weekdaysPressed, setWeekdaysPressed] = useState([]);
     const [noWeekdaysPressed, setNoWeekdaysPressed] = useState(false)
 
-
     const handleWeekdayPress = (index) => {
         setNoWeekdaysPressed(false)
         if (weekdaysPressed.includes(index)) {
@@ -229,7 +235,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
         const isEndPeriod = (endPeriod === "AM")
         const isStartPeriod = (startPeriod === "AM")
         //update fetch url according to IPv4 of Wi-Fi
-        fetch('http://'+ipAddy+':8080/createShifts', {
+        fetch('http://' + ipAddy + ':8080/createShifts', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -263,38 +269,58 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     return(
         <View style={[AddPopupStyles.modal]}>
             <View style={styles.titleContainer}>
-                <Text style={styles.sectionTitle}>Shift Name:</Text>
+                <Text style={styles.sectionTitle}>Add Shift</Text>
             </View>
-                <TextInput
-                    style={[styles.inputText, isShiftNameEmpty ? styles.errorBorder : null]}
-                    onChangeText={(shiftName) =>{
-                        setShiftName(shiftName)
-                        setShiftNameEmpty(false)
-                    }}
-                    value={shiftName}
-                    placeholder={"Type Here"}
-                    placeholderTextColor={"#D0D0D0"}
-                />
+            <TextInput
+                style={[styles.inputText, isShiftNameEmpty ? styles.errorBorder : null]}
+                onChangeText={(shiftName) =>{
+                    setShiftName(shiftName)
+                    setShiftNameEmpty(false)
+                }}
+                value={shiftName}
+                placeholder={"Shift Name"}
+                placeholderTextColor={placeholderText}
+            />
             <View style={styles.titleContainer}>
-                <Text style={styles.sectionTitle}>Shift Type:</Text>
+                <Text style={styles.sectionSubtitle}>Shift Type</Text>
             </View>
             <View style={[AddPopupStyles.dropdownContainer]}>
-                {shiftOptions.length === 1 && <View style={[AddPopupStyles.longContainer]}><Text style={{fontSize:24}}>{shiftOptions[0]}</Text></View>}
+                {shiftOptions.length === 1 &&
+                    <View style={[AddPopupStyles.longContainer]}>
+                        <Text style={{fontSize:18}}>{shiftOptions[0]}</Text>
+                    </View>
+                }
                 {shiftOptions.length !== 1 &&
                     <View style={[styles.doubleContainer]}>
-                        <MultiWheelPicker wheelData={shiftOptions} selectedItem={shiftType} setSelectedItems={shiftDropdownPress} placeholder={"Select Shift Type"} wide={screenWidth/1.2} hasChevron={true}/>
-                    </View>}
-
+                        <MultiWheelPicker
+                            wheelData={shiftOptions}
+                            selectedItem={shiftType}
+                            setSelectedItems={shiftDropdownPress}
+                            placeholder={"Select Shift Type"}
+                            wide={screenWidth/1.2}
+                            hasChevron={true}
+                        />
+                    </View>
+                }
             </View>
-            <View style={[AddPopupStyles.longContainer]}>
-                <Text style={AddPopupStyles.text}>Location:</Text>
-            </View>
+            <Text style={styles.sectionSubtitle}>Location</Text>
             <View style={[AddPopupStyles.dropdownContainer]}>
-                {displayedLocations.length === 1 && <View style={[AddPopupStyles.longContainer]}><Text style={{fontSize:24}}>{locationOptions[0].locationName}</Text></View>}
+                {displayedLocations.length === 1 &&
+                    <View style={[AddPopupStyles.longContainer]}>
+                        <Text style={{fontSize:18}}>{locationOptions[0].locationName}</Text>
+                    </View>
+                }
                 {displayedLocations.length !== 1 &&
                     <View style={[styles.doubleContainer, isLocationError ? AddPopupStyles.destructiveAction:{}]}>
-                        <MultiWheelPicker wheelData={displayedLocations} setSelectedItems={locationDropdownPress} selectedItem={location} placeholder={"Select A Location"} wide={screenWidth/1.2} hasChevron={true}/>
-                    </View>}
+                        <MultiWheelPicker
+                            wheelData={displayedLocations}
+                            setSelectedItems={locationDropdownPress}
+                            selectedItem={location}
+                            placeholder={"Select A Location"}
+                            wide={screenWidth/1.2}
+                            hasChevron={true}/>
+                    </View>
+                }
 
             </View>
                 {(!startDate || !endDate) &&
@@ -302,13 +328,15 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                     handleCalendar()
                     setDateWrong(false)
                 }}>
-                    <View style={[styles.doubleContainer, {borderWidth:2, borderRadius:10, backgroundColor:white, margin: 20}, dateWrong ? AddPopupStyles.destructiveAction:{borderColor:secondaryGray,}]}>
-                            <View style={[styles.doubleContainer, {width:'97.5%'}]}>
+                    <View style={[styles.doubleContainer,
+                        {borderRadius: 10, backgroundColor: white},
+                        dateWrong ? AddPopupStyles.destructiveAction : {borderColor: secondaryGray}]}>
+                            <View style={[styles.doubleContainer, {width:'100%'}]}>
                                 <View style={styles.shortContainer}>
-                                    <Text style={AddPopupStyles.text}>Choose Dates</Text>
+                                    <Text style={styles.normalText}>Select Dates</Text>
                                 </View>
                                 <View style={styles.shortContainer}>
-                                    <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={35}/>
+                                    <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={18}/>
                                 </View>
                             </View>
 
@@ -338,71 +366,127 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
             </TouchableOpacity>}
             <View style={[styles.doubleContainer]}>
                 <View style={[styles.shortContainer, {width:"50%"}]}>
-
-                    <Text style={[AddPopupStyles.text]}>Start Hour:</Text>
+                    <Text style={styles.sectionSubtitle}>Start Hour</Text>
                     <View style={[styles.doubleContainer, {width: "55%"}]}>
-                        <MultiWheelPicker wheelData={hourOptions} placeholder={1} selectedItem={startHour} setSelectedItems={setStartHour}/>
+                        <MultiWheelPicker
+                            wheelData={hourOptions}
+                            placeholder={1}
+                            selectedItem={startHour}
+                            setSelectedItems={setStartHour}
+                        />
                         <Text style={AddPopupStyles.text}>:</Text>
-                        <MultiWheelPicker wheelData={minOptions} placeholder={"00"} selectedItem={startMinute} setSelectedItems={setStartMinute}/>
+                        <MultiWheelPicker
+                            wheelData={minOptions}
+                            placeholder={"00"}
+                            selectedItem={startMinute}
+                            setSelectedItems={setStartMinute}
+                        />
                         <Text> </Text>
-                        <MultiWheelPicker wheelData={timePeriods} placeholder={"AM"} selectedItem={startPeriod} setSelectedItems={setStartPeriod}/>
+                        <MultiWheelPicker
+                            wheelData={timePeriods}
+                            placeholder={"AM"}
+                            selectedItem={startPeriod}
+                            setSelectedItems={setStartPeriod}
+                        />
                     </View>
-
                 </View>
                 <View style={[styles.shortContainer, {width:'55%'}]}>
-                    <Text style={[AddPopupStyles.text]}>End Hour:</Text>
+                    <Text style={styles.sectionSubtitle}>End Hour</Text>
                     <View style={[styles.doubleContainer, {width: "50%"}]}>
-                        <MultiWheelPicker wheelData={hourOptions} placeholder={1} selectedItem={endHour} setSelectedItems={setEndHour}/>
+                        <MultiWheelPicker
+                            wheelData={hourOptions}
+                            placeholder={1}
+                            selectedItem={endHour}
+                            setSelectedItems={setEndHour}
+                        />
                         <Text style={AddPopupStyles.text}>:</Text>
-                        <MultiWheelPicker wheelData={minOptions} placeholder={"00"} selectedItem={endMinute} setSelectedItems={setEndMinute}/>
+                        <MultiWheelPicker
+                            wheelData={minOptions}
+                            placeholder={"00"}
+                            selectedItem={endMinute}
+                            setSelectedItems={setEndMinute}
+                        />
                         <Text> </Text>
-                        <MultiWheelPicker wheelData={timePeriods} placeholder={"AM"} selectedItem={endPeriod} setSelectedItems={setEndPeriod}/>
+                        <MultiWheelPicker
+                            wheelData={timePeriods}
+                            placeholder={"AM"}
+                            selectedItem={endPeriod}
+                            setSelectedItems={setEndPeriod}
+                        />
                     </View>
                 </View>
             </View>
-            <View style={[AddPopupStyles.longContainer, ]}>
-                <Text style={AddPopupStyles.text}>Repeats:</Text>
+            <View style={[AddPopupStyles.longContainer]}>
+                <Text style={AddPopupStyles.text}>Repeats</Text>
             </View>
-            <View style={[AddPopupStyles.dropdownContainer,]}>
-                <View style={[styles.doubleContainer, ]}>
-                    <MultiWheelPicker wheelData={displayedRepeats} setSelectedItems={repeatsDropdownPress} selectedItem={selectedRepeats} placeholder={"Select Option"} wide={screenWidth/1.2} hasChevron={true}/>
+            <View style={[AddPopupStyles.dropdownContainer]}>
+                <View style={[styles.doubleContainer]}>
+                    <MultiWheelPicker
+                        wheelData={displayedRepeats}
+                        setSelectedItems={repeatsDropdownPress}
+                        selectedItem={selectedRepeats}
+                        placeholder={"Select Option"}
+                        wide={screenWidth/1.2}
+                        hasChevron={true}
+                    />
                 </View>
             </View>
             <View style={[styles.dayContainer, noWeekdaysPressed ? AddPopupStyles.destructiveAction:{}]}>
                 {weekdays.map(day  =>
                     <TouchableOpacity onPress={() => handleWeekdayPress(day.key)} key={day.key}>
-                        <View style={[weekdaysPressed.includes(day.key) ? {backgroundColor:primaryGreen}:{backgroundColor:white}, styles.dayBox, day.key === 1 ? {borderTopLeftRadius:10,borderBottomLeftRadius:10,}:{}, day.key === 7 ? {borderTopRightRadius:10,borderBottomRightRadius:10,}:{}]}>
-                            <Text style={[!weekdaysPressed.includes(day.key) ? {color:black}:{color:white}, {fontSize:20}]} >{day.text}</Text>
+                        <View
+                            style={[weekdaysPressed.includes(day.key) ?
+                                {backgroundColor: primaryGreen}
+                                : {backgroundColor: white},
+                                styles.dayBox,
+                            ]}
+                        >
+                            <Text style={[!weekdaysPressed.includes(day.key) ?
+                                {color: black}
+                                : {color: white},
+                                {fontSize: 18}]}
+                            >
+                                {day.text}
+                            </Text>
                         </View>
                     </TouchableOpacity>
 
                 )}
             </View>
-            <View style={[AddPopupStyles.longContainer]}>
+{/*            <View style={[AddPopupStyles.longContainer]}>
                 <Text style={AddPopupStyles.text}>Number of Shifts:</Text>
-            </View>
-            <View style={[AddPopupStyles.inputContainer, numShiftsError? AddPopupStyles.destructiveAction:{}]}>
-                <TextInput
-                    style={[AddPopupStyles.input]}
-                    onChangeText={(numShifts)=>{
-                        setNumShifts(numShifts)
-                        setNumShiftsError(false)
-                    }}
-                    value={numShifts}
-                    placeholder={'Type Here'}
-                    placeholderTextColor={"#D0D0D0"}
-                    keyboardType = 'numeric'
+            </View>*/}
+            <TextInput
+                style={[styles.inputText, isShiftNameEmpty ? styles.errorBorder : null]}
+                onChangeText={(numShifts)=>{
+                    setNumShifts(numShifts)
+                    setNumShiftsError(false)
+                }}
+                value={numShifts}
+                placeholder={'Number of Shifts'}
+                placeholderTextColor={placeholderText}
+                keyboardType = 'numeric'
+            />
+            <View style={styles.addShiftButton}>
+                <CustomButton
+                    buttonText={"Add Shift"}
+                    handlePress={handleErrors}
+                    color={primaryGreen}
+                    textColor={white}
                 />
             </View>
-
-            <View style={styles.addShiftButton}>
-                <CustomButton buttonText={"Add Shift"} handlePress={handleErrors} color={primaryGreen} textColor={white} />
-            </View>
-            <WarnPopup handleModalVisible={handleWarnVisible} isModalVisible={warnModal} submitForm={handleShiftAdd} titleText={warnText}/>
-            <CalendarPopup setSelectedEndDate={setSelectedEndDate} setSelectedStartDate={setSelectedStartDate} isCalendarVisible={isCalendarVisible} handleExitCalendar={handleCalendar}/>
+            <WarnPopup
+                handleModalVisible={handleWarnVisible}
+                isModalVisible={warnModal}
+                submitForm={handleShiftAdd}
+                titleText={warnText}/>
+            <CalendarPopup
+                setSelectedEndDate={setSelectedEndDate}
+                setSelectedStartDate={setSelectedStartDate}
+                isCalendarVisible={isCalendarVisible}
+                handleExitCalendar={handleCalendar}
+            />
         </View>
-
-
     )
 }
 
@@ -415,54 +499,69 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         width: '100%',
-        fontSize: 28,
+        fontSize: 36,
         textAlign: 'left',
+        fontWeight: 'bold',
+    },
+    sectionSubtitle: {
+        width: '100%',
+        fontSize: 24,
+        textAlign: 'left',
+        fontWeight: 'bold',
     },
     inputText: {
         width: "100%",
         fontSize: 18,
+        //fontFamily: 'HelveticaNeue-Medium',
         padding: 8,
         marginBottom: 18,
-        borderWidth: 2,
-        borderColor: secondaryGray,
         backgroundColor: white,
         borderRadius: 10,
     },
+    normalText: {
+        fontSize: 18,
+    },
     errorBorder: {
+        borderWidth: 1,
         borderColor: destructiveAction,
     },
-    doubleContainer:{
-        flexDirection:"row",
-        alignItems:"center",
-        justifyContent:"space-between",
-        margin:5,
-        width:"95%",
+    doubleContainer: {
+        //backgroundColor: 'blue',
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "100%",
     },
     shortContainer:{
-        flexDirection:"column",
-        justifyContent:"center",
-        alignItems:"center",
-        padding:5,
+        //backgroundColor: 'green',
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 8,
     },
     dayContainer:{
-        flexDirection:"row",
-        alignItems:"center",
-        justifyContent:"center",
-        marginTop:20,
-        width:"95%",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        marginTop: 20,
+        width: "100%",
+        backgroundColor: secondaryGray,
+        borderRadius: 7,
+        paddingVertical: 4,
+        paddingHorizontal: 1,
+        overflow: 'hidden',
     },
     dayBox:{
-        borderColor: secondaryGray,
-        borderWidth:.5,
-        marginTop:0,
-        padding:5,
-        paddingHorizontal:8
+        borderRadius: 7,
+        paddingVertical: 4,
+        paddingHorizontal: 8,
+        marginHorizontal: 2,
     },
     input:{
-        width:"95%",
-        height:30,
-        fontSize:24,
-        margin:5,
+        width: "100%",
+        height: 30,
+        fontSize: 24,
+        margin: 5,
     },
 })
 

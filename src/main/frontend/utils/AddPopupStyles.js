@@ -15,26 +15,29 @@ export const AddPopupStyles = StyleSheet.create({
     },
     longContainer:{
         backgroundColor: "red",
-        flexDirection:"column",
-        justifyContent:"center",
-        alignItems:"flex-start",
-        padding:5,
-        width:"95%",
-        margin:5,
-
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        // padding: 5,
+        width:"100%",
+        //margin: 5,
     },
     text:{
         fontSize: 24,
         fontWeight: 'bold',
     },
     dropdownContainer:{
-        backgroundColor:white,
+        backgroundColor: white,
         alignItems:"flex-start",
         justifyContent:"flex-start",
-        borderColor: secondaryGray,
-        borderWidth:2,
+        // borderColor: secondaryGray,
+        // borderWidth: 2,
         borderRadius:10,
-        width: '95%'
+        width: "100%",
+        //fontSize: 18,
+        //fontFamily: 'HelveticaNeue-Medium',
+        padding: 8,
+        marginBottom: 18,
     },
     input:{
         width:"95%",
@@ -52,10 +55,10 @@ export const AddPopupStyles = StyleSheet.create({
         borderColor: secondaryGray,
         borderWidth:2,
         borderRadius:10,
-        width:"95%",
+        width:"100%",
     },
     destructiveAction:{
         borderColor:destructiveAction,
-        borderWidth: 2
+        borderWidth: 1,
     },
 });

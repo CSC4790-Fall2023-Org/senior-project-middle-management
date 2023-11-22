@@ -3,7 +3,7 @@ import {View, StyleSheet, Text, TouchableOpacity,  ScrollView} from 'react-nativ
 import {useNavigation} from "@react-navigation/native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronLeft} from "../utils/Icons";
-import {secondaryGray} from "../utils/Colors";
+import {grayBackground, secondaryGray} from "../utils/Colors";
 import AddShiftBody from "../components/manager-dashboard-components/AddShiftBody";
 
 
@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
         width: 48,
     },
     pageScroll: {
-        height: "88%",
-
+        backgroundColor: grayBackground,
+        height: "100%",
     },
 });
 export default AddShiftPage;

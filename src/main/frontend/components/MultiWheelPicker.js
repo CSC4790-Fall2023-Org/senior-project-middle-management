@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {View, StyleSheet,} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import {black} from "../utils/Colors";
+import {black, placeholderText} from "../utils/Colors";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronDown} from "../utils/Icons";
 
@@ -18,25 +18,25 @@ const MultiWheelPicker = ({wheelData,placeholder, selectedItem, setSelectedItems
                     <RNPickerSelect
                         style={{...pickerSelectStyles,
                             inputIOS: {
-                                width:wide,
+                                width: wide,
                                 color: black,
-                                fontSize: 24,
+                                fontSize: 18,
                             },
                             inputAndroid: {
-                                width:wide,
+                                width: wide,
                                 color: black,
-                                fontSize: 24,
+                                fontSize: 18,
                             },
 
                         }}
                         placeholder={{ label: placeholder.toString(), value: placeholder }}
-                        placeholderTextColor="black"
+                        placeholderTextColor={placeholderText}
                         onValueChange={(value) => handleWheelChange(value)}
                         items={wheelData.map((item) => ({ label: item.toString(), value: item }))}
                         value={selectedItem}
                         Icon={() => {
                             if (hasChevron) {
-                                return <FontAwesomeIcon icon={ChevronDown} color={black} size={27}/>;
+                                return <FontAwesomeIcon icon={ChevronDown} color={placeholderText} size={18}/>;
                             }
 
                         }}
@@ -48,9 +48,9 @@ const MultiWheelPicker = ({wheelData,placeholder, selectedItem, setSelectedItems
 };
 const styles = StyleSheet.create({
     container:{
-        flexDirection:"row",
-        justifyContent:"center",
-        alignItems:"stretch",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "stretch",
     },
 });
 const pickerSelectStyles = StyleSheet.create({
@@ -61,8 +61,8 @@ const pickerSelectStyles = StyleSheet.create({
 
     },
     placeholder: {
-        color: "#000000",
-        fontSize:24
+        color: placeholderText,
+        fontSize: 18,
     },
 });
 export default MultiWheelPicker;
