@@ -15,6 +15,8 @@ const CustomHeader = ({title, page}) => {
         <View style={styles.container}>
             <StatusBar
                 barStyle={'light-content'}
+                animated={true}
+                showHideTransition={'fade'}
             />
             <Text style={styles.title} numberOfLines={1} ellipsizeMode={"tail"}>{title}</Text>
             <TouchableOpacity onPress={() => handleUserClick()}>

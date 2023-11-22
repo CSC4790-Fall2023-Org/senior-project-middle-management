@@ -8,7 +8,9 @@ function LoginScreen() {
     return (
         <View style={styles.container}>
             <StatusBar
-                barStyle={"dark-content"}
+                barStyle={'dark-content'}
+                animated={true}
+                showHideTransition={'fade'}
             />
             <View style={styles.headerContainer}>
                 <Text style={styles.headerTitle}>App Name</Text>
