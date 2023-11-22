@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from "react-native";
+import {View, Text, StyleSheet, TouchableOpacity, StatusBar, SafeAreaView} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {useNavigation} from "@react-navigation/native";
 import {CircleUser} from "../utils/Icons";
@@ -13,6 +13,9 @@ const CustomHeader = ({title, page}) => {
 
     return (
         <View style={styles.container}>
+            <StatusBar
+                barStyle={'light-content'}
+            />
             <Text style={styles.title} numberOfLines={1} ellipsizeMode={"tail"}>{title}</Text>
             <TouchableOpacity onPress={() => handleUserClick()}>
                 <FontAwesomeIcon icon={CircleUser} size={32} style={styles.icon}/>

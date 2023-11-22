@@ -1,5 +1,5 @@
 import React from "react";
-import {StyleSheet, View, Text, ScrollView, Pressable} from "react-native";
+import {StyleSheet, View, Text, ScrollView, Pressable, StatusBar} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../utils/ScreenNames";
@@ -16,6 +16,9 @@ function EmployeeSettingsScreen() {
 
     return (
         <View>
+            <StatusBar
+                barStyle={'dark-content'}
+            />
             <View style={styles.headerContainer}>
                 <Pressable onPress={() => handleUserClick()} style={styles.icon}>
                     <FontAwesomeIcon icon={ChevronLeft} size={24}/>
