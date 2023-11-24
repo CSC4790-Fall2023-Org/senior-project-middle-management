@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {View, StyleSheet,} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import {black, placeholderText} from "../utils/Colors";
+import {dropdownSelected, placeholderText} from "../utils/Colors";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronDown} from "../utils/Icons";
 
@@ -19,12 +19,12 @@ const MultiWheelPicker = ({wheelData,placeholder, selectedItem, setSelectedItems
                         style={{...pickerSelectStyles,
                             inputIOS: {
                                 width: wide,
-                                color: black,
+                                color: dropdownSelected,
                                 fontSize: 18,
                             },
                             inputAndroid: {
                                 width: wide,
-                                color: black,
+                                color: dropdownSelected,
                                 fontSize: 18,
                             },
 
@@ -36,7 +36,7 @@ const MultiWheelPicker = ({wheelData,placeholder, selectedItem, setSelectedItems
                         value={selectedItem}
                         Icon={() => {
                             if (hasChevron) {
-                                return <FontAwesomeIcon icon={ChevronDown} color={placeholderText} size={18}/>;
+                                return <FontAwesomeIcon icon={ChevronDown} color={dropdownSelected} size={18}/>;
                             }
 
                         }}
@@ -49,7 +49,7 @@ const MultiWheelPicker = ({wheelData,placeholder, selectedItem, setSelectedItems
 const styles = StyleSheet.create({
     container:{
         flexDirection: "row",
-        justifyContent: "center",
+        justifyContent: "space-between",
         alignItems: "stretch",
     },
 });
@@ -61,7 +61,7 @@ const pickerSelectStyles = StyleSheet.create({
 
     },
     placeholder: {
-        color: placeholderText,
+        color: dropdownSelected,
         fontSize: 18,
     },
 });

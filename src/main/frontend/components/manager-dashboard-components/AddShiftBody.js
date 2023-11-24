@@ -15,8 +15,7 @@ import {Calendar} from '../../utils/Icons';
 import MultiWheelPicker from "../MultiWheelPicker";
 import CustomButton from "../CustomButton";
 import {
-    black,
-    destructiveAction,
+    destructiveAction, dropdownSelected,
     placeholderText,
     primaryGreen,
     secondaryGray,
@@ -434,7 +433,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                             ]}
                         >
                             <Text style={[!weekdaysPressed.includes(day.key) ?
-                                {color: black}
+                                {color: dropdownSelected}
                                 : {color: white},
                                 {fontSize: 18}]}
                             >
@@ -489,16 +488,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     sectionTitle: {
-        marginBottom: 18,
+        marginBottom: 6,
         width: '100%',
         fontSize: 36,
         textAlign: 'left',
         fontWeight: 'bold',
     },
     sectionSubtitle: {
-        marginBottom: 4,
+        marginBottom: 6,
         width: '100%',
-        fontSize: 24,
+        fontSize: 21,
         textAlign: 'left',
         fontWeight: 'bold',
     },
@@ -525,14 +524,14 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         width: "100%",
     },
-    shortContainer:{
+    shortContainer: {
         //backgroundColor: 'green',
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         padding: 8,
     },
-    dayContainer:{
+    dayContainer: {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-evenly",
@@ -544,13 +543,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 1,
         overflow: 'hidden',
     },
-    dayBox:{
+    dayBox: {
         borderRadius: 7,
         paddingVertical: 4,
         paddingHorizontal: 8,
         marginHorizontal: 2,
     },
-    input:{
+    input: {
         width: "100%",
         height: 30,
         fontSize: 24,
