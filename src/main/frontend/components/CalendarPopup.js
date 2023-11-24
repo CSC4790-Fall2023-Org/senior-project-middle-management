@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Modal, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import CalendarPicker from "react-native-calendar-picker";
+import {black, placeholderText, primaryGreen, secondaryGray, white} from "../utils/Colors";
 
 const CalendarPopup = ({setSelectedEndDate, setSelectedStartDate, isCalendarVisible, handleExitCalendar}) => {
     const handleCalendarClick = (date,type) =>{
@@ -12,9 +13,10 @@ const CalendarPopup = ({setSelectedEndDate, setSelectedStartDate, isCalendarVisi
         }
     }
     const minDate = new Date();
+
     return(
         <Modal
-            animationType="none"
+            animationType="slide"
             transparent={true}
             visible={isCalendarVisible}
             onRequestClose={handleExitCalendar}
@@ -26,45 +28,47 @@ const CalendarPopup = ({setSelectedEndDate, setSelectedStartDate, isCalendarVisi
                             <CalendarPicker
                                 startFromMonday={true}
                                 allowRangeSelection={true}
-                                todayBackgroundColor="#F1F1F1"
-                                selectedDayColor="#50C878"
-                                selectedDayTextColor="#FFFFFF"
-                                todayTextStyle={'#000000'}
+                                todayBackgroundColor={placeholderText}
+                                selectedDayColor={primaryGreen}
+                                selectedDayTextColor={white}
+                                todayTextStyle={black}
                                 onDateChange={handleCalendarClick}
                                 width={300}
                                 minDate={minDate}
                             />
                         </View>
                     </TouchableWithoutFeedback>
-
                 </View>
-
             </TouchableWithoutFeedback>
-
         </Modal>
-
-
     )
 }
 
 const styles = StyleSheet.create({
     modal:{
-
-        position:"relative",
-        backgroundColor:'#FFFFFF',
-        borderRadius:20,
-        borderStyle:"solid",
-        borderColor:"#ccc",
+        position: "relative",
+        backgroundColor: white,
+        borderRadius: 10,
+        borderStyle: "solid",
+        borderColor: secondaryGray,
         flexDirection: "column",
-        alignItems:'center',
-        justifyContent:'center',
-        padding: 10,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 12,
+        shadowColor: black,
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 16,
+        elevation: 5,
     },
     overlay:{
-
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
     },
 });
-export default CalendarPopup
+
+export default CalendarPopup;

@@ -75,9 +75,9 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
         setCalendarVisible(!isCalendarVisible)
     }
     const [selectedStartDate, setSelectedStartDate] = useState(null);
-    const startDate = selectedStartDate ? selectedStartDate.format('YYYY/MM/DD').toString() : '';
+    const startDate = selectedStartDate ? selectedStartDate.format('MM/DD/YYYY').toString() : '';
     const [selectedEndDate, setSelectedEndDate] = useState(null);
-    const endDate = selectedEndDate ? selectedEndDate.format('YYYY/MM/DD').toString() : '';
+    const endDate = selectedEndDate ? selectedEndDate.format('MM/DD/YYYY').toString() : '';
     const [dateWrong, setDateWrong] = useState(false)
     //shift name info
     const [shiftName, setShiftName] = useState("");
@@ -326,7 +326,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                         dateWrong ? AddPopupStyles.destructiveAction : {borderColor: secondaryGray}]}>
                             <View style={[styles.doubleContainer, {width:'100%'}]}>
                                 <View style={styles.shortContainer}>
-                                    <Text style={styles.normalText}>Select Dates</Text>
+                                    <Text style={[styles.normalText, {color: dropdownSelected}]}>Select Dates</Text>
                                 </View>
                                 <View style={styles.shortContainer}>
                                     <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={18}/>
@@ -335,28 +335,28 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
 
                     </View>
                 </TouchableOpacity>}
-            {(startDate && endDate) && <TouchableOpacity onPress={() => {
+            {(startDate && endDate) &&
+                <TouchableOpacity onPress={() => {
                 handleCalendar()
                 setDateWrong(false)
-            }}>
-                <View style={[styles.doubleContainer, {
-                    borderWidth: 2,
-                    borderColor: secondaryGray,
-                    borderRadius: 10,
-                    backgroundColor: white,
-                    margin: 20
-                }]}>
-                    <View style={[styles.shortContainer, {width: '45%'}]}>
-                        <Text style={AddPopupStyles.text}>From:</Text>
-                        <Text>{startDate}</Text>
+                }}>
+                    <View style={[styles.doubleContainer, {
+                        borderRadius: 10,
+                        backgroundColor: white,
+                        marginBottom: 18,
+                    }]}>
+                        <View style={[styles.shortContainer, {width: '45%'}]}>
+                            <Text style={[styles.normalText, {color: dropdownSelected}]}>From</Text>
+                            <Text style={[styles.normalText, {color: dropdownSelected}]}>{startDate}</Text>
+                        </View>
+                        <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={40}/>
+                        <View style={[styles.shortContainer, {width:'42.5%'}]}>
+                            <Text style={[styles.normalText, {color: dropdownSelected}]}>To</Text>
+                            <Text style={[styles.normalText, {color: dropdownSelected}]}>{endDate}</Text>
+                        </View>
                     </View>
-                    <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={40}/>
-                    <View style={[styles.shortContainer, {width:'42.5%'}]}>
-                        <Text style={AddPopupStyles.text}>To:</Text>
-                        <Text>{endDate}</Text>
-                    </View>
-                </View>
-            </TouchableOpacity>}
+                </TouchableOpacity>
+            }
             <View style={[styles.doubleContainer]}>
                 <View style={[styles.shortContainer, {width:"50%"}]}>
                     <Text style={styles.sectionSubtitle}>Start Hour</Text>
@@ -535,7 +535,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-evenly",
-        marginVertical: 18,
+        marginBottom: 18,
         width: "100%",
         backgroundColor: secondaryGray,
         borderRadius: 7,
