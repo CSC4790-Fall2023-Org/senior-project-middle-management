@@ -6,7 +6,7 @@ import {
     Keyboard,
     TouchableOpacity,
     Dimensions,
-    TextInput,
+    TextInput, KeyboardAvoidingViewComponent, KeyboardAvoidingView, Platform,
 } from "react-native";
 import React, {useState} from "react";
 import CalendarPopup from "../CalendarPopup";
@@ -25,7 +25,7 @@ import * as Haptics from "expo-haptics";
 import WarnPopup from "./WarnPopup";
 import {ipAddy} from "../../utils/IPAddress";
 import {AddPopupStyles} from "../../utils/AddPopupStyles";
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     const warnText=" ou are making a shift that goes overnight are you sure you want to submit it?"
@@ -266,7 +266,11 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     }
 
     return(
-        <View style={[AddPopupStyles.modal]}>
+        <KeyboardAwareScrollView
+            contentContainerStyle={[AddPopupStyles.modal, {flex: 1}]}
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            scrollEnabled={true}
+        >
             <Text style={styles.sectionTitle}>Add Shift</Text>
             <TextInput
                 style={[styles.inputText, isShiftNameEmpty ? styles.errorBorder : null]}
@@ -281,7 +285,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
             <Text style={styles.sectionSubtitle}>Shift Type</Text>
             <View style={[AddPopupStyles.dropdownContainer]}>
                 {shiftOptions.length === 1 &&
-                    <Text style={styles.normalText}>{shiftOptions[0]}</Text>
+                    <Text style={[styles.normalText, {color: dropdownSelected}]}>{shiftOptions[0]}</Text>
                 }
                 {shiftOptions.length !== 1 &&
                     <View style={[styles.doubleContainer]}>
@@ -314,27 +318,27 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                             hasChevron={true}/>
                     </View>
                 }
-
             </View>
-                {(!startDate || !endDate) &&
-                <TouchableOpacity onPress={() => {
-                    handleCalendar()
-                    setDateWrong(false)
-                }}>
-                    <View style={[styles.doubleContainer,
-                        {borderRadius: 10, backgroundColor: white},
-                        dateWrong ? AddPopupStyles.destructiveAction : {borderColor: secondaryGray}]}>
-                            <View style={[styles.doubleContainer, {width:'100%'}]}>
-                                <View style={styles.shortContainer}>
-                                    <Text style={[styles.normalText, {color: dropdownSelected}]}>Select Dates</Text>
-                                </View>
-                                <View style={styles.shortContainer}>
-                                    <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={18}/>
-                                </View>
+            <Text style={styles.sectionSubtitle}>Date and Time</Text>
+            {(!startDate || !endDate) &&
+            <TouchableOpacity onPress={() => {
+                handleCalendar()
+                setDateWrong(false)
+            }}>
+                <View style={[styles.doubleContainer,
+                    {borderRadius: 10, backgroundColor: white},
+                    dateWrong ? AddPopupStyles.destructiveAction : {borderColor: secondaryGray}]}>
+                        <View style={[styles.doubleContainer, {width:'100%'}]}>
+                            <View style={styles.shortContainer}>
+                                <Text style={[styles.normalText, {color: dropdownSelected}]}>Select Dates</Text>
                             </View>
+                            <View style={styles.shortContainer}>
+                                <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={18}/>
+                            </View>
+                        </View>
 
-                    </View>
-                </TouchableOpacity>}
+                </View>
+            </TouchableOpacity>}
             {(startDate && endDate) &&
                 <TouchableOpacity onPress={() => {
                 handleCalendar()
@@ -359,7 +363,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
             }
             <View style={[styles.doubleContainer]}>
                 <View style={[styles.shortContainer, {width:"50%"}]}>
-                    <Text style={styles.sectionSubtitle}>Start Hour</Text>
+                    <Text style={styles.sectionSubtitle}>Start Time</Text>
                     <View style={[styles.doubleContainer, {width: "55%"}]}>
                         <MultiWheelPicker
                             wheelData={hourOptions}
@@ -367,7 +371,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                             selectedItem={startHour}
                             setSelectedItems={setStartHour}
                         />
-                        <Text style={AddPopupStyles.text}>:</Text>
+                        <Text style={styles.normalText}>:</Text>
                         <MultiWheelPicker
                             wheelData={minOptions}
                             placeholder={"00"}
@@ -384,7 +388,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                     </View>
                 </View>
                 <View style={[styles.shortContainer, {width:'55%'}]}>
-                    <Text style={styles.sectionSubtitle}>End Hour</Text>
+                    <Text style={styles.sectionSubtitle}>End Time</Text>
                     <View style={[styles.doubleContainer, {width: "50%"}]}>
                         <MultiWheelPicker
                             wheelData={hourOptions}
@@ -392,7 +396,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                             selectedItem={endHour}
                             setSelectedItems={setEndHour}
                         />
-                        <Text style={AddPopupStyles.text}>:</Text>
+                        <Text style={styles.normalText}>:</Text>
                         <MultiWheelPicker
                             wheelData={minOptions}
                             placeholder={"00"}
@@ -444,9 +448,6 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
 
                 )}
             </View>
-{/*            <View style={[AddPopupStyles.longContainer]}>
-                <Text style={AddPopupStyles.text}>Number of Shifts:</Text>
-            </View>*/}
             <TextInput
                 style={[styles.inputText, isShiftNameEmpty ? styles.errorBorder : null]}
                 onChangeText={(numShifts)=>{
@@ -477,11 +478,26 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 isCalendarVisible={isCalendarVisible}
                 handleExitCalendar={handleCalendar}
             />
-        </View>
+        </KeyboardAwareScrollView>
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    inner: {
+        padding: 24,
+        flex: 1,
+        justifyContent: 'flex-end',
+    },
+    inputTest: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        marginBottom: 20,
+        padding: 10,
+    },
     titleContainer: {
         width: '100%',
         alignItems: 'flex-start',

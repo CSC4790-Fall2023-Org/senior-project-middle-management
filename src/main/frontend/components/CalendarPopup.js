@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Modal, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
+import {View, StyleSheet, Modal, TouchableWithoutFeedback} from 'react-native';
 import CalendarPicker from "react-native-calendar-picker";
 import {black, placeholderText, primaryGreen, secondaryGray, white} from "../utils/Colors";
 
