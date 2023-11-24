@@ -6,7 +6,7 @@ import {
     Keyboard,
     TouchableOpacity,
     Dimensions,
-    TextInput, KeyboardAvoidingViewComponent, KeyboardAvoidingView, Platform,
+    TextInput, KeyboardAvoidingViewComponent, KeyboardAvoidingView, Platform, ScrollView,
 } from "react-native";
 import React, {useState} from "react";
 import CalendarPopup from "../CalendarPopup";
@@ -31,13 +31,13 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     const warnText=" ou are making a shift that goes overnight are you sure you want to submit it?"
     const screenWidth = Dimensions.get('window').width;
     //shift type info
-    const [shiftType, setShiftType] = useState(shiftOptions[0]);
+    const [shiftType, setShiftType] = useState(null);
     const shiftDropdownPress = (index) => {
         setShiftType(index);
     }
     //location info
-    const [location, setLocation] = useState(locationOptions[0].locationName);
-    const [locationId, setLocationId] = useState(locationOptions[0].locationId);
+    const [location, setLocation] = useState(null);
+    const [locationId, setLocationId] = useState(null);
     const [isLocationError, setLocationError] = useState(false)
     let displayedLocations = locationOptions.map(a => a.locationName);
 
@@ -102,8 +102,8 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
         },
     ]
     let displayedRepeats = repeatsOptions.map(a => a.text);
-    const [selectedRepeats, setSelectedRepeats] = useState(repeatsOptions[0].text);
-    const [repeatsID, setRepeatsID] = useState(repeatsOptions[0].id);
+    const [selectedRepeats, setSelectedRepeats] = useState(null);
+    const [repeatsID, setRepeatsID] = useState(null);
     const weekdays = [
         {
             key: 1,
@@ -267,8 +267,9 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
 
     return(
         <KeyboardAwareScrollView
+            keyboardDismissMode={"interactive"}
             contentContainerStyle={[AddPopupStyles.modal, {flex: 1}]}
-            resetScrollToCoords={{ x: 0, y: 0 }}
+            // resetScrollToCoords={{ x: 0, y: 0 }}
             scrollEnabled={true}
         >
             <Text style={styles.sectionTitle}>Add Shift</Text>
@@ -315,7 +316,8 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                             selectedItem={location}
                             placeholder={"Select A Location"}
                             wide={screenWidth/1.2}
-                            hasChevron={true}/>
+                            hasChevron={true}
+                        />
                     </View>
                 }
             </View>
