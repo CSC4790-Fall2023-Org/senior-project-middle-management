@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {View, StyleSheet,} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import {black} from "../utils/Colors";
+import {black, grayAction} from "../utils/Colors";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronDown} from "../utils/Icons";
 
@@ -18,14 +18,14 @@ const MultiWheelPicker = ({wheelData,placeholder, selectedItem, setSelectedItems
                     <RNPickerSelect
                         style={{...pickerSelectStyles,
                             inputIOS: {
-                                width:wide,
-                                color: black,
-                                fontSize: 24,
+                                width: wide,
+                                color: grayAction,
+                                fontSize: 18,
                             },
                             inputAndroid: {
-                                width:wide,
-                                color: black,
-                                fontSize: 24,
+                                width: wide,
+                                color: grayAction,
+                                fontSize: 18,
                             },
 
                         }}
@@ -61,8 +61,8 @@ const pickerSelectStyles = StyleSheet.create({
 
     },
     placeholder: {
-        color: "#000000",
-        fontSize:24
+        color: grayAction,
+        fontSize: 18,
     },
 });
 export default MultiWheelPicker;

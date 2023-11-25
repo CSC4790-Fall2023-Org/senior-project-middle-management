@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
     StyleSheet,
     Modal,
     Text,
     TouchableOpacity,
-    View, TouchableWithoutFeedback, SafeAreaView, FlatList,
+    View, TouchableWithoutFeedback,
 } from "react-native";
 import * as Haptics from "expo-haptics";
 import {
     black,
-    destructiveAction,
     grayAction,
     primaryGreen,
     secondaryGray,
     white
 } from "../utils/Colors";
+import MultiWheelPicker from "./MultiWheelPicker";
 
 function TransferShiftModal({transferShiftModal,
                                 setTransferShiftModal,
@@ -26,8 +26,8 @@ function TransferShiftModal({transferShiftModal,
                                 shiftHours,
                                 shiftLocation}) {
     const [recipientSelected, setRecipientSelected] = useState(false);
-    const [recipientListModal, setRecipientListModal] = useState(false);
-    const [closeAll, setCloseAll] = useState(false);
+    const recipients = ["TJ Nolan", "Diego Messmacher Montes de Oca", "Holden Cormier", "Ralph Gatdula"];
+    const [recipient, setRecipient] = useState(null);
 
     const handleMultipleDays = () => {
         try {
@@ -37,30 +37,18 @@ function TransferShiftModal({transferShiftModal,
         }
     }
 
-    const closeAllModals = () => {
-        setCloseAll(true);
+    const recipientSelection = (index) => {
+        setRecipient(index);
+        if (recipient === "Select Recipient") {
+            setRecipientSelected(false);
+        } else {
+            setRecipientSelected(true);
+        }
     }
-
-    const openList = () => {
-        console.log("Rec list before openList: ", recipientListModal);
-        console.log("transfer before openList: ", transferShiftModal);
-
-        // setRecipientListModal(true);
-        setTransferShiftModal(false);
-
-    }
-
-    useEffect(() => {
-        console.log("Rec list after openList: ", recipientListModal);
-        console.log("transfer after openList: ", transferShiftModal);
-        // Your additional logic after state has been updated
-    }, [recipientListModal]);
 
     const handleSubmit = () => {
         if (recipientSelected) {
-            setCloseAll(true);
             setTransferShiftModal(false);
-            setRecipientListModal(false);
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         }
     }
@@ -72,70 +60,45 @@ function TransferShiftModal({transferShiftModal,
 
     return (
         <View>
-            { transferShiftModal &&
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={transferShiftModal}
-                >
-                    <TouchableWithoutFeedback onPress={() => {setTransferShiftModal(false)}}>
-                        <View style={styles.container}>
-                            <TouchableWithoutFeedback>
-                                <View style={styles.modalView}>
-                                    <Text style={styles.modalText} numberOfLines={2} ellipsizeMode={"middle"}>Transfer '{shiftName}' Shift</Text>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={transferShiftModal}
+            >
+                <TouchableWithoutFeedback onPress={() => {setTransferShiftModal(false)}}>
+                    <View style={styles.container}>
+                        <TouchableWithoutFeedback>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText} numberOfLines={2} ellipsizeMode={"middle"}>Transfer '{shiftName}' Shift</Text>
+                                    <View style={styles.selectorContainer}>
+                                        <MultiWheelPicker
+                                            wheelData={recipients}
+                                            setSelectedItems={recipientSelection}
+                                            selectedItem={recipient}
+                                            placeholder={"Select Recipient"}
+                                            hasChevron={false}
+                                        />
+                                    </View>
+                                <View style={styles.shiftContainer}>
+                                    <Text style={styles.shiftDate}>{handleMultipleDays()}</Text>
+                                    <Text style={styles.shiftTime}>{shiftStartTime} – {shiftEndTime}</Text>
+                                    <Text style={styles.shiftHours}>{shiftHours} {handleSingularHours()}</Text>
+                                    <Text style={styles.shiftLocation}>{shiftLocation}</Text>
+                                </View>
+                                <View style={[styles.submitButton,
+                                    recipientSelected ? {backgroundColor: primaryGreen}
+                                        : {backgroundColor: grayAction}]}>
                                     <TouchableOpacity
-                                        onPress={openList}
-                                        style={{width: "100%"}}
-                                    >
-                                        <View style={styles.selectorContainer}>
-                                            <Text style={styles.selectorText}>Select Recipient</Text>
-                                        </View>
+                                        style={[{width: "100%"}, {alignItems: "center"}]}
+                                        onPress={handleSubmit}>
+                                        <Text style={styles.submitText}>Transfer</Text>
                                     </TouchableOpacity>
-                                    <View style={styles.shiftContainer}>
-                                        <Text style={styles.shiftDate}>{handleMultipleDays()}</Text>
-                                        <Text style={styles.shiftTime}>{shiftStartTime} – {shiftEndTime}</Text>
-                                        <Text style={styles.shiftHours}>{shiftHours} {handleSingularHours()}</Text>
-                                        <Text style={styles.shiftLocation}>{shiftLocation}</Text>
-                                    </View>
-                                    <View style={[styles.submitButton,
-                                        recipientSelected ? {backgroundColor: primaryGreen}
-                                            : {backgroundColor: grayAction}]}>
-                                        <TouchableOpacity
-                                            style={[{width: "100%"}, {alignItems: "center"}]}
-                                            onPress={handleSubmit}>
-                                            <Text style={styles.submitText}>Transfer</Text>
-                                        </TouchableOpacity>
-                                    </View>
                                 </View>
-                            </TouchableWithoutFeedback>
-                        </View>
-                    </TouchableWithoutFeedback>
-                </Modal>
-            }
-
-            { !transferShiftModal &&
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={!transferShiftModal}
-                    onRequestClose={() => {
-                        setTransferShiftModal(true);
-                    }}>
-                    <TouchableWithoutFeedback onPress={() => {setTransferShiftModal(false)}}>
-                        <View style={styles.container}>
-                            <TouchableWithoutFeedback>
-                                <View style={styles.modalView}>
-                                    <View>
-                                        <Text style={styles.modalText}>Recipient List</Text>
-                                    </View>
-                                    <SafeAreaView>
-                                    </SafeAreaView>
-                                </View>
-                            </TouchableWithoutFeedback>
-                        </View>
-                    </TouchableWithoutFeedback>
-                </Modal>
-            }
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>
         </View>
     )
 }
@@ -176,16 +139,14 @@ const styles = StyleSheet.create({
         fontWeight: "500",
     },
     selectorContainer: {
+        flexDirection: "row",
         width: "100%",
         borderColor: primaryGreen,
         borderWidth: 2,
         padding: 12,
         borderRadius: 10,
         alignItems: "center",
-    },
-    selectorText: {
-        fontSize: 20,
-        color: grayAction,
+        justifyContent: "center",
     },
     shiftContainer: {
         width: "100%",
@@ -227,21 +188,6 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         color: white,
     },
-    inputText: {
-        width: "85%",
-        fontSize: 18,
-        padding: 8,
-        marginBottom: 16,
-        borderWidth: 2,
-        borderColor: secondaryGray,
-        borderRadius: 10,
-    },
-    errorBorder: {
-        borderColor: destructiveAction,
-    },
-    listViewContainer: {
-        zIndex: 1,
-    }
 })
 
 export default TransferShiftModal;
