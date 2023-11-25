@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text, TouchableOpacity,  ScrollView} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, ScrollView, StatusBar} from 'react-native';
 import {useNavigation} from "@react-navigation/native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronLeft} from "../utils/Icons";
@@ -17,6 +17,11 @@ const AddShiftPage = ({ route }) => {
     }
     return (
         <View style={{flex: 1}}>
+            <StatusBar
+                barStyle={'dark-content'}
+                animated={true}
+                showHideTransition={'fade'}
+            />
             <View style={styles.headerContainer}>
                 <TouchableOpacity onPress={() => backPress ()} style={styles.icon}>
                     <FontAwesomeIcon icon={ChevronLeft} size={24}/>
