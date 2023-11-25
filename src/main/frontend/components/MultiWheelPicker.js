@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet,} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import {dropdownSelected, placeholderText} from "../utils/Colors";
+import {clickableText, placeholderText} from "../utils/Colors";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronDown} from "../utils/Icons";
 
@@ -16,12 +16,12 @@ const MultiWheelPicker = ({wheelData,placeholder, selectedItem, setSelectedItems
                 style={{...pickerSelectStyles,
                     inputIOS: {
                         width: wide,
-                        color: dropdownSelected,
+                        color: clickableText,
                         fontSize: 18,
                     },
                     inputAndroid: {
                         width: wide,
-                        color: dropdownSelected,
+                        color: clickableText,
                         fontSize: 18,
                     },
                 }}
@@ -32,7 +32,7 @@ const MultiWheelPicker = ({wheelData,placeholder, selectedItem, setSelectedItems
                 value={selectedItem}
                 Icon={() => {
                     if (hasChevron) {
-                        return <FontAwesomeIcon icon={ChevronDown} color={dropdownSelected} size={18}/>;
+                        return <FontAwesomeIcon icon={ChevronDown} color={clickableText} size={18}/>;
                     }
 
                 }}
@@ -52,7 +52,7 @@ const pickerSelectStyles = StyleSheet.create({
     inputAndroid: {
     },
     placeholder: {
-        color: dropdownSelected,
+        color: clickableText,
         fontSize: 18,
     },
 });

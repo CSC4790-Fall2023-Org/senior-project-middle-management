@@ -16,7 +16,7 @@ import MultiWheelPicker from "../MultiWheelPicker";
 import CustomButton from "../CustomButton";
 import {
     black,
-    destructiveAction, dropdownSelected,
+    destructiveAction, clickableText,
     placeholderText,
     primaryGreen,
     secondaryGray,
@@ -362,7 +362,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
             <View style={[AddPopupStyles.dropdownContainer]}>
                 {shiftOptions.length === 1 &&
                     <View>
-                        <Text style={[styles.normalText, {color: dropdownSelected}]}>{shiftOptions[0]}</Text>
+                        <Text style={[styles.normalText, {color: clickableText}]}>{shiftOptions[0]}</Text>
                     </View>
                 }
                 {shiftOptions.length !== 1 &&
@@ -405,7 +405,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
             {/*        <View style={[styles.doubleContainer,*/}
             {/*            {borderRadius: 10, backgroundColor: white},*/}
             {/*            dateWrong ? AddPopupStyles.destructiveAction : null]}>*/}
-            {/*            <Text style={[styles.normalText, {color: dropdownSelected}]}>Select Dates</Text>*/}
+            {/*            <Text style={[styles.normalText, {color: clickableText}]}>Select Dates</Text>*/}
             {/*            <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={18}/>*/}
             {/*        </View>*/}
             {/*    </TouchableOpacity>*/}
@@ -421,13 +421,13 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
             {/*            marginBottom: 18,*/}
             {/*        }]}>*/}
             {/*            <View style={[styles.shortContainer, {width: '45%'}]}>*/}
-            {/*                <Text style={[styles.normalText, {color: dropdownSelected}]}>From</Text>*/}
-            {/*                <Text style={[styles.normalText, {color: dropdownSelected}]}>{startDate}</Text>*/}
+            {/*                <Text style={[styles.normalText, {color: clickableText}]}>From</Text>*/}
+            {/*                <Text style={[styles.normalText, {color: clickableText}]}>{startDate}</Text>*/}
             {/*            </View>*/}
             {/*            <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={40}/>*/}
             {/*            <View style={[styles.shortContainer, {width:'42.5%'}]}>*/}
-            {/*                <Text style={[styles.normalText, {color: dropdownSelected}]}>To</Text>*/}
-            {/*                <Text style={[styles.normalText, {color: dropdownSelected}]}>{endDate}</Text>*/}
+            {/*                <Text style={[styles.normalText, {color: clickableText}]}>To</Text>*/}
+            {/*                <Text style={[styles.normalText, {color: clickableText}]}>{endDate}</Text>*/}
             {/*            </View>*/}
             {/*        </View>*/}
             {/*    </TouchableOpacity>*/}
@@ -436,7 +436,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 <TouchableOpacity onPress={showStartDatePicker}>
                 <View style={styles.dateTimeRow}>
                     <Text style={styles.normalText}>Select Start Date</Text>
-                    <Text style={[styles.normalText, {color: dropdownSelected}]}>
+                    <Text style={[styles.normalText, {color: clickableText}]}>
                         {startDate !== null ? startDate : 'Not selected'}
                     </Text>
                 </View>
@@ -452,7 +452,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 <TouchableOpacity onPress={showEndDatePicker}>
                     <View style={styles.dateTimeRow}>
                         <Text style={styles.normalText}>Select End Date</Text>
-                        <Text style={[styles.normalText, {color: dropdownSelected}]}>
+                        <Text style={[styles.normalText, {color: clickableText}]}>
                             {endDate !== null ? endDate : 'Not selected'}
                         </Text>
                     </View>
@@ -468,7 +468,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 <TouchableOpacity onPress={showStartTimePicker}>
                     <View style={styles.dateTimeRow}>
                         <Text style={styles.normalText}>Select Start Time</Text>
-                        <Text style={[styles.normalText, {color: dropdownSelected}]}>
+                        <Text style={[styles.normalText, {color: clickableText}]}>
                             {startTime !== null ? startTime : 'Not selected'}
                         </Text>
                     </View>
@@ -484,7 +484,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 <TouchableOpacity onPress={showEndTimePicker}>
                     <View style={[styles.dateTimeRow, {borderBottomWidth: 0}]}>
                         <Text style={styles.normalText}>Select End Time</Text>
-                        <Text style={[styles.normalText, {color: dropdownSelected}]}>
+                        <Text style={[styles.normalText, {color: clickableText}]}>
                             {endTime !== null ? endTime : 'Not selected'}
                         </Text>
                     </View>
@@ -572,7 +572,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                             ]}
                         >
                             <Text style={[!weekdaysPressed.includes(day.key) ?
-                                {color: dropdownSelected}
+                                {color: clickableText}
                                 : {color: white},
                                 {fontSize: 18}]}
                             >

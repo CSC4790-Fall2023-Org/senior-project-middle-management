@@ -7,6 +7,6 @@ export const white = '#FFFFFF';
 export const grayBackground = '#F3F2F7';
 export const secondaryGray = '#C6C5C7';
 export const placeholderText = '#C5C5C7';
-export const dropdownSelected= '#8A898D';
+export const clickableText= '#8A898D';
 export const black = '#000000';
 export const transparentBackground = 'rgba(0, 0, 0, 0.5)';
