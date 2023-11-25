@@ -16,7 +16,7 @@ const AddShiftPage = ({ route }) => {
         navigation.goBack()
     }
     return (
-        <View>
+        <View style={{flex: 1}}>
             <View style={styles.headerContainer}>
                 <TouchableOpacity onPress={() => backPress ()} style={styles.icon}>
                     <FontAwesomeIcon icon={ChevronLeft} size={24}/>
@@ -26,9 +26,7 @@ const AddShiftPage = ({ route }) => {
             <ScrollView style={styles.pageScroll}>
                 <AddShiftBody backPress={backPress} shiftOptions={shiftOptions} locationOptions={locationOptions}/>
             </ScrollView>
-
         </View>
-
     );
 }
 
@@ -57,6 +55,7 @@ const styles = StyleSheet.create({
         width: 48,
     },
     pageScroll: {
+        flex: 1,
         backgroundColor: grayBackground,
         height: "100%",
     },
