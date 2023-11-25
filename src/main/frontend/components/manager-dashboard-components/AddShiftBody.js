@@ -442,7 +442,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
             <View style={styles.dateTimeContainer}>
                 <TouchableOpacity onPress={showStartDatePicker}>
                 <View style={styles.dateTimeRow}>
-                    <Text style={styles.normalText}>Select Start Date</Text>
+                    <Text style={styles.normalText}>Start Date</Text>
                     <Text style={[styles.normalText, {color: clickableText}]}>
                         {startDate !== null ? startDate : 'Not selected'}
                     </Text>
@@ -458,7 +458,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={showEndDatePicker}>
                     <View style={styles.dateTimeRow}>
-                        <Text style={styles.normalText}>Select End Date</Text>
+                        <Text style={styles.normalText}>End Date</Text>
                         <Text style={[styles.normalText, {color: clickableText}]}>
                             {endDate !== null ? endDate : 'Not selected'}
                         </Text>
@@ -474,7 +474,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={showStartTimePicker}>
                     <View style={styles.dateTimeRow}>
-                        <Text style={styles.normalText}>Select Start Time</Text>
+                        <Text style={styles.normalText}>Start Time</Text>
                         <Text style={[styles.normalText, {color: clickableText}]}>
                             {startTime !== null ? startTime : 'Not selected'}
                         </Text>
@@ -490,7 +490,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={showEndTimePicker}>
                     <View style={[styles.dateTimeRow, {borderBottomWidth: 0}]}>
-                        <Text style={styles.normalText}>Select End Time</Text>
+                        <Text style={styles.normalText}>End Time</Text>
                         <Text style={[styles.normalText, {color: clickableText}]}>
                             {endTime !== null ? endTime : 'Not selected'}
                         </Text>
