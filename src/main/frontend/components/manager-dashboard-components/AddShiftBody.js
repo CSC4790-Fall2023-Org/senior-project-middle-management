@@ -38,15 +38,15 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     //location info
     const [location, setLocation] = useState(null);
     const [locationId, setLocationId] = useState(null);
-    const [isLocationError, setLocationError] = useState(false)
+    const [isLocationError, setLocationError] = useState(false);
     let displayedLocations = locationOptions.map(a => a.locationName);
 
     const locationDropdownPress = (index) => {
-        setLocationError(false)
         setLocation(index);
-        for(let i = 0; i < locationOptions.length; i++){
-            if(location === locationOptions[i].locationName){
-                setLocationId(locationOptions[i].locationId)
+        for (let i = 0; i < locationOptions.length; i++) {
+            if (location === locationOptions[i].locationName) {
+                setLocationId(locationOptions[i].locationId);
+                setLocationError(false);
             }
         }
     }
@@ -71,20 +71,21 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
 
     //calendar info
     const [isCalendarVisible, setCalendarVisible] = useState(null);
-    const handleCalendar = () =>{
-        setCalendarVisible(!isCalendarVisible)
+    const handleCalendar = () => {
+        setCalendarVisible(!isCalendarVisible);
     }
     const [selectedStartDate, setSelectedStartDate] = useState(null);
     const startDate = selectedStartDate ? selectedStartDate.format('MM/DD/YYYY').toString() : '';
     const [selectedEndDate, setSelectedEndDate] = useState(null);
     const endDate = selectedEndDate ? selectedEndDate.format('MM/DD/YYYY').toString() : '';
-    const [dateWrong, setDateWrong] = useState(false)
+    const [dateWrong, setDateWrong] = useState(false);
     //shift name info
     const [shiftName, setShiftName] = useState("");
     const [isShiftNameEmpty, setShiftNameEmpty] = useState(false);
 
     //repeats info
-    const repeatsOptions = [{
+    const repeatsOptions = [
+        {
             id: 0,
             text: 'Never',
         },
@@ -100,7 +101,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
             id: 3,
             text: 'Monthly',
         },
-    ]
+    ];
     let displayedRepeats = repeatsOptions.map(a => a.text);
     const [selectedRepeats, setSelectedRepeats] = useState(null);
     const [repeatsID, setRepeatsID] = useState(null);
@@ -132,20 +133,20 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
         {
             key: 7,
             text: 'Sun',
-        },]
+        },
+    ];
 
     const [weekdaysPressed, setWeekdaysPressed] = useState([]);
-    const [noWeekdaysPressed, setNoWeekdaysPressed] = useState(false)
+    const [noWeekdaysPressed, setNoWeekdaysPressed] = useState(false);
 
     const handleWeekdayPress = (index) => {
-        setNoWeekdaysPressed(false)
+        setNoWeekdaysPressed(false);
         if (weekdaysPressed.includes(index)) {
             const newData = weekdaysPressed.filter((item) => item !== index);
             setWeekdaysPressed(newData);
-        }
-        else{
-            const addDay = [index]
-            setWeekdaysPressed([].concat(weekdaysPressed,addDay))
+        } else {
+            const addDay = [index];
+            setWeekdaysPressed([].concat(weekdaysPressed,addDay));
         }
     };
 
@@ -167,72 +168,71 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     const handleWarnVisible = () =>{
         setWarnModal(!warnModal)
     }
-    const handleErrors = () =>{
-        let timeStart = startHour+(startMinute/100)
-        let timeEnd = endHour+(endMinute/100)
-        let noErrors= true
-        if(endPeriod === "PM"){
-            timeEnd += 12
+    const handleErrors = () => {
+        let timeStart = startHour+(startMinute/100);
+        let timeEnd = endHour+(endMinute/100);
+        let noErrors= true;
+        if (endPeriod === "PM") {
+            timeEnd += 12;
         }
-        if(startPeriod === "PM"){
-            timeStart += 12
+        if (startPeriod === "PM") {
+            timeStart += 12;
         }
-        if(locationOptions.length === 1){
-            setLocationId(locationOptions[0].locationId)
+        if (locationOptions.length === 1) {
+            setLocationId(locationOptions[0].locationId);
         }
-        if(shiftOptions.length === 1){
-            setShiftType(shiftOptions[0])
+        if (shiftOptions.length === 1) {
+            setShiftType(shiftOptions[0]);
         }
-        if(shiftName.trim() === ''){
+        if (shiftName.trim() === '') {
             setShiftNameEmpty(true);
             noErrors=false;
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
         }
-        if(!endDate || !startDate){
+        if (!endDate || !startDate) {
             setDateWrong(true);
             noErrors=false;
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
         }
-        if(!locationId){
+        if (!locationId) {
             setLocationError(true);
             noErrors=false;
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
         }
-        if(weekdaysPressed.length === 0){
+        if (weekdaysPressed.length === 0) {
             setNoWeekdaysPressed(true);
             noErrors=false;
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
         }
-        if(!numShifts){
+        if (!numShifts) {
             setNumShiftsError(true);
             noErrors=false;
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
         }
-        if(noErrors) {
-                if (timeEnd < timeStart) {
-                    setWarnModal(true)
-                } else {
-                    handleShiftAdd()
-                }
+        if (noErrors) {
+            if (timeEnd < timeStart) {
+                setWarnModal(true);
+            } else {
+                handleShiftAdd();
+            }
         }
-
     }
     //post to Mongo
     const handleShiftAdd = () => {
-        setWarnModal(false)
-        const weekdays = weekdaysPressed.sort()
-        const isEndPeriod = (endPeriod === "AM")
-        const isStartPeriod = (startPeriod === "AM")
+        setWarnModal(false);
+        const weekdays = weekdaysPressed.sort();
+        const isEndPeriod = (endPeriod === "AM");
+        const isStartPeriod = (startPeriod === "AM");
         //update fetch url according to IPv4 of Wi-Fi
         fetch('http://' + ipAddy + ':8080/createShifts', {
             method: 'POST',
@@ -262,13 +262,13 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
             .catch(error => {
                 console.error(error);
             });
-        backPress()
+        backPress();
     }
 
     return(
         <KeyboardAwareScrollView
             keyboardDismissMode={"interactive"}
-            contentContainerStyle={[AddPopupStyles.modal, {flex: 1}]}
+            contentContainerStyle={[AddPopupStyles.modal, {flex: 1}, {height: "100%"}]}
             // resetScrollToCoords={{ x: 0, y: 0 }}
             scrollEnabled={true}
         >
@@ -286,10 +286,12 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
             <Text style={styles.sectionSubtitle}>Shift Type</Text>
             <View style={[AddPopupStyles.dropdownContainer]}>
                 {shiftOptions.length === 1 &&
-                    <Text style={[styles.normalText, {color: dropdownSelected}]}>{shiftOptions[0]}</Text>
+                    <View>
+                        <Text style={[styles.normalText, {color: dropdownSelected}]}>{shiftOptions[0]}</Text>
+                    </View>
                 }
                 {shiftOptions.length !== 1 &&
-                    <View style={[styles.doubleContainer]}>
+                    <View style={styles.doubleContainer}>
                         <MultiWheelPicker
                             wheelData={shiftOptions}
                             selectedItem={shiftType}
@@ -302,45 +304,37 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 }
             </View>
             <Text style={styles.sectionSubtitle}>Location</Text>
-            <View style={[AddPopupStyles.dropdownContainer]}>
+            <View style={[AddPopupStyles.dropdownContainer, isLocationError ? AddPopupStyles.destructiveAction:{}]}>
                 {displayedLocations.length === 1 &&
-                    <View style={[AddPopupStyles.longContainer]}>
+                    <View>
                         <Text style={{fontSize:18}}>{locationOptions[0].locationName}</Text>
                     </View>
                 }
                 {displayedLocations.length !== 1 &&
-                    <View style={[styles.doubleContainer, isLocationError ? AddPopupStyles.destructiveAction:{}]}>
-                        <MultiWheelPicker
-                            wheelData={displayedLocations}
-                            setSelectedItems={locationDropdownPress}
-                            selectedItem={location}
-                            placeholder={"Select A Location"}
-                            wide={screenWidth/1.2}
-                            hasChevron={true}
-                        />
-                    </View>
+                    <MultiWheelPicker
+                        wheelData={displayedLocations}
+                        setSelectedItems={locationDropdownPress}
+                        selectedItem={location}
+                        placeholder={"Select A Location"}
+                        wide={screenWidth/1.2}
+                        hasChevron={true}
+                    />
                 }
             </View>
             <Text style={styles.sectionSubtitle}>Date and Time</Text>
             {(!startDate || !endDate) &&
-            <TouchableOpacity onPress={() => {
-                handleCalendar()
-                setDateWrong(false)
-            }}>
-                <View style={[styles.doubleContainer,
-                    {borderRadius: 10, backgroundColor: white},
-                    dateWrong ? AddPopupStyles.destructiveAction : {borderColor: secondaryGray}]}>
-                        <View style={[styles.doubleContainer, {width:'100%'}]}>
-                            <View style={styles.shortContainer}>
-                                <Text style={[styles.normalText, {color: dropdownSelected}]}>Select Dates</Text>
-                            </View>
-                            <View style={styles.shortContainer}>
-                                <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={18}/>
-                            </View>
-                        </View>
-
-                </View>
-            </TouchableOpacity>}
+                <TouchableOpacity onPress={() => {
+                    handleCalendar()
+                    setDateWrong(false)
+                }}>
+                    <View style={[styles.doubleContainer,
+                        {borderRadius: 10, backgroundColor: white},
+                        dateWrong ? AddPopupStyles.destructiveAction : null]}>
+                        <Text style={[styles.normalText, {color: dropdownSelected}]}>Select Dates</Text>
+                        <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={18}/>
+                    </View>
+                </TouchableOpacity>
+            }
             {(startDate && endDate) &&
                 <TouchableOpacity onPress={() => {
                 handleCalendar()
@@ -417,20 +411,18 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
             </View>
             <Text style={styles.sectionSubtitle}>Repeats</Text>
             <View style={[AddPopupStyles.dropdownContainer]}>
-                <View style={[styles.doubleContainer]}>
-                    <MultiWheelPicker
-                        wheelData={displayedRepeats}
-                        setSelectedItems={repeatsDropdownPress}
-                        selectedItem={selectedRepeats}
-                        placeholder={"Select Option"}
-                        wide={screenWidth/1.2}
-                        hasChevron={true}
-                    />
-                </View>
+                <MultiWheelPicker
+                    wheelData={displayedRepeats}
+                    setSelectedItems={repeatsDropdownPress}
+                    selectedItem={selectedRepeats}
+                    placeholder={"Select Option"}
+                    wide={screenWidth/1.2}
+                    hasChevron={true}
+                />
             </View>
             <View style={[styles.dayContainer, noWeekdaysPressed ? AddPopupStyles.destructiveAction:{}]}>
                 {weekdays.map(day  =>
-                    <TouchableOpacity onPress={() => handleWeekdayPress(day.key)} key={day.key}>
+                    <TouchableWithoutFeedback onPress={() => handleWeekdayPress(day.key)} key={day.key}>
                         <View
                             style={[weekdaysPressed.includes(day.key) ?
                                 {backgroundColor: primaryGreen}
@@ -446,13 +438,13 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                                 {day.text}
                             </Text>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableWithoutFeedback>
 
                 )}
             </View>
             <TextInput
                 style={[styles.inputText, isShiftNameEmpty ? styles.errorBorder : null]}
-                onChangeText={(numShifts)=>{
+                onChangeText={(numShifts)=> {
                     setNumShifts(numShifts)
                     setNumShiftsError(false)
                 }}
@@ -485,21 +477,6 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    inner: {
-        padding: 24,
-        flex: 1,
-        justifyContent: 'flex-end',
-    },
-    inputTest: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 20,
-        padding: 10,
-    },
     titleContainer: {
         width: '100%',
         alignItems: 'flex-start',
@@ -523,7 +500,7 @@ const styles = StyleSheet.create({
         width: "100%",
         fontSize: 18,
         //fontFamily: 'HelveticaNeue-Medium',
-        padding: 8,
+        padding: 12,
         marginBottom: 18,
         backgroundColor: white,
         borderRadius: 10,
@@ -536,6 +513,7 @@ const styles = StyleSheet.create({
         borderColor: destructiveAction,
     },
     doubleContainer: {
+        padding: 12,
         //backgroundColor: 'blue',
         flexDirection: "row",
         alignItems: "center",
@@ -547,7 +525,10 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        padding: 8,
+        //padding: 12,
+    },
+    container: {
+        width: "100%",
     },
     dayContainer: {
         flexDirection: "row",

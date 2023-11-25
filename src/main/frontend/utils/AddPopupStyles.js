@@ -34,7 +34,7 @@ export const AddPopupStyles = StyleSheet.create({
         width: "100%",
         //fontSize: 18,
         //fontFamily: 'HelveticaNeue-Medium',
-        padding: 8,
+        padding: 12,
         marginBottom: 18,
     },
     input: {
