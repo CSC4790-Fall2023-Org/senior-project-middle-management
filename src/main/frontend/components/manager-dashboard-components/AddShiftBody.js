@@ -28,6 +28,7 @@ import {ipAddy} from "../../utils/IPAddress";
 import {AddPopupStyles} from "../../utils/AddPopupStyles";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import moment from 'moment';
 
 const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     const warnText=" ou are making a shift that goes overnight are you sure you want to submit it?"
@@ -267,19 +268,67 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
         backPress();
     }
 
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
 
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
+    const showStartDatePicker = () => {
+        setStartDatePickerVisibility(true);
     };
 
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
+    const hideStartDatePicker = () => {
+        setStartDatePickerVisibility(false);
     };
 
-    const handleConfirm = (date) => {
-        console.warn("A date has been picked: ", date);
-        hideDatePicker();
+    const handleStartDateConfirm = (date) => {
+        console.warn("A start date has been picked: ", moment(date).format('MM/DD/YYYY'));
+        hideStartDatePicker();
+    };
+
+    const [isEndDatePickerVisible, setEndDatePickerVisibility] = useState(false);
+
+    const showEndDatePicker = () => {
+        setEndDatePickerVisibility(true);
+    };
+
+    const hideEndDatePicker = () => {
+        setEndDatePickerVisibility(false);
+    };
+
+    const handleEndDateConfirm = (date) => {
+        console.warn("An end date has been picked: ", moment(date).format('MM/DD/YYYY'));
+        hideEndDatePicker();
+    };
+
+    const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
+
+    const showStartTimePicker = () => {
+        setStartTimePickerVisibility(true);
+    };
+
+    const hideStartTimePicker = () => {
+        setStartTimePickerVisibility(false);
+    };
+
+    const handleStartTimeConfirm = (time) => {
+        console.warn("A start time has been picked: ", moment(time).format('HH:mm'));
+        hideStartTimePicker();
+    };
+
+    const [isEndTimePickerVisible, setEndTimePickerVisibility] = useState(false);
+    const [endTime, setEndTime] = useState(null);
+
+    const showEndTimePicker = () => {
+        setEndTimePickerVisibility(true);
+    };
+
+    const hideEndTimePicker = () => {
+        setEndTimePickerVisibility(false);
+    };
+
+    const handleEndTimeConfirm = (time) => {
+        const formattedEndTime = moment(time).format('HH:mm').toString();
+        setEndTime(formattedEndTime);
+        console.warn("An end time has been picked: ", moment(time).format('HH:mm'));
+        hideEndTimePicker();
     };
 
     return(
@@ -375,56 +424,63 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
             {/*    </TouchableOpacity>*/}
             {/*}*/}
             <View style={styles.dateTimeContainer}>
-                <TouchableOpacity onPress={showDatePicker}>
+                <TouchableOpacity onPress={showStartDatePicker}>
                 <View style={styles.dateTimeRow}>
                     <Text style={styles.normalText}>Select Start Date</Text>
                     <Text style={[styles.normalText, {color: dropdownSelected}]}>Date</Text>
                 </View>
                 <DateTimePickerModal
-                    isVisible={isDatePickerVisible}
+                    isVisible={isStartDatePickerVisible}
                     mode="date"
-                    onConfirm={handleConfirm}
-                    onCancel={hideDatePicker}
+                    onConfirm={handleStartDateConfirm}
+                    onCancel={hideStartDatePicker}
                     themeVariant={"light"}
+                    display={"inline"}
                 />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={showDatePicker}>
+                <TouchableOpacity onPress={showEndDatePicker}>
                     <View style={styles.dateTimeRow}>
                         <Text style={styles.normalText}>Select End Date</Text>
                         <Text style={[styles.normalText, {color: dropdownSelected}]}>Date</Text>
                     </View>
                     <DateTimePickerModal
-                        isVisible={isDatePickerVisible}
+                        isVisible={isEndDatePickerVisible}
                         mode="date"
-                        onConfirm={handleConfirm}
-                        onCancel={hideDatePicker}
+                        onConfirm={handleEndDateConfirm}
+                        onCancel={hideEndDatePicker}
                         themeVariant={"light"}
+                        display={"inline"}
                     />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={showDatePicker}>
+                <TouchableOpacity onPress={showStartTimePicker}>
                     <View style={styles.dateTimeRow}>
                         <Text style={styles.normalText}>Select Start Time</Text>
                         <Text style={[styles.normalText, {color: dropdownSelected}]}>Date</Text>
                     </View>
                     <DateTimePickerModal
-                        isVisible={isDatePickerVisible}
+                        isVisible={isStartTimePickerVisible}
                         mode="time"
-                        onConfirm={handleConfirm}
-                        onCancel={hideDatePicker}
+                        onConfirm={handleStartTimeConfirm}
+                        onCancel={hideStartTimePicker}
                         themeVariant={"light"}
+                        display={"spinner"}
                     />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={showDatePicker}>
+                <TouchableOpacity onPress={showEndTimePicker}>
                     <View style={[styles.dateTimeRow, {borderBottomWidth: 0}]}>
                         <Text style={styles.normalText}>Select End Time</Text>
-                        <Text style={[styles.normalText, {color: dropdownSelected}]}>Date</Text>
+                        <Text style={[styles.normalText, {color: dropdownSelected}]}>
+                            {endTime !== null ? endTime : 'Not selected'}
+                        </Text>
+                        {console.log("End time: ", endTime)}
                     </View>
                     <DateTimePickerModal
-                        isVisible={isDatePickerVisible}
+                        isVisible={isEndTimePickerVisible}
                         mode="time"
-                        onConfirm={handleConfirm}
-                        onCancel={hideDatePicker}
+                        onConfirm={handleEndTimeConfirm}
+                        onCancel={hideEndTimePicker}
                         themeVariant={"light"}
+                        display={"spinner"}
                     />
                 </TouchableOpacity>
             </View>
