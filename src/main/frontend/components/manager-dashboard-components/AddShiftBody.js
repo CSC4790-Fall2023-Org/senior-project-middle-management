@@ -54,14 +54,14 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
         }
     }
     //start & end hour info
-    const hourOptions = [2, 3, 4, 5 ,6 ,7 ,8, 9, 10, 11, 12]
-    const [startHour, setStartHour] = useState(1);
-    const [endHour, setEndHour] = useState(1);
+    // const hourOptions = [2, 3, 4, 5 ,6 ,7 ,8, 9, 10, 11, 12]
+    // const [startHour, setStartHour] = useState(1);
+    // const [endHour, setEndHour] = useState(1);
 
     //start & end minute info
-    const minOptions = ["05", "10", "15", "20", "25" ,"30" ,"35", "40", "45", "50", "55"]
-    const [startMinute, setStartMinute] = useState("00");
-    const [endMinute, setEndMinute] = useState("00");
+    // const minOptions = ["05", "10", "15", "20", "25" ,"30" ,"35", "40", "45", "50", "55"]
+    // const [startMinute, setStartMinute] = useState("00");
+    // const [endMinute, setEndMinute] = useState("00");
 
     //start & end Am Pm
     const timePeriods = ["PM"]
@@ -305,6 +305,8 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     };
 
     const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
+    const [startHour, setStartHour] = useState(null);
+    const [startMinute, setStartMinute] = useState(null);
     const [startTime, setStartTime] = useState(null);
 
     const showStartTimePicker = () => {
@@ -316,9 +318,14 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     };
 
     const handleStartTimeConfirm = (time) => {
-        const formattedStartTime = moment(time).format('h:mm A')
+        const formattedStartTime = moment(time).format('h:mm A');
+        const hour = moment(formattedStartTime, 'h:mm A').hour();
+        const min = moment(formattedStartTime, 'h:mm A').minute();
+        setStartHour(hour);
+        setStartMinute(min);
         setStartTime(formattedStartTime);
-        console.warn("A start time has been picked: ", formattedStartTime);
+        console.log("Start hour: ", startHour);
+        console.warn("A start time has been picked: ", hour);
         hideStartTimePicker();
     };
 
