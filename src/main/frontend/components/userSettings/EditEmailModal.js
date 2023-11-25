@@ -10,7 +10,15 @@ import {
     KeyboardAvoidingView, TouchableWithoutFeedback,
 } from "react-native";
 import * as Haptics from "expo-haptics";
-import {black, destructiveAction, grayAction, primaryGreen, secondaryGray, white} from "../../utils/Colors";
+import {
+    black,
+    destructiveAction,
+    grayAction,
+    grayBackground,
+    primaryGreen,
+    secondaryGray,
+    white
+} from "../../utils/Colors";
 import employeeData from "../../mockApiCalls/employeeData.json";
 
 function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
@@ -115,7 +123,7 @@ const styles = StyleSheet.create({
     modalView: {
         margin: 24,
         width: "75%",
-        backgroundColor: 'white',
+        backgroundColor: grayBackground,
         borderRadius: 10,
         padding: 24,
         paddingBottom: 0,
@@ -143,17 +151,16 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     submitText: {
-        fontSize: 24,
-        fontWeight: "500",
+        fontSize: 17,
         color: white,
+        fontWeight: "500",
     },
     inputText: {
         width: "100%",
-        fontSize: 18,
+        fontSize: 17,
         padding: 8,
         marginBottom: 24,
-        borderWidth: 2,
-        borderColor: secondaryGray,
+        backgroundColor: white,
         borderRadius: 10,
     },
     errorBorder: {
