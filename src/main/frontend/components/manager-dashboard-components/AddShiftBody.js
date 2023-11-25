@@ -78,9 +78,9 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
         setCalendarVisible(!isCalendarVisible);
     }
     const [selectedStartDate, setSelectedStartDate] = useState(null);
-    const startDate = selectedStartDate ? selectedStartDate.format('MM/DD/YYYY').toString() : '';
+    //const startDate = selectedStartDate ? selectedStartDate.format('MM/DD/YYYY').toString() : '';
     const [selectedEndDate, setSelectedEndDate] = useState(null);
-    const endDate = selectedEndDate ? selectedEndDate.format('MM/DD/YYYY').toString() : '';
+    //const endDate = selectedEndDate ? selectedEndDate.format('MM/DD/YYYY').toString() : '';
     const [dateWrong, setDateWrong] = useState(false);
     //shift name info
     const [shiftName, setShiftName] = useState("");
@@ -269,6 +269,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     }
 
     const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
+    const [startDate, setStartDate] = useState(null);
 
     const showStartDatePicker = () => {
         setStartDatePickerVisibility(true);
@@ -279,11 +280,14 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     };
 
     const handleStartDateConfirm = (date) => {
+        const formattedStartDate = moment(date).format('MM/DD/YYYY');
+        setStartDate(formattedStartDate);
         console.warn("A start date has been picked: ", moment(date).format('MM/DD/YYYY'));
         hideStartDatePicker();
     };
 
     const [isEndDatePickerVisible, setEndDatePickerVisibility] = useState(false);
+    const [endDate, setEndDate] = useState(null);
 
     const showEndDatePicker = () => {
         setEndDatePickerVisibility(true);
@@ -294,11 +298,14 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     };
 
     const handleEndDateConfirm = (date) => {
-        console.warn("An end date has been picked: ", moment(date).format('MM/DD/YYYY'));
+        const formattedEndDate = moment(date).format('MM/DD/YYYY');
+        setEndDate(formattedEndDate);
+        console.warn("An end date has been picked: ", formattedEndDate);
         hideEndDatePicker();
     };
 
     const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
+    const [startTime, setStartTime] = useState(null);
 
     const showStartTimePicker = () => {
         setStartTimePickerVisibility(true);
@@ -309,7 +316,9 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     };
 
     const handleStartTimeConfirm = (time) => {
-        console.warn("A start time has been picked: ", moment(time).format('HH:mm'));
+        const formattedStartTime = moment(time).format('h:mm A')
+        setStartTime(formattedStartTime);
+        console.warn("A start time has been picked: ", formattedStartTime);
         hideStartTimePicker();
     };
 
@@ -325,9 +334,9 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     };
 
     const handleEndTimeConfirm = (time) => {
-        const formattedEndTime = moment(time).format('HH:mm').toString();
+        const formattedEndTime = moment(time).format('h:mm A')
         setEndTime(formattedEndTime);
-        console.warn("An end time has been picked: ", moment(time).format('HH:mm'));
+        console.warn("An end time has been picked: ", formattedEndTime);
         hideEndTimePicker();
     };
 
@@ -427,7 +436,9 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 <TouchableOpacity onPress={showStartDatePicker}>
                 <View style={styles.dateTimeRow}>
                     <Text style={styles.normalText}>Select Start Date</Text>
-                    <Text style={[styles.normalText, {color: dropdownSelected}]}>Date</Text>
+                    <Text style={[styles.normalText, {color: dropdownSelected}]}>
+                        {startDate !== null ? startDate : 'Not selected'}
+                    </Text>
                 </View>
                 <DateTimePickerModal
                     isVisible={isStartDatePickerVisible}
@@ -441,7 +452,9 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 <TouchableOpacity onPress={showEndDatePicker}>
                     <View style={styles.dateTimeRow}>
                         <Text style={styles.normalText}>Select End Date</Text>
-                        <Text style={[styles.normalText, {color: dropdownSelected}]}>Date</Text>
+                        <Text style={[styles.normalText, {color: dropdownSelected}]}>
+                            {endDate !== null ? endDate : 'Not selected'}
+                        </Text>
                     </View>
                     <DateTimePickerModal
                         isVisible={isEndDatePickerVisible}
@@ -455,7 +468,9 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 <TouchableOpacity onPress={showStartTimePicker}>
                     <View style={styles.dateTimeRow}>
                         <Text style={styles.normalText}>Select Start Time</Text>
-                        <Text style={[styles.normalText, {color: dropdownSelected}]}>Date</Text>
+                        <Text style={[styles.normalText, {color: dropdownSelected}]}>
+                            {startTime !== null ? startTime : 'Not selected'}
+                        </Text>
                     </View>
                     <DateTimePickerModal
                         isVisible={isStartTimePickerVisible}
@@ -472,7 +487,6 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                         <Text style={[styles.normalText, {color: dropdownSelected}]}>
                             {endTime !== null ? endTime : 'Not selected'}
                         </Text>
-                        {console.log("End time: ", endTime)}
                     </View>
                     <DateTimePickerModal
                         isVisible={isEndTimePickerVisible}
