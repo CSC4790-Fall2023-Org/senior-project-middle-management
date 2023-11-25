@@ -6,7 +6,7 @@ import {
     Keyboard,
     TouchableOpacity,
     Dimensions,
-    TextInput, KeyboardAvoidingViewComponent, KeyboardAvoidingView, Platform, ScrollView,
+    TextInput, KeyboardAvoidingViewComponent, KeyboardAvoidingView, Platform, ScrollView, Button,
 } from "react-native";
 import React, {useState} from "react";
 import CalendarPopup from "../CalendarPopup";
@@ -15,6 +15,7 @@ import {Calendar} from '../../utils/Icons';
 import MultiWheelPicker from "../MultiWheelPicker";
 import CustomButton from "../CustomButton";
 import {
+    black,
     destructiveAction, dropdownSelected,
     placeholderText,
     primaryGreen,
@@ -26,6 +27,7 @@ import WarnPopup from "./WarnPopup";
 import {ipAddy} from "../../utils/IPAddress";
 import {AddPopupStyles} from "../../utils/AddPopupStyles";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     const warnText=" ou are making a shift that goes overnight are you sure you want to submit it?"
@@ -265,6 +267,21 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
         backPress();
     }
 
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+
+    const handleConfirm = (date) => {
+        console.warn("A date has been picked: ", date);
+        hideDatePicker();
+    };
+
     return(
         <KeyboardAwareScrollView
             keyboardDismissMode={"interactive"}
@@ -322,93 +339,147 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 }
             </View>
             <Text style={styles.sectionSubtitle}>Date and Time</Text>
-            {(!startDate || !endDate) &&
-                <TouchableOpacity onPress={() => {
-                    handleCalendar()
-                    setDateWrong(false)
-                }}>
-                    <View style={[styles.doubleContainer,
-                        {borderRadius: 10, backgroundColor: white},
-                        dateWrong ? AddPopupStyles.destructiveAction : null]}>
-                        <Text style={[styles.normalText, {color: dropdownSelected}]}>Select Dates</Text>
-                        <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={18}/>
-                    </View>
-                </TouchableOpacity>
-            }
-            {(startDate && endDate) &&
-                <TouchableOpacity onPress={() => {
-                handleCalendar()
-                setDateWrong(false)
-                }}>
-                    <View style={[styles.doubleContainer, {
-                        borderRadius: 10,
-                        backgroundColor: white,
-                        marginBottom: 18,
-                    }]}>
-                        <View style={[styles.shortContainer, {width: '45%'}]}>
-                            <Text style={[styles.normalText, {color: dropdownSelected}]}>From</Text>
-                            <Text style={[styles.normalText, {color: dropdownSelected}]}>{startDate}</Text>
-                        </View>
-                        <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={40}/>
-                        <View style={[styles.shortContainer, {width:'42.5%'}]}>
-                            <Text style={[styles.normalText, {color: dropdownSelected}]}>To</Text>
-                            <Text style={[styles.normalText, {color: dropdownSelected}]}>{endDate}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-            }
-            <View style={[styles.doubleContainer]}>
-                <View style={[styles.shortContainer, {width:"50%"}]}>
-                    <Text style={styles.sectionSubtitle}>Start Time</Text>
-                    <View style={[styles.doubleContainer, {width: "55%"}]}>
-                        <MultiWheelPicker
-                            wheelData={hourOptions}
-                            placeholder={1}
-                            selectedItem={startHour}
-                            setSelectedItems={setStartHour}
-                        />
-                        <Text style={styles.normalText}>:</Text>
-                        <MultiWheelPicker
-                            wheelData={minOptions}
-                            placeholder={"00"}
-                            selectedItem={startMinute}
-                            setSelectedItems={setStartMinute}
-                        />
-                        <Text> </Text>
-                        <MultiWheelPicker
-                            wheelData={timePeriods}
-                            placeholder={"AM"}
-                            selectedItem={startPeriod}
-                            setSelectedItems={setStartPeriod}
-                        />
-                    </View>
+            {/*{(!startDate || !endDate) &&*/}
+            {/*    <TouchableOpacity onPress={() => {*/}
+            {/*        handleCalendar()*/}
+            {/*        setDateWrong(false)*/}
+            {/*    }}>*/}
+            {/*        <View style={[styles.doubleContainer,*/}
+            {/*            {borderRadius: 10, backgroundColor: white},*/}
+            {/*            dateWrong ? AddPopupStyles.destructiveAction : null]}>*/}
+            {/*            <Text style={[styles.normalText, {color: dropdownSelected}]}>Select Dates</Text>*/}
+            {/*            <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={18}/>*/}
+            {/*        </View>*/}
+            {/*    </TouchableOpacity>*/}
+            {/*}*/}
+            {/*{(startDate && endDate) &&*/}
+            {/*    <TouchableOpacity onPress={() => {*/}
+            {/*    handleCalendar()*/}
+            {/*    setDateWrong(false)*/}
+            {/*    }}>*/}
+            {/*        <View style={[styles.doubleContainer, {*/}
+            {/*            borderRadius: 10,*/}
+            {/*            backgroundColor: white,*/}
+            {/*            marginBottom: 18,*/}
+            {/*        }]}>*/}
+            {/*            <View style={[styles.shortContainer, {width: '45%'}]}>*/}
+            {/*                <Text style={[styles.normalText, {color: dropdownSelected}]}>From</Text>*/}
+            {/*                <Text style={[styles.normalText, {color: dropdownSelected}]}>{startDate}</Text>*/}
+            {/*            </View>*/}
+            {/*            <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={40}/>*/}
+            {/*            <View style={[styles.shortContainer, {width:'42.5%'}]}>*/}
+            {/*                <Text style={[styles.normalText, {color: dropdownSelected}]}>To</Text>*/}
+            {/*                <Text style={[styles.normalText, {color: dropdownSelected}]}>{endDate}</Text>*/}
+            {/*            </View>*/}
+            {/*        </View>*/}
+            {/*    </TouchableOpacity>*/}
+            {/*}*/}
+            <View style={styles.dateTimeContainer}>
+                <TouchableOpacity onPress={showDatePicker}>
+                <View style={styles.dateTimeRow}>
+                    <Text style={styles.normalText}>Select Start Date</Text>
+                    <Text style={[styles.normalText, {color: dropdownSelected}]}>Date</Text>
                 </View>
-                <View style={[styles.shortContainer, {width:'55%'}]}>
-                    <Text style={styles.sectionSubtitle}>End Time</Text>
-                    <View style={[styles.doubleContainer, {width: "50%"}]}>
-                        <MultiWheelPicker
-                            wheelData={hourOptions}
-                            placeholder={1}
-                            selectedItem={endHour}
-                            setSelectedItems={setEndHour}
-                        />
-                        <Text style={styles.normalText}>:</Text>
-                        <MultiWheelPicker
-                            wheelData={minOptions}
-                            placeholder={"00"}
-                            selectedItem={endMinute}
-                            setSelectedItems={setEndMinute}
-                        />
-                        <Text> </Text>
-                        <MultiWheelPicker
-                            wheelData={timePeriods}
-                            placeholder={"AM"}
-                            selectedItem={endPeriod}
-                            setSelectedItems={setEndPeriod}
-                        />
+                <DateTimePickerModal
+                    isVisible={isDatePickerVisible}
+                    mode="date"
+                    onConfirm={handleConfirm}
+                    onCancel={hideDatePicker}
+                    themeVariant={"light"}
+                />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={showDatePicker}>
+                    <View style={styles.dateTimeRow}>
+                        <Text style={styles.normalText}>Select End Date</Text>
+                        <Text style={[styles.normalText, {color: dropdownSelected}]}>Date</Text>
                     </View>
-                </View>
+                    <DateTimePickerModal
+                        isVisible={isDatePickerVisible}
+                        mode="date"
+                        onConfirm={handleConfirm}
+                        onCancel={hideDatePicker}
+                        themeVariant={"light"}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={showDatePicker}>
+                    <View style={styles.dateTimeRow}>
+                        <Text style={styles.normalText}>Select Start Time</Text>
+                        <Text style={[styles.normalText, {color: dropdownSelected}]}>Date</Text>
+                    </View>
+                    <DateTimePickerModal
+                        isVisible={isDatePickerVisible}
+                        mode="time"
+                        onConfirm={handleConfirm}
+                        onCancel={hideDatePicker}
+                        themeVariant={"light"}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={showDatePicker}>
+                    <View style={[styles.dateTimeRow, {borderBottomWidth: 0}]}>
+                        <Text style={styles.normalText}>Select End Time</Text>
+                        <Text style={[styles.normalText, {color: dropdownSelected}]}>Date</Text>
+                    </View>
+                    <DateTimePickerModal
+                        isVisible={isDatePickerVisible}
+                        mode="time"
+                        onConfirm={handleConfirm}
+                        onCancel={hideDatePicker}
+                        themeVariant={"light"}
+                    />
+                </TouchableOpacity>
             </View>
+            {/*<View style={[styles.doubleContainer]}>*/}
+            {/*    <View style={[styles.shortContainer, {width:"50%"}]}>*/}
+            {/*        <Text style={styles.sectionSubtitle}>Start Time</Text>*/}
+            {/*        <View style={[styles.doubleContainer, {width: "55%"}]}>*/}
+            {/*            <MultiWheelPicker*/}
+            {/*                wheelData={hourOptions}*/}
+            {/*                placeholder={1}*/}
+            {/*                selectedItem={startHour}*/}
+            {/*                setSelectedItems={setStartHour}*/}
+            {/*            />*/}
+            {/*            <Text style={styles.normalText}>:</Text>*/}
+            {/*            <MultiWheelPicker*/}
+            {/*                wheelData={minOptions}*/}
+            {/*                placeholder={"00"}*/}
+            {/*                selectedItem={startMinute}*/}
+            {/*                setSelectedItems={setStartMinute}*/}
+            {/*            />*/}
+            {/*            <Text> </Text>*/}
+            {/*            <MultiWheelPicker*/}
+            {/*                wheelData={timePeriods}*/}
+            {/*                placeholder={"AM"}*/}
+            {/*                selectedItem={startPeriod}*/}
+            {/*                setSelectedItems={setStartPeriod}*/}
+            {/*            />*/}
+            {/*        </View>*/}
+            {/*    </View>*/}
+            {/*    <View style={[styles.shortContainer, {width:'55%'}]}>*/}
+            {/*        <Text style={styles.sectionSubtitle}>End Time</Text>*/}
+            {/*        <View style={[styles.doubleContainer, {width: "50%"}]}>*/}
+            {/*            <MultiWheelPicker*/}
+            {/*                wheelData={hourOptions}*/}
+            {/*                placeholder={1}*/}
+            {/*                selectedItem={endHour}*/}
+            {/*                setSelectedItems={setEndHour}*/}
+            {/*            />*/}
+            {/*            <Text style={styles.normalText}>:</Text>*/}
+            {/*            <MultiWheelPicker*/}
+            {/*                wheelData={minOptions}*/}
+            {/*                placeholder={"00"}*/}
+            {/*                selectedItem={endMinute}*/}
+            {/*                setSelectedItems={setEndMinute}*/}
+            {/*            />*/}
+            {/*            <Text> </Text>*/}
+            {/*            <MultiWheelPicker*/}
+            {/*                wheelData={timePeriods}*/}
+            {/*                placeholder={"AM"}*/}
+            {/*                selectedItem={endPeriod}*/}
+            {/*                setSelectedItems={setEndPeriod}*/}
+            {/*            />*/}
+            {/*        </View>*/}
+            {/*    </View>*/}
+            {/*</View>*/}
             <Text style={styles.sectionSubtitle}>Repeats</Text>
             <View style={[AddPopupStyles.dropdownContainer]}>
                 <MultiWheelPicker
@@ -553,6 +624,22 @@ const styles = StyleSheet.create({
         height: 30,
         fontSize: 24,
         margin: 5,
+    },
+    dateTimeContainer: {
+        backgroundColor: white,
+        width: "100%",
+        borderRadius: 10,
+        flexDirection: "column",
+        paddingLeft: 12,
+        marginBottom: 18,
+    },
+    dateTimeRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        padding: 12,
+        paddingLeft: 0,
+        borderBottomWidth: 0.25,
+        borderBottomColor: secondaryGray,
     },
 })
 
