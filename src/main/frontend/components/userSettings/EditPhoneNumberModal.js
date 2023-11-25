@@ -10,7 +10,15 @@ import {
     KeyboardAvoidingView, TouchableWithoutFeedback,
 } from "react-native";
 import * as Haptics from "expo-haptics";
-import {black, destructiveAction, grayAction, primaryGreen, secondaryGray, white} from "../../utils/Colors";
+import {
+    black,
+    destructiveAction,
+    grayAction,
+    grayBackground,
+    primaryGreen,
+    secondaryGray,
+    white
+} from "../../utils/Colors";
 import employeeData from "../../mockApiCalls/employeeData.json";
 
 function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisible}) {
@@ -115,7 +123,7 @@ const styles = StyleSheet.create({
     modalView: {
         margin: 24,
         width: "75%",
-        backgroundColor: 'white',
+        backgroundColor: grayBackground,
         borderRadius: 10,
         padding: 24,
         paddingBottom: 0,
@@ -139,21 +147,21 @@ const styles = StyleSheet.create({
         width: "100%",
         borderRadius: 10,
         marginBottom: 24,
+        marginTop: 12,
         padding: 12,
         alignItems: "center",
     },
     submitText: {
-        fontSize: 24,
+        fontSize: 17,
         fontWeight: "500",
         color: white,
     },
     inputText: {
+        backgroundColor: white,
         width: "100%",
-        fontSize: 18,
-        padding: 8,
-        marginBottom: 24,
-        borderWidth: 2,
-        borderColor: secondaryGray,
+        fontSize: 17,
+        padding: 12,
+        marginBottom: 18,
         borderRadius: 10,
     },
     errorBorder: {
