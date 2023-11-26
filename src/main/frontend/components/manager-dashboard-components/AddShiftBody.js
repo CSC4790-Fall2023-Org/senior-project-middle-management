@@ -687,7 +687,7 @@ const styles = StyleSheet.create({
         backgroundColor: secondaryGray,
         borderRadius: 7,
         paddingVertical: 4,
-        paddingHorizontal: 1,
+        paddingHorizontal: 4,
         overflow: 'hidden',
     },
     dayBox: {
