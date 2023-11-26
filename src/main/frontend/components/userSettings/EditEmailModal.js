@@ -7,10 +7,17 @@ import {
     TouchableOpacity,
     View,
     Platform,
-    KeyboardAvoidingView, TouchableWithoutFeedback,
+    KeyboardAvoidingView, TouchableWithoutFeedback, Alert,
 } from "react-native";
 import * as Haptics from "expo-haptics";
-import {black, destructiveAction, grayAction, primaryGreen, secondaryGray, white} from "../../utils/Colors";
+import {
+    black,
+    grayAction,
+    grayBackground,
+    primaryGreen,
+    secondaryGray,
+    white
+} from "../../utils/Colors";
 import employeeData from "../../mockApiCalls/employeeData.json";
 
 function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
@@ -44,6 +51,16 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
         if (!validEmail && !saveError) {
             setInvalidEmail(true);
             setSaveError(true);
+            Alert.alert(
+                'Please enter a valid email address.',
+                '',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
@@ -75,7 +92,7 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
                             <View style={styles.modalView}>
                                 <Text style={styles.modalText}>Edit Email</Text>
                                 <TextInput
-                                    style={[styles.inputText, invalidEmail ? styles.errorBorder : null]}
+                                    style={styles.inputText}
                                     autoCapitalize={"none"}
                                     onChangeText={handleOnChangeText}
                                     value={email}
@@ -115,7 +132,7 @@ const styles = StyleSheet.create({
     modalView: {
         margin: 24,
         width: "75%",
-        backgroundColor: 'white',
+        backgroundColor: grayBackground,
         borderRadius: 10,
         padding: 24,
         paddingBottom: 0,
@@ -132,32 +149,29 @@ const styles = StyleSheet.create({
     modalText: {
         marginBottom: 18,
         textAlign: 'center',
-        fontSize: 24,
-        fontWeight: "500",
+        fontSize: 17,
+        fontWeight: "bold",
     },
     submitButton: {
         width: "100%",
         borderRadius: 10,
         marginBottom: 24,
+        marginTop: 12,
         padding: 12,
         alignItems: "center",
     },
     submitText: {
-        fontSize: 24,
-        fontWeight: "500",
+        fontSize: 17,
         color: white,
+        fontWeight: "500",
     },
     inputText: {
         width: "100%",
-        fontSize: 18,
-        padding: 8,
-        marginBottom: 24,
-        borderWidth: 2,
-        borderColor: secondaryGray,
+        fontSize: 17,
+        padding: 12,
+        marginBottom: 18,
+        backgroundColor: white,
         borderRadius: 10,
-    },
-    errorBorder: {
-        borderColor: destructiveAction,
     },
 })
 

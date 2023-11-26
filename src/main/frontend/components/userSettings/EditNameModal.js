@@ -7,10 +7,17 @@ import {
     TouchableOpacity,
     View,
     KeyboardAvoidingView,
-    Platform, TouchableWithoutFeedback
+    Platform, TouchableWithoutFeedback, Alert
 } from "react-native";
 import * as Haptics from 'expo-haptics';
-import {black, destructiveAction, grayAction, primaryGreen, secondaryGray, white} from "../../utils/Colors";
+import {
+    black,
+    grayAction,
+    grayBackground,
+    primaryGreen,
+    secondaryGray,
+    white
+} from "../../utils/Colors";
 import employeeData from "../../mockApiCalls/employeeData.json";
 
 function EditNameModal({nameModalVisible, setNameModalVisible}) {
@@ -59,16 +66,36 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
         if (fName.trim() === '' && !fNameSaveError) {
             setEmptyFName(true);
             setFNameSaveError(true);
+            Alert.alert(
+                'Please enter a valid first name.',
+                '',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
         } else if (lName.trim() === '' && !lNameSaveError) {
             setEmptyLName(true);
             setLNameSaveError(true);
+            Alert.alert(
+                'Please enter a valid last name.',
+                '',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (isValueChanged  && !fNameSaveError && !lNameSaveError) {
+        } else if (isValueChanged && !fNameSaveError && !lNameSaveError) {
             setNameModalVisible(!nameModalVisible);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Success
@@ -100,24 +127,26 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
                         <TouchableWithoutFeedback>
                             <View style={styles.modalView}>
                                 <Text style={styles.modalText}>Edit Name</Text>
-                                <TextInput
-                                    style={[styles.inputText, emptyFName ? styles.errorBorder : null]}
-                                    autoCapitalize={"words"}
-                                    onChangeText={onHandleChangeTextFName}
-                                    value={fName}
-                                    placeholder="First Name"
-                                    placeholderTextColor={secondaryGray}
-                                    autoComplete={"name-given"}
-                                />
-                                <TextInput
-                                    style={[styles.inputText, emptyLName ? styles.errorBorder : null]}
-                                    autoCapitalize={"words"}
-                                    onChangeText={onHandleChangeTextLName}
-                                    value={lName}
-                                    placeholder="Last Name"
-                                    placeholderTextColor={secondaryGray}
-                                    autoComplete={"name-family"}
-                                />
+                                <View style={styles.inputContainer}>
+                                    <TextInput
+                                        style={styles.inputText}
+                                        autoCapitalize={"words"}
+                                        onChangeText={onHandleChangeTextFName}
+                                        value={fName}
+                                        placeholder="First Name"
+                                        placeholderTextColor={secondaryGray}
+                                        autoComplete={"name-given"}
+                                    />
+                                    <TextInput
+                                        style={[styles.inputText, {borderBottomWidth: 0}]}
+                                        autoCapitalize={"words"}
+                                        onChangeText={onHandleChangeTextLName}
+                                        value={lName}
+                                        placeholder="Last Name"
+                                        placeholderTextColor={secondaryGray}
+                                        autoComplete={"name-family"}
+                                    />
+                                </View>
                                 <View style={[styles.submitButton,
                                     (isValueChanged && !fNameSaveError && !lNameSaveError) ? {backgroundColor: primaryGreen}
                                         : {backgroundColor: grayAction}]}>
@@ -149,7 +178,7 @@ const styles = StyleSheet.create({
     modalView: {
         margin: 24,
         width: "75%",
-        backgroundColor: 'white',
+        backgroundColor: grayBackground,
         borderRadius: 10,
         padding: 24,
         paddingBottom: 0,
@@ -166,8 +195,8 @@ const styles = StyleSheet.create({
     modalText: {
         marginBottom: 18,
         textAlign: 'center',
-        fontSize: 24,
-        fontWeight: "500",
+        fontSize: 17,
+        fontWeight: "bold",
     },
     submitButton: {
         width: "100%",
@@ -178,21 +207,24 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     submitText: {
-        fontSize: 24,
+        fontSize: 17,
         fontWeight: "500",
         color: white,
     },
+    inputContainer: {
+        width: "100%",
+        marginBottom: 18,
+        borderRadius: 10,
+        backgroundColor: white,
+        paddingLeft: 12,
+    },
     inputText: {
         width: "100%",
-        fontSize: 18,
-        padding: 8,
-        marginBottom: 18,
-        borderWidth: 2,
-        borderColor: secondaryGray,
-        borderRadius: 10,
-    },
-    errorBorder: {
-        borderColor: destructiveAction,
+        fontSize: 17,
+        padding: 12,
+        paddingLeft: 0,
+        borderBottomWidth: 0.25,
+        borderBottomColor: secondaryGray,
     },
 })
 

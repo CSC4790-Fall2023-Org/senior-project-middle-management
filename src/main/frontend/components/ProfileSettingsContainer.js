@@ -33,7 +33,7 @@ function ProfileSettingsContainer() {
             <TouchableOpacity style={[styles.settingItem, {borderBottomWidth: 0}]}>
                 <Text style={styles.settingLabel}>Notifications</Text>
                 <View style={{paddingRight: 16}}>
-                    <FontAwesomeIcon icon={ChevronRight} size={16} style={styles.labelValue}/>
+                    <FontAwesomeIcon icon={ChevronRight} size={17} style={styles.labelValue}/>
                 </View>
             </TouchableOpacity>
         </View>
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
         backgroundColor: white,
         margin: 16,
         borderRadius: 10,
+        paddingLeft: 14,
     },
     settingItem: {
         flexDirection: "row",
@@ -57,14 +58,13 @@ const styles = StyleSheet.create({
     settingLabel: {
         width: "40%",
         color: black,
-        fontSize: 16,
-        paddingLeft: 16,
+        fontSize: 17,
     },
     labelValue: {
         width: "60%",
         color: grayAction,
-        fontSize: 16,
-        paddingRight: 16,
+        fontSize: 17,
+        paddingRight: 14,
         textAlign: "right",
     },
 })
