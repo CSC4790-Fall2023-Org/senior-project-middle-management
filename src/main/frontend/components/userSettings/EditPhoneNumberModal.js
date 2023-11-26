@@ -7,10 +7,17 @@ import {
     TouchableOpacity,
     View,
     Platform,
-    KeyboardAvoidingView, TouchableWithoutFeedback,
+    KeyboardAvoidingView, TouchableWithoutFeedback, Alert,
 } from "react-native";
 import * as Haptics from "expo-haptics";
-import {black, destructiveAction, grayAction, primaryGreen, secondaryGray, white} from "../../utils/Colors";
+import {
+    black,
+    grayAction,
+    grayBackground,
+    primaryGreen,
+    secondaryGray,
+    white
+} from "../../utils/Colors";
 import employeeData from "../../mockApiCalls/employeeData.json";
 
 function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisible}) {
@@ -44,6 +51,16 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
         if(!validPhoneNumber && !saveError) {
             setInvalidPhoneNumber(true);
             setSaveError(true);
+            Alert.alert (
+                'Please enter a valid phone number.',
+                '',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
@@ -75,7 +92,7 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
                             <View style={styles.modalView}>
                                 <Text style={styles.modalText}>Edit Phone Number</Text>
                                 <TextInput
-                                    style={[styles.inputText, invalidPhoneNumber ? styles.errorBorder : null]}
+                                    style={styles.inputText}
                                     autoCapitalize={"words"}
                                     onChangeText={handleOnChangeText}
                                     value={phoneNumber}
@@ -115,7 +132,7 @@ const styles = StyleSheet.create({
     modalView: {
         margin: 24,
         width: "75%",
-        backgroundColor: 'white',
+        backgroundColor: grayBackground,
         borderRadius: 10,
         padding: 24,
         paddingBottom: 0,
@@ -132,32 +149,29 @@ const styles = StyleSheet.create({
     modalText: {
         marginBottom: 18,
         textAlign: 'center',
-        fontSize: 24,
-        fontWeight: "500",
+        fontSize: 17,
+        fontWeight: "bold",
     },
     submitButton: {
         width: "100%",
         borderRadius: 10,
         marginBottom: 24,
+        marginTop: 12,
         padding: 12,
         alignItems: "center",
     },
     submitText: {
-        fontSize: 24,
+        fontSize: 17,
         fontWeight: "500",
         color: white,
     },
     inputText: {
+        backgroundColor: white,
         width: "100%",
-        fontSize: 18,
-        padding: 8,
-        marginBottom: 24,
-        borderWidth: 2,
-        borderColor: secondaryGray,
+        fontSize: 17,
+        padding: 12,
+        marginBottom: 18,
         borderRadius: 10,
-    },
-    errorBorder: {
-        borderColor: destructiveAction,
     },
 })
 
