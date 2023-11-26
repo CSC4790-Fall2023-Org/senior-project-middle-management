@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../utils/ScreenNames";
 import {ChevronLeft} from "../utils/Icons";
-import {secondaryGray} from "../utils/Colors";
+import {black, secondaryGray, white} from "../utils/Colors";
 
 function CompanySettingsScreen() {
     const navigation = useNavigation();
@@ -36,19 +36,19 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         height: 100,
-        backgroundColor: "white",
+        backgroundColor: white,
         alignItems: "flex-end",
         borderBottomWidth: 1,
         borderBottomColor: secondaryGray,
     },
     headerText: {
-        color: "black",
-        fontSize: 24,
+        color: black,
+        fontSize: 17,
         marginBottom: 12,
         fontWeight: 'bold',
     },
     icon: {
-        color: 'black',
+        color: black,
         position: 'absolute',
         left: 12,
         bottom: 12,

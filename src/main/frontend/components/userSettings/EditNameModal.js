@@ -195,8 +195,8 @@ const styles = StyleSheet.create({
     modalText: {
         marginBottom: 18,
         textAlign: 'center',
-        fontSize: 24,
-        fontWeight: "500",
+        fontSize: 17,
+        fontWeight: "bold",
     },
     submitButton: {
         width: "100%",
