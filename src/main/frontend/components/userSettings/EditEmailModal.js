@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     View,
     Platform,
-    KeyboardAvoidingView, TouchableWithoutFeedback,
+    KeyboardAvoidingView, TouchableWithoutFeedback, Alert,
 } from "react-native";
 import * as Haptics from "expo-haptics";
 import {
@@ -52,6 +52,16 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
         if (!validEmail && !saveError) {
             setInvalidEmail(true);
             setSaveError(true);
+            Alert.alert(
+                'Please enter a valid email address.',
+                '',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
@@ -83,7 +93,7 @@ function EditEmailModal({emailModalVisible, setEmailModalVisible}) {
                             <View style={styles.modalView}>
                                 <Text style={styles.modalText}>Edit Email</Text>
                                 <TextInput
-                                    style={[styles.inputText, invalidEmail ? styles.errorBorder : null]}
+                                    style={styles.inputText}
                                     autoCapitalize={"none"}
                                     onChangeText={handleOnChangeText}
                                     value={email}
@@ -163,9 +173,6 @@ const styles = StyleSheet.create({
         marginBottom: 18,
         backgroundColor: white,
         borderRadius: 10,
-    },
-    errorBorder: {
-        borderColor: destructiveAction,
     },
 })
 
