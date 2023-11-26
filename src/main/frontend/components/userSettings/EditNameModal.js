@@ -7,12 +7,11 @@ import {
     TouchableOpacity,
     View,
     KeyboardAvoidingView,
-    Platform, TouchableWithoutFeedback
+    Platform, TouchableWithoutFeedback, Alert
 } from "react-native";
 import * as Haptics from 'expo-haptics';
 import {
     black,
-    destructiveAction,
     grayAction,
     grayBackground,
     primaryGreen,
@@ -67,16 +66,36 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
         if (fName.trim() === '' && !fNameSaveError) {
             setEmptyFName(true);
             setFNameSaveError(true);
+            Alert.alert(
+                'Please enter a valid first name.',
+                '',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
         } else if (lName.trim() === '' && !lNameSaveError) {
             setEmptyLName(true);
             setLNameSaveError(true);
+            Alert.alert(
+                'Please enter a valid last name.',
+                '',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (isValueChanged  && !fNameSaveError && !lNameSaveError) {
+        } else if (isValueChanged && !fNameSaveError && !lNameSaveError) {
             setNameModalVisible(!nameModalVisible);
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Success
@@ -110,7 +129,7 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
                                 <Text style={styles.modalText}>Edit Name</Text>
                                 <View style={styles.inputContainer}>
                                     <TextInput
-                                        style={[styles.inputText, emptyFName ? styles.errorBorder : null]}
+                                        style={styles.inputText}
                                         autoCapitalize={"words"}
                                         onChangeText={onHandleChangeTextFName}
                                         value={fName}
@@ -119,10 +138,7 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
                                         autoComplete={"name-given"}
                                     />
                                     <TextInput
-                                        style={[styles.inputText,
-                                            emptyLName ? styles.errorBorder : null,
-                                            {borderBottomWidth: 0,}
-                                        ]}
+                                        style={styles.inputText}
                                         autoCapitalize={"words"}
                                         onChangeText={onHandleChangeTextLName}
                                         value={lName}
@@ -209,10 +225,6 @@ const styles = StyleSheet.create({
         paddingLeft: 0,
         borderBottomWidth: 0.25,
         borderBottomColor: secondaryGray,
-    },
-    errorBorder: {
-        //borderWidth: 0.5,
-        borderColor: destructiveAction,
     },
 })
 
