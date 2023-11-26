@@ -64,9 +64,9 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     // const [endMinute, setEndMinute] = useState("00");
 
     //start & end Am Pm
-    const timePeriods = ["PM"]
-    const [startPeriod, setStartPeriod] = useState("AM");
-    const [endPeriod, setEndPeriod] = useState("AM");
+    // const timePeriods = ["PM"]
+    // const [startPeriod, setStartPeriod] = useState("AM");
+    // const [endPeriod, setEndPeriod] = useState("AM");
 
     const handleDismissKeyboard = () => {
         Keyboard.dismiss();
@@ -249,7 +249,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 endHour: endHour,
                 shiftName: shiftName,
                 startHour: startHour,
-                isEndAM: isEndPeriod ,
+                isEndAM: isEndPeriod,
                 locationId: locationId,
                 isStartAM: isStartPeriod,
                 startMinute: startMinute,
@@ -258,7 +258,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 repeatsEvery: repeatsID,
                 numberOfShifts: numShifts,
             }),
-        }).then(r => r.json()
+        }).then(res => res.json()
         ).then(json => {
             console.log(json.message)
         })
@@ -305,9 +305,10 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     };
 
     const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
+    const [startTime, setStartTime] = useState(null);
     const [startHour, setStartHour] = useState(null);
     const [startMinute, setStartMinute] = useState(null);
-    const [startTime, setStartTime] = useState(null);
+    const [startPeriod, setStartPeriod] = useState(null);
 
     const showStartTimePicker = () => {
         setStartTimePickerVisibility(true);
@@ -318,19 +319,26 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     };
 
     const handleStartTimeConfirm = (time) => {
-        const formattedStartTime = moment(time).format('h:mm A');
-        const hour = moment(formattedStartTime, 'h:mm A').hour();
-        const min = moment(formattedStartTime, 'h:mm A').minute();
+        const formattedTime = moment(time).format('h:mm A');
+        const hour = moment(formattedTime, 'h:mm A').hour();
+        const min = moment(formattedTime, 'h:mm A').minute();
+        const period = moment(time).format('a');
+        setStartTime(formattedTime);
         setStartHour(hour);
         setStartMinute(min);
-        setStartTime(formattedStartTime);
-        console.log("Start hour: ", startHour);
-        console.warn("A start time has been picked: ", hour);
+        setStartPeriod(period);
         hideStartTimePicker();
+        // handleStartHour(hour);
+        // handleStartMin(min);
+        // console.warn("A start time has been picked: ", hour);
+        // console.log("Start time: ", startTime);
     };
 
     const [isEndTimePickerVisible, setEndTimePickerVisibility] = useState(false);
     const [endTime, setEndTime] = useState(null);
+    const [endHour, setEndHour] = useState(null);
+    const [endMinute, setEndMinute] = useState(null);
+    const [endPeriod, setEndPeriod] = useState(null);
 
     const showEndTimePicker = () => {
         setEndTimePickerVisibility(true);
@@ -341,10 +349,18 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
     };
 
     const handleEndTimeConfirm = (time) => {
-        const formattedEndTime = moment(time).format('h:mm A')
-        setEndTime(formattedEndTime);
-        console.warn("An end time has been picked: ", formattedEndTime);
+        const formattedTime = moment(time).format('h:mm A');
+        const hour = moment(formattedTime, 'h:mm A').hour();
+        const min = moment(formattedTime, 'h:mm A').minute();
+        const period = moment(time).format('a');
+        setEndTime(formattedTime);
+        setEndHour(hour);
+        setEndMinute(min);
+        setEndPeriod(period);
         hideEndTimePicker();
+        // const formattedEndTime = moment(time).format('h:mm A');
+        // setEndTime(formattedEndTime);
+        // console.warn("An end time has been picked: ", formattedEndTime);
     };
 
     return(
