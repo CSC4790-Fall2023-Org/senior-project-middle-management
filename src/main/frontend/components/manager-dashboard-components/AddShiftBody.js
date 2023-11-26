@@ -31,7 +31,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
 const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
-    const warnText=" ou are making a shift that goes overnight are you sure you want to submit it?"
+    const warnText="This shift goes overnight. Are you sure you want to submit it?"
     const screenWidth = Dimensions.get('window').width;
     //shift type info
     const [shiftType, setShiftType] = useState(null);
