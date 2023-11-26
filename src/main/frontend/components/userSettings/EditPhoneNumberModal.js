@@ -7,12 +7,11 @@ import {
     TouchableOpacity,
     View,
     Platform,
-    KeyboardAvoidingView, TouchableWithoutFeedback,
+    KeyboardAvoidingView, TouchableWithoutFeedback, Alert,
 } from "react-native";
 import * as Haptics from "expo-haptics";
 import {
     black,
-    destructiveAction,
     grayAction,
     grayBackground,
     primaryGreen,
@@ -52,6 +51,16 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
         if(!validPhoneNumber && !saveError) {
             setInvalidPhoneNumber(true);
             setSaveError(true);
+            Alert.alert (
+                'Please enter a valid phone number.',
+                '',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
@@ -83,7 +92,7 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
                             <View style={styles.modalView}>
                                 <Text style={styles.modalText}>Edit Phone Number</Text>
                                 <TextInput
-                                    style={[styles.inputText, invalidPhoneNumber ? styles.errorBorder : null]}
+                                    style={styles.inputText}
                                     autoCapitalize={"words"}
                                     onChangeText={handleOnChangeText}
                                     value={phoneNumber}
@@ -163,9 +172,6 @@ const styles = StyleSheet.create({
         padding: 12,
         marginBottom: 18,
         borderRadius: 10,
-    },
-    errorBorder: {
-        borderColor: destructiveAction,
     },
 })
 

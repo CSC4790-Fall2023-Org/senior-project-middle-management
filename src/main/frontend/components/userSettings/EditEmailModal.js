@@ -12,7 +12,6 @@ import {
 import * as Haptics from "expo-haptics";
 import {
     black,
-    destructiveAction,
     grayAction,
     grayBackground,
     primaryGreen,
