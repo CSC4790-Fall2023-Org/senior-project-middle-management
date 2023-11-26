@@ -138,7 +138,7 @@ function EditNameModal({nameModalVisible, setNameModalVisible}) {
                                         autoComplete={"name-given"}
                                     />
                                     <TextInput
-                                        style={styles.inputText}
+                                        style={[styles.inputText, {borderBottomWidth: 0}]}
                                         autoCapitalize={"words"}
                                         onChangeText={onHandleChangeTextLName}
                                         value={lName}
