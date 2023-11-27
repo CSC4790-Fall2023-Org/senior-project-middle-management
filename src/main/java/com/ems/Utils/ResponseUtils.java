@@ -78,4 +78,14 @@ public class ResponseUtils {
             return ResponseEntity.status(400).body("{\"message\": \"error creating response JSON\"}");
         }
     }
+
+    public static ResponseEntity getAllResponse(final String pMessageType, final JSONArray pJSONArray){
+        try {
+            JSONObject responses = new JSONObject();
+            responses.put(pMessageType, pJSONArray);
+            return ResponseEntity.status(200).body(responses.toString());
+        } catch (JSONException ex) {
+            return ResponseEntity.status(400).body("{\"message\": \"error creating response JSON\"}");
+        }
+    }
 }

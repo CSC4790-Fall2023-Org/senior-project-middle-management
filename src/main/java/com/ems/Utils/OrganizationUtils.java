@@ -1,9 +1,12 @@
 package com.ems.Utils;
 
+import com.ems.database.models.Employee;
 import com.ems.database.models.Organization;
 import com.ems.database.models.Location;
+import com.ems.services.DatabaseServices;
 import org.bson.types.ObjectId;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrganizationUtils {
@@ -37,5 +40,11 @@ public class OrganizationUtils {
             }
         }
         return true;
+    }
+
+    public static List<Employee> getAllEmployeesForOrganization(final Organization pOrganization, final List<Employee> pEmployeeList){
+        return pEmployeeList.stream()
+                .filter(employee -> employee.getOrganizationId().equals(pOrganization.getOrganizationId()))
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     }
 }
