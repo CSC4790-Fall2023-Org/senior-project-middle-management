@@ -6,7 +6,7 @@ import {
     Keyboard,
     TouchableOpacity,
     Dimensions,
-    TextInput, KeyboardAvoidingViewComponent, KeyboardAvoidingView, Platform, ScrollView, Button,
+    TextInput, KeyboardAvoidingViewComponent, KeyboardAvoidingView, Platform, ScrollView, Button, Alert,
 } from "react-native";
 import React, {useState} from "react";
 import CalendarPopup from "../CalendarPopup";
@@ -175,6 +175,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
         let timeStart = startHour+(startMinute/100);
         let timeEnd = endHour+(endMinute/100);
         let noErrors= true;
+        console.log('Selected repeats option: ', selectedRepeats);
         if (endPeriod === "PM") {
             timeEnd += 12;
         }
@@ -188,43 +189,195 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
             setShiftType(shiftOptions[0]);
         }
         if (shiftName.trim() === '') {
-            setShiftNameEmpty(true);
-            noErrors=false;
+            // setShiftNameEmpty(true);
+            noErrors = false;
+            Alert.alert (
+                'Shift Name',
+                'Please enter a shift name.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        }
-        if (!endDate || !startDate) {
-            setDateWrong(true);
-            noErrors=false;
+        } else if (shiftType === 'Select Shift Type') {
+            noErrors = false;
+            Alert.alert (
+                'Shift Type',
+                'Please select a shift type.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        }
-        if (!locationId) {
-            setLocationError(true);
-            noErrors=false;
+        } else if (location === 'Select Location') {
+            //setLocationError(true);
+            noErrors = false;
+            Alert.alert (
+                'Location',
+                'Please select a location.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        }
-        if (weekdaysPressed.length === 0) {
-            setNoWeekdaysPressed(true);
-            noErrors=false;
+        } else if (!startDate) {
+            // setDateWrong(true);
+            noErrors = false;
+            Alert.alert (
+                'Date and Time',
+                'Please select a start date.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        }
-        if (!numShifts) {
-            setNumShiftsError(true);
-            noErrors=false;
+        } else if (!endDate) {
+            noErrors = false;
+            Alert.alert (
+                'Date and Time',
+                'Please select an end date.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (endDate < startDate) {
+            noErrors = false;
+            Alert.alert (
+                'Date and Time',
+                'End date cannot occur before start date.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (!startTime) {
+            noErrors = false;
+            Alert.alert (
+                'Date and Time',
+                'Please select a start time.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        }  else if (!endTime) {
+            noErrors = false;
+            Alert.alert (
+                'Date and Time',
+                'Please select an end time.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (selectedRepeats === null) {
+            noErrors = false;
+            Alert.alert (
+                'Repeats',
+                'Please select how often shift repeats.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (selectedRepeats !== 'Never') {
+            if (weekdaysPressed.length === 0) {
+                //setNoWeekdaysPressed(true);
+                noErrors = false;
+                Alert.alert (
+                    'Repeats',
+                    'Please select days on which shift repeats.',
+                    [
+                        {
+                            text: 'OK',
+                            style: 'default',
+                        }
+                    ]
+                );
+                Haptics.notificationAsync(
+                    Haptics.NotificationFeedbackType.Error
+                );
+            }
+        } else if (!numShifts) {
+            //setNumShiftsError(true);
+            noErrors = false;
+            Alert.alert (
+                'Number of Shifts',
+                'Please enter how many shifts to create.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
         }
         if (noErrors) {
-            if (timeEnd < timeStart) {
-                setWarnModal(true);
+            if (endTime < startTime || endDate > startDate) {
+                Alert.alert (
+                    'Overnight Shift',
+                    'Are you sure you want to create an overnight shift?',
+                    [
+                        {
+                            text: 'Create',
+                            style: 'default',
+                            onPress: handleShiftAdd,
+                        },
+                        {
+                            text: 'Cancel',
+                            style: 'cancel',
+                        }
+                    ]
+                );
             } else {
                 handleShiftAdd();
             }
@@ -236,6 +389,8 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
         const weekdays = weekdaysPressed.sort();
         const isEndPeriod = (endPeriod === "AM");
         const isStartPeriod = (startPeriod === "AM");
+        console.log(isEndPeriod);
+        console.log(isStartPeriod);
         //update fetch url according to IPv4 of Wi-Fi
         fetch('http://' + ipAddy + ':8080/createShifts', {
             method: 'POST',
@@ -405,7 +560,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
             <View style={[AddPopupStyles.dropdownContainer, isLocationError ? AddPopupStyles.destructiveAction:{}]}>
                 {displayedLocations.length === 1 &&
                     <View>
-                        <Text style={{fontSize:18}}>{locationOptions[0].locationName}</Text>
+                        <Text style={[styles.normalText, {color: clickableText}]}>{locationOptions[0].locationName}</Text>
                     </View>
                 }
                 {displayedLocations.length !== 1 &&
@@ -413,7 +568,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                         wheelData={displayedLocations}
                         setSelectedItems={locationDropdownPress}
                         selectedItem={location}
-                        placeholder={"Select A Location"}
+                        placeholder={"Select Location"}
                         wide={screenWidth/1.2}
                         hasChevron={true}
                     />
@@ -597,7 +752,7 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                             <Text style={[!weekdaysPressed.includes(day.key) ?
                                 {color: clickableText}
                                 : {color: white},
-                                {fontSize: 18}]}
+                                {fontSize: 17}]}
                             >
                                 {day.text}
                             </Text>
