@@ -7,23 +7,14 @@ import {
     TouchableOpacity,
     Dimensions,
     TextInput,
-    KeyboardAvoidingViewComponent,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    Button,
     Alert,
     Modal,
     StatusBar,
 } from "react-native";
 import React, {useState} from "react";
-import CalendarPopup from "../CalendarPopup";
-import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {Calendar} from '../../utils/Icons';
 import MultiWheelPicker from "../MultiWheelPicker";
 import CustomButton from "../CustomButton";
 import {
-    black,
     destructiveAction, clickableText,
     placeholderText,
     primaryGreen,
@@ -41,11 +32,13 @@ import moment from 'moment';
 const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptions, shiftOptions}) => {
     const warnText="This shift goes overnight. Are you sure you want to submit it?"
     const screenWidth = Dimensions.get('window').width;
+
     //shift type info
     const [shiftType, setShiftType] = useState(null);
     const shiftDropdownPress = (index) => {
         setShiftType(index);
     }
+
     //location info
     const [location, setLocation] = useState(null);
     const [locationId, setLocationId] = useState(null);
@@ -61,35 +54,13 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
             }
         }
     }
-    //start & end hour info
-    // const hourOptions = [2, 3, 4, 5 ,6 ,7 ,8, 9, 10, 11, 12]
-    // const [startHour, setStartHour] = useState(1);
-    // const [endHour, setEndHour] = useState(1);
-
-    //start & end minute info
-    // const minOptions = ["05", "10", "15", "20", "25" ,"30" ,"35", "40", "45", "50", "55"]
-    // const [startMinute, setStartMinute] = useState("00");
-    // const [endMinute, setEndMinute] = useState("00");
-
-    //start & end Am Pm
-    // const timePeriods = ["PM"]
-    // const [startPeriod, setStartPeriod] = useState("AM");
-    // const [endPeriod, setEndPeriod] = useState("AM");
-
-    const handleDismissKeyboard = () => {
-        Keyboard.dismiss();
-    };
 
     //calendar info
     const [isCalendarVisible, setCalendarVisible] = useState(null);
     const handleCalendar = () => {
         setCalendarVisible(!isCalendarVisible);
     }
-    const [selectedStartDate, setSelectedStartDate] = useState(null);
-    //const startDate = selectedStartDate ? selectedStartDate.format('MM/DD/YYYY').toString() : '';
-    const [selectedEndDate, setSelectedEndDate] = useState(null);
-    //const endDate = selectedEndDate ? selectedEndDate.format('MM/DD/YYYY').toString() : '';
-    const [dateWrong, setDateWrong] = useState(false);
+
     //shift name info
     const [shiftName, setShiftName] = useState("");
     const [isShiftNameEmpty, setShiftNameEmpty] = useState(false);
@@ -113,9 +84,11 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
             text: 'Monthly',
         },
     ];
+
     let displayedRepeats = repeatsOptions.map(a => a.text);
     const [selectedRepeats, setSelectedRepeats] = useState(null);
     const [repeatsID, setRepeatsID] = useState(null);
+
     const weekdays = [
         {
             key: 1,
@@ -179,6 +152,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
     const handleWarnVisible = () =>{
         setWarnModal(!warnModal)
     }
+
     const handleErrors = () => {
         let timeStart = startHour+(startMinute/100);
         let timeEnd = endHour+(endMinute/100);
@@ -197,7 +171,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
             setShiftType(shiftOptions[0]);
         }
         if (shiftName.trim() === '') {
-            // setShiftNameEmpty(true);
             noErrors = false;
             Alert.alert (
                 'Shift Name',
@@ -228,7 +201,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
                 Haptics.NotificationFeedbackType.Error
             );
         } else if (location === 'Select Location') {
-            //setLocationError(true);
             noErrors = false;
             Alert.alert (
                 'Location',
@@ -244,7 +216,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
                 Haptics.NotificationFeedbackType.Error
             );
         } else if (!startDate) {
-            // setDateWrong(true);
             noErrors = false;
             Alert.alert (
                 'Date and Time',
@@ -336,7 +307,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
             );
         } else if (selectedRepeats !== 'Never') {
             if (weekdaysPressed.length === 0) {
-                //setNoWeekdaysPressed(true);
                 noErrors = false;
                 Alert.alert (
                     'Repeats',
@@ -353,7 +323,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
                 );
             }
         } else if (!numShifts) {
-            //setNumShiftsError(true);
             noErrors = false;
             Alert.alert (
                 'Number of Shifts',
@@ -391,6 +360,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
             }
         }
     }
+
     //post to Mongo
     const handleShiftAdd = () => {
         setWarnModal(false);
@@ -399,7 +369,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
         const isStartPeriod = (startPeriod === "AM");
         console.log(isEndPeriod);
         console.log(isStartPeriod);
-        //update fetch url according to IPv4 of Wi-Fi
         fetch('http://' + ipAddy + ':8080/createShifts', {
             method: 'POST',
             headers: {
@@ -491,10 +460,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
         setStartMinute(min);
         setStartPeriod(period);
         hideStartTimePicker();
-        // handleStartHour(hour);
-        // handleStartMin(min);
-        // console.warn("A start time has been picked: ", hour);
-        // console.log("Start time: ", startTime);
     };
 
     const [isEndTimePickerVisible, setEndTimePickerVisibility] = useState(false);
@@ -521,9 +486,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
         setEndMinute(min);
         setEndPeriod(period);
         hideEndTimePicker();
-        // const formattedEndTime = moment(time).format('h:mm A');
-        // setEndTime(formattedEndTime);
-        // console.warn("An end time has been picked: ", formattedEndTime);
     };
 
     const closeModal = () => {
@@ -606,41 +568,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
                 }
             </View>
             <Text style={styles.sectionSubtitle}>Date and Time</Text>
-            {/*{(!startDate || !endDate) &&*/}
-            {/*    <TouchableOpacity onPress={() => {*/}
-            {/*        handleCalendar()*/}
-            {/*        setDateWrong(false)*/}
-            {/*    }}>*/}
-            {/*        <View style={[styles.doubleContainer,*/}
-            {/*            {borderRadius: 10, backgroundColor: white},*/}
-            {/*            dateWrong ? AddPopupStyles.destructiveAction : null]}>*/}
-            {/*            <Text style={[styles.normalText, {color: clickableText}]}>Select Dates</Text>*/}
-            {/*            <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={18}/>*/}
-            {/*        </View>*/}
-            {/*    </TouchableOpacity>*/}
-            {/*}*/}
-            {/*{(startDate && endDate) &&*/}
-            {/*    <TouchableOpacity onPress={() => {*/}
-            {/*    handleCalendar()*/}
-            {/*    setDateWrong(false)*/}
-            {/*    }}>*/}
-            {/*        <View style={[styles.doubleContainer, {*/}
-            {/*            borderRadius: 10,*/}
-            {/*            backgroundColor: white,*/}
-            {/*            marginBottom: 18,*/}
-            {/*        }]}>*/}
-            {/*            <View style={[styles.shortContainer, {width: '45%'}]}>*/}
-            {/*                <Text style={[styles.normalText, {color: clickableText}]}>From</Text>*/}
-            {/*                <Text style={[styles.normalText, {color: clickableText}]}>{startDate}</Text>*/}
-            {/*            </View>*/}
-            {/*            <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={40}/>*/}
-            {/*            <View style={[styles.shortContainer, {width:'42.5%'}]}>*/}
-            {/*                <Text style={[styles.normalText, {color: clickableText}]}>To</Text>*/}
-            {/*                <Text style={[styles.normalText, {color: clickableText}]}>{endDate}</Text>*/}
-            {/*            </View>*/}
-            {/*        </View>*/}
-            {/*    </TouchableOpacity>*/}
-            {/*}*/}
             <View style={styles.dateTimeContainer}>
                 <TouchableOpacity onPress={showStartDatePicker}>
                 <View style={styles.dateTimeRow}>
@@ -707,58 +634,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
                     />
                 </TouchableOpacity>
             </View>
-            {/*<View style={[styles.doubleContainer]}>*/}
-            {/*    <View style={[styles.shortContainer, {width:"50%"}]}>*/}
-            {/*        <Text style={styles.sectionSubtitle}>Start Time</Text>*/}
-            {/*        <View style={[styles.doubleContainer, {width: "55%"}]}>*/}
-            {/*            <MultiWheelPicker*/}
-            {/*                wheelData={hourOptions}*/}
-            {/*                placeholder={1}*/}
-            {/*                selectedItem={startHour}*/}
-            {/*                setSelectedItems={setStartHour}*/}
-            {/*            />*/}
-            {/*            <Text style={styles.normalText}>:</Text>*/}
-            {/*            <MultiWheelPicker*/}
-            {/*                wheelData={minOptions}*/}
-            {/*                placeholder={"00"}*/}
-            {/*                selectedItem={startMinute}*/}
-            {/*                setSelectedItems={setStartMinute}*/}
-            {/*            />*/}
-            {/*            <Text> </Text>*/}
-            {/*            <MultiWheelPicker*/}
-            {/*                wheelData={timePeriods}*/}
-            {/*                placeholder={"AM"}*/}
-            {/*                selectedItem={startPeriod}*/}
-            {/*                setSelectedItems={setStartPeriod}*/}
-            {/*            />*/}
-            {/*        </View>*/}
-            {/*    </View>*/}
-            {/*    <View style={[styles.shortContainer, {width:'55%'}]}>*/}
-            {/*        <Text style={styles.sectionSubtitle}>End Time</Text>*/}
-            {/*        <View style={[styles.doubleContainer, {width: "50%"}]}>*/}
-            {/*            <MultiWheelPicker*/}
-            {/*                wheelData={hourOptions}*/}
-            {/*                placeholder={1}*/}
-            {/*                selectedItem={endHour}*/}
-            {/*                setSelectedItems={setEndHour}*/}
-            {/*            />*/}
-            {/*            <Text style={styles.normalText}>:</Text>*/}
-            {/*            <MultiWheelPicker*/}
-            {/*                wheelData={minOptions}*/}
-            {/*                placeholder={"00"}*/}
-            {/*                selectedItem={endMinute}*/}
-            {/*                setSelectedItems={setEndMinute}*/}
-            {/*            />*/}
-            {/*            <Text> </Text>*/}
-            {/*            <MultiWheelPicker*/}
-            {/*                wheelData={timePeriods}*/}
-            {/*                placeholder={"AM"}*/}
-            {/*                selectedItem={endPeriod}*/}
-            {/*                setSelectedItems={setEndPeriod}*/}
-            {/*            />*/}
-            {/*        </View>*/}
-            {/*    </View>*/}
-            {/*</View>*/}
             <Text style={styles.sectionSubtitle}>Repeats</Text>
             <View style={[AddPopupStyles.dropdownContainer]}>
                 <MultiWheelPicker
@@ -816,12 +691,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
                 isModalVisible={warnModal}
                 submitForm={handleShiftAdd}
                 titleText={warnText}/>
-            <CalendarPopup
-                setSelectedEndDate={setSelectedEndDate}
-                setSelectedStartDate={setSelectedStartDate}
-                isCalendarVisible={isCalendarVisible}
-                handleExitCalendar={handleCalendar}
-            />
         </KeyboardAwareScrollView>
                 </View>
             </Modal>
@@ -876,18 +745,15 @@ const styles = StyleSheet.create({
     },
     doubleContainer: {
         padding: 12,
-        //backgroundColor: 'blue',
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
         width: "100%",
     },
     shortContainer: {
-        //backgroundColor: 'green',
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        //padding: 12,
     },
     container: {
         width: "100%",
