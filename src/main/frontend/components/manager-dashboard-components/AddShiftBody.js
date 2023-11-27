@@ -414,7 +414,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
     const handleStartDateConfirm = (date) => {
         const formattedStartDate = moment(date).format('MM/DD/YYYY');
         setStartDate(formattedStartDate);
-        console.warn("A start date has been picked: ", moment(date).format('MM/DD/YYYY'));
         hideStartDatePicker();
     };
 
@@ -432,7 +431,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
     const handleEndDateConfirm = (date) => {
         const formattedEndDate = moment(date).format('MM/DD/YYYY');
         setEndDate(formattedEndDate);
-        console.warn("An end date has been picked: ", formattedEndDate);
         hideEndDatePicker();
     };
 
@@ -509,189 +507,189 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
                     <TouchableOpacity
                         onPress={closeModal}
                     >
-                        <Text style={{fontSize: 21, color: white}}>Cancel</Text>
+                        <Text style={[styles.normalText, {color: white}]} allowFontScaling={false}>Cancel</Text>
                     </TouchableOpacity>
                 </View>
-        <KeyboardAwareScrollView
-            keyboardDismissMode={"interactive"}
-            contentContainerStyle={[AddPopupStyles.modal, {flex: 1}, {height: "100%"}, {marginTop: 50}]}
-            // resetScrollToCoords={{ x: 0, y: 0 }}
-            scrollEnabled={true}
-        >
-            <Text style={styles.sectionTitle}>Add Shift</Text>
-            <TextInput
-                style={[styles.inputText, isShiftNameEmpty ? styles.errorBorder : null]}
-                onChangeText={(shiftName) =>{
-                    setShiftName(shiftName)
-                    setShiftNameEmpty(false)
-                }}
-                value={shiftName}
-                placeholder={"Shift Name"}
-                placeholderTextColor={placeholderText}
-            />
-            <Text style={styles.sectionSubtitle}>Shift Type</Text>
-            <View style={[AddPopupStyles.dropdownContainer]}>
-                {shiftOptions.length === 1 &&
-                    <View>
-                        <Text style={[styles.normalText, {color: clickableText}]}>{shiftOptions[0]}</Text>
-                    </View>
-                }
-                {shiftOptions.length !== 1 &&
-                    <View style={styles.doubleContainer}>
-                        <MultiWheelPicker
-                            wheelData={shiftOptions}
-                            selectedItem={shiftType}
-                            setSelectedItems={shiftDropdownPress}
-                            placeholder={"Select Shift Type"}
-                            wide={screenWidth/1.2}
-                            hasChevron={true}
+                    <KeyboardAwareScrollView
+                        keyboardDismissMode={"interactive"}
+                        contentContainerStyle={styles.scrollView}
+                        // resetScrollToCoords={{ x: 0, y: 0 }}
+                        scrollEnabled={true}
+                    >
+                        <Text style={styles.sectionTitle}>Add Shift</Text>
+                        <TextInput
+                            style={[styles.inputText, isShiftNameEmpty ? styles.errorBorder : null]}
+                            onChangeText={(shiftName) =>{
+                                setShiftName(shiftName)
+                                setShiftNameEmpty(false)
+                            }}
+                            value={shiftName}
+                            placeholder={"Shift Name"}
+                            placeholderTextColor={placeholderText}
                         />
-                    </View>
-                }
-            </View>
-            <Text style={styles.sectionSubtitle}>Location</Text>
-            <View style={[AddPopupStyles.dropdownContainer, isLocationError ? AddPopupStyles.destructiveAction:{}]}>
-                {displayedLocations.length === 1 &&
-                    <View>
-                        <Text style={[styles.normalText, {color: clickableText}]}>{locationOptions[0].locationName}</Text>
-                    </View>
-                }
-                {displayedLocations.length !== 1 &&
-                    <MultiWheelPicker
-                        wheelData={displayedLocations}
-                        setSelectedItems={locationDropdownPress}
-                        selectedItem={location}
-                        placeholder={"Select Location"}
-                        wide={screenWidth/1.2}
-                        hasChevron={true}
-                    />
-                }
-            </View>
-            <Text style={styles.sectionSubtitle}>Date and Time</Text>
-            <View style={styles.dateTimeContainer}>
-                <TouchableOpacity onPress={showStartDatePicker}>
-                <View style={styles.dateTimeRow}>
-                    <Text style={styles.normalText}>Start Date</Text>
-                    <Text style={[styles.normalText, {color: clickableText}]}>
-                        {startDate !== null ? startDate : 'Not selected'}
-                    </Text>
-                </View>
-                <DateTimePickerModal
-                    isVisible={isStartDatePickerVisible}
-                    mode="date"
-                    onConfirm={handleStartDateConfirm}
-                    onCancel={hideStartDatePicker}
-                    themeVariant={"light"}
-                    display={"inline"}
-                />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={showEndDatePicker}>
-                    <View style={styles.dateTimeRow}>
-                        <Text style={styles.normalText}>End Date</Text>
-                        <Text style={[styles.normalText, {color: clickableText}]}>
-                            {endDate !== null ? endDate : 'Not selected'}
-                        </Text>
-                    </View>
-                    <DateTimePickerModal
-                        isVisible={isEndDatePickerVisible}
-                        mode="date"
-                        onConfirm={handleEndDateConfirm}
-                        onCancel={hideEndDatePicker}
-                        themeVariant={"light"}
-                        display={"inline"}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={showStartTimePicker}>
-                    <View style={styles.dateTimeRow}>
-                        <Text style={styles.normalText}>Start Time</Text>
-                        <Text style={[styles.normalText, {color: clickableText}]}>
-                            {startTime !== null ? startTime : 'Not selected'}
-                        </Text>
-                    </View>
-                    <DateTimePickerModal
-                        isVisible={isStartTimePickerVisible}
-                        mode="time"
-                        onConfirm={handleStartTimeConfirm}
-                        onCancel={hideStartTimePicker}
-                        themeVariant={"light"}
-                        display={"spinner"}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={showEndTimePicker}>
-                    <View style={[styles.dateTimeRow, {borderBottomWidth: 0}]}>
-                        <Text style={styles.normalText}>End Time</Text>
-                        <Text style={[styles.normalText, {color: clickableText}]}>
-                            {endTime !== null ? endTime : 'Not selected'}
-                        </Text>
-                    </View>
-                    <DateTimePickerModal
-                        isVisible={isEndTimePickerVisible}
-                        mode="time"
-                        onConfirm={handleEndTimeConfirm}
-                        onCancel={hideEndTimePicker}
-                        themeVariant={"light"}
-                        display={"spinner"}
-                    />
-                </TouchableOpacity>
-            </View>
-            <Text style={styles.sectionSubtitle}>Repeats</Text>
-            <View style={[AddPopupStyles.dropdownContainer]}>
-                <MultiWheelPicker
-                    wheelData={displayedRepeats}
-                    setSelectedItems={repeatsDropdownPress}
-                    selectedItem={selectedRepeats}
-                    placeholder={"Select Option"}
-                    wide={screenWidth/1.2}
-                    hasChevron={true}
-                />
-            </View>
-            <View style={[styles.dayContainer, noWeekdaysPressed ? AddPopupStyles.destructiveAction:{}]}>
-                {weekdays.map(day  =>
-                    <TouchableWithoutFeedback onPress={() => handleWeekdayPress(day.key)} key={day.key}>
-                        <View
-                            style={[weekdaysPressed.includes(day.key) ?
-                                {backgroundColor: primaryGreen}
-                                : {backgroundColor: white},
-                                styles.dayBox,
-                            ]}
-                        >
-                            <Text style={[!weekdaysPressed.includes(day.key) ?
-                                {color: clickableText}
-                                : {color: white},
-                                {fontSize: 17}]}
-                            >
-                                {day.text}
-                            </Text>
+                        <Text style={styles.sectionSubtitle}>Shift Type</Text>
+                        <View style={[AddPopupStyles.dropdownContainer]}>
+                            {shiftOptions.length === 1 &&
+                                <View>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>{shiftOptions[0]}</Text>
+                                </View>
+                            }
+                            {shiftOptions.length !== 1 &&
+                                <View style={styles.doubleContainer}>
+                                    <MultiWheelPicker
+                                        wheelData={shiftOptions}
+                                        selectedItem={shiftType}
+                                        setSelectedItems={shiftDropdownPress}
+                                        placeholder={"Select Shift Type"}
+                                        wide={screenWidth/1.2}
+                                        hasChevron={true}
+                                    />
+                                </View>
+                            }
                         </View>
-                    </TouchableWithoutFeedback>
+                        <Text style={styles.sectionSubtitle}>Location</Text>
+                        <View style={[AddPopupStyles.dropdownContainer, isLocationError ? AddPopupStyles.destructiveAction:{}]}>
+                            {displayedLocations.length === 1 &&
+                                <View>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>{locationOptions[0].locationName}</Text>
+                                </View>
+                            }
+                            {displayedLocations.length !== 1 &&
+                                <MultiWheelPicker
+                                    wheelData={displayedLocations}
+                                    setSelectedItems={locationDropdownPress}
+                                    selectedItem={location}
+                                    placeholder={"Select Location"}
+                                    wide={screenWidth/1.2}
+                                    hasChevron={true}
+                                />
+                            }
+                        </View>
+                        <Text style={styles.sectionSubtitle}>Date and Time</Text>
+                        <View style={styles.dateTimeContainer}>
+                            <TouchableOpacity onPress={showStartDatePicker}>
+                            <View style={styles.dateTimeRow}>
+                                <Text style={styles.normalText}>Start Date</Text>
+                                <Text style={[styles.normalText, {color: clickableText}]}>
+                                    {startDate !== null ? startDate : 'Not selected'}
+                                </Text>
+                            </View>
+                            <DateTimePickerModal
+                                isVisible={isStartDatePickerVisible}
+                                mode="date"
+                                onConfirm={handleStartDateConfirm}
+                                onCancel={hideStartDatePicker}
+                                themeVariant={"light"}
+                                display={"inline"}
+                            />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={showEndDatePicker}>
+                                <View style={styles.dateTimeRow}>
+                                    <Text style={styles.normalText}>End Date</Text>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>
+                                        {endDate !== null ? endDate : 'Not selected'}
+                                    </Text>
+                                </View>
+                                <DateTimePickerModal
+                                    isVisible={isEndDatePickerVisible}
+                                    mode="date"
+                                    onConfirm={handleEndDateConfirm}
+                                    onCancel={hideEndDatePicker}
+                                    themeVariant={"light"}
+                                    display={"inline"}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={showStartTimePicker}>
+                                <View style={styles.dateTimeRow}>
+                                    <Text style={styles.normalText}>Start Time</Text>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>
+                                        {startTime !== null ? startTime : 'Not selected'}
+                                    </Text>
+                                </View>
+                                <DateTimePickerModal
+                                    isVisible={isStartTimePickerVisible}
+                                    mode="time"
+                                    onConfirm={handleStartTimeConfirm}
+                                    onCancel={hideStartTimePicker}
+                                    themeVariant={"light"}
+                                    display={"spinner"}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={showEndTimePicker}>
+                                <View style={[styles.dateTimeRow, {borderBottomWidth: 0}]}>
+                                    <Text style={styles.normalText}>End Time</Text>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>
+                                        {endTime !== null ? endTime : 'Not selected'}
+                                    </Text>
+                                </View>
+                                <DateTimePickerModal
+                                    isVisible={isEndTimePickerVisible}
+                                    mode="time"
+                                    onConfirm={handleEndTimeConfirm}
+                                    onCancel={hideEndTimePicker}
+                                    themeVariant={"light"}
+                                    display={"spinner"}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={styles.sectionSubtitle}>Repeats</Text>
+                        <View style={[AddPopupStyles.dropdownContainer]}>
+                            <MultiWheelPicker
+                                wheelData={displayedRepeats}
+                                setSelectedItems={repeatsDropdownPress}
+                                selectedItem={selectedRepeats}
+                                placeholder={"Select Option"}
+                                wide={screenWidth/1.2}
+                                hasChevron={true}
+                            />
+                        </View>
+                        <View style={[styles.dayContainer, noWeekdaysPressed ? AddPopupStyles.destructiveAction:{}]}>
+                            {weekdays.map(day  =>
+                                <TouchableWithoutFeedback onPress={() => handleWeekdayPress(day.key)} key={day.key}>
+                                    <View
+                                        style={[weekdaysPressed.includes(day.key) ?
+                                            {backgroundColor: primaryGreen}
+                                            : {backgroundColor: white},
+                                            styles.dayBox,
+                                        ]}
+                                    >
+                                        <Text style={[!weekdaysPressed.includes(day.key) ?
+                                            {color: clickableText}
+                                            : {color: white},
+                                            {fontSize: 17}]}
+                                        >
+                                            {day.text}
+                                        </Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
 
-                )}
-            </View>
-            <TextInput
-                style={[styles.inputText, isShiftNameEmpty ? styles.errorBorder : null]}
-                onChangeText={(numShifts)=> {
-                    setNumShifts(numShifts)
-                    setNumShiftsError(false)
-                }}
-                value={numShifts}
-                placeholder={'Number of Shifts'}
-                placeholderTextColor={placeholderText}
-                keyboardType = 'numeric'
-            />
-            <View style={styles.addShiftButton}>
-                <CustomButton
-                    buttonText={"Add Shift"}
-                    handlePress={handleErrors}
-                    color={primaryGreen}
-                    textColor={white}
-                />
-            </View>
-            <WarnPopup
-                handleModalVisible={handleWarnVisible}
-                isModalVisible={warnModal}
-                submitForm={handleShiftAdd}
-                titleText={warnText}/>
-        </KeyboardAwareScrollView>
+                            )}
+                        </View>
+                        <TextInput
+                            style={[styles.inputText, isShiftNameEmpty ? styles.errorBorder : null]}
+                            onChangeText={(numShifts)=> {
+                                setNumShifts(numShifts)
+                                setNumShiftsError(false)
+                            }}
+                            value={numShifts}
+                            placeholder={'Number of Shifts'}
+                            placeholderTextColor={placeholderText}
+                            keyboardType = 'numeric'
+                        />
+                        <View style={styles.addShiftButton}>
+                            <CustomButton
+                                buttonText={"Add Shift"}
+                                handlePress={handleErrors}
+                                color={primaryGreen}
+                                textColor={white}
+                            />
+                        </View>
+                        <WarnPopup
+                            handleModalVisible={handleWarnVisible}
+                            isModalVisible={warnModal}
+                            submitForm={handleShiftAdd}
+                            titleText={warnText}/>
+                    </KeyboardAwareScrollView>
                 </View>
             </Modal>
         </View>
@@ -700,9 +698,12 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
 
 const styles = StyleSheet.create({
     modalHeader: {
-        height: 50,
+        height: 55,
         backgroundColor: primaryGreen,
-        marginBottom: 50,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        paddingLeft: 16,
     },
     modalContainer: {
         flex: 1,
@@ -712,6 +713,14 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'flex-start',
         flexDirection: 'row',
+    },
+    scrollView: {
+        position: "relative",
+        backgroundColor: grayBackground,
+        flexDirection: "column",
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 16,
     },
     sectionTitle: {
         marginBottom: 6,
