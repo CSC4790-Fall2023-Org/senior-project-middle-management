@@ -201,7 +201,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (location === null) {
+        } else if (location === null || location === 'Select Location') {
             noErrors = false;
             Alert.alert (
                 'Location',
@@ -291,7 +291,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (selectedRepeats === null) {
+        } else if (!selectedRepeats|| selectedRepeats === 'Select Option') {
             noErrors = false;
             Alert.alert (
                 'Repeats',
@@ -399,6 +399,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                 console.error(error);
             });
         setAddShiftModal(false);
+        clearValues();
     }
 
     const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
@@ -489,6 +490,21 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
 
     const closeModal = () => {
         setAddShiftModal(!addShiftModal);
+        clearValues();
+    }
+
+    const clearValues = () => {
+        setShiftName('');
+        setShiftType(null);
+        setLocation(null);
+        setLocationId(null);
+        setStartDate(null);
+        setEndDate(null);
+        setStartTime(null);
+        setEndTime(null);
+        setSelectedRepeats(null);
+        setRepeatsID(null);
+        setNumShifts(null);
     }
 
     return(
@@ -510,6 +526,11 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                     >
                         <Text style={[styles.normalText, {color: white}]} allowFontScaling={false}>Cancel</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={handleShiftAdd}
+                    >
+                        <Text style={[styles.normalText, {color: white, fontWeight: 'bold'}]} allowFontScaling={false}>Create</Text>
+                    </TouchableOpacity>
                 </View>
                     <KeyboardAwareScrollView
                         keyboardDismissMode={"interactive"}
@@ -517,7 +538,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                         // resetScrollToCoords={{ x: 0, y: 0 }}
                         scrollEnabled={true}
                     >
-                        <Text style={styles.sectionTitle}>Add Shift</Text>
+                        <Text style={styles.sectionTitle}>Create Shift</Text>
                         <TextInput
                             style={[styles.inputText, isShiftNameEmpty ? styles.errorBorder : null]}
                             onChangeText={(shiftName) =>{
@@ -527,6 +548,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                             value={shiftName}
                             placeholder={"Shift Name"}
                             placeholderTextColor={placeholderText}
+                            autoCapitalize={"words"}
                         />
                         <Text style={styles.sectionSubtitle}>Shift Type</Text>
                         <View style={[AddPopupStyles.dropdownContainer]}>
@@ -677,19 +699,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                             placeholderTextColor={placeholderText}
                             keyboardType = 'numeric'
                         />
-                        <View style={styles.addShiftButton}>
-                            <CustomButton
-                                buttonText={"Add Shift"}
-                                handlePress={handleErrors}
-                                color={primaryGreen}
-                                textColor={white}
-                            />
-                        </View>
-                        <WarnPopup
-                            handleModalVisible={handleWarnVisible}
-                            isModalVisible={warnModal}
-                            submitForm={handleShiftAdd}
-                            titleText={warnText}/>
                     </KeyboardAwareScrollView>
                 </View>
             </Modal>
@@ -703,8 +712,8 @@ const styles = StyleSheet.create({
         backgroundColor: primaryGreen,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start',
-        paddingLeft: 16,
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
     },
     modalContainer: {
         flex: 1,
@@ -721,6 +730,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: 'center',
         justifyContent: 'center',
+        paddingBottom: 24,
         padding: 16,
     },
     sectionTitle: {
