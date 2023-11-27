@@ -73,7 +73,7 @@ public class EmployeeServices {
             shiftId = JsonUtils.getShiftIdFromJSON(new JSONObject(pPayload));
         } catch (SvcException | JSONException e) {
             e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseUtils.errorResponse(e);
         }
 
         Object[] assignShiftToEmployee;
@@ -85,7 +85,7 @@ public class EmployeeServices {
             shift = (Shift) assignShiftToEmployee[1];
         } catch (SvcException | DatabaseException e) {
             e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseUtils.errorResponse(e);
         }
 
         try {
@@ -93,9 +93,9 @@ public class EmployeeServices {
             DatabaseServices.saveShift(shift);
         } catch (DatabaseException e) {
             e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseUtils.errorResponse(e);
         }
-        return ResponseEntity.status(200).body("Shift assigned to employee successfully");
+        return SuccessfulResponseUtils.successfulResponse("Shift assigned successfully");
     }
 
     public static ResponseEntity getAvailableShifts(final String pPayload){
