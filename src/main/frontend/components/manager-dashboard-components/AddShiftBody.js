@@ -9,7 +9,7 @@ import {
     TextInput,
     Alert,
     Modal,
-    StatusBar,
+    StatusBar, KeyboardAvoidingView, KeyboardAvoidingViewComponent,
 } from "react-native";
 import React, {useState} from "react";
 import MultiWheelPicker from "../MultiWheelPicker";
@@ -215,51 +215,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (!startDate) {
-            noErrors = false;
-            Alert.alert (
-                'Dates Window',
-                'Please select a start date.',
-                [
-                    {
-                        text: 'OK',
-                        style: 'default',
-                    }
-                ]
-            );
-            Haptics.notificationAsync(
-                Haptics.NotificationFeedbackType.Error
-            );
-        } else if (!endDate) {
-            noErrors = false;
-            Alert.alert (
-                'Dates Window',
-                'Please select an end date.',
-                [
-                    {
-                        text: 'OK',
-                        style: 'default',
-                    }
-                ]
-            );
-            Haptics.notificationAsync(
-                Haptics.NotificationFeedbackType.Error
-            );
-        } else if (startDate > endDate) {
-            noErrors = false;
-            Alert.alert (
-                'Dates Window',
-                'Start date cannot occur after end date.',
-                [
-                    {
-                        text: 'OK',
-                        style: 'default',
-                    }
-                ]
-            );
-            Haptics.notificationAsync(
-                Haptics.NotificationFeedbackType.Error
-            );
         } else if (!startTime) {
             noErrors = false;
             Alert.alert (
@@ -294,7 +249,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             noErrors = false;
             Alert.alert (
                 'Shift Time',
-                'Start time cannot occur after end time.',
+                'Start time cannot occur after end time for a one day shift.',
                 [
                     {
                         text: 'OK',
@@ -338,7 +293,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         } else if (!selectedRepeats|| selectedRepeats === 'Select Option') {
             noErrors = false;
             Alert.alert (
-                'Repeat Shift',
+                'Repeat Schedule',
                 'Please select how often you want to repeat this schedule.',
                 [
                     {
@@ -350,12 +305,58 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
+        } else if (!startDate) {
+            noErrors = false;
+            Alert.alert (
+                'Dates Window',
+                'Please select a beginning date.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (!endDate) {
+            noErrors = false;
+            Alert.alert (
+                'Dates Window',
+                'Please select an ending date.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (startDate > endDate) {
+            noErrors = false;
+            Alert.alert (
+                'Schedule Window',
+                'Beginning date cannot occur after ending date.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
         }
+
         if (noErrors) {
-            if (endTime < startTime || endDate > startDate) {
+            if (startTime < endTime) {
                 Alert.alert (
                     'Overnight Shift',
-                    'Are you sure you want to create an overnight shift?',
+                    'Are you sure you want to create an overnight shift??',
                     [
                         {
                             text: 'Create',
@@ -368,6 +369,9 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                         }
                     ]
                 );
+                Haptics.notificationAsync(
+                    Haptics.NotificationFeedbackType.Warning
+                );
             } else {
                 handleShiftAdd();
             }
@@ -377,6 +381,9 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     //post to Mongo
     const handleShiftAdd = () => {
         setWarnModal(false);
+        Haptics.notificationAsync(
+            Haptics.NotificationFeedbackType.Warning
+        );
         const weekdays = weekdaysPressed.sort();
         fetch('http://' + ipAddy + ':8080/createShifts', {
             method: 'POST',
@@ -615,46 +622,8 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                                 />
                             }
                         </View>
-                        <Text style={styles.sectionSubtitle}>Dates Window</Text>
-                        <View style={styles.dateTimeContainer}>
-                            <TouchableOpacity onPress={showStartDatePicker}>
-                            <View style={styles.dateTimeRow}>
-                                <Text style={styles.normalText}>Start Date</Text>
-                                <Text style={[styles.normalText, {color: clickableText}]}>
-                                    {displayStartDate !== null ? displayStartDate : 'Not selected'}
-                                </Text>
-                            </View>
-                            <DateTimePickerModal
-                                isVisible={isStartDatePickerVisible}
-                                mode="date"
-                                onConfirm={handleStartDateConfirm}
-                                onCancel={hideStartDatePicker}
-                                themeVariant={"light"}
-                                display={"inline"}
-                                minimumDate={new Date(1950, 0, 1)}
-                            />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={showEndDatePicker}>
-                                <View style={[styles.dateTimeRow, {borderBottomWidth: 0}]}>
-                                    <Text style={styles.normalText}>End Date</Text>
-                                    <Text style={[styles.normalText, {color: clickableText}]}>
-                                        {displayEndDate !== null ? displayEndDate : 'Not selected'}
-                                    </Text>
-                                </View>
-                                <DateTimePickerModal
-                                    isVisible={isEndDatePickerVisible}
-                                    mode="date"
-                                    onConfirm={handleEndDateConfirm}
-                                    onCancel={hideEndDatePicker}
-                                    themeVariant={"light"}
-                                    display={"inline"}
-                                    minimumDate={new Date(1950, 0, 1)}
-                                />
-                            </TouchableOpacity>
-                        </View>
                         <Text style={styles.sectionSubtitle}>Shift Time</Text>
                         <View style={styles.dateTimeContainer}>
-
                             <TouchableOpacity onPress={showStartTimePicker}>
                                 <View style={styles.dateTimeRow}>
                                     <Text style={styles.normalText}>Start Time</Text>
@@ -722,7 +691,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                             placeholderTextColor={placeholderText}
                             keyboardType='numeric'
                         />
-                        <Text style={styles.sectionSubtitle}>Repeat Shift</Text>
+                        <Text style={styles.sectionSubtitle}>Repeat Schedule</Text>
                         <View style={[AddPopupStyles.dropdownContainer]}>
                             <MultiWheelPicker
                                 wheelData={displayedRepeats}
@@ -732,6 +701,43 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                                 wide={screenWidth/1.2}
                                 hasChevron={true}
                             />
+                        </View>
+                        <Text style={styles.sectionSubtitle}>Schedule Window</Text>
+                        <View style={styles.dateTimeContainer}>
+                            <TouchableOpacity onPress={showStartDatePicker}>
+                                <View style={styles.dateTimeRow}>
+                                    <Text style={styles.normalText}>Beginning Date</Text>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>
+                                        {displayStartDate !== null ? displayStartDate : 'Not selected'}
+                                    </Text>
+                                </View>
+                                <DateTimePickerModal
+                                    isVisible={isStartDatePickerVisible}
+                                    mode="date"
+                                    onConfirm={handleStartDateConfirm}
+                                    onCancel={hideStartDatePicker}
+                                    themeVariant={"light"}
+                                    display={"inline"}
+                                    minimumDate={new Date(1950, 0, 1)}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={showEndDatePicker}>
+                                <View style={[styles.dateTimeRow, {borderBottomWidth: 0}]}>
+                                    <Text style={styles.normalText}>Ending Date</Text>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>
+                                        {displayEndDate !== null ? displayEndDate : 'Not selected'}
+                                    </Text>
+                                </View>
+                                <DateTimePickerModal
+                                    isVisible={isEndDatePickerVisible}
+                                    mode="date"
+                                    onConfirm={handleEndDateConfirm}
+                                    onCancel={hideEndDatePicker}
+                                    themeVariant={"light"}
+                                    display={"inline"}
+                                    minimumDate={new Date(1950, 0, 1)}
+                                />
+                            </TouchableOpacity>
                         </View>
                     </KeyboardAwareScrollView>
                 </View>
