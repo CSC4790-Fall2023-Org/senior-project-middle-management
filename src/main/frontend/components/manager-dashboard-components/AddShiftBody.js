@@ -154,11 +154,18 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     }
 
     const handleErrors = () => {
+        console.log('SUBMITTED!');
         let timeStart = startHour+(startMinute/100);
         let timeEnd = endHour+(endMinute/100);
         let noErrors= true;
-        console.log('Selected repeats option: ', selectedRepeats);
-        console.log('Location: ', location);
+        // console.log('Selected repeats option: ', selectedRepeats);
+        // console.log('Location: ', location);
+        console.log('Start Time: ', startTime);
+        console.log('End Time: ', endTime);
+        console.log('Start Hour: ', startHour);
+        console.log('End Hour: ', endHour);
+        console.log('Start Date: ', startDate);
+        console.log('End Date: ', endDate);
         if (endPeriod === "PM") {
             timeEnd += 12;
         }
@@ -219,7 +226,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         } else if (!startDate) {
             noErrors = false;
             Alert.alert (
-                'Date and Time',
+                'Dates Window',
                 'Please select a start date.',
                 [
                     {
@@ -234,7 +241,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         } else if (!endDate) {
             noErrors = false;
             Alert.alert (
-                'Date and Time',
+                'Dates Window',
                 'Please select an end date.',
                 [
                     {
@@ -246,11 +253,11 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (endDate < startDate) {
+        } else if (startDate > endDate) {
             noErrors = false;
             Alert.alert (
-                'Date and Time',
-                'End date cannot occur before start date.',
+                'Dates Window',
+                'Start date cannot occur after end date.',
                 [
                     {
                         text: 'OK',
@@ -264,7 +271,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         } else if (!startTime) {
             noErrors = false;
             Alert.alert (
-                'Date and Time',
+                'Shift Time',
                 'Please select a start time.',
                 [
                     {
@@ -279,8 +286,53 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         }  else if (!endTime) {
             noErrors = false;
             Alert.alert (
-                'Date and Time',
+                'Shift Time',
                 'Please select an end time.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (startDate === endDate && startTime >= endTime) {
+            noErrors = false;
+            Alert.alert (
+                'Shift Time',
+                'Start time cannot occur after end time.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (weekdaysPressed.length === 0) {
+            noErrors = false;
+            Alert.alert (
+                'Shift Day',
+                'On which day(s) will this shift occur?',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (!numShifts) {
+            noErrors = false;
+            Alert.alert (
+                'Number of Shifts',
+                'Please enter how many instances of the shift you want to create.',
                 [
                     {
                         text: 'OK',
@@ -294,40 +346,8 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         } else if (!selectedRepeats|| selectedRepeats === 'Select Option') {
             noErrors = false;
             Alert.alert (
-                'Repeats',
-                'Please select how often shift repeats.',
-                [
-                    {
-                        text: 'OK',
-                        style: 'default',
-                    }
-                ]
-            );
-            Haptics.notificationAsync(
-                Haptics.NotificationFeedbackType.Error
-            );
-        } else if (selectedRepeats !== 'Never') {
-            if (weekdaysPressed.length === 0) {
-                noErrors = false;
-                Alert.alert (
-                    'Repeats',
-                    'Please select days on which shift repeats.',
-                    [
-                        {
-                            text: 'OK',
-                            style: 'default',
-                        }
-                    ]
-                );
-                Haptics.notificationAsync(
-                    Haptics.NotificationFeedbackType.Error
-                );
-            }
-        } else if (!numShifts) {
-            noErrors = false;
-            Alert.alert (
-                'Number of Shifts',
-                'Please enter how many shifts to create.',
+                'Repeat Shift',
+                'Please select how often you want to repeat this schedule.',
                 [
                     {
                         text: 'OK',
@@ -368,8 +388,8 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         const weekdays = weekdaysPressed.sort();
         const isEndPeriod = (endPeriod === "AM");
         const isStartPeriod = (startPeriod === "AM");
-        console.log(isEndPeriod);
-        console.log(isStartPeriod);
+        console.log('Is start period AM?: ', isStartPeriod);
+        console.log('Is end period AM?: ', isEndPeriod);
         fetch('http://' + ipAddy + ':8080/createShifts', {
             method: 'POST',
             headers: {
@@ -404,6 +424,8 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
 
     const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
     const [startDate, setStartDate] = useState(null);
+    const [displayStartDate, setDisplayStartDate] = useState(null);
+    const [isStartPast, setIsStartPast] = useState(false);
 
     const showStartDatePicker = () => {
         setStartDatePickerVisibility(true);
@@ -414,13 +436,14 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     };
 
     const handleStartDateConfirm = (date) => {
-        const formattedStartDate = moment(date).format('MM/DD/YYYY');
-        setStartDate(formattedStartDate);
+        setStartDate(moment(date).format('YYYY/MM/DD'));
+        setDisplayStartDate(moment(date).format('MM/DD/YYYY'));
         hideStartDatePicker();
     };
 
     const [isEndDatePickerVisible, setEndDatePickerVisibility] = useState(false);
     const [endDate, setEndDate] = useState(null);
+    const [displayEndDate, setDisplayEndDate] = useState(null);
 
     const showEndDatePicker = () => {
         setEndDatePickerVisibility(true);
@@ -431,8 +454,8 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     };
 
     const handleEndDateConfirm = (date) => {
-        const formattedEndDate = moment(date).format('MM/DD/YYYY');
-        setEndDate(formattedEndDate);
+        setEndDate(moment(date).format('YYYY/MM/DD'));
+        setDisplayEndDate(moment(date).format('MM/DD/YYYY'));
         hideEndDatePicker();
     };
 
@@ -452,7 +475,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
 
     const handleStartTimeConfirm = (time) => {
         const formattedTime = moment(time).format('h:mm A');
-        const hour = moment(formattedTime, 'h:mm A').hour();
+        const hour = moment(formattedTime, 'h:mm A').format('h');
         const min = moment(formattedTime, 'h:mm A').minute();
         const period = moment(time).format('a');
         setStartTime(formattedTime);
@@ -478,7 +501,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
 
     const handleEndTimeConfirm = (time) => {
         const formattedTime = moment(time).format('h:mm A');
-        const hour = moment(formattedTime, 'h:mm A').hour();
+        const hour = moment(formattedTime, 'h:mm A').format('h');
         const min = moment(formattedTime, 'h:mm A').minute();
         const period = moment(time).format('a');
         setEndTime(formattedTime);
@@ -499,12 +522,15 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         setLocation(null);
         setLocationId(null);
         setStartDate(null);
+        setDisplayStartDate(null);
+        setDisplayEndDate(null);
         setEndDate(null);
         setStartTime(null);
         setEndTime(null);
+        setWeekdaysPressed([]);
+        setNumShifts(null);
         setSelectedRepeats(null);
         setRepeatsID(null);
-        setNumShifts(null);
     }
 
     return(
@@ -524,12 +550,22 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                     <TouchableOpacity
                         onPress={closeModal}
                     >
-                        <Text style={[styles.normalText, {color: white}]} allowFontScaling={false}>Cancel</Text>
+                        <Text
+                            style={[styles.normalText, {color: white}]}
+                            allowFontScaling={false}
+                        >
+                            Cancel
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={handleShiftAdd}
+                        onPress={handleErrors}
                     >
-                        <Text style={[styles.normalText, {color: white, fontWeight: 'bold'}]} allowFontScaling={false}>Create</Text>
+                        <Text
+                            style={[styles.normalText, {color: white, fontWeight: 'bold'}]}
+                            allowFontScaling={false}
+                        >
+                            Create
+                        </Text>
                     </TouchableOpacity>
                 </View>
                     <KeyboardAwareScrollView
@@ -540,8 +576,8 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                     >
                         <Text style={styles.sectionTitle}>Create Shift</Text>
                         <TextInput
-                            style={[styles.inputText, isShiftNameEmpty ? styles.errorBorder : null]}
-                            onChangeText={(shiftName) =>{
+                            style={styles.inputText}
+                            onChangeText={(shiftName) => {
                                 setShiftName(shiftName)
                                 setShiftNameEmpty(false)
                             }}
@@ -554,7 +590,9 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                         <View style={[AddPopupStyles.dropdownContainer]}>
                             {shiftOptions.length === 1 &&
                                 <View>
-                                    <Text style={[styles.normalText, {color: clickableText}]}>{shiftOptions[0]}</Text>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>
+                                        {shiftOptions[0]}
+                                    </Text>
                                 </View>
                             }
                             {shiftOptions.length !== 1 &&
@@ -571,10 +609,14 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                             }
                         </View>
                         <Text style={styles.sectionSubtitle}>Location</Text>
-                        <View style={[AddPopupStyles.dropdownContainer, isLocationError ? AddPopupStyles.destructiveAction:{}]}>
+                        <View style={[AddPopupStyles.dropdownContainer,
+                            isLocationError ? AddPopupStyles.destructiveAction:{}]}
+                        >
                             {displayedLocations.length === 1 &&
                                 <View>
-                                    <Text style={[styles.normalText, {color: clickableText}]}>{locationOptions[0].locationName}</Text>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>
+                                        {locationOptions[0].locationName}
+                                    </Text>
                                 </View>
                             }
                             {displayedLocations.length !== 1 &&
@@ -588,13 +630,13 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                                 />
                             }
                         </View>
-                        <Text style={styles.sectionSubtitle}>Date and Time</Text>
+                        <Text style={styles.sectionSubtitle}>Dates Window</Text>
                         <View style={styles.dateTimeContainer}>
                             <TouchableOpacity onPress={showStartDatePicker}>
                             <View style={styles.dateTimeRow}>
                                 <Text style={styles.normalText}>Start Date</Text>
                                 <Text style={[styles.normalText, {color: clickableText}]}>
-                                    {startDate !== null ? startDate : 'Not selected'}
+                                    {displayStartDate !== null ? displayStartDate : 'Not selected'}
                                 </Text>
                             </View>
                             <DateTimePickerModal
@@ -604,13 +646,14 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                                 onCancel={hideStartDatePicker}
                                 themeVariant={"light"}
                                 display={"inline"}
+                                minimumDate={new Date(1950, 0, 1)}
                             />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={showEndDatePicker}>
-                                <View style={styles.dateTimeRow}>
+                                <View style={[styles.dateTimeRow, {borderBottomWidth: 0}]}>
                                     <Text style={styles.normalText}>End Date</Text>
                                     <Text style={[styles.normalText, {color: clickableText}]}>
-                                        {endDate !== null ? endDate : 'Not selected'}
+                                        {displayEndDate !== null ? displayEndDate : 'Not selected'}
                                     </Text>
                                 </View>
                                 <DateTimePickerModal
@@ -620,8 +663,13 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                                     onCancel={hideEndDatePicker}
                                     themeVariant={"light"}
                                     display={"inline"}
+                                    minimumDate={new Date(1950, 0, 1)}
                                 />
                             </TouchableOpacity>
+                        </View>
+                        <Text style={styles.sectionSubtitle}>Shift Time</Text>
+                        <View style={styles.dateTimeContainer}>
+
                             <TouchableOpacity onPress={showStartTimePicker}>
                                 <View style={styles.dateTimeRow}>
                                     <Text style={styles.normalText}>Start Time</Text>
@@ -655,18 +703,8 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                                 />
                             </TouchableOpacity>
                         </View>
-                        <Text style={styles.sectionSubtitle}>Repeats</Text>
-                        <View style={[AddPopupStyles.dropdownContainer]}>
-                            <MultiWheelPicker
-                                wheelData={displayedRepeats}
-                                setSelectedItems={repeatsDropdownPress}
-                                selectedItem={selectedRepeats}
-                                placeholder={"Select Option"}
-                                wide={screenWidth/1.2}
-                                hasChevron={true}
-                            />
-                        </View>
-                        <View style={[styles.dayContainer, noWeekdaysPressed ? AddPopupStyles.destructiveAction:{}]}>
+                        <Text style={styles.sectionSubtitle}>Shift Day</Text>
+                        <View style={styles.dayContainer}>
                             {weekdays.map(day  =>
                                 <TouchableWithoutFeedback onPress={() => handleWeekdayPress(day.key)} key={day.key}>
                                     <View
@@ -689,7 +727,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                             )}
                         </View>
                         <TextInput
-                            style={[styles.inputText, isShiftNameEmpty ? styles.errorBorder : null]}
+                            style={styles.inputText}
                             onChangeText={(numShifts)=> {
                                 setNumShifts(numShifts)
                                 setNumShiftsError(false)
@@ -697,8 +735,19 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                             value={numShifts}
                             placeholder={'Number of Shifts'}
                             placeholderTextColor={placeholderText}
-                            keyboardType = 'numeric'
+                            keyboardType='numeric'
                         />
+                        <Text style={styles.sectionSubtitle}>Repeat Shift</Text>
+                        <View style={[AddPopupStyles.dropdownContainer]}>
+                            <MultiWheelPicker
+                                wheelData={displayedRepeats}
+                                setSelectedItems={repeatsDropdownPress}
+                                selectedItem={selectedRepeats}
+                                placeholder={"Select Option"}
+                                wide={screenWidth/1.2}
+                                hasChevron={true}
+                            />
+                        </View>
                     </KeyboardAwareScrollView>
                 </View>
             </Modal>
@@ -758,10 +807,6 @@ const styles = StyleSheet.create({
     },
     normalText: {
         fontSize: 18,
-    },
-    errorBorder: {
-        borderWidth: 1,
-        borderColor: destructiveAction,
     },
     doubleContainer: {
         padding: 12,
