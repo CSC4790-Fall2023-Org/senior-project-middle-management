@@ -29,7 +29,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
-const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptions, shiftOptions}) => {
+const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOptions}) => {
     const warnText="This shift goes overnight. Are you sure you want to submit it?"
     const screenWidth = Dimensions.get('window').width;
 
@@ -397,7 +397,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptio
             .catch(error => {
                 console.error(error);
             });
-        backPress();
+        setAddShiftModal(false);
     }
 
     const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);

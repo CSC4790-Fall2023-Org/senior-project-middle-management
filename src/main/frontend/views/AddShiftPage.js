@@ -13,9 +13,6 @@ const AddShiftPage = ({ route }) => {
     const { locationOptions, shiftOptions } = route.params;
     const [addShiftModal, setAddShiftModal] = useState(true);
 
-    const backPress = () =>{
-        navigation.goBack()
-    }
     return (
         <View style={{flex: 1}}>
             <StatusBar
@@ -30,7 +27,12 @@ const AddShiftPage = ({ route }) => {
                 <Text style={styles.headerText}>Add Shift</Text>
             </View>
             <ScrollView style={styles.pageScroll}>
-                <AddShiftBody addShiftModal={addShiftModal} setAddShiftModal={setAddShiftModal} backPress={backPress} shiftOptions={shiftOptions} locationOptions={locationOptions}/>
+                <AddShiftBody
+                    addShiftModal={addShiftModal}
+                    setAddShiftModal={setAddShiftModal}
+                    shiftOptions={shiftOptions}
+                    locationOptions={locationOptions}
+                />
             </ScrollView>
         </View>
     );

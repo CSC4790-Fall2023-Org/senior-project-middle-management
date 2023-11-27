@@ -9,13 +9,18 @@ import Dropdown from "../Dropdown";
 import {secondaryGray, white, primaryGreen} from "../../utils/Colors";
 import {ipAddy} from "../../utils/IPAddress";
 import AvailableShiftList from "../AvailableShiftList";
+import AddShiftBody from "./AddShiftBody";
 
 function ManagerShiftDashboard(){
     const navigation = useNavigation();
+    const [addShiftModal, setAddShiftModal] = useState(true);
+    const [locList, setLocList] = useState([]);
+    const [shiftTypeList, setShiftTypeList] = useState([]);
+
     //Fetch Shift Info
     const getShiftData = async () => {
         //update fetch url according to IPv4 of Wi-Fi
-        await fetch('http://'+ipAddy+':8080/getShiftCreationInfo', {
+        await fetch('http://' + ipAddy + ':8080/getShiftCreationInfo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -28,22 +33,23 @@ function ManagerShiftDashboard(){
         ).then(async json => {
             const newLocList = await json.locationList;
             const newShiftList = await json.shiftTypeList;
-            navigation.navigate(ScreenNames.ADD_SHIFT, {locationOptions: newLocList, shiftOptions: newShiftList})
+            setLocList(newLocList);
+            setShiftTypeList(newShiftList);
         }).catch(e => {
             console.error(e);
         });
-
-
     }
+
     const handleAddShiftClick = async () => {
         try {
-            await getShiftData()
+            await getShiftData();
+            setAddShiftModal(true);
         } catch (error) {
             console.log(error);
         }
-    };
-    const sortDropdown = ['All', 'Open', 'Taken'];
+    }
 
+    const sortDropdown = ['All', 'Open', 'Taken'];
 
     const [selectedIndex, setSelectedIndex] = useState('All');
 
@@ -51,19 +57,20 @@ function ManagerShiftDashboard(){
         setSelectedIndex(index);
     }
 
-
-
     const handleUserClick = () => {
         navigation.navigate(ScreenNames.LOGIN);
     }
-
-
 
     return(
         <View>
             <View style={styles.buttonsContainer}>
                 <View style={styles.addShiftButton}>
-                    <CustomButton buttonText={"Add Shift"} handlePress={handleAddShiftClick} color={primaryGreen} textColor={white} />
+                    <CustomButton
+                        buttonText={"Add Shift"}
+                        handlePress={handleAddShiftClick}
+                        color={primaryGreen}
+                        textColor={white}
+                    />
                 </View>
                 <TouchableOpacity onPress={handleUserClick}>
                     <FontAwesomeIcon icon={Calendar} size={48} style={styles.icon} />
@@ -71,10 +78,25 @@ function ManagerShiftDashboard(){
             </View>
             <View style={styles.dropdownWrapper}>
                 <View style={styles.dropdownWrapperBorder}>
-                    <Dropdown items={sortDropdown} dropdownPress={handleSortPress} left={10} top={290} width={200} fontSize={24} fontWht={"bold"} chvSize={32}/>
+                    <Dropdown
+                        items={sortDropdown}
+                        dropdownPress={handleSortPress}
+                        left={10}
+                        top={290}
+                        width={200}
+                        fontSize={24}
+                        fontWht={"bold"}
+                        chvSize={32}
+                    />
                 </View>
             </View>
-            <AvailableShiftList/>
+            <AvailableShiftList />
+            <AddShiftBody
+                addShiftModal={addShiftModal}
+                setAddShiftModal={setAddShiftModal}
+                shiftOptions={shiftTypeList}
+                locationOptions={locList}
+            />
         </View>
     );
 }
@@ -93,7 +115,7 @@ const styles = StyleSheet.create({
     },
     dropdownWrapperBorder:{
         backgroundColor: white,
-        borderWidth: .5,
+        borderWidth: 0.5,
         borderColor: secondaryGray,
         borderRadius: 10,
         overflow: 'hidden',
@@ -107,6 +129,5 @@ const styles = StyleSheet.create({
         marginRight: 16,
         color: primaryGreen,
     },
-
 });
 export default ManagerShiftDashboard;
