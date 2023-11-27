@@ -84,7 +84,7 @@ public class ValidationUtils {
         }
 
         // shift type is one of the guard type
-        if (!pEmployee.getEmployeeType().equals(pShift.getShiftType())) {
+        if (!pEmployee.getEmployeeTypes().equals(pShift.getShiftType())) {
             return false;
         }
 

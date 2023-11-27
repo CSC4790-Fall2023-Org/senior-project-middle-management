@@ -13,7 +13,7 @@ public class DemoEmployees {
             "Doe",
             "jdoe@gmail.com",
             "111-111-1111",
-            "Guard",
+            List.of("Guard"),
             0,
             15.00,
             DemoOrganizations.DEMO_ORG_ONE.getOrganizationId(),
