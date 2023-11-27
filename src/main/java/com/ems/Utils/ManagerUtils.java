@@ -21,7 +21,7 @@ public class ManagerUtils {
                 "111-111-1111",
                 new ObjectId("6500cf35491cac473a9b80c8"),
                 List.of(LocationUtils.getBaseLocation().getLocationId()),
-                List.of(EmployeeUtils.getBaseEmployee().getEmployeeType())
+                List.of(EmployeeUtils.getBaseEmployee().getEmployeeTypes().toString())
         );
     }
 

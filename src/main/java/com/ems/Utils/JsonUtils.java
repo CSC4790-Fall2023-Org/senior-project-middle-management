@@ -57,6 +57,19 @@ public class JsonUtils {
         }
     }
 
+    public static List<String> getStringListFromJson(final JSONArray pJsonArray) throws SvcException {
+        try {
+            List<String> result = new ArrayList<>();
+            for (int i = 0; i < pJsonArray.length(); i++) {
+                result.add(pJsonArray.getString(i));
+            }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SvcException("Error getting string list from JSON");
+        }
+    }
+
     public static ObjectId getShiftIdFromJSON(final JSONObject pJsonObject) throws SvcException {
         try{
             return new ObjectId((String) pJsonObject.get("shiftId"));
