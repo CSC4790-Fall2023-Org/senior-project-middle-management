@@ -8,7 +8,7 @@ import AvailableShiftList from "../components/AvailableShiftList";
 import CustomDashboardHeader from "../components/CustomDashboardHeader";
 import employeeData from '../mockApiCalls/employeeData.json';
 import companyData from '../mockApiCalls/companyData.json';
-import {grayBackground} from "../utils/Colors";
+import {black, grayBackground} from "../utils/Colors";
 
 function EmployeeScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -49,16 +49,16 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     headerContainer: {
-        shadowColor: 'black',
+        shadowColor: black,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.15,
         shadowRadius: 8,
-        elevation: 2, // Adjust the elevation value as needed (works for Android)
-        zIndex: 2, // Adjust the zIndex value as needed (works for iOS)
+        elevation: 2,
+        zIndex: 2,
     },
     statusBar: {
         alignSelf: "stretch",
-    }
+    },
 });
 
 export default EmployeeScreen;
