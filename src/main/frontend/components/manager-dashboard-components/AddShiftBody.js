@@ -155,23 +155,15 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
 
     const handleErrors = () => {
         console.log('SUBMITTED!');
-        let timeStart = startHour+(startMinute/100);
-        let timeEnd = endHour+(endMinute/100);
         let noErrors= true;
-        // console.log('Selected repeats option: ', selectedRepeats);
-        // console.log('Location: ', location);
         console.log('Start Time: ', startTime);
         console.log('End Time: ', endTime);
         console.log('Start Hour: ', startHour);
         console.log('End Hour: ', endHour);
         console.log('Start Date: ', startDate);
         console.log('End Date: ', endDate);
-        if (endPeriod === "PM") {
-            timeEnd += 12;
-        }
-        if (startPeriod === "PM") {
-            timeStart += 12;
-        }
+        console.log('Is start period AM?: ', isStartAM);
+        console.log('Is end period AM?: ', isEndAM);
         if (locationOptions.length === 1) {
             setLocationId(locationOptions[0].locationId);
         }
@@ -386,10 +378,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     const handleShiftAdd = () => {
         setWarnModal(false);
         const weekdays = weekdaysPressed.sort();
-        const isEndPeriod = (endPeriod === "AM");
-        const isStartPeriod = (startPeriod === "AM");
-        console.log('Is start period AM?: ', isStartPeriod);
-        console.log('Is end period AM?: ', isEndPeriod);
         fetch('http://' + ipAddy + ':8080/createShifts', {
             method: 'POST',
             headers: {
@@ -402,9 +390,9 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                 endHour: endHour,
                 shiftName: shiftName,
                 startHour: startHour,
-                isEndAM: isEndPeriod,
+                isEndAM: isEndAM,
                 locationId: locationId,
-                isStartAM: isStartPeriod,
+                isStartAM: isStartAM,
                 startMinute: startMinute,
                 startDate: startDate,
                 endMinute: endMinute,
@@ -425,7 +413,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
     const [startDate, setStartDate] = useState(null);
     const [displayStartDate, setDisplayStartDate] = useState(null);
-    const [isStartPast, setIsStartPast] = useState(false);
 
     const showStartDatePicker = () => {
         setStartDatePickerVisibility(true);
@@ -463,7 +450,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     const [startTime, setStartTime] = useState(null);
     const [startHour, setStartHour] = useState(null);
     const [startMinute, setStartMinute] = useState(null);
-    const [startPeriod, setStartPeriod] = useState(null);
+    const [isStartAM, setIsStartAM] = useState(false);
 
     const showStartTimePicker = () => {
         setStartTimePickerVisibility(true);
@@ -474,14 +461,13 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     };
 
     const handleStartTimeConfirm = (time) => {
-        const formattedTime = moment(time).format('h:mm A');
-        const hour = moment(formattedTime, 'h:mm A').format('h');
-        const min = moment(formattedTime, 'h:mm A').minute();
-        const period = moment(time).format('a');
+        const formattedTime = moment(time).format('h:mma');
+        const hour = moment(formattedTime, 'h:mm a').format('h');
+        const min = moment(formattedTime, 'h:mm a').minute();
         setStartTime(formattedTime);
         setStartHour(hour);
         setStartMinute(min);
-        setStartPeriod(period);
+        setIsStartAM(moment(time).format('a') === 'am');
         hideStartTimePicker();
     };
 
@@ -489,7 +475,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     const [endTime, setEndTime] = useState(null);
     const [endHour, setEndHour] = useState(null);
     const [endMinute, setEndMinute] = useState(null);
-    const [endPeriod, setEndPeriod] = useState(null);
+    const [isEndAM, setIsEndAM] = useState(false);
 
     const showEndTimePicker = () => {
         setEndTimePickerVisibility(true);
@@ -500,14 +486,13 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     };
 
     const handleEndTimeConfirm = (time) => {
-        const formattedTime = moment(time).format('h:mm A');
-        const hour = moment(formattedTime, 'h:mm A').format('h');
-        const min = moment(formattedTime, 'h:mm A').minute();
-        const period = moment(time).format('a');
+        const formattedTime = moment(time).format('h:mma');
+        const hour = moment(formattedTime, 'h:mm a').format('h');
+        const min = moment(formattedTime, 'h:mm a').minute();
         setEndTime(formattedTime);
         setEndHour(hour);
         setEndMinute(min);
-        setEndPeriod(period);
+        setIsEndAM(moment(time).format('a') === 'am');
         hideEndTimePicker();
     };
 
