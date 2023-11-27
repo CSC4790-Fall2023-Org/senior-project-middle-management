@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, ScrollView, StatusBar} from 'react-native';
 import {useNavigation} from "@react-navigation/native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
@@ -11,6 +11,7 @@ const AddShiftPage = ({ route }) => {
     //navigation tools
     const navigation = useNavigation();
     const { locationOptions, shiftOptions } = route.params;
+    const [addShiftModal, setAddShiftModal] = useState(true);
 
     const backPress = () =>{
         navigation.goBack()
@@ -29,7 +30,7 @@ const AddShiftPage = ({ route }) => {
                 <Text style={styles.headerText}>Add Shift</Text>
             </View>
             <ScrollView style={styles.pageScroll}>
-                <AddShiftBody backPress={backPress} shiftOptions={shiftOptions} locationOptions={locationOptions}/>
+                <AddShiftBody addShiftModal={addShiftModal} setAddShiftModal={setAddShiftModal} backPress={backPress} shiftOptions={shiftOptions} locationOptions={locationOptions}/>
             </ScrollView>
         </View>
     );

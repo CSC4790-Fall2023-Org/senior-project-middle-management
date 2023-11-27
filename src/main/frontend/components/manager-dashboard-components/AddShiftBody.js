@@ -6,7 +6,15 @@ import {
     Keyboard,
     TouchableOpacity,
     Dimensions,
-    TextInput, KeyboardAvoidingViewComponent, KeyboardAvoidingView, Platform, ScrollView, Button, Alert,
+    TextInput,
+    KeyboardAvoidingViewComponent,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    Button,
+    Alert,
+    Modal,
+    StatusBar,
 } from "react-native";
 import React, {useState} from "react";
 import CalendarPopup from "../CalendarPopup";
@@ -20,7 +28,7 @@ import {
     placeholderText,
     primaryGreen,
     secondaryGray,
-    white
+    white, grayBackground
 } from "../../utils/Colors";
 import * as Haptics from "expo-haptics";
 import WarnPopup from "./WarnPopup";
@@ -30,7 +38,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
-const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
+const AddShiftBody = ({addShiftModal, setAddShiftModal, backPress, locationOptions, shiftOptions}) => {
     const warnText="This shift goes overnight. Are you sure you want to submit it?"
     const screenWidth = Dimensions.get('window').width;
     //shift type info
@@ -518,10 +526,33 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
         // console.warn("An end time has been picked: ", formattedEndTime);
     };
 
+    const closeModal = () => {
+        setAddShiftModal(!addShiftModal);
+    }
+
     return(
+        <View>
+            <Modal
+                animationType="slide"
+                visible={addShiftModal}
+                presentationStyle={"pageSheet"}
+            >
+                <StatusBar
+                    barStyle={'light-content'}
+                    animated={true}
+                    showHideTransition={'fade'}
+                />
+                <View style={styles.modalContainer}>
+                <View style={styles.modalHeader}>
+                    <TouchableOpacity
+                        onPress={closeModal}
+                    >
+                        <Text style={{fontSize: 21, color: white}}>Cancel</Text>
+                    </TouchableOpacity>
+                </View>
         <KeyboardAwareScrollView
             keyboardDismissMode={"interactive"}
-            contentContainerStyle={[AddPopupStyles.modal, {flex: 1}, {height: "100%"}]}
+            contentContainerStyle={[AddPopupStyles.modal, {flex: 1}, {height: "100%"}, {marginTop: 50}]}
             // resetScrollToCoords={{ x: 0, y: 0 }}
             scrollEnabled={true}
         >
@@ -792,10 +823,22 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
                 handleExitCalendar={handleCalendar}
             />
         </KeyboardAwareScrollView>
+                </View>
+            </Modal>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
+    modalHeader: {
+        height: 50,
+        backgroundColor: primaryGreen,
+        marginBottom: 50,
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor: grayBackground,
+    },
     titleContainer: {
         width: '100%',
         alignItems: 'flex-start',
