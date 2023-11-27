@@ -13,7 +13,7 @@ import AddShiftBody from "./AddShiftBody";
 
 function ManagerShiftDashboard(){
     const navigation = useNavigation();
-    const [addShiftModal, setAddShiftModal] = useState(true);
+    const [addShiftModal, setAddShiftModal] = useState(false);
     const [locList, setLocList] = useState([]);
     const [shiftTypeList, setShiftTypeList] = useState([]);
 

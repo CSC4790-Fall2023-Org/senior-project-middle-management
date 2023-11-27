@@ -158,6 +158,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         let timeEnd = endHour+(endMinute/100);
         let noErrors= true;
         console.log('Selected repeats option: ', selectedRepeats);
+        console.log('Location: ', location);
         if (endPeriod === "PM") {
             timeEnd += 12;
         }
@@ -200,7 +201,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (location === 'Select Location') {
+        } else if (location === null) {
             noErrors = false;
             Alert.alert (
                 'Location',
