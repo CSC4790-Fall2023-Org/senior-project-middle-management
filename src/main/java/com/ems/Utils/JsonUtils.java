@@ -1,6 +1,7 @@
 package com.ems.Utils;
 
 import com.ems.Exceptions.SvcException;
+import com.ems.builders.JSONObjectBuilder;
 import com.ems.database.models.Employee;
 import com.ems.database.models.Manager;
 import com.ems.database.models.Organization;
@@ -151,5 +152,14 @@ public class JsonUtils {
         } catch (JSONException e) {
             throw new SvcException("error creating json object from request string");
         }
+    }
+
+    public static JSONArray getJSONArrayFromEmployeeList(final List<Employee> pEmployeeList) throws JSONException {
+        JSONArray jsonArray = new JSONArray();
+        for (Employee employee : pEmployeeList){
+            JSONObject currentEmployeeObject = JSONObjectBuilder.buildJSONObjectFromEmployee(employee);
+            jsonArray.put(currentEmployeeObject);
+        }
+        return jsonArray;
     }
 }
