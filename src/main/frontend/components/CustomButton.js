@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         width: 250,
     },
     buttonTextStyle:{
-        fontSize: 24,
+        fontSize: 17,
     },
 });
 

@@ -22,9 +22,9 @@ const ShiftCard = ({shiftStartDate, shiftEndDate, shiftStartTime, shiftEndTime, 
     return (
         <View style={styles.container}>
             <View style={styles.iconContainer}>
-                <FontAwesomeIcon icon={Calendar} size={18} style={styles.icon} />
-                <FontAwesomeIcon icon={Clock} size={18} style={styles.icon} />
-                <FontAwesomeIcon icon={User} size={18} style={styles.icon}/>
+                <FontAwesomeIcon icon={Calendar} size={17} style={styles.icon} />
+                <FontAwesomeIcon icon={Clock} size={17} style={styles.icon} />
+                <FontAwesomeIcon icon={User} size={17} style={styles.icon}/>
             </View>
             <View style={styles.infoContainer}>
                 <Text style={styles.date}>
@@ -40,12 +40,14 @@ const ShiftCard = ({shiftStartDate, shiftEndDate, shiftStartTime, shiftEndTime, 
                     <Text style={styles.shiftName}>
                         {shiftName}
                     </Text>
-                    <Text style={styles.location}>
-                        <View style={styles.locationIcon}>
-                            <FontAwesomeIcon icon={LocationArrow} size={14} style={styles.icon}/>
+                        <View style={styles.locationContainer}>
+                            <View style={styles.locationIcon}>
+                                <FontAwesomeIcon icon={LocationArrow} size={14} style={styles.icon}/>
+                            </View>
+                            <Text style={styles.location}>
+                                {location}
+                            </Text>
                         </View>
-                        {location}
-                    </Text>
                 </View>
             </View>
         </View>
@@ -62,6 +64,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 16,
         paddingTop: 12,
+        overflow: "hidden",
     },
     iconContainer: {
         flexDirection: "column",
@@ -82,30 +85,33 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
     },
+    locationContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-end",
+    },
     date: {
-        fontSize: 24,
-        fontWeight: "600",
+        fontSize: 17,
+        fontWeight: "bold",
         marginBottom: 10,
     },
     time: {
-        fontSize: 18,
+        fontSize: 17,
         marginBottom: 10,
-        fontWeight: "300",
     },
     shiftName: {
-        fontSize: 20,
-        fontWeight: "500",
+        fontSize: 17,
+        fontWeight: "bold",
     },
     hours: {
-        fontSize: 18,
+        fontSize: 17,
         marginBottom: 10,
-        fontWeight: "300",
     },
     locationIcon: {
-        marginRight: 6,
+        marginRight: 4,
     },
     location: {
-        fontSize: 20,
+        fontSize: 17,
         fontWeight: "500",
     },
     icon: {
