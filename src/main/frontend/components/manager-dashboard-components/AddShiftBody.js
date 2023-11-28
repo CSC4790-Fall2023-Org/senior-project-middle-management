@@ -34,9 +34,12 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     const screenWidth = Dimensions.get('window').width;
 
     //shift type info
-    const [shiftType, setShiftType] = useState(null);
+    const [shiftType, setShiftType] = useState('');
     const shiftDropdownPress = (index) => {
         setShiftType(index);
+    }
+    const handleOneShiftType = () => {
+        setShiftType(shiftOptions[0]);
     }
 
     //location info
@@ -53,6 +56,11 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                 setLocationError(false);
             }
         }
+    }
+
+    const handleOneLocation = () => {
+        setLocation(locationOptions[0]);
+        setLocationId(locationOptions[0].locationId);
     }
 
     //calendar info
@@ -155,21 +163,20 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
 
     const handleErrors = () => {
         console.log('SUBMITTED!');
+        console.log('Shift type options: ', shiftOptions[0]);
+        console.log('Location: ', location);
         let noErrors= true;
-        console.log('Start Time: ', startTime);
-        console.log('End Time: ', endTime);
-        console.log('Start Hour: ', startHour);
-        console.log('End Hour: ', endHour);
-        console.log('Start Date: ', startDate);
-        console.log('End Date: ', endDate);
-        console.log('Is start period AM?: ', isStartAM);
-        console.log('Is end period AM?: ', isEndAM);
-        if (locationOptions.length === 1) {
-            setLocationId(locationOptions[0].locationId);
-        }
-        if (shiftOptions.length === 1) {
-            setShiftType(shiftOptions[0]);
-        }
+        // console.log('Start Time: ', startTime);
+        // console.log('End Time: ', endTime);
+        // console.log('Start Hour: ', startHour);
+        // console.log('End Hour: ', endHour);
+        // console.log('Start Date: ', startDate);
+        // console.log('End Date: ', endDate);
+        // console.log('Is start period AM?: ', isStartAM);
+        // console.log('Is end period AM?: ', isEndAM);
+        handleOneLocation();
+        handleOneShiftType();
+        console.log('Shift type ', shiftType);
         if (shiftName.trim() === '') {
             noErrors = false;
             Alert.alert (
@@ -185,7 +192,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (shiftType === 'Select Shift Type') {
+        } else if (shiftType === 'Select Shift Type' || shiftType === '') {
             noErrors = false;
             Alert.alert (
                 'Shift Type',
@@ -200,7 +207,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (location === null || location === 'Select Location') {
+        } else if (location === '' || location === 'Select Location') {
             noErrors = false;
             Alert.alert (
                 'Location',
@@ -353,7 +360,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         }
 
         if (noErrors) {
-            if (startTime < endTime) {
+            if (startTime > endTime) {
                 Alert.alert (
                     'Overnight Shift',
                     'Are you sure you want to create an overnight shift??',
@@ -380,11 +387,25 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
 
     //post to Mongo
     const handleShiftAdd = () => {
+        const weekdays = weekdaysPressed.sort();
         setWarnModal(false);
+        console.log(shiftType);
+        console.log(endDate);
+        console.log(weekdays);
+        console.log(endHour);
+        console.log(shiftName);
+        console.log(startHour);
+        console.log(isEndAM);
+        console.log(locationId);
+        console.log(isStartAM);
+        console.log(startMinute);
+        console.log(startDate);
+        console.log(endMinute);
+        console.log(repeatsID);
+        console.log(numShifts);
         Haptics.notificationAsync(
             Haptics.NotificationFeedbackType.Warning
         );
-        const weekdays = weekdaysPressed.sort();
         fetch('http://' + ipAddy + ':8080/createShifts', {
             method: 'POST',
             headers: {
@@ -470,7 +491,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     const handleStartTimeConfirm = (time) => {
         const formattedTime = moment(time).format('h:mma');
         const hour = moment(formattedTime, 'h:mm a').format('h');
-        const min = moment(formattedTime, 'h:mm a').minute();
+        const min = moment(formattedTime, 'h:mm a').format('mm');
         setStartTime(formattedTime);
         setStartHour(hour);
         setStartMinute(min);
@@ -495,7 +516,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     const handleEndTimeConfirm = (time) => {
         const formattedTime = moment(time).format('h:mma');
         const hour = moment(formattedTime, 'h:mm a').format('h');
-        const min = moment(formattedTime, 'h:mm a').minute();
+        const min = moment(formattedTime, 'h:mm a').format('mm');
         setEndTime(formattedTime);
         setEndHour(hour);
         setEndMinute(min);
@@ -510,8 +531,8 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
 
     const clearValues = () => {
         setShiftName('');
-        setShiftType(null);
-        setLocation(null);
+        setShiftType('');
+        setLocation('');
         setLocationId(null);
         setStartDate(null);
         setDisplayStartDate(null);
