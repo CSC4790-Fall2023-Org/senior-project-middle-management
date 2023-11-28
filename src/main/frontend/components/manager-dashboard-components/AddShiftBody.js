@@ -830,6 +830,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.25,
         borderBottomColor: secondaryGray,
     },
-})
+});
 
-export default AddShiftBody
+export default AddShiftBody;
