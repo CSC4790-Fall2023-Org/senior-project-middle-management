@@ -29,72 +29,30 @@ import moment from 'moment';
 const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOptions}) => {
     const screenWidth = Dimensions.get('window').width;
 
-    //shift type info
+    const [shiftName, setShiftName] = useState("");
+
     const [shiftType, setShiftType] = useState(shiftOptions.length === 1 ?
         shiftOptions[0] : null);
-    const shiftDropdownPress = (index) => {
-        setShiftType(index);
-    }
-    const handleOneShiftType = () => {
-        setShiftType(shiftOptions[0]);
-    }
 
-    //location info
     const [location, setLocation] = useState(locationOptions.length === 1 ?
         locationOptions[0] : null);
     const [locationId, setLocationId] = useState(locationOptions.length === 1 ?
         locationOptions[0].locationId : null);
-    const [isLocationError, setLocationError] = useState(false);
     let displayedLocations = locationOptions.map(a => a.locationName);
 
-    const locationDropdownPress = (index) => {
-        setLocation(index);
-        for (let i = 0; i < locationOptions.length; i++) {
-            if (location === locationOptions[i].locationName) {
-                setLocationId(locationOptions[i].locationId);
-                setLocationError(false);
-            }
-        }
-    }
+    const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
+    const [startTime, setStartTime] = useState(null);
+    const [startHour, setStartHour] = useState(null);
+    const [startMinute, setStartMinute] = useState(null);
+    const [isStartAM, setIsStartAM] = useState(false);
+    const [twentyFourStart, setTwentyFourStart] = useState(null);
 
-    const handleOneLocation = () => {
-        setLocation(locationOptions[0]);
-        setLocationId(locationOptions[0].locationId);
-    }
-
-    //calendar info
-    const [isCalendarVisible, setCalendarVisible] = useState(null);
-    const handleCalendar = () => {
-        setCalendarVisible(!isCalendarVisible);
-    }
-
-    //shift name info
-    const [shiftName, setShiftName] = useState("");
-    const [isShiftNameEmpty, setShiftNameEmpty] = useState(false);
-
-    //repeats info
-    const repeatsOptions = [
-        {
-            id: 0,
-            text: 'Never',
-        },
-        {
-            id: 1,
-            text: 'Weekly',
-        },
-        {
-            id: 2,
-            text: 'Biweekly',
-        },
-        {
-            id: 3,
-            text: 'Monthly',
-        },
-    ];
-
-    let displayedRepeats = repeatsOptions.map(a => a.text);
-    const [selectedRepeats, setSelectedRepeats] = useState(null);
-    const [repeatsID, setRepeatsID] = useState(null);
+    const [isEndTimePickerVisible, setEndTimePickerVisibility] = useState(false);
+    const [endTime, setEndTime] = useState(null);
+    const [endHour, setEndHour] = useState(null);
+    const [endMinute, setEndMinute] = useState(null);
+    const [isEndAM, setIsEndAM] = useState(false);
+    const [twentyFourEnd, setTwentyFourEnd] = useState(null);
 
     const weekdays = [
         {
@@ -128,10 +86,94 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     ];
 
     const [weekdaysPressed, setWeekdaysPressed] = useState([]);
-    const [noWeekdaysPressed, setNoWeekdaysPressed] = useState(false);
+
+    const [numShifts, setNumShifts] = useState('');
+
+    const repeatsOptions = [
+        {
+            id: 0,
+            text: 'Never',
+        },
+        {
+            id: 1,
+            text: 'Weekly',
+        },
+        {
+            id: 2,
+            text: 'Biweekly',
+        },
+        {
+            id: 3,
+            text: 'Monthly',
+        },
+    ];
+
+    let displayedRepeats = repeatsOptions.map(a => a.text);
+    const [selectedRepeats, setSelectedRepeats] = useState(null);
+    const [repeatsID, setRepeatsID] = useState(null);
+
+    const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
+    const [startDate, setStartDate] = useState(null);
+    const [displayStartDate, setDisplayStartDate] = useState(null);
+
+    const [isEndDatePickerVisible, setEndDatePickerVisibility] = useState(false);
+    const [endDate, setEndDate] = useState(null);
+    const [displayEndDate, setDisplayEndDate] = useState(null);
+
+    const shiftDropdownPress = (index) => {
+        setShiftType(index);
+    }
+
+    const locationDropdownPress = (index) => {
+        setLocation(index);
+        for (let i = 0; i < locationOptions.length; i++) {
+            if (location === locationOptions[i].locationName) {
+                setLocationId(locationOptions[i].locationId);
+            }
+        }
+    }
+
+    const showStartTimePicker = () => {
+        setStartTimePickerVisibility(true);
+    }
+
+    const hideStartTimePicker = () => {
+        setStartTimePickerVisibility(false);
+    }
+
+    const handleStartTimeConfirm = (time) => {
+        const formattedTime = moment(time).format('h:mma');
+        const hour = moment(formattedTime, 'h:mm a').format('h');
+        const min = moment(formattedTime, 'h:mm a').format('mm');
+        setTwentyFourStart(moment(time).format('HH:mm'));
+        setStartTime(formattedTime);
+        setStartHour(hour);
+        setStartMinute(min);
+        setIsStartAM(moment(time).format('a') === 'am');
+        hideStartTimePicker();
+    }
+
+    const showEndTimePicker = () => {
+        setEndTimePickerVisibility(true);
+    }
+
+    const hideEndTimePicker = () => {
+        setEndTimePickerVisibility(false);
+    }
+
+    const handleEndTimeConfirm = (time) => {
+        const formattedTime = moment(time).format('h:mma');
+        const hour = moment(formattedTime, 'h:mm a').format('h');
+        const min = moment(formattedTime, 'h:mm a').format('mm');
+        setTwentyFourEnd(moment(time).format('HH:mm'));
+        setEndTime(formattedTime);
+        setEndHour(hour);
+        setEndMinute(min);
+        setIsEndAM(moment(time).format('a') === 'am');
+        hideEndTimePicker();
+    }
 
     const handleWeekdayPress = (index) => {
-        setNoWeekdaysPressed(false);
         if (weekdaysPressed.includes(index)) {
             const newData = weekdaysPressed.filter((item) => item !== index);
             setWeekdaysPressed(newData);
@@ -149,29 +191,44 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             }
         }
     }
+    const showStartDatePicker = () => {
+        setStartDatePickerVisibility(true);
+    }
 
-    //number of shifts
-    const [numShifts, setNumShifts] = useState("");
-    const [numShiftsError, setNumShiftsError] = useState(false);
+    const hideStartDatePicker = () => {
+        setStartDatePickerVisibility(false);
+    }
+
+    const handleStartDateConfirm = (date) => {
+        setStartDate(moment(date).format('YYYY/MM/DD'));
+        setDisplayStartDate(moment(date).format('MM/DD/YYYY'));
+        hideStartDatePicker();
+    }
+
+    const showEndDatePicker = () => {
+        setEndDatePickerVisibility(true);
+    }
+
+    const hideEndDatePicker = () => {
+        setEndDatePickerVisibility(false);
+    }
+
+    const handleEndDateConfirm = (date) => {
+        setEndDate(moment(date).format('YYYY/MM/DD'));
+        setDisplayEndDate(moment(date).format('MM/DD/YYYY'));
+        hideEndDatePicker();
+    }
+
+    const closeModal = () => {
+        setAddShiftModal(!addShiftModal);
+        clearValues();
+    }
 
     const handleErrors = () => {
-        console.log('SUBMITTED!');
-        console.log('Shift type options: ', shiftOptions);
-        console.log('Location: ', location);
-        console.log('Location options: ', locationOptions);
-        console.log('Location included: ', locationOptions.some(loc => loc.locationName === location));
         let noErrors= true;
-        // console.log('Start Time: ', startTime);
-        // console.log('End Time: ', endTime);
-        // console.log('Start Hour: ', startHour);
-        // console.log('End Hour: ', endHour);
-        // console.log('Start Date: ', startDate);
-        // console.log('End Date: ', endDate);
-        // console.log('Is start period AM?: ', isStartAM);
-        // console.log('Is end period AM?: ', isEndAM);
-        // handleOneLocation();
-        // handleOneShiftType();
         console.log('Shift type ', shiftType);
+        console.log('Start: ', twentyFourStart);
+        console.log('End: ', twentyFourEnd);
         if (shiftName.trim() === '') {
             noErrors = false;
             Alert.alert (
@@ -247,26 +304,11 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (startDate === endDate && startTime >= endTime) {
-            noErrors = false;
-            Alert.alert (
-                'Shift Time',
-                'Start time cannot occur after end time for a one day shift.',
-                [
-                    {
-                        text: 'OK',
-                        style: 'default',
-                    }
-                ]
-            );
-            Haptics.notificationAsync(
-                Haptics.NotificationFeedbackType.Error
-            );
         } else if (weekdaysPressed.length === 0) {
             noErrors = false;
             Alert.alert (
-                'Shift Day',
-                'On which day(s) will this shift occur?',
+                'Shift Days',
+                'On which days will this shift occur?',
                 [
                     {
                         text: 'OK',
@@ -295,8 +337,8 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         } else if (!selectedRepeats|| selectedRepeats === 'Select Option') {
             noErrors = false;
             Alert.alert (
-                'Repeat Schedule',
-                'Please select how often you want to repeat this schedule.',
+                'Repeat Shift Schedule',
+                'Please select how often you want to repeat this shift schedule.',
                 [
                     {
                         text: 'OK',
@@ -310,7 +352,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         } else if (!startDate) {
             noErrors = false;
             Alert.alert (
-                'Dates Window',
+                'Repeat Window',
                 'Please select a beginning date.',
                 [
                     {
@@ -325,7 +367,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         } else if (!endDate) {
             noErrors = false;
             Alert.alert (
-                'Dates Window',
+                'Repeat Window',
                 'Please select an ending date.',
                 [
                     {
@@ -340,8 +382,23 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         } else if (startDate > endDate) {
             noErrors = false;
             Alert.alert (
-                'Schedule Window',
+                'Repeat Window',
                 'Beginning date cannot occur after ending date.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (startDate === endDate && twentyFourStart >= twentyFourEnd) {
+            noErrors = false;
+            Alert.alert (
+                'Shift Time',
+                'Start time cannot occur after end time for a one day shift.',
                 [
                     {
                         text: 'OK',
@@ -355,10 +412,10 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         }
 
         if (noErrors) {
-            if (startTime > endTime) {
+            if (twentyFourStart >= twentyFourEnd) {
                 Alert.alert (
                     'Overnight Shift',
-                    'Are you sure you want to create an overnight shift??',
+                    'Are you sure you want to create an overnight shift?',
                     [
                         {
                             text: 'Create',
@@ -380,7 +437,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         }
     }
 
-    //post to Mongo
     const handleShiftAdd = () => {
         const weekdays = weekdaysPressed.sort();
         console.log('Shift Name: ', shiftName);
@@ -405,20 +461,20 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                shiftType: shiftType,
-                endDate: endDate,
-                daysOfWeek: weekdays,
-                endHour: endHour,
                 shiftName: shiftName,
-                startHour: startHour,
-                isEndAM: isEndAM,
+                shiftType: shiftType,
                 locationId: locationId,
-                isStartAM: isStartAM,
+                startHour: startHour,
                 startMinute: startMinute,
-                startDate: startDate,
+                isStartAM: isStartAM,
+                endHour: endHour,
                 endMinute: endMinute,
-                repeatsEvery: repeatsID,
+                isEndAM: isEndAM,
+                daysOfWeek: weekdays,
                 numberOfShifts: numShifts,
+                repeatsEvery: repeatsID,
+                startDate: startDate,
+                endDate: endDate,
             }),
         }).then(res => res.json()
         ).then(json => {
@@ -431,97 +487,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         clearValues();
     }
 
-    const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
-    const [startDate, setStartDate] = useState(null);
-    const [displayStartDate, setDisplayStartDate] = useState(null);
-
-    const showStartDatePicker = () => {
-        setStartDatePickerVisibility(true);
-    }
-
-    const hideStartDatePicker = () => {
-        setStartDatePickerVisibility(false);
-    }
-
-    const handleStartDateConfirm = (date) => {
-        setStartDate(moment(date).format('YYYY/MM/DD'));
-        setDisplayStartDate(moment(date).format('MM/DD/YYYY'));
-        hideStartDatePicker();
-    }
-
-    const [isEndDatePickerVisible, setEndDatePickerVisibility] = useState(false);
-    const [endDate, setEndDate] = useState(null);
-    const [displayEndDate, setDisplayEndDate] = useState(null);
-
-    const showEndDatePicker = () => {
-        setEndDatePickerVisibility(true);
-    }
-
-    const hideEndDatePicker = () => {
-        setEndDatePickerVisibility(false);
-    }
-
-    const handleEndDateConfirm = (date) => {
-        setEndDate(moment(date).format('YYYY/MM/DD'));
-        setDisplayEndDate(moment(date).format('MM/DD/YYYY'));
-        hideEndDatePicker();
-    }
-
-    const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
-    const [startTime, setStartTime] = useState(null);
-    const [startHour, setStartHour] = useState(null);
-    const [startMinute, setStartMinute] = useState(null);
-    const [isStartAM, setIsStartAM] = useState(false);
-
-    const showStartTimePicker = () => {
-        setStartTimePickerVisibility(true);
-    }
-
-    const hideStartTimePicker = () => {
-        setStartTimePickerVisibility(false);
-    }
-
-    const handleStartTimeConfirm = (time) => {
-        const formattedTime = moment(time).format('h:mma');
-        const hour = moment(formattedTime, 'h:mm a').format('h');
-        const min = moment(formattedTime, 'h:mm a').format('mm');
-        setStartTime(formattedTime);
-        setStartHour(hour);
-        setStartMinute(min);
-        setIsStartAM(moment(time).format('a') === 'am');
-        hideStartTimePicker();
-    }
-
-    const [isEndTimePickerVisible, setEndTimePickerVisibility] = useState(false);
-    const [endTime, setEndTime] = useState(null);
-    const [endHour, setEndHour] = useState(null);
-    const [endMinute, setEndMinute] = useState(null);
-    const [isEndAM, setIsEndAM] = useState(false);
-
-    const showEndTimePicker = () => {
-        setEndTimePickerVisibility(true);
-    }
-
-    const hideEndTimePicker = () => {
-        setEndTimePickerVisibility(false);
-    }
-
-    const handleEndTimeConfirm = (time) => {
-        const formattedTime = moment(time).format('h:mma');
-        const hour = moment(formattedTime, 'h:mm a').format('h');
-        const min = moment(formattedTime, 'h:mm a').format('mm');
-        setEndTime(formattedTime);
-        setEndHour(hour);
-        setEndMinute(min);
-        setIsEndAM(moment(time).format('a') === 'am');
-        hideEndTimePicker();
-    }
-
-    const closeModal = () => {
-        setAddShiftModal(!addShiftModal);
-        clearValues();
-    }
-
     const clearValues = () => {
         setShiftName('');
         setShiftType(shiftOptions.length === 1 ?
@@ -530,16 +495,16 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             locationOptions[0] : null);
         setLocationId(locationOptions.length === 1 ?
             locationOptions[0].locationId : null);
-        setStartDate(null);
-        setDisplayStartDate(null);
-        setDisplayEndDate(null);
-        setEndDate(null);
         setStartTime(null);
         setEndTime(null);
         setWeekdaysPressed([]);
-        setNumShifts(null);
+        setNumShifts('');
         setSelectedRepeats(null);
         setRepeatsID(null);
+        setDisplayStartDate(null);
+        setDisplayEndDate(null);
+        setStartDate(null);
+        setEndDate(null);
     }
 
     return(
@@ -580,7 +545,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                     <KeyboardAwareScrollView
                         keyboardDismissMode={"interactive"}
                         contentContainerStyle={styles.scrollView}
-                        // resetScrollToCoords={{ x: 0, y: 0 }}
                         scrollEnabled={true}
                     >
                         <Text style={styles.sectionTitle}>Create Shift</Text>
@@ -588,7 +552,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                             style={styles.inputText}
                             onChangeText={(shiftName) => {
                                 setShiftName(shiftName)
-                                setShiftNameEmpty(false)
                             }}
                             value={shiftName}
                             placeholder={"Shift Name"}
@@ -618,9 +581,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                             }
                         </View>
                         <Text style={styles.sectionSubtitle}>Location</Text>
-                        <View style={[AddPopupStyles.dropdownContainer,
-                            isLocationError ? AddPopupStyles.destructiveAction:{}]}
-                        >
+                        <View style={AddPopupStyles.dropdownContainer}>
                             {displayedLocations.length === 1 &&
                                 <View>
                                     <Text style={[styles.normalText, {color: clickableText}]}>
@@ -674,7 +635,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                                 />
                             </TouchableOpacity>
                         </View>
-                        <Text style={styles.sectionSubtitle}>Shift Day</Text>
+                        <Text style={styles.sectionSubtitle}>Shift Days</Text>
                         <View style={styles.dayContainer}>
                             {weekdays.map(day  =>
                                 <TouchableWithoutFeedback onPress={() => handleWeekdayPress(day.key)} key={day.key}>
@@ -701,14 +662,13 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                             style={styles.inputText}
                             onChangeText={(numShifts)=> {
                                 setNumShifts(numShifts)
-                                setNumShiftsError(false)
                             }}
                             value={numShifts}
                             placeholder={'Number of Shifts'}
                             placeholderTextColor={placeholderText}
                             keyboardType='numeric'
                         />
-                        <Text style={styles.sectionSubtitle}>Repeat Schedule</Text>
+                        <Text style={styles.sectionSubtitle}>Repeat Shift Schedule</Text>
                         <View style={[AddPopupStyles.dropdownContainer]}>
                             <MultiWheelPicker
                                 wheelData={displayedRepeats}
@@ -719,7 +679,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                                 hasChevron={true}
                             />
                         </View>
-                        <Text style={styles.sectionSubtitle}>Schedule Window</Text>
+                        <Text style={styles.sectionSubtitle}>Repeat Window</Text>
                         <View style={styles.dateTimeContainer}>
                             <TouchableOpacity onPress={showStartDatePicker}>
                                 <View style={styles.dateTimeRow}>
@@ -787,7 +747,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: 'center',
         justifyContent: 'center',
-        paddingBottom: 24,
+        paddingVertical: 24,
         padding: 16,
     },
     sectionTitle: {
@@ -807,7 +767,6 @@ const styles = StyleSheet.create({
     inputText: {
         width: "100%",
         fontSize: 18,
-        //fontFamily: 'HelveticaNeue-Medium',
         padding: 12,
         marginBottom: 18,
         backgroundColor: white,
