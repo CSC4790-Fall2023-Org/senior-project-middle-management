@@ -22,7 +22,6 @@ import {
     white, grayBackground
 } from "../../utils/Colors";
 import * as Haptics from "expo-haptics";
-import WarnPopup from "./WarnPopup";
 import {ipAddy} from "../../utils/IPAddress";
 import {AddPopupStyles} from "../../utils/AddPopupStyles";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -30,7 +29,6 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
 const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOptions}) => {
-    const warnText="This shift goes overnight. Are you sure you want to submit it?"
     const screenWidth = Dimensions.get('window').width;
 
     //shift type info
@@ -154,12 +152,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     //number of shifts
     const [numShifts, setNumShifts] = useState("");
     const [numShiftsError, setNumShiftsError] = useState(false)
-
-    //check all fields are filled
-    const [warnModal, setWarnModal] = useState(false)
-    const handleWarnVisible = () =>{
-        setWarnModal(!warnModal)
-    }
 
     const handleErrors = () => {
         console.log('SUBMITTED!');
