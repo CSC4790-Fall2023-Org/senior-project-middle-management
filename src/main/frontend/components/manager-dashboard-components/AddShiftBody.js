@@ -17,7 +17,8 @@ import {
     placeholderText,
     primaryGreen,
     secondaryGray,
-    white, grayBackground
+    white,
+    grayBackground,
 } from "../../utils/Colors";
 import * as Haptics from "expo-haptics";
 import {ipAddy} from "../../utils/IPAddress";
