@@ -3,19 +3,17 @@ import {
     TouchableWithoutFeedback,
     View,
     StyleSheet,
-    Keyboard,
     TouchableOpacity,
     Dimensions,
     TextInput,
     Alert,
     Modal,
-    StatusBar, KeyboardAvoidingView, KeyboardAvoidingViewComponent,
+    StatusBar,
 } from "react-native";
 import React, {useState} from "react";
 import MultiWheelPicker from "../MultiWheelPicker";
-import CustomButton from "../CustomButton";
 import {
-    destructiveAction, clickableText,
+    clickableText,
     placeholderText,
     primaryGreen,
     secondaryGray,
