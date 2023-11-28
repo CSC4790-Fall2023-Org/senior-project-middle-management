@@ -30,7 +30,8 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     const screenWidth = Dimensions.get('window').width;
 
     //shift type info
-    const [shiftType, setShiftType] = useState('');
+    const [shiftType, setShiftType] = useState(shiftOptions.length === 1 ?
+        shiftOptions[0] : null);
     const shiftDropdownPress = (index) => {
         setShiftType(index);
     }
@@ -39,8 +40,10 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     }
 
     //location info
-    const [location, setLocation] = useState(null);
-    const [locationId, setLocationId] = useState(null);
+    const [location, setLocation] = useState(locationOptions.length === 1 ?
+        locationOptions[0] : null);
+    const [locationId, setLocationId] = useState(locationOptions.length === 1 ?
+        locationOptions[0].locationId : null);
     const [isLocationError, setLocationError] = useState(false);
     let displayedLocations = locationOptions.map(a => a.locationName);
 
@@ -153,8 +156,10 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
 
     const handleErrors = () => {
         console.log('SUBMITTED!');
-        console.log('Shift type options: ', shiftOptions[0]);
+        console.log('Shift type options: ', shiftOptions);
         console.log('Location: ', location);
+        console.log('Location options: ', locationOptions);
+        console.log('Location included: ', locationOptions.some(loc => loc.locationName === location));
         let noErrors= true;
         // console.log('Start Time: ', startTime);
         // console.log('End Time: ', endTime);
@@ -164,8 +169,8 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         // console.log('End Date: ', endDate);
         // console.log('Is start period AM?: ', isStartAM);
         // console.log('Is end period AM?: ', isEndAM);
-        handleOneLocation();
-        handleOneShiftType();
+        // handleOneLocation();
+        // handleOneShiftType();
         console.log('Shift type ', shiftType);
         if (shiftName.trim() === '') {
             noErrors = false;
@@ -197,7 +202,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (!locationOptions.includes(location)) {
+        } else if (!locationOptions.some(loc => loc.locationName === location)) {
             noErrors = false;
             Alert.alert (
                 'Location',
@@ -378,20 +383,19 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     //post to Mongo
     const handleShiftAdd = () => {
         const weekdays = weekdaysPressed.sort();
-        console.log(shiftType);
-        console.log(endDate);
-        console.log(weekdays);
-        console.log(endHour);
-        console.log(shiftName);
-        console.log(startHour);
-        console.log(isEndAM);
-        console.log(locationId);
-        console.log(isStartAM);
-        console.log(startMinute);
-        console.log(startDate);
-        console.log(endMinute);
-        console.log(repeatsID);
-        console.log(numShifts);
+        console.log('Shift Name: ', shiftName);
+        console.log('Shift Type: ', shiftType);
+        console.log('Location ID: ', locationId);
+        console.log('Start Hour: ', startHour);
+        console.log('Start Minute: ', startMinute);
+        console.log('Start AM?', isStartAM);
+        console.log('End Hour: ', endHour);
+        console.log('End Minute: ', endMinute);
+        console.log('End AM?', isEndAM);
+        console.log('Days of Week: ', weekdays);
+        console.log('Repeats ID: ', repeatsID);
+        console.log('Start Date: ', startDate);
+        console.log('End Date: ', endDate);
         Haptics.notificationAsync(
             Haptics.NotificationFeedbackType.Warning
         );
@@ -520,9 +524,12 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
 
     const clearValues = () => {
         setShiftName('');
-        setShiftType('');
-        setLocation('');
-        setLocationId(null);
+        setShiftType(shiftOptions.length === 1 ?
+            shiftOptions[0] : null);
+        setLocation(locationOptions.length === 1 ?
+            locationOptions[0] : null);
+        setLocationId(locationOptions.length === 1 ?
+            locationOptions[0].locationId : null);
         setStartDate(null);
         setDisplayStartDate(null);
         setDisplayEndDate(null);
