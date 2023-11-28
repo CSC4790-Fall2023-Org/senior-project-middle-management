@@ -136,7 +136,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             const addDay = [index];
             setWeekdaysPressed([].concat(weekdaysPressed,addDay));
         }
-    };
+    }
 
     const repeatsDropdownPress = (text) => {
         setSelectedRepeats(text);
@@ -149,7 +149,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
 
     //number of shifts
     const [numShifts, setNumShifts] = useState("");
-    const [numShiftsError, setNumShiftsError] = useState(false)
+    const [numShiftsError, setNumShiftsError] = useState(false);
 
     const handleErrors = () => {
         console.log('SUBMITTED!');
@@ -434,17 +434,17 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
 
     const showStartDatePicker = () => {
         setStartDatePickerVisibility(true);
-    };
+    }
 
     const hideStartDatePicker = () => {
         setStartDatePickerVisibility(false);
-    };
+    }
 
     const handleStartDateConfirm = (date) => {
         setStartDate(moment(date).format('YYYY/MM/DD'));
         setDisplayStartDate(moment(date).format('MM/DD/YYYY'));
         hideStartDatePicker();
-    };
+    }
 
     const [isEndDatePickerVisible, setEndDatePickerVisibility] = useState(false);
     const [endDate, setEndDate] = useState(null);
@@ -452,17 +452,17 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
 
     const showEndDatePicker = () => {
         setEndDatePickerVisibility(true);
-    };
+    }
 
     const hideEndDatePicker = () => {
         setEndDatePickerVisibility(false);
-    };
+    }
 
     const handleEndDateConfirm = (date) => {
         setEndDate(moment(date).format('YYYY/MM/DD'));
         setDisplayEndDate(moment(date).format('MM/DD/YYYY'));
         hideEndDatePicker();
-    };
+    }
 
     const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
     const [startTime, setStartTime] = useState(null);
@@ -472,11 +472,11 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
 
     const showStartTimePicker = () => {
         setStartTimePickerVisibility(true);
-    };
+    }
 
     const hideStartTimePicker = () => {
         setStartTimePickerVisibility(false);
-    };
+    }
 
     const handleStartTimeConfirm = (time) => {
         const formattedTime = moment(time).format('h:mma');
@@ -487,7 +487,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         setStartMinute(min);
         setIsStartAM(moment(time).format('a') === 'am');
         hideStartTimePicker();
-    };
+    }
 
     const [isEndTimePickerVisible, setEndTimePickerVisibility] = useState(false);
     const [endTime, setEndTime] = useState(null);
@@ -497,11 +497,11 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
 
     const showEndTimePicker = () => {
         setEndTimePickerVisibility(true);
-    };
+    }
 
     const hideEndTimePicker = () => {
         setEndTimePickerVisibility(false);
-    };
+    }
 
     const handleEndTimeConfirm = (time) => {
         const formattedTime = moment(time).format('h:mma');
@@ -512,7 +512,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
         setEndMinute(min);
         setIsEndAM(moment(time).format('a') === 'am');
         hideEndTimePicker();
-    };
+    }
 
     const closeModal = () => {
         setAddShiftModal(!addShiftModal);
@@ -754,7 +754,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                 </View>
             </Modal>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
