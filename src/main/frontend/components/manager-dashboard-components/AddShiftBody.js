@@ -182,7 +182,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (shiftType === 'Select Shift Type' || shiftType === '') {
+        } else if (!shiftOptions.includes(shiftType)) {
             noErrors = false;
             Alert.alert (
                 'Shift Type',
@@ -197,7 +197,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (location === '' || location === 'Select Location') {
+        } else if (!locationOptions.includes(location)) {
             noErrors = false;
             Alert.alert (
                 'Location',
@@ -378,7 +378,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     //post to Mongo
     const handleShiftAdd = () => {
         const weekdays = weekdaysPressed.sort();
-        setWarnModal(false);
         console.log(shiftType);
         console.log(endDate);
         console.log(weekdays);
