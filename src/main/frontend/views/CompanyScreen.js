@@ -25,7 +25,7 @@ function CompanyScreen() {
     ];
     return (
         <View style={styles.screen}>
-            <CustomHeader title={"Company Name"} page={ScreenNames.COMPANY_SETTINGS}/>
+            <CustomHeader title={'Punchcard'} page={ScreenNames.COMPANY_SETTINGS}/>
             <CustomDashboardHeader onTitlePress={handleTitlePress} tabs={tabs}/>
             {selectedIndex === 0 && <CompanyInfoDashboard />}
             {selectedIndex === 1 && <CompanyStaffDashboard/>}

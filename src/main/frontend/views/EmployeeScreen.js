@@ -30,7 +30,7 @@ function EmployeeScreen() {
 
     return (
         <View style={styles.screen}>
-            <CustomHeader title={employeeData.fName + ' ' + employeeData.lName} page={ScreenNames.EMPLOYEE_SETTINGS} />
+            <CustomHeader title={'Punchcard'} page={ScreenNames.EMPLOYEE_SETTINGS} />
             <View style={styles.headerContainer}>
                 <CustomDashboardHeader onTitlePress={handleTitlePress} tabs={tabs} />
             </View>
