@@ -33,10 +33,10 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     const [shiftName, setShiftName] = useState("");
 
     const [shiftType, setShiftType] = useState(shiftOptions.length === 1 ?
-        shiftOptions[0] : null);
+        shiftOptions[0] : '');
 
     const [location, setLocation] = useState(locationOptions.length === 1 ?
-        locationOptions[0] : null);
+        locationOptions[0] : '');
     const [locationId, setLocationId] = useState(locationOptions.length === 1 ?
         locationOptions[0].locationId : null);
     let displayedLocations = locationOptions.map(a => a.locationName);
@@ -226,6 +226,12 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     }
 
     const handleErrors = () => {
+        if (shiftOptions.length === 1) {
+            setShiftType(shiftOptions[0]);
+        }
+        if (locationOptions.length === 1) {
+            setLocationId(locationOptions[0].locationName);
+        }
         let noErrors= true;
         console.log('Shift type ', shiftType);
         console.log('Start: ', twentyFourStart);
@@ -491,9 +497,9 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     const clearValues = () => {
         setShiftName('');
         setShiftType(shiftOptions.length === 1 ?
-            shiftOptions[0] : null);
+            shiftOptions[0] : '');
         setLocation(locationOptions.length === 1 ?
-            locationOptions[0] : null);
+            locationOptions[0] : '');
         setLocationId(locationOptions.length === 1 ?
             locationOptions[0].locationId : null);
         setStartTime(null);
