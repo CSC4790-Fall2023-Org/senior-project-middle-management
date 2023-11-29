@@ -23,7 +23,7 @@ function EmployeeSettingsScreen() {
             />
             <View style={styles.headerContainer}>
                 <Pressable onPress={() => handleUserClick()} style={styles.icon}>
-                    <FontAwesomeIcon icon={ChevronLeft} size={24}/>
+                    <FontAwesomeIcon icon={ChevronLeft} size={24} color={black}/>
                 </Pressable>
                 <Text style={styles.headerText}>Profile</Text>
             </View>
@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     icon: {
-        color: black,
         position: 'absolute',
         left: 12,
         bottom: 12,
