@@ -7,6 +7,12 @@ import {ipAddy} from "../utils/IPAddress";
 const AvailableShiftList = () => {
     const [shiftData, setShiftData] = useState(null);
 
+    const [reloadKey, setReloadKey] = useState(0);
+
+    const updateReloadKey = () => {
+        setReloadKey(prevKey => prevKey + 1);
+    };
+
     useEffect(() => {
         fetch('http://' + ipAddy + ':8080/getAvailableShifts', {
             method: 'POST',
@@ -30,6 +36,7 @@ const AvailableShiftList = () => {
     return (
         <FlatList
             //style={styles.scrollView}
+            key={reloadKey}
             contentContainerStyle={styles.contentContainer}
             data={shiftData ? shiftData.shiftList : []}
             keyExtractor={(shift) => shift.shiftId.toString()}
@@ -47,6 +54,8 @@ const AvailableShiftList = () => {
                         />
                     }
                     shiftId={shift.shiftId}
+                    reloadKey={reloadKey}
+                    updateReloadKey={updateReloadKey}
                 />
             )}
             ListEmptyComponent={<View />}

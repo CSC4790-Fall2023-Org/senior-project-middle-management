@@ -10,11 +10,10 @@ import ShiftCard from "./ShiftCard";
 import {ipAddy} from "../utils/IPAddress";
 import Toast from 'react-native-root-toast';
 
-function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
+function AvailableShiftCardSwipe({ShiftCardComponent, shiftId, reloadKey, updateReloadKey}) {
     let swipeableRef = React.createRef();
     const [addResponse, setAddResponse] = useState(null);
     const [claimed, setClaimed] = useState(false);
-    const [reload, setReload] = useState(false);
 
     const handleSwipeOpen = (direction) => {
         if (direction === 'right') {
@@ -139,7 +138,7 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
             })
             .then(data => {
                 setAddResponse(data);
-                setReload(!reload);
+                updateReloadKey();
                 setClaimed(true);
                 return (toast);
             })
@@ -204,6 +203,6 @@ const styles= StyleSheet.create({
         paddingHorizontal: 24,
         paddingVertical: 12,
     },
-})
+});
 
 export default AvailableShiftCardSwipe;
