@@ -9,6 +9,7 @@ import CustomDashboardHeader from "../components/CustomDashboardHeader";
 import employeeData from '../mockApiCalls/employeeData.json';
 import companyData from '../mockApiCalls/companyData.json';
 import {black, grayBackground} from "../utils/Colors";
+import {CircleUser} from "../utils/Icons";
 
 function EmployeeScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -30,7 +31,7 @@ function EmployeeScreen() {
 
     return (
         <View style={styles.screen}>
-            <CustomHeader title={'Punchcard'} page={ScreenNames.EMPLOYEE_SETTINGS} />
+            <CustomHeader title={'Punchcard'} page={ScreenNames.EMPLOYEE_SETTINGS} icon={CircleUser}/>
             <View style={styles.headerContainer}>
                 <CustomDashboardHeader onTitlePress={handleTitlePress} tabs={tabs} />
             </View>

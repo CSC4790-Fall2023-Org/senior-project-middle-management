@@ -22,9 +22,9 @@ function CompanySettingsScreen() {
             />
             <View style={styles.headerContainer}>
                 <TouchableOpacity onPress={() => handleUserClick()} style={styles.icon}>
-                    <FontAwesomeIcon icon={ChevronLeft} size={24}/>
+                    <FontAwesomeIcon icon={ChevronLeft} size={24} color={black}/>
                 </TouchableOpacity>
-                <Text style={styles.headerText}>Settings</Text>
+                <Text style={styles.headerText}>Profile</Text>
             </View>
         </View>
     );
@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     icon: {
-        color: black,
         position: 'absolute',
         left: 12,
         bottom: 12,

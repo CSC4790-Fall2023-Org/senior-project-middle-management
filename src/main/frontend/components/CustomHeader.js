@@ -2,10 +2,9 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, StatusBar, SafeAreaView} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {useNavigation} from "@react-navigation/native";
-import {CircleUser} from "../utils/Icons";
 import {primaryGreen, white} from "../utils/Colors";
 
-const CustomHeader = ({title, page}) => {
+const CustomHeader = ({title, page, icon}) => {
     const navigation = useNavigation();
     const handleUserClick = () => {
         navigation.navigate(page);
@@ -20,11 +19,13 @@ const CustomHeader = ({title, page}) => {
             />
             <Text style={styles.title} numberOfLines={1} ellipsizeMode={"tail"}>{title}</Text>
             <TouchableOpacity onPress={() => handleUserClick()}>
-                <FontAwesomeIcon icon={CircleUser} size={32} style={styles.icon}/>
+                {icon &&
+                    <FontAwesomeIcon icon={icon} size={32} style={styles.icon}/>
+                }
             </TouchableOpacity>
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
     container: {

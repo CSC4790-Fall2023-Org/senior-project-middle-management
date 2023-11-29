@@ -9,33 +9,54 @@ import {ChevronRight} from "../utils/Icons";
 import {black, grayAction, secondaryGray, white} from "../utils/Colors";
 
 function ProfileSettingsContainer() {
-    const [nameModalVisible, setNameModalVisible] = useState(false);
-    const [phoneNumberModalVisible, setPhoneNumberModalVisible] = useState(false);
-    const [emailModalVisible, setEmailModalVisible] = useState(false);
+    // const [nameModalVisible, setNameModalVisible] = useState(false);
+    // const [phoneNumberModalVisible, setPhoneNumberModalVisible] = useState(false);
+    // const [emailModalVisible, setEmailModalVisible] = useState(false);
 
     return (
         <View style={styles.settingContainer}>
-            <TouchableOpacity style={styles.settingItem} onPress={() => setNameModalVisible(true)}>
+            <View style={styles.settingItem}>
                 <Text style={styles.settingLabel}>Name</Text>
-                <Text style={styles.labelValue} numberOfLines={1} ellipsizeMode={"tail"}>{employeeData.fName + ' ' + employeeData.lName}</Text>
-            </TouchableOpacity>
-            <EditNameModal nameModalVisible={nameModalVisible} setNameModalVisible={setNameModalVisible} />
-            <TouchableOpacity style={styles.settingItem} onPress={() => setEmailModalVisible(true)}>
+                <Text
+                    style={styles.labelValue}
+                    numberOfLines={1}
+                    ellipsizeMode={"tail"}
+                >
+                    {employeeData.fName + ' ' + employeeData.lName}
+                </Text>
+            </View>
+            {/*<EditNameModal*/}
+            {/*    nameModalVisible={nameModalVisible}*/}
+            {/*    setNameModalVisible={setNameModalVisible}*/}
+            {/*/>*/}
+            <View style={styles.settingItem}>
                 <Text style={styles.settingLabel}>Email</Text>
-                <Text style={styles.labelValue} numberOfLines={1} ellipsizeMode={"middle"}>{employeeData.email}</Text>
-            </TouchableOpacity>
-            <EditEmailModal emailModalVisible={emailModalVisible} setEmailModalVisible={setEmailModalVisible} />
-            <TouchableOpacity style={styles.settingItem} onPress={() => setPhoneNumberModalVisible(true)}>
+                <Text
+                    style={styles.labelValue}
+                    numberOfLines={1}
+                    ellipsizeMode={"middle"}
+                >
+                    {employeeData.email}
+                </Text>
+            </View>
+            {/*<EditEmailModal*/}
+            {/*    emailModalVisible={emailModalVisible}*/}
+            {/*    setEmailModalVisible={setEmailModalVisible}*/}
+            {/*/>*/}
+            <View style={[styles.settingItem, {borderBottomWidth: 0}]}>
                 <Text style={styles.settingLabel}>Phone Number</Text>
                 <Text style={styles.labelValue}>{employeeData.phoneNumber}</Text>
-            </TouchableOpacity>
-            <EditPhoneNumberModal phoneNumberModalVisible={phoneNumberModalVisible} setPhoneNumberModalVisible={setPhoneNumberModalVisible} />
-            <TouchableOpacity style={[styles.settingItem, {borderBottomWidth: 0}]}>
-                <Text style={styles.settingLabel}>Notifications</Text>
-                <View style={{paddingRight: 16}}>
-                    <FontAwesomeIcon icon={ChevronRight} size={17} style={styles.labelValue}/>
-                </View>
-            </TouchableOpacity>
+            </View>
+            {/*<EditPhoneNumberModal*/}
+            {/*    phoneNumberModalVisible={phoneNumberModalVisible}*/}
+            {/*    setPhoneNumberModalVisible={setPhoneNumberModalVisible}*/}
+            {/*/>*/}
+            {/*<View style={[styles.settingItem, {borderBottomWidth: 0}]}>*/}
+            {/*    <Text style={styles.settingLabel}>Notifications</Text>*/}
+            {/*    <View style={{paddingRight: 16}}>*/}
+            {/*        <FontAwesomeIcon icon={ChevronRight} size={17} style={styles.labelValue}/>*/}
+            {/*    </View>*/}
+            {/*</View>*/}
         </View>
     )
 }
