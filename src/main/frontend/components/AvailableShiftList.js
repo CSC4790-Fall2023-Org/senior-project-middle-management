@@ -29,7 +29,7 @@ const AvailableShiftList = () => {
 
     return (
         <FlatList
-            style={styles.scrollView}
+            //style={styles.scrollView}
             contentContainerStyle={styles.contentContainer}
             data={shiftData ? shiftData.shiftList : []}
             keyExtractor={(shift) => shift.shiftId.toString()}
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
     },
     contentContainer: {
+        flexGrow: 1,
         paddingVertical: 8,
     },
 });
