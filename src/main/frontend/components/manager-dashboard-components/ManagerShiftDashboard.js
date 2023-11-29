@@ -1,12 +1,12 @@
 import React, {useState} from "react";
-import {View, TouchableOpacity, StyleSheet} from 'react-native'
+import {View, TouchableOpacity, StyleSheet, Platform, TouchableWithoutFeedback} from 'react-native'
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../../utils/ScreenNames";
 import CustomButton from "../CustomButton";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {Calendar} from '../../utils/Icons';
+import {Calendar, Plus} from '../../utils/Icons';
 import Dropdown from "../Dropdown";
-import {secondaryGray, white, primaryGreen} from "../../utils/Colors";
+import {secondaryGray, white, primaryGreen, black} from "../../utils/Colors";
 import {ipAddy} from "../../utils/IPAddress";
 import AvailableShiftList from "../AvailableShiftList";
 import AddShiftBody from "./AddShiftBody";
@@ -62,7 +62,7 @@ function ManagerShiftDashboard(){
     }
 
     return(
-        <View>
+        <View styles={{flex: 1, flexDirection: "column"}}>
             <View style={styles.buttonsContainer}>
                 <View style={styles.addShiftButton}>
                     <CustomButton
@@ -90,7 +90,12 @@ function ManagerShiftDashboard(){
                     />
                 </View>
             </View>
-            <AvailableShiftList />
+            <View>
+                <TouchableWithoutFeedback style={styles.addButton}>
+                    <FontAwesomeIcon icon={Plus} size={34} color={white} />
+                </TouchableWithoutFeedback>
+                <AvailableShiftList />
+            </View>
             <AddShiftBody
                 addShiftModal={addShiftModal}
                 setAddShiftModal={setAddShiftModal}
@@ -128,6 +133,24 @@ const styles = StyleSheet.create({
     icon: {
         marginRight: 16,
         color: primaryGreen,
+    },
+    addButton: {
+        zIndex: 1,
+        height: 60,
+        width: 60,
+        backgroundColor: primaryGreen,
+        borderRadius: 30,
+        alignItems: "center",
+        justifyContent: "center",
+        shadowColor: black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        elevation: 6,
+        position: "absolute",
+        // bottom: 16,
+        right: 16,
+        alignSelf: "flex-end",
     },
 });
 export default ManagerShiftDashboard;
