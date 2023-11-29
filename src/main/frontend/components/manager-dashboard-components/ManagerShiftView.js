@@ -19,7 +19,7 @@ const ManagerShiftView = ({available}) => {
 
 const styles = StyleSheet.create({
     scrollView: {
-        flexGrow: 1,
+        height: "100%",
     },
 });
 

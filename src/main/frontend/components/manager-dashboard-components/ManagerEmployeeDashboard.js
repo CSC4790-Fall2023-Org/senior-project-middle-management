@@ -23,7 +23,16 @@ const ManagerEmployeeDashboard = ({buttonTitle}) => {
         <View>
             <View style={styles.dropdownWrapper}>
                 <View style={styles.dropdownWrapperBorder}>
-                    <Dropdown items={options} dropdownPress={handleDropdownPress} left={10} top={278} width={210} fontSize={15} fontWht={"normal"} chvSize={20}/>
+                    <Dropdown
+                        items={options}
+                        dropdownPress={handleDropdownPress}
+                        left={10}
+                        top={278}
+                        width={210}
+                        fontSize={15}
+                        fontWht={"normal"}
+                        chvSize={20}
+                    />
                 </View>
             </View>
             <ManagerEmployeeView selected={selectedEmployee} handleEmpPress={handleEmployeePress} />
