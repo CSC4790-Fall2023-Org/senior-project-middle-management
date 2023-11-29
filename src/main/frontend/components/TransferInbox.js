@@ -2,6 +2,7 @@ import React from "react";
 import {Modal, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {grayBackground, primaryGreen, white} from "../utils/Colors";
 import AvailableShiftList from "./AvailableShiftList";
+import TransferShiftList from "./TransferShiftList";
 
 const TransferInbox = ({inboxModal, setInboxModal}) => {
     const closeModal = () => {
@@ -34,12 +35,7 @@ const TransferInbox = ({inboxModal, setInboxModal}) => {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.modalBody}>
-                        <View style={styles.headerContainer}>
-                            <Text style={styles.sectionTitle}>Transfer Portal</Text>
-                        </View>
-                        <View style={{flex: 1}}>
-                            <AvailableShiftList />
-                        </View>
+                        <TransferShiftList />
                     </View>
                 </View>
             </Modal>
@@ -60,19 +56,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 16,
     },
-    headerContainer: {
-        paddingHorizontal: 16,
-    },
     modalBody: {
-        flex: 1,
-        paddingVertical: 24,
-    },
-    sectionTitle: {
-        marginBottom: 6,
-        width: '100%',
-        fontSize: 34,
-        textAlign: 'left',
-        fontWeight: 'bold',
+        height: "100%",
+        paddingBottom: 24,
     },
     normalText: {
         fontSize: 18,
