@@ -521,28 +521,28 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                     showHideTransition={'fade'}
                 />
                 <View style={styles.modalContainer}>
-                <View style={styles.modalHeader}>
-                    <TouchableOpacity
-                        onPress={closeModal}
-                    >
-                        <Text
-                            style={[styles.normalText, {color: white}]}
-                            allowFontScaling={false}
+                    <View style={styles.modalHeader}>
+                        <TouchableOpacity
+                            onPress={closeModal}
                         >
-                            Cancel
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={handleErrors}
-                    >
-                        <Text
-                            style={[styles.normalText, {color: white, fontWeight: 'bold'}]}
-                            allowFontScaling={false}
+                            <Text
+                                style={[styles.normalText, {color: white}]}
+                                allowFontScaling={false}
+                            >
+                                Cancel
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={handleErrors}
                         >
-                            Create
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                            <Text
+                                style={[styles.normalText, {color: white, fontWeight: 'bold'}]}
+                                allowFontScaling={false}
+                            >
+                                Create
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                     <KeyboardAwareScrollView
                         keyboardDismissMode={"interactive"}
                         contentContainerStyle={styles.scrollView}

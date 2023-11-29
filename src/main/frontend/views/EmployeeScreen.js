@@ -12,9 +12,12 @@ import {black, grayBackground, primaryGreen, white} from "../utils/Colors";
 import {CircleUser, Inbox} from "../utils/Icons";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {useNavigation} from "@react-navigation/native";
+import transferInbox from "../components/TransferInbox";
+import TransferInbox from "../components/TransferInbox";
 
 function EmployeeScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [transferInbox, setTransferInbox] = useState(false);
 
     const handleTitlePress = (index) => {
         setSelectedIndex(index);
@@ -26,7 +29,7 @@ function EmployeeScreen() {
     }
 
     const handleInboxClick = () => {
-
+        setTransferInbox(!transferInbox);
     }
 
     const tabs = [
@@ -52,10 +55,10 @@ function EmployeeScreen() {
                 <Text style={styles.title} numberOfLines={1} ellipsizeMode={"tail"}>Punchcard</Text>
                 <View style={styles.iconsContainer}>
                     <TouchableOpacity onPress={() => handleInboxClick()} style={styles.iconContainer}>
-                        <FontAwesomeIcon icon={Inbox} size={32} style={styles.icon}/>
+                        <FontAwesomeIcon icon={Inbox} size={32} style={styles.icon} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => handleProfileClick()} style={styles.iconContainer}>
-                        <FontAwesomeIcon icon={CircleUser} size={32} style={styles.icon}/>
+                        <FontAwesomeIcon icon={CircleUser} size={32} style={styles.icon} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -64,7 +67,8 @@ function EmployeeScreen() {
             </View>
             {selectedIndex === 0 && <MyShiftList />}
             {selectedIndex === 1 && <AvailableShiftList />}
-            <EmployeeHrsStatusBar employee={employeeData} company={companyData} style={styles.statusBar}/>
+            <EmployeeHrsStatusBar employee={employeeData} company={companyData} style={styles.statusBar} />
+            <TransferInbox inboxModal={transferInbox} setInboxModal={setTransferInbox} />
         </View>
     );
 }
