@@ -25,7 +25,7 @@ function EmployeeSettingsScreen() {
                 <Pressable onPress={() => handleUserClick()} style={styles.icon}>
                     <FontAwesomeIcon icon={ChevronLeft} size={24}/>
                 </Pressable>
-                <Text style={styles.headerText}>Settings</Text>
+                <Text style={styles.headerText}>Profile</Text>
             </View>
             <ScrollView style={styles.pageScroll}>
                 <ProfileSettingsContainer />

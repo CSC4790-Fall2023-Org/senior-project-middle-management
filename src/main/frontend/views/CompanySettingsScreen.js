@@ -24,7 +24,7 @@ function CompanySettingsScreen() {
                 <TouchableOpacity onPress={() => handleUserClick()} style={styles.icon}>
                     <FontAwesomeIcon icon={ChevronLeft} size={24}/>
                 </TouchableOpacity>
-                <Text style={styles.headerText}>Settings</Text>
+                <Text style={styles.headerText}>Profile</Text>
             </View>
         </View>
     );
