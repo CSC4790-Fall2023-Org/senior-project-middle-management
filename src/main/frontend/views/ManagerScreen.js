@@ -27,7 +27,7 @@ function ManagerScreen() {
     ];
     return (
         <View>
-            <CustomHeader title={employeeData.fName + ' ' + employeeData.lName} page={ScreenNames.MANAGER_SETTINGS}/>
+            <CustomHeader title={'Punchcard'} page={ScreenNames.MANAGER_SETTINGS}/>
             <CustomDashboardHeader onTitlePress={handleTitlePress} tabs={tabs}/>
             <View>
                 {selectedIndex === 0 && <ManagerEmployeeDashboard buttonTitle={"Add Employee"} options={options} />}

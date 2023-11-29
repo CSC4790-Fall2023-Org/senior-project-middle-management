@@ -13,7 +13,7 @@ function LoginScreen() {
                 showHideTransition={'fade'}
             />
             <View style={styles.headerContainer}>
-                <Text style={styles.headerTitle}>App Name</Text>
+                <Text style={styles.headerTitle}>Punchcard</Text>
             </View>
             <View style={styles.buttonsContainer}>
                 <CustomRedirectButton
@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
     },
     headerTitle: {
         color: primaryGreen,
-        fontSize: 32,
+        fontSize: 34,
+        fontWeight: "bold",
         marginBottom: 8,
         marginLeft: 12,
     },

@@ -754,7 +754,7 @@ const styles = StyleSheet.create({
     sectionTitle: {
         marginBottom: 6,
         width: '100%',
-        fontSize: 36,
+        fontSize: 34,
         textAlign: 'left',
         fontWeight: 'bold',
     },
