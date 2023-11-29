@@ -79,7 +79,7 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
             outputRange: [-20, -10, 0, 1],
         });
         return (
-            <RectButton style={claimed ? styles.leftActionClosed : styles.leftAction}>
+            <RectButton style={styles.leftAction}>
                 <Animated.Text
                     style={[
                         styles.actionText,
@@ -118,7 +118,7 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId}) {
             duration: Toast.durations.SHORT,
             backgroundColor: grayAction,
             shadow: false,
-            opacity: 1,
+            opacity: 0.9,
             containerStyle: styles.toast,
         })
         fetch('http://' + ipAddy + ':8080/assignShift', {
@@ -173,17 +173,6 @@ const styles= StyleSheet.create({
         borderRadius: 10,
         overflow: "hidden",
     },
-    leftActionClosed: {
-        flex: 1,
-        flexDirection: 'column',
-        backgroundColor: greenAction,
-        justifyContent: 'center',
-        height: 0,
-        margin: 16,
-        marginBottom: 0,
-        borderRadius: 10,
-        overflow: "hidden",
-    },
     actionText: {
         color: 'white',
         backgroundColor: 'transparent',
@@ -204,6 +193,6 @@ const styles= StyleSheet.create({
         paddingHorizontal: 24,
         paddingVertical: 12,
     },
-})
+});
 
 export default AvailableShiftCardSwipe;
