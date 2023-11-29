@@ -34,19 +34,19 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "flex-end",
         paddingHorizontal: 16,
+        paddingBottom: 2,
     },
     title: {
         color: white,
-        fontSize: 32,
-        marginBottom: 8,
+        fontSize: 34,
+        fontWeight: "bold",
         overflow: "hidden",
         maxWidth: "90%",
-        maxHeight: 32,
     },
     icon: {
         color: white,
         marginBottom: 8,
-    }
+    },
 });
 
 export default CustomHeader;

@@ -8,12 +8,12 @@ const CompanyManagerView = () => {
             <View>
 
             </View>
-
         </ScrollView>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
 
 });
+
 export default CompanyManagerView;

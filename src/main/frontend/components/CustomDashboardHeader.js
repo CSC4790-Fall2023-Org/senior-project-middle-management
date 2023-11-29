@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     },
     text:{
         fontWeight: "bold",
-        fontSize: 20,
+        fontSize: 17,
         marginBottom: 2,
     },
     underline: {

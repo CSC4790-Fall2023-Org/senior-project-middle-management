@@ -10,7 +10,7 @@ const CompanyStaffDashboard = () => {
 
     return(
         <View>
-            <View style={{paddingTop:10 }}>
+            <View style={{paddingTop: 12 }}>
                 <StaffBanner setBannerPress={setBannerPress} bannerPress={bannerPress}/>
             </View>
             <View>
@@ -18,12 +18,12 @@ const CompanyStaffDashboard = () => {
                 {!bannerPress && <CompanyEmployeeDashboard />}
 
             </View>
-
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
 
 });
+
 export default CompanyStaffDashboard;
