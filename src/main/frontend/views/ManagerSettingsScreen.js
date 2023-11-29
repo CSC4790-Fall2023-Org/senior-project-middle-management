@@ -25,7 +25,7 @@ function ManagerSettingsScreen() {
                 <TouchableOpacity onPress={() => handleUserClick()} style={styles.icon}>
                     <FontAwesomeIcon icon={ChevronLeft} size={24} color={black}/>
                 </TouchableOpacity>
-                <Text style={styles.headerText}>Settings</Text>
+                <Text style={styles.headerText}>Profile</Text>
             </View>
             <ScrollView style={styles.pageScroll}>
                 <ProfileSettingsContainer />
