@@ -1,7 +1,6 @@
 import React from "react";
-import {Modal, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Modal, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {grayBackground, primaryGreen, white} from "../utils/Colors";
-import AvailableShiftList from "./AvailableShiftList";
 import TransferShiftList from "./TransferShiftList";
 
 const TransferInbox = ({inboxModal, setInboxModal}) => {

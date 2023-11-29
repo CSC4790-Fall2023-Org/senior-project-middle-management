@@ -1,7 +1,6 @@
 import ShiftCard from "./ShiftCard";
-import {FlatList, ScrollView, StyleSheet, Text, View} from "react-native";
+import {FlatList, StyleSheet, Text, View} from "react-native";
 import React, {useEffect, useState} from "react";
-import AvailableShiftCardSwipe from "./AvailableShiftCardSwipe";
 import {ipAddy} from "../utils/IPAddress";
 import TransferShiftCardSwipe from "./TransferShiftCardSwipe";
 
