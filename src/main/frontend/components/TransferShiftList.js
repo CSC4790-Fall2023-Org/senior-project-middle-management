@@ -3,8 +3,9 @@ import {FlatList, ScrollView, StyleSheet, Text, View} from "react-native";
 import React, {useEffect, useState} from "react";
 import AvailableShiftCardSwipe from "./AvailableShiftCardSwipe";
 import {ipAddy} from "../utils/IPAddress";
+import TransferShiftCardSwipe from "./TransferShiftCardSwipe";
 
-const AvailableShiftList = () => {
+const TransferShiftList = () => {
     const [shiftData, setShiftData] = useState(null);
 
     useEffect(() => {
@@ -41,7 +42,7 @@ const AvailableShiftList = () => {
                 keyExtractor={(shift) => shift.shiftId.toString()}
                 ListHeaderComponent={renderHeader}
                 renderItem={({ item: shift }) => (
-                    <AvailableShiftCardSwipe
+                    <TransferShiftCardSwipe
                         ShiftCardComponent={
                             <ShiftCard
                                 shiftStartDate={shift.shiftStartDate}
@@ -81,4 +82,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AvailableShiftList;
+export default TransferShiftList;
