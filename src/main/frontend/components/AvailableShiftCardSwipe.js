@@ -68,7 +68,7 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey})
                         }
                     }
                 ]
-            )
+            );
         }
     };
 

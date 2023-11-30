@@ -31,12 +31,12 @@ const AvailableShiftList = () => {
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
             });
-    }, []);
+    }, [reloadKey]);
 
     return (
         <FlatList
             //style={styles.scrollView}
-            key={reloadKey}
+            // key={reloadKey}
             contentContainerStyle={styles.contentContainer}
             data={shiftData ? shiftData.shiftList : []}
             keyExtractor={(shift) => shift.shiftId.toString()}
