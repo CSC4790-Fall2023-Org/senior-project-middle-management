@@ -4,12 +4,12 @@ import {
     Modal,
     Text,
     TouchableOpacity,
-    View, TouchableWithoutFeedback,
+    View, TouchableWithoutFeedback, Dimensions,
 } from "react-native";
 import * as Haptics from "expo-haptics";
 import {
     black,
-    grayAction,
+    grayAction, grayBackground,
     primaryGreen,
     secondaryGray,
     white
@@ -25,6 +25,7 @@ function TransferShiftModal({transferShiftModal,
                                 shiftEndTime,
                                 shiftHours,
                                 shiftLocation}) {
+    const screenWidth = Dimensions.get('window').width;
     const [recipientSelected, setRecipientSelected] = useState(false);
     const recipients = ["TJ Nolan", "Diego Messmacher Montes de Oca", "Holden Cormier", "Ralph Gatdula"];
     const [recipient, setRecipient] = useState(null);
@@ -85,13 +86,12 @@ function TransferShiftModal({transferShiftModal,
                                     <Text style={styles.shiftHours}>{shiftHours} {handleSingularHours()}</Text>
                                     <Text style={styles.shiftLocation}>{shiftLocation}</Text>
                                 </View>
-                                <View style={[styles.submitButton,
-                                    recipientSelected ? {backgroundColor: primaryGreen}
-                                        : {backgroundColor: grayAction}]}>
+                                <View style={[styles.submitButton]}>
                                     <TouchableOpacity
-                                        style={[{width: "100%"}, {alignItems: "center"}]}
+                                        style={{width: "100%", alignItems: "center"}}
                                         onPress={handleSubmit}>
-                                        <Text style={styles.submitText}>Transfer</Text>
+                                        <Text style={[styles.submitText, recipientSelected ? {color: primaryGreen}
+                                            : {color: grayAction}]}>Transfer</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -134,9 +134,9 @@ const styles = StyleSheet.create({
     },
     modalText: {
         marginBottom: 16,
-        textAlign: 'center',
-        fontSize: 24,
-        fontWeight: "500",
+        textAlign: "center",
+        fontSize: 17,
+        fontWeight: "bold",
     },
     selectorContainer: {
         flexDirection: "row",
@@ -161,20 +161,20 @@ const styles = StyleSheet.create({
         borderColor: secondaryGray,
     },
     shiftDate: {
-        fontSize: 24,
-        fontWeight: "600",
+        fontSize: 17,
+        fontWeight: "bold",
         marginBottom: 12,
     },
     shiftTime: {
-        fontSize: 20,
+        fontSize: 17,
         marginBottom: 12,
     },
     shiftHours: {
-        fontSize: 20,
+        fontSize: 17,
         marginBottom: 12,
     },
     shiftLocation: {
-        fontSize: 20,
+        fontSize: 17,
     },
     submitButton: {
         width: "100%",
@@ -182,10 +182,11 @@ const styles = StyleSheet.create({
         marginBottom: 24,
         padding: 12,
         alignItems: "center",
+        backgroundColor: grayBackground,
     },
     submitText: {
-        fontSize: 24,
-        fontWeight: "500",
+        fontSize: 17,
+        fontWeight: "bold",
         color: white,
     },
 })
