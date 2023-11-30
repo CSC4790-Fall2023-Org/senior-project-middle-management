@@ -11,7 +11,7 @@ const MultiWheelPicker = ({wheelData,placeholder, selectedItem, setSelectedItems
     };
 
     return (
-        <View style={[styles.container]}>
+        <View style={styles.container}>
             <RNPickerSelect
                 style={{...pickerSelectStyles,
                     inputIOS: {
