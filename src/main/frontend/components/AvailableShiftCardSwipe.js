@@ -10,7 +10,7 @@ import ShiftCard from "./ShiftCard";
 import {ipAddy} from "../utils/IPAddress";
 import Toast from 'react-native-root-toast';
 
-function AvailableShiftCardSwipe({ShiftCardComponent, shiftId, reloadKey, updateReloadKey}) {
+function AvailableShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey}) {
     let swipeableRef = React.createRef();
     const [addResponse, setAddResponse] = useState(null);
     const [claimed, setClaimed] = useState(false);
