@@ -47,11 +47,11 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey})
                 Haptics.NotificationFeedbackType.Warning
             );
             Alert.alert(
-                'Claim shift',
+                'Claim Shift',
                 'Are you sure you want to claim this shift?',
                 [
                     {
-                        text: 'Pick Up',
+                        text: 'Claim',
                         style: 'default',
                         onPress: () => {
                             handleShiftClaim();
