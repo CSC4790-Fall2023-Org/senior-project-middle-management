@@ -8,7 +8,7 @@ import {ipAddy} from "../../utils/IPAddress";
 import WarnPopup from "./WarnPopup";
 
 
-const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
+const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken, pNum, email}) =>{
     const [isModalVisible, setModalVisible] = useState(false);
 
     const warnText = "You are about to delete employee " + name + " are you sure you want to?"
@@ -75,6 +75,14 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
                     <View style={styles.middleContainerModal}>
                         <Text>Name:</Text>
                         <Text>{name}</Text>
+                    </View>
+                    <View style={styles.middleContainerModal}>
+                        <Text>Phone Number:</Text>
+                        <Text>{pNum}</Text>
+                    </View>
+                    <View style={styles.middleContainerModal}>
+                        <Text>Email Address:</Text>
+                        <Text>{email}</Text>
                     </View>
                     <View style={styles.middleContainerModal}>
                         <Text>Hours Worked:</Text>
