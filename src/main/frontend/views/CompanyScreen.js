@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import CustomHeader from '../components/CustomHeader';
 import {ScreenNames} from "../utils/ScreenNames";
 import CustomDashboardHeader from "../components/CustomDashboardHeader";
 import CompanyStaffDashboard from "../components/company-dashboard-components/CompanyStaffDashboard";
 import CompanyInfoDashboard from "../components/company-dashboard-components/CompanyInfoDashboard";
+import {grayBackground} from "../utils/Colors";
 
 function CompanyScreen() {
 
@@ -25,7 +26,7 @@ function CompanyScreen() {
     ];
     return (
         <View style={styles.screen}>
-            <CustomHeader title={"Company Name"} page={ScreenNames.COMPANY_SETTINGS}/>
+            <CustomHeader title={'Punchcard'} page={ScreenNames.COMPANY_SETTINGS}/>
             <CustomDashboardHeader onTitlePress={handleTitlePress} tabs={tabs}/>
             {selectedIndex === 0 && <CompanyInfoDashboard />}
             {selectedIndex === 1 && <CompanyStaffDashboard/>}
@@ -35,7 +36,7 @@ function CompanyScreen() {
 
 const styles = StyleSheet.create({
     screen: {
-        backgroundColor: '#F1F1F1',
+        backgroundColor: grayBackground,
         display: "flex",
         flexDirection: "column",
         flex: 1,

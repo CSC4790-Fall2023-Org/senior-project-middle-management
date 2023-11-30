@@ -22,4 +22,9 @@ public class OrganizationController {
     public ResponseEntity deleteOrganization(@RequestBody final String pPayload) {
         return OrganizationServices.deleteOrganization(pPayload);
     }
+
+    @PostMapping("/getAllEmployees")
+    public ResponseEntity getAllEmployees(@RequestBody final String pPayload){
+        return OrganizationServices.getAllEmployees(pPayload);
+    }
 }

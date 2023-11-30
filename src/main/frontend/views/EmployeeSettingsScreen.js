@@ -1,5 +1,5 @@
 import React from "react";
-import {StyleSheet, View, Text, ScrollView, Pressable} from "react-native";
+import {StyleSheet, View, Text, ScrollView, Pressable, StatusBar} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../utils/ScreenNames";
@@ -16,11 +16,16 @@ function EmployeeSettingsScreen() {
 
     return (
         <View>
+            <StatusBar
+                barStyle={'dark-content'}
+                animated={true}
+                showHideTransition={'fade'}
+            />
             <View style={styles.headerContainer}>
                 <Pressable onPress={() => handleUserClick()} style={styles.icon}>
-                    <FontAwesomeIcon icon={ChevronLeft} size={24}/>
+                    <FontAwesomeIcon icon={ChevronLeft} size={24} color={black}/>
                 </Pressable>
-                <Text style={styles.headerText}>Settings</Text>
+                <Text style={styles.headerText}>Profile</Text>
             </View>
             <ScrollView style={styles.pageScroll}>
                 <ProfileSettingsContainer />
@@ -42,12 +47,11 @@ const styles = StyleSheet.create({
     },
     headerText: {
         color: black,
-        fontSize: 24,
+        fontSize: 17,
         marginBottom: 12,
         fontWeight: 'bold',
     },
     icon: {
-        color: black,
         position: 'absolute',
         left: 12,
         bottom: 12,

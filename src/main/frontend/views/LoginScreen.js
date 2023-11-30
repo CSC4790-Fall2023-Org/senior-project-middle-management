@@ -1,19 +1,39 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, StatusBar} from 'react-native';
 import CustomRedirectButton from "../components/CustomRedirectButton";
 import {ScreenNames} from "../utils/ScreenNames";
-import {primaryGreen, white} from "../utils/Colors";
+import {grayBackground, primaryGreen, white} from "../utils/Colors";
 
 function LoginScreen() {
     return (
         <View style={styles.container}>
+            <StatusBar
+                barStyle={'dark-content'}
+                animated={true}
+                showHideTransition={'fade'}
+            />
             <View style={styles.headerContainer}>
-                <Text style={styles.headerTitle}>App Name</Text>
+                <Text style={styles.headerTitle}>Punchcard</Text>
             </View>
             <View style={styles.buttonsContainer}>
-                <CustomRedirectButton buttonText={"Login as a Company"} page={ScreenNames.COMPANY} color={primaryGreen} textColor={white}/>
-                <CustomRedirectButton buttonText={"Login as a Manager"} page={ScreenNames.MANAGER} color={primaryGreen} textColor={white}/>
-                <CustomRedirectButton buttonText={"Login as an Employee"} page={ScreenNames.EMPLOYEE} color={primaryGreen} textColor={white}/>
+                <CustomRedirectButton
+                    buttonText={"Login as a Company"}
+                    page={ScreenNames.COMPANY}
+                    color={primaryGreen}
+                    textColor={white}
+                />
+                <CustomRedirectButton
+                    buttonText={"Login as a Manager"}
+                    page={ScreenNames.MANAGER}
+                    color={primaryGreen}
+                    textColor={white}
+                />
+                <CustomRedirectButton
+                    buttonText={"Login as an Employee"}
+                    page={ScreenNames.EMPLOYEE}
+                    color={primaryGreen}
+                    textColor={white}
+                />
             </View>
         </View>
     );
@@ -22,7 +42,7 @@ function LoginScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#F1F1F1",
+        backgroundColor: grayBackground,
     },
     buttonsContainer: {
         marginTop: 200,
@@ -38,8 +58,9 @@ const styles = StyleSheet.create({
         alignItems: "flex-end",
     },
     headerTitle: {
-        color: "#50C878",
-        fontSize: 32,
+        color: primaryGreen,
+        fontSize: 34,
+        fontWeight: "bold",
         marginBottom: 8,
         marginLeft: 12,
     },

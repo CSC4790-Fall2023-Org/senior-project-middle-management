@@ -4,16 +4,17 @@ import * as Haptics from 'expo-haptics';
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {CalendarAdd, TrashCan} from "../utils/Icons";
-import {greenAction, grayAction, white} from "../utils/Colors";
+import {CalendarAdd, Check, TrashCan, XMark} from "../utils/Icons";
+import {greenAction, grayAction, white, destructiveAction} from "../utils/Colors";
 import ShiftCard from "./ShiftCard";
 import {ipAddy} from "../utils/IPAddress";
 import Toast from 'react-native-root-toast';
 
-function AvailableShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey}) {
+function TransferShiftCardSwipe({ShiftCardComponent, shiftId}) {
     let swipeableRef = React.createRef();
     const [addResponse, setAddResponse] = useState(null);
     const [claimed, setClaimed] = useState(false);
+    const [reload, setReload] = useState(false);
 
     const handleSwipeOpen = (direction) => {
         if (direction === 'right') {
@@ -21,11 +22,11 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey})
                 Haptics.NotificationFeedbackType.Warning
             );
             Alert.alert(
-                'Remove Shift',
-                'Are you sure you want to remove this shift from your feed?',
+                'Decline Transfer',
+                'Are you sure you want to decline this shift transfer?',
                 [
                     {
-                        text: 'Remove',
+                        text: 'Decline',
                         style: 'destructive',
                         onPress: () => {
                             Haptics.notificationAsync(
@@ -47,14 +48,13 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey})
                 Haptics.NotificationFeedbackType.Warning
             );
             Alert.alert(
-                'Claim Shift',
-                'Are you sure you want to claim this shift?',
+                'Accept Transfer',
+                'Are you sure you want to accept this shift transfer?',
                 [
                     {
-                        text: 'Claim',
+                        text: 'Accept',
                         style: 'default',
                         onPress: () => {
-                            handleShiftClaim();
                             Haptics.notificationAsync(
                                 Haptics.NotificationFeedbackType.Success
                             );
@@ -68,7 +68,7 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey})
                         }
                     }
                 ]
-            );
+            )
         }
     };
 
@@ -86,7 +86,7 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey})
                             transform: [{ translateX: trans }],
                         },
                     ]}>
-                    <FontAwesomeIcon icon={CalendarAdd} size={36} color={white}/>
+                    <FontAwesomeIcon icon={Check} size={36} color={white}/>
                 </Animated.Text>
             </RectButton>
         );
@@ -106,51 +106,16 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey})
                             transform: [{ translateX: trans }],
                         },
                     ]}>
-                    <FontAwesomeIcon icon={TrashCan} size={36} color={white}/>
+                    <FontAwesomeIcon icon={XMark} size={36} color={white}/>
                 </Animated.Text>
             </RectButton>
         );
     };
 
-    const handleShiftClaim = () => {
-        let toast = Toast.show('Shift Claimed!', {
-            duration: Toast.durations.SHORT,
-            backgroundColor: grayAction,
-            shadow: false,
-            opacity: 0.9,
-            containerStyle: styles.toast,
-        })
-        fetch('http://' + ipAddy + ':8080/assignShift', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                employeeId: "651f3f35631f63367d896196",
-                shiftId: shiftId
-            }),
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok. Status: ${response.status} ${response.statusText}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                setAddResponse(data);
-                updateReloadKey();
-                setClaimed(true);
-                return (toast);
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
-    };
-
     return (
         <Swipeable
             renderLeftActions={renderLeftActions}
-            //renderRightActions={renderRightActions}
+            renderRightActions={renderRightActions}
             onSwipeableOpen={(direction) => handleSwipeOpen(direction)}
             ref={swipeableRef}
             overshootFriction={8}
@@ -178,7 +143,7 @@ const styles= StyleSheet.create({
     },
     rightAction: {
         flex: 1,
-        backgroundColor: grayAction,
+        backgroundColor: destructiveAction,
         justifyContent: 'center',
         alignItems: 'flex-end',
         height: ShiftCard.height,
@@ -194,4 +159,4 @@ const styles= StyleSheet.create({
     },
 });
 
-export default AvailableShiftCardSwipe;
+export default TransferShiftCardSwipe;

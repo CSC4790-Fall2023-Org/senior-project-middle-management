@@ -1,10 +1,10 @@
 import React from "react";
-import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, StatusBar} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {useNavigation} from "@react-navigation/native";
 import {ScreenNames} from "../utils/ScreenNames";
 import {ChevronLeft} from "../utils/Icons";
-import {secondaryGray} from "../utils/Colors";
+import {black, secondaryGray, white} from "../utils/Colors";
 
 function CompanySettingsScreen() {
     const navigation = useNavigation();
@@ -15,11 +15,16 @@ function CompanySettingsScreen() {
 
     return (
         <View>
+            <StatusBar
+                barStyle={'dark-content'}
+                animated={true}
+                showHideTransition={'fade'}
+            />
             <View style={styles.headerContainer}>
                 <TouchableOpacity onPress={() => handleUserClick()} style={styles.icon}>
-                    <FontAwesomeIcon icon={ChevronLeft} size={24}/>
+                    <FontAwesomeIcon icon={ChevronLeft} size={24} color={black}/>
                 </TouchableOpacity>
-                <Text style={styles.headerText}>Settings</Text>
+                <Text style={styles.headerText}>Profile</Text>
             </View>
         </View>
     );
@@ -31,19 +36,18 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         height: 100,
-        backgroundColor: "white",
+        backgroundColor: white,
         alignItems: "flex-end",
         borderBottomWidth: 1,
         borderBottomColor: secondaryGray,
     },
     headerText: {
-        color: "black",
-        fontSize: 24,
+        color: black,
+        fontSize: 17,
         marginBottom: 12,
         fontWeight: 'bold',
     },
     icon: {
-        color: 'black',
         position: 'absolute',
         left: 12,
         bottom: 12,

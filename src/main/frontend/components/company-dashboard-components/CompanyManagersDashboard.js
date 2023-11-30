@@ -3,7 +3,7 @@ import {View, StyleSheet, Dimensions} from 'react-native';
 import CustomButton from "../CustomButton";
 import Dropdown from "../Dropdown";
 import CompanyManagerView from "./CompanyManagerView";
-import {primaryGreen, white} from "../../utils/Colors";
+import {grayBackground, primaryGreen, secondaryGray, white} from "../../utils/Colors";
 import {ScreenNames} from "../../utils/ScreenNames";
 import {useNavigation} from "@react-navigation/native";
 
@@ -48,7 +48,7 @@ const CompanyManagersDashboard = () => {
                 <CustomButton buttonText={'Add Manager'} color={primaryGreen} textColor={white} handlePress={getManData}/>
             </View>
 
-            <View style={[styles.dropdownContainer,{width:200}]}>
+            <View style={[styles.dropdownContainer, {width:200}]}>
                 <Dropdown chvSize={10} fontWht={10} fontSize={10} width={200} top={100} left={100} dropdownPress={handleDropdownPress} items={options}/>
             </View>
             <CompanyManagerView/>
@@ -62,18 +62,18 @@ const styles = StyleSheet.create({
         flexDirection: "column",
     },
     buttonContainer:{
-        flexDirection:"column",
-        justifyContent:"center",
-        alignItems:"center",
-        backgroundColor:'#F1F1F1',
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: grayBackground,
 
     },
-    dropdownContainer:{
-        backgroundColor:'#FFFFFF',
+    dropdownContainer: {
+        backgroundColor: white,
         borderRadius: 10,
         width: 200,
         justifyContent: "center",
-        borderColor:"#ccc",
+        borderColor: secondaryGray,
         borderWidth:.5,
         marginLeft:20
 

@@ -3,101 +3,58 @@ import {
     TouchableWithoutFeedback,
     View,
     StyleSheet,
-    Keyboard,
     TouchableOpacity,
     Dimensions,
     TextInput,
+    Alert,
+    Modal,
+    StatusBar,
 } from "react-native";
 import React, {useState} from "react";
-import CalendarPopup from "../CalendarPopup";
-import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {Calendar} from '../../utils/Icons';
 import MultiWheelPicker from "../MultiWheelPicker";
-import CustomButton from "../CustomButton";
-import {black, primaryGreen, secondaryGray, white} from "../../utils/Colors";
+import {
+    clickableText,
+    placeholderText,
+    primaryGreen,
+    secondaryGray,
+    white,
+    grayBackground,
+} from "../../utils/Colors";
 import * as Haptics from "expo-haptics";
-import WarnPopup from "./WarnPopup";
 import {ipAddy} from "../../utils/IPAddress";
 import {AddPopupStyles} from "../../utils/AddPopupStyles";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import moment from 'moment';
 
-
-const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
-    const warnText=" ou are making a shift that goes overnight are you sure you want to submit it?"
+const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOptions}) => {
     const screenWidth = Dimensions.get('window').width;
-    //shift type info
-    const [shiftType, setShiftType] = useState(shiftOptions[0]);
-    const shiftDropdownPress = (index) => {
-        setShiftType(index);
-    }
-    //location info
-    const [location, setLocation] = useState(locationOptions[0].locationName);
-    const [locationId, setLocationId] = useState(locationOptions[0].locationId);
-    const [isLocationError, setLocationError] = useState(false)
+
+    const [shiftName, setShiftName] = useState("");
+
+    const [shiftType, setShiftType] = useState(shiftOptions.length === 1 ?
+        shiftOptions[0] : '');
+
+    const [location, setLocation] = useState(locationOptions.length === 1 ?
+        locationOptions[0] : '');
+    const [locationId, setLocationId] = useState(locationOptions.length === 1 ?
+        locationOptions[0].locationId : null);
     let displayedLocations = locationOptions.map(a => a.locationName);
 
-    const locationDropdownPress = (index) => {
-        setLocationError(false)
-        setLocation(index);
-        for(let i = 0; i < locationOptions.length; i++){
-            if(location === locationOptions[i].locationName){
-                setLocationId(locationOptions[i].locationId)
-            }
-        }
-    }
-    //start & end hour info
-    const hourOptions = [2, 3, 4, 5 ,6 ,7 ,8, 9, 10, 11, 12]
-    const [startHour, setStartHour] = useState(1);
-    const [endHour, setEndHour] = useState(1);
+    const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
+    const [startTime, setStartTime] = useState(null);
+    const [startHour, setStartHour] = useState(null);
+    const [startMinute, setStartMinute] = useState(null);
+    const [isStartAM, setIsStartAM] = useState(false);
+    const [twentyFourStart, setTwentyFourStart] = useState(null);
 
-    //start & end minute info
-    const minOptions = ["05", "10", "15", "20", "25" ,"30" ,"35", "40", "45", "50", "55"]
-    const [startMinute, setStartMinute] = useState("00");
-    const [endMinute, setEndMinute] = useState("00");
+    const [isEndTimePickerVisible, setEndTimePickerVisibility] = useState(false);
+    const [endTime, setEndTime] = useState(null);
+    const [endHour, setEndHour] = useState(null);
+    const [endMinute, setEndMinute] = useState(null);
+    const [isEndAM, setIsEndAM] = useState(false);
+    const [twentyFourEnd, setTwentyFourEnd] = useState(null);
 
-    //start & end Am Pm
-    const timePeriods = ["PM"]
-    const [startPeriod, setStartPeriod] = useState("AM");
-    const [endPeriod, setEndPeriod] = useState("AM");
-
-    const handleDismissKeyboard = () => {
-        Keyboard.dismiss();
-    };
-
-    //calendar info
-    const [isCalendarVisible, setCalendarVisible] = useState(null);
-    const handleCalendar = () =>{
-        setCalendarVisible(!isCalendarVisible)
-    }
-    const [selectedStartDate, setSelectedStartDate] = useState(null);
-    const startDate = selectedStartDate ? selectedStartDate.format('YYYY/MM/DD').toString() : '';
-    const [selectedEndDate, setSelectedEndDate] = useState(null);
-    const endDate = selectedEndDate ? selectedEndDate.format('YYYY/MM/DD').toString() : '';
-    const [dateWrong, setDateWrong] = useState(false)
-    //shift name info
-    const [shiftName, setShiftName] = useState("");
-    const [isShiftNameEmpty, setShiftNameEmpty] = useState(false);
-
-    //repeats info
-    const repeatsOptions = [{
-            id: 0,
-            text: 'Never',
-        },
-        {
-            id: 1,
-            text: 'Weekly',
-        },
-        {
-            id: 2,
-            text: 'Biweekly',
-        },
-        {
-            id: 3,
-            text: 'Monthly',
-        },
-    ]
-    let displayedRepeats = repeatsOptions.map(a => a.text);
-    const [selectedRepeats, setSelectedRepeats] = useState(repeatsOptions[0].text);
-    const [repeatsID, setRepeatsID] = useState(repeatsOptions[0].id);
     const weekdays = [
         {
             key: 1,
@@ -126,23 +83,106 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
         {
             key: 7,
             text: 'Sun',
-        },]
+        },
+    ];
 
     const [weekdaysPressed, setWeekdaysPressed] = useState([]);
-    const [noWeekdaysPressed, setNoWeekdaysPressed] = useState(false)
 
+    const [numShifts, setNumShifts] = useState('');
+
+    const repeatsOptions = [
+        {
+            id: 0,
+            text: 'Never',
+        },
+        {
+            id: 1,
+            text: 'Weekly',
+        },
+        {
+            id: 2,
+            text: 'Biweekly',
+        },
+        {
+            id: 3,
+            text: 'Monthly',
+        },
+    ];
+
+    let displayedRepeats = repeatsOptions.map(a => a.text);
+    const [selectedRepeats, setSelectedRepeats] = useState(null);
+    const [repeatsID, setRepeatsID] = useState(null);
+
+    const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
+    const [startDate, setStartDate] = useState(null);
+    const [displayStartDate, setDisplayStartDate] = useState(null);
+
+    const [isEndDatePickerVisible, setEndDatePickerVisibility] = useState(false);
+    const [endDate, setEndDate] = useState(null);
+    const [displayEndDate, setDisplayEndDate] = useState(null);
+
+    const shiftDropdownPress = (index) => {
+        setShiftType(index);
+    }
+
+    const locationDropdownPress = (index) => {
+        setLocation(index);
+        for (let i = 0; i < locationOptions.length; i++) {
+            if (location === locationOptions[i].locationName) {
+                setLocationId(locationOptions[i].locationId);
+            }
+        }
+    }
+
+    const showStartTimePicker = () => {
+        setStartTimePickerVisibility(true);
+    }
+
+    const hideStartTimePicker = () => {
+        setStartTimePickerVisibility(false);
+    }
+
+    const handleStartTimeConfirm = (time) => {
+        const formattedTime = moment(time).format('h:mma');
+        const hour = moment(formattedTime, 'h:mm a').format('h');
+        const min = moment(formattedTime, 'h:mm a').format('mm');
+        setTwentyFourStart(moment(time).format('HH:mm'));
+        setStartTime(formattedTime);
+        setStartHour(hour);
+        setStartMinute(min);
+        setIsStartAM(moment(time).format('a') === 'am');
+        hideStartTimePicker();
+    }
+
+    const showEndTimePicker = () => {
+        setEndTimePickerVisibility(true);
+    }
+
+    const hideEndTimePicker = () => {
+        setEndTimePickerVisibility(false);
+    }
+
+    const handleEndTimeConfirm = (time) => {
+        const formattedTime = moment(time).format('h:mma');
+        const hour = moment(formattedTime, 'h:mm a').format('h');
+        const min = moment(formattedTime, 'h:mm a').format('mm');
+        setTwentyFourEnd(moment(time).format('HH:mm'));
+        setEndTime(formattedTime);
+        setEndHour(hour);
+        setEndMinute(min);
+        setIsEndAM(moment(time).format('a') === 'am');
+        hideEndTimePicker();
+    }
 
     const handleWeekdayPress = (index) => {
-        setNoWeekdaysPressed(false)
         if (weekdaysPressed.includes(index)) {
             const newData = weekdaysPressed.filter((item) => item !== index);
             setWeekdaysPressed(newData);
+        } else {
+            const addDay = [index];
+            setWeekdaysPressed([].concat(weekdaysPressed,addDay));
         }
-        else{
-            const addDay = [index]
-            setWeekdaysPressed([].concat(weekdaysPressed,addDay))
-        }
-    };
+    }
 
     const repeatsDropdownPress = (text) => {
         setSelectedRepeats(text);
@@ -152,307 +192,651 @@ const AddShiftBody = ({backPress, locationOptions, shiftOptions}) => {
             }
         }
     }
-
-    //number of shifts
-    const [numShifts, setNumShifts] = useState("");
-    const [numShiftsError, setNumShiftsError] = useState(false)
-
-    //check all fields are filled
-    const [warnModal, setWarnModal] = useState(false)
-    const handleWarnVisible = () =>{
-        setWarnModal(!warnModal)
+    const showStartDatePicker = () => {
+        setStartDatePickerVisibility(true);
     }
-    const handleErrors = () =>{
-        let timeStart = startHour+(startMinute/100)
-        let timeEnd = endHour+(endMinute/100)
-        let noErrors= true
-        if(endPeriod === "PM"){
-            timeEnd += 12
+
+    const hideStartDatePicker = () => {
+        setStartDatePickerVisibility(false);
+    }
+
+    const handleStartDateConfirm = (date) => {
+        setStartDate(moment(date).format('YYYY/MM/DD'));
+        setDisplayStartDate(moment(date).format('MM/DD/YYYY'));
+        hideStartDatePicker();
+    }
+
+    const showEndDatePicker = () => {
+        setEndDatePickerVisibility(true);
+    }
+
+    const hideEndDatePicker = () => {
+        setEndDatePickerVisibility(false);
+    }
+
+    const handleEndDateConfirm = (date) => {
+        setEndDate(moment(date).format('YYYY/MM/DD'));
+        setDisplayEndDate(moment(date).format('MM/DD/YYYY'));
+        hideEndDatePicker();
+    }
+
+    const closeModal = () => {
+        setAddShiftModal(!addShiftModal);
+        clearValues();
+    }
+
+    const handleErrors = () => {
+        if (shiftOptions.length === 1) {
+            setShiftType(shiftOptions[0]);
         }
-        if(startPeriod === "PM"){
-            timeStart += 12
+        if (locationOptions.length === 1) {
+            setLocationId(locationOptions[0].locationName);
         }
-        if(locationOptions.length === 1){
-            setLocationId(locationOptions[0].locationId)
-        }
-        if(shiftOptions.length === 1){
-            setShiftType(shiftOptions[0])
-        }
-        if(shiftName.trim() === ''){
-            setShiftNameEmpty(true);
-            noErrors=false;
+        let noErrors= true;
+        console.log('Shift type ', shiftType);
+        console.log('Start: ', twentyFourStart);
+        console.log('End: ', twentyFourEnd);
+        if (shiftName.trim() === '') {
+            noErrors = false;
+            Alert.alert (
+                'Shift Name',
+                'Please enter a shift name.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        }
-        if(!endDate || !startDate){
-            setDateWrong(true);
-            noErrors=false;
+        } else if (!shiftOptions.includes(shiftType)) {
+            noErrors = false;
+            Alert.alert (
+                'Shift Type',
+                'Please select a shift type.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        }
-        if(!locationId){
-            setLocationError(true);
-            noErrors=false;
+        } else if (!locationOptions.some(loc => loc.locationName === location)) {
+            noErrors = false;
+            Alert.alert (
+                'Location',
+                'Please select a location.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        }
-        if(weekdaysPressed.length === 0){
-            setNoWeekdaysPressed(true);
-            noErrors=false;
+        } else if (!startTime) {
+            noErrors = false;
+            Alert.alert (
+                'Shift Time',
+                'Please select a start time.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        }
-        if(!numShifts){
-            setNumShiftsError(true);
-            noErrors=false;
+        }  else if (!endTime) {
+            noErrors = false;
+            Alert.alert (
+                'Shift Time',
+                'Please select an end time.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        }
-        if(noErrors) {
-                if (timeEnd < timeStart) {
-                    setWarnModal(true)
-                } else {
-                    handleShiftAdd()
-                }
+        } else if (weekdaysPressed.length === 0) {
+            noErrors = false;
+            Alert.alert (
+                'Shift Days',
+                'On which days will this shift occur?',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (!numShifts) {
+            noErrors = false;
+            Alert.alert (
+                'Number of Shifts',
+                'Please enter how many instances of the shift you want to create.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (!selectedRepeats|| selectedRepeats === 'Select Option') {
+            noErrors = false;
+            Alert.alert (
+                'Repeat Shift Schedule',
+                'Please select how often you want to repeat this shift schedule.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (!startDate) {
+            noErrors = false;
+            Alert.alert (
+                'Repeat Window',
+                'Please select a beginning date.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (!endDate) {
+            noErrors = false;
+            Alert.alert (
+                'Repeat Window',
+                'Please select an ending date.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (startDate > endDate) {
+            noErrors = false;
+            Alert.alert (
+                'Repeat Window',
+                'Beginning date cannot occur after ending date.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (startDate === endDate && twentyFourStart >= twentyFourEnd) {
+            noErrors = false;
+            Alert.alert (
+                'Shift Time',
+                'Start time cannot occur after end time for a one day shift.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
         }
 
+        if (noErrors) {
+            if (twentyFourStart >= twentyFourEnd) {
+                Alert.alert (
+                    'Overnight Shift',
+                    'Are you sure you want to create an overnight shift?',
+                    [
+                        {
+                            text: 'Create',
+                            style: 'default',
+                            onPress: handleShiftAdd,
+                        },
+                        {
+                            text: 'Cancel',
+                            style: 'cancel',
+                        }
+                    ]
+                );
+                Haptics.notificationAsync(
+                    Haptics.NotificationFeedbackType.Warning
+                );
+            } else {
+                handleShiftAdd();
+            }
+        }
     }
-    //post to Mongo
+
     const handleShiftAdd = () => {
-        setWarnModal(false)
-        const weekdays = weekdaysPressed.sort()
-        const isEndPeriod = (endPeriod === "AM")
-        const isStartPeriod = (startPeriod === "AM")
-        //update fetch url according to IPv4 of Wi-Fi
-        fetch('http://'+ipAddy+':8080/createShifts', {
+        const weekdays = weekdaysPressed.sort();
+        console.log('Shift Name: ', shiftName);
+        console.log('Shift Type: ', shiftType);
+        console.log('Location ID: ', locationId);
+        console.log('Start Hour: ', startHour);
+        console.log('Start Minute: ', startMinute);
+        console.log('Start AM?', isStartAM);
+        console.log('End Hour: ', endHour);
+        console.log('End Minute: ', endMinute);
+        console.log('End AM?', isEndAM);
+        console.log('Days of Week: ', weekdays);
+        console.log('Repeats ID: ', repeatsID);
+        console.log('Start Date: ', startDate);
+        console.log('End Date: ', endDate);
+        Haptics.notificationAsync(
+            Haptics.NotificationFeedbackType.Warning
+        );
+        fetch('http://' + ipAddy + ':8080/createShifts', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                shiftType: shiftType,
-                endDate: endDate,
-                daysOfWeek: weekdays,
-                endHour: endHour,
                 shiftName: shiftName,
-                startHour: startHour,
-                isEndAM: isEndPeriod ,
+                shiftType: shiftType,
                 locationId: locationId,
-                isStartAM: isStartPeriod,
+                startHour: startHour,
                 startMinute: startMinute,
-                startDate: startDate,
+                isStartAM: isStartAM,
+                endHour: endHour,
                 endMinute: endMinute,
-                repeatsEvery: repeatsID,
+                isEndAM: isEndAM,
+                daysOfWeek: weekdays,
                 numberOfShifts: numShifts,
+                repeatsEvery: repeatsID,
+                startDate: startDate,
+                endDate: endDate,
             }),
-        }).then(r => r.json()
+        }).then(res => res.json()
         ).then(json => {
             console.log(json.message)
         })
             .catch(error => {
                 console.error(error);
             });
-        backPress()
+        setAddShiftModal(false);
+        clearValues();
+    }
+
+    const clearValues = () => {
+        setShiftName('');
+        setShiftType(shiftOptions.length === 1 ?
+            shiftOptions[0] : '');
+        setLocation(locationOptions.length === 1 ?
+            locationOptions[0] : '');
+        setLocationId(locationOptions.length === 1 ?
+            locationOptions[0].locationId : null);
+        setStartTime(null);
+        setEndTime(null);
+        setWeekdaysPressed([]);
+        setNumShifts('');
+        setSelectedRepeats(null);
+        setRepeatsID(null);
+        setDisplayStartDate(null);
+        setDisplayEndDate(null);
+        setStartDate(null);
+        setEndDate(null);
     }
 
     return(
-        <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
-            <View style={[AddPopupStyles.modal]}>
-                <View style={[AddPopupStyles.longContainer]}>
-                    <Text style={AddPopupStyles.text}>Shift Name:</Text>
-                </View>
-                <View style={[AddPopupStyles.inputContainer,isShiftNameEmpty ? AddPopupStyles.destructiveAction:{borderColor:secondaryGray}]}>
-                    <TextInput
-                        style={[AddPopupStyles.input]}
-                        onChangeText={(shiftName) =>{
-                            setShiftName(shiftName)
-                            setShiftNameEmpty(false)
-                        }}
-                        value={shiftName}
-                        placeholder={"Type Here"}
-                        placeholderTextColor={"#D0D0D0"}
-                    />
-                </View>
-                <View style={[AddPopupStyles.longContainer]}>
-                    <Text style={AddPopupStyles.text}>Shift Type:</Text>
-                </View>
-                <View style={[AddPopupStyles.dropdownContainer]}>
-                    {shiftOptions.length === 1 && <View style={[AddPopupStyles.longContainer]}><Text style={{fontSize:24}}>{shiftOptions[0]}</Text></View>}
-                    {shiftOptions.length !== 1 &&
-                        <View style={[styles.doubleContainer]}>
-                            <MultiWheelPicker wheelData={shiftOptions} selectedItem={shiftType} setSelectedItems={shiftDropdownPress} placeholder={"Select Shift Type"} wide={screenWidth/1.2} hasChevron={true}/>
-                        </View>}
-
-                </View>
-                <View style={[AddPopupStyles.longContainer]}>
-                    <Text style={AddPopupStyles.text}>Location:</Text>
-                </View>
-                <View style={[AddPopupStyles.dropdownContainer]}>
-                    {displayedLocations.length === 1 && <View style={[AddPopupStyles.longContainer]}><Text style={{fontSize:24}}>{locationOptions[0].locationName}</Text></View>}
-                    {displayedLocations.length !== 1 &&
-                        <View style={[styles.doubleContainer, isLocationError ? AddPopupStyles.destructiveAction:{}]}>
-                            <MultiWheelPicker wheelData={displayedLocations} setSelectedItems={locationDropdownPress} selectedItem={location} placeholder={"Select A Location"} wide={screenWidth/1.2} hasChevron={true}/>
-                        </View>}
-
-                </View>
-                    {(!startDate || !endDate) &&
-                    <TouchableOpacity onPress={() => {
-                        handleCalendar()
-                        setDateWrong(false)
-                    }}>
-                        <View style={[styles.doubleContainer, {borderWidth:2, borderRadius:10, backgroundColor:white, margin: 20}, dateWrong ? AddPopupStyles.destructiveAction:{borderColor:secondaryGray,}]}>
-                                <View style={[styles.doubleContainer, {width:'97.5%'}]}>
-                                    <View style={styles.shortContainer}>
-                                        <Text style={AddPopupStyles.text}>Choose Dates</Text>
-                                    </View>
-                                    <View style={styles.shortContainer}>
-                                        <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={35}/>
-                                    </View>
-                                </View>
-
-                        </View>
-                    </TouchableOpacity>}
-                {(startDate && endDate) && <TouchableOpacity onPress={() => {
-                    handleCalendar()
-                    setDateWrong(false)
-                }}>
-                    <View style={[styles.doubleContainer, {
-                        borderWidth: 2,
-                        borderColor: secondaryGray,
-                        borderRadius: 10,
-                        backgroundColor: white,
-                        margin: 20
-                    }]}>
-                        <View style={[styles.shortContainer, {width: '45%'}]}>
-                            <Text style={AddPopupStyles.text}>From:</Text>
-                            <Text>{startDate}</Text>
-                        </View>
-                        <FontAwesomeIcon icon={Calendar} color={primaryGreen} size={40}/>
-                        <View style={[styles.shortContainer, {width:'42.5%'}]}>
-                            <Text style={AddPopupStyles.text}>To:</Text>
-                            <Text>{endDate}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>}
-                <View style={[styles.doubleContainer]}>
-                    <View style={[styles.shortContainer, {width:"50%"}]}>
-
-                        <Text style={[AddPopupStyles.text]}>Start Hour:</Text>
-                        <View style={[styles.doubleContainer, {width: "55%"}]}>
-                            <MultiWheelPicker wheelData={hourOptions} placeholder={1} selectedItem={startHour} setSelectedItems={setStartHour}/>
-                            <Text style={AddPopupStyles.text}>:</Text>
-                            <MultiWheelPicker wheelData={minOptions} placeholder={"00"} selectedItem={startMinute} setSelectedItems={setStartMinute}/>
-                            <Text> </Text>
-                            <MultiWheelPicker wheelData={timePeriods} placeholder={"AM"} selectedItem={startPeriod} setSelectedItems={setStartPeriod}/>
-                        </View>
-
-                    </View>
-                    <View style={[styles.shortContainer, {width:'55%'}]}>
-                        <Text style={[AddPopupStyles.text]}>End Hour:</Text>
-                        <View style={[styles.doubleContainer, {width: "50%"}]}>
-                            <MultiWheelPicker wheelData={hourOptions} placeholder={1} selectedItem={endHour} setSelectedItems={setEndHour}/>
-                            <Text style={AddPopupStyles.text}>:</Text>
-                            <MultiWheelPicker wheelData={minOptions} placeholder={"00"} selectedItem={endMinute} setSelectedItems={setEndMinute}/>
-                            <Text> </Text>
-                            <MultiWheelPicker wheelData={timePeriods} placeholder={"AM"} selectedItem={endPeriod} setSelectedItems={setEndPeriod}/>
-                        </View>
-                    </View>
-                </View>
-                <View style={[AddPopupStyles.longContainer, ]}>
-                    <Text style={AddPopupStyles.text}>Repeats:</Text>
-                </View>
-                <View style={[AddPopupStyles.dropdownContainer,]}>
-                    <View style={[styles.doubleContainer, ]}>
-                        <MultiWheelPicker wheelData={displayedRepeats} setSelectedItems={repeatsDropdownPress} selectedItem={selectedRepeats} placeholder={"Select Option"} wide={screenWidth/1.2} hasChevron={true}/>
-                    </View>
-                </View>
-                <View style={[styles.dayContainer, noWeekdaysPressed ? AddPopupStyles.destructiveAction:{}]}>
-                    {weekdays.map(day  =>
-                        <TouchableOpacity onPress={() => handleWeekdayPress(day.key)} key={day.key}>
-                            <View style={[weekdaysPressed.includes(day.key) ? {backgroundColor:primaryGreen}:{backgroundColor:white}, styles.dayBox, day.key === 1 ? {borderTopLeftRadius:10,borderBottomLeftRadius:10,}:{}, day.key === 7 ? {borderTopRightRadius:10,borderBottomRightRadius:10,}:{}]}>
-                                <Text style={[!weekdaysPressed.includes(day.key) ? {color:black}:{color:white}, {fontSize:20}]} >{day.text}</Text>
-                            </View>
+        <View>
+            <Modal
+                animationType="slide"
+                visible={addShiftModal}
+                presentationStyle={"pageSheet"}
+            >
+                <StatusBar
+                    barStyle={'light-content'}
+                    animated={true}
+                    showHideTransition={'fade'}
+                />
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalHeader}>
+                        <TouchableOpacity
+                            onPress={closeModal}
+                        >
+                            <Text
+                                style={[styles.normalText, {color: white}]}
+                                allowFontScaling={false}
+                            >
+                                Cancel
+                            </Text>
                         </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={handleErrors}
+                        >
+                            <Text
+                                style={[styles.normalText, {color: white, fontWeight: 'bold'}]}
+                                allowFontScaling={false}
+                            >
+                                Create
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <KeyboardAwareScrollView
+                        keyboardDismissMode={"interactive"}
+                        contentContainerStyle={styles.scrollView}
+                        scrollEnabled={true}
+                    >
+                        <Text style={styles.sectionTitle}>Create Shift</Text>
+                        <TextInput
+                            style={styles.inputText}
+                            onChangeText={(shiftName) => {
+                                setShiftName(shiftName)
+                            }}
+                            value={shiftName}
+                            placeholder={"Shift Name"}
+                            placeholderTextColor={placeholderText}
+                            autoCapitalize={"words"}
+                        />
+                        <Text style={styles.sectionSubtitle}>Shift Type</Text>
+                        <View style={[AddPopupStyles.dropdownContainer]}>
+                            {shiftOptions.length === 1 &&
+                                <View>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>
+                                        {shiftOptions[0]}
+                                    </Text>
+                                </View>
+                            }
+                            {shiftOptions.length !== 1 &&
+                                <View style={styles.doubleContainer}>
+                                    <MultiWheelPicker
+                                        wheelData={shiftOptions}
+                                        selectedItem={shiftType}
+                                        setSelectedItems={shiftDropdownPress}
+                                        placeholder={"Select Shift Type"}
+                                        wide={screenWidth/1.2}
+                                        hasChevron={true}
+                                    />
+                                </View>
+                            }
+                        </View>
+                        <Text style={styles.sectionSubtitle}>Location</Text>
+                        <View style={AddPopupStyles.dropdownContainer}>
+                            {displayedLocations.length === 1 &&
+                                <View>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>
+                                        {locationOptions[0].locationName}
+                                    </Text>
+                                </View>
+                            }
+                            {displayedLocations.length !== 1 &&
+                                <MultiWheelPicker
+                                    wheelData={displayedLocations}
+                                    setSelectedItems={locationDropdownPress}
+                                    selectedItem={location}
+                                    placeholder={"Select Location"}
+                                    wide={screenWidth/1.2}
+                                    hasChevron={true}
+                                />
+                            }
+                        </View>
+                        <Text style={styles.sectionSubtitle}>Shift Time</Text>
+                        <View style={styles.dateTimeContainer}>
+                            <TouchableOpacity onPress={showStartTimePicker}>
+                                <View style={styles.dateTimeRow}>
+                                    <Text style={styles.normalText}>Start Time</Text>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>
+                                        {startTime !== null ? startTime : 'Not selected'}
+                                    </Text>
+                                </View>
+                                <DateTimePickerModal
+                                    isVisible={isStartTimePickerVisible}
+                                    mode="time"
+                                    onConfirm={handleStartTimeConfirm}
+                                    onCancel={hideStartTimePicker}
+                                    themeVariant={"light"}
+                                    display={"spinner"}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={showEndTimePicker}>
+                                <View style={[styles.dateTimeRow, {borderBottomWidth: 0}]}>
+                                    <Text style={styles.normalText}>End Time</Text>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>
+                                        {endTime !== null ? endTime : 'Not selected'}
+                                    </Text>
+                                </View>
+                                <DateTimePickerModal
+                                    isVisible={isEndTimePickerVisible}
+                                    mode="time"
+                                    onConfirm={handleEndTimeConfirm}
+                                    onCancel={hideEndTimePicker}
+                                    themeVariant={"light"}
+                                    display={"spinner"}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={styles.sectionSubtitle}>Shift Days</Text>
+                        <View style={styles.dayContainer}>
+                            {weekdays.map(day  =>
+                                <TouchableWithoutFeedback onPress={() => handleWeekdayPress(day.key)} key={day.key}>
+                                    <View
+                                        style={[weekdaysPressed.includes(day.key) ?
+                                            {backgroundColor: primaryGreen}
+                                            : {backgroundColor: white},
+                                            styles.dayBox,
+                                        ]}
+                                    >
+                                        <Text style={[!weekdaysPressed.includes(day.key) ?
+                                            {color: clickableText}
+                                            : {color: white},
+                                            {fontSize: 17}]}
+                                        >
+                                            {day.text}
+                                        </Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
 
-                    )}
+                            )}
+                        </View>
+                        <TextInput
+                            style={styles.inputText}
+                            onChangeText={(numShifts)=> {
+                                setNumShifts(numShifts)
+                            }}
+                            value={numShifts}
+                            placeholder={'Number of Shifts'}
+                            placeholderTextColor={placeholderText}
+                            keyboardType='numeric'
+                        />
+                        <Text style={styles.sectionSubtitle}>Repeat Shift Schedule</Text>
+                        <View style={[AddPopupStyles.dropdownContainer]}>
+                            <MultiWheelPicker
+                                wheelData={displayedRepeats}
+                                setSelectedItems={repeatsDropdownPress}
+                                selectedItem={selectedRepeats}
+                                placeholder={"Select Option"}
+                                wide={screenWidth/1.2}
+                                hasChevron={true}
+                            />
+                        </View>
+                        <Text style={styles.sectionSubtitle}>Repeat Window</Text>
+                        <View style={styles.dateTimeContainer}>
+                            <TouchableOpacity onPress={showStartDatePicker}>
+                                <View style={styles.dateTimeRow}>
+                                    <Text style={styles.normalText}>Beginning Date</Text>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>
+                                        {displayStartDate !== null ? displayStartDate : 'Not selected'}
+                                    </Text>
+                                </View>
+                                <DateTimePickerModal
+                                    isVisible={isStartDatePickerVisible}
+                                    mode="date"
+                                    onConfirm={handleStartDateConfirm}
+                                    onCancel={hideStartDatePicker}
+                                    themeVariant={"light"}
+                                    display={"inline"}
+                                    minimumDate={new Date(1950, 0, 1)}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={showEndDatePicker}>
+                                <View style={[styles.dateTimeRow, {borderBottomWidth: 0}]}>
+                                    <Text style={styles.normalText}>Ending Date</Text>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>
+                                        {displayEndDate !== null ? displayEndDate : 'Not selected'}
+                                    </Text>
+                                </View>
+                                <DateTimePickerModal
+                                    isVisible={isEndDatePickerVisible}
+                                    mode="date"
+                                    onConfirm={handleEndDateConfirm}
+                                    onCancel={hideEndDatePicker}
+                                    themeVariant={"light"}
+                                    display={"inline"}
+                                    minimumDate={new Date(1950, 0, 1)}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    </KeyboardAwareScrollView>
                 </View>
-                <View style={[AddPopupStyles.longContainer]}>
-                    <Text style={AddPopupStyles.text}>Number of Shifts:</Text>
-                </View>
-                <View style={[AddPopupStyles.inputContainer, numShiftsError? AddPopupStyles.destructiveAction:{}]}>
-                    <TextInput
-                        style={[AddPopupStyles.input]}
-                        onChangeText={(numShifts)=>{
-                            setNumShifts(numShifts)
-                            setNumShiftsError(false)
-                        }}
-                        value={numShifts}
-                        placeholder={'Type Here'}
-                        placeholderTextColor={"#D0D0D0"}
-                        keyboardType = 'numeric'
-                    />
-                </View>
-
-                <View style={styles.addShiftButton}>
-                    <CustomButton buttonText={"Add Shift"} handlePress={handleErrors} color={primaryGreen} textColor={white} />
-                </View>
-                <WarnPopup handleModalVisible={handleWarnVisible} isModalVisible={warnModal} submitForm={handleShiftAdd} titleText={warnText}/>
-                <CalendarPopup setSelectedEndDate={setSelectedEndDate} setSelectedStartDate={setSelectedStartDate} isCalendarVisible={isCalendarVisible} handleExitCalendar={handleCalendar}/>
-            </View>
-        </TouchableWithoutFeedback>
-
-
-    )
+            </Modal>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-    doubleContainer:{
-        flexDirection:"row",
-        alignItems:"center",
-        justifyContent:"space-between",
-        margin:5,
-        width:"95%",
-
-
+    modalHeader: {
+        height: 55,
+        backgroundColor: primaryGreen,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
     },
-    shortContainer:{
-        flexDirection:"column",
-        justifyContent:"center",
-        alignItems:"center",
-        padding:5,
-
-
+    modalContainer: {
+        flex: 1,
+        backgroundColor: grayBackground,
     },
-    dayContainer:{
-        flexDirection:"row",
-        alignItems:"center",
-        justifyContent:"center",
-        marginTop:20,
-        width:"95%",
-
+    titleContainer: {
+        width: '100%',
+        alignItems: 'flex-start',
+        flexDirection: 'row',
     },
-    dayBox:{
-        borderColor: secondaryGray,
-        borderWidth:.5,
-        marginTop:0,
-        padding:5,
-        paddingHorizontal:8
+    scrollView: {
+        position: "relative",
+        backgroundColor: grayBackground,
+        flexDirection: "column",
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 24,
+        padding: 16,
     },
+    sectionTitle: {
+        marginBottom: 6,
+        width: '100%',
+        fontSize: 34,
+        textAlign: 'left',
+        fontWeight: 'bold',
+    },
+    sectionSubtitle: {
+        marginBottom: 6,
+        width: '100%',
+        fontSize: 21,
+        textAlign: 'left',
+        fontWeight: 'bold',
+    },
+    inputText: {
+        width: "100%",
+        fontSize: 18,
+        padding: 12,
+        marginBottom: 18,
+        backgroundColor: white,
+        borderRadius: 10,
+    },
+    normalText: {
+        fontSize: 18,
+    },
+    doubleContainer: {
+        padding: 12,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "100%",
+    },
+    shortContainer: {
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    container: {
+        width: "100%",
+    },
+    dayContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        marginBottom: 18,
+        width: "100%",
+        backgroundColor: secondaryGray,
+        borderRadius: 7,
+        paddingVertical: 4,
+        paddingHorizontal: 4,
+        overflow: 'hidden',
+    },
+    dayBox: {
+        borderRadius: 7,
+        paddingVertical: 4,
+        paddingHorizontal: 8,
+        marginHorizontal: 2,
+    },
+    input: {
+        width: "100%",
+        height: 30,
+        fontSize: 24,
+        margin: 5,
+    },
+    dateTimeContainer: {
+        backgroundColor: white,
+        width: "100%",
+        borderRadius: 10,
+        flexDirection: "column",
+        paddingLeft: 12,
+        marginBottom: 18,
+    },
+    dateTimeRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        padding: 12,
+        paddingLeft: 0,
+        borderBottomWidth: 0.25,
+        borderBottomColor: secondaryGray,
+    },
+});
 
-    input:{
-        width:"95%",
-        height:30,
-        fontSize:24,
-        margin:5,
-    }
-
-
-
-})
-
-export default AddShiftBody
+export default AddShiftBody;

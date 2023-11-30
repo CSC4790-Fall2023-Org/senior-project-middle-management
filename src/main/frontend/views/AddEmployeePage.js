@@ -3,7 +3,7 @@ import {View, StyleSheet, Text, TouchableOpacity,  ScrollView} from 'react-nativ
 import {useNavigation} from "@react-navigation/native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronLeft} from "../utils/Icons";
-import {secondaryGray} from "../utils/Colors";
+import {black, secondaryGray} from "../utils/Colors";
 import AddEmployeeBody from "../components/company-dashboard-components/AddEmployeeBody";
 
 
@@ -16,7 +16,7 @@ const AddEmployeePage = ({ route }) => {
         navigation.goBack()
     }
     return (
-        <View>
+        <View style={{flex: 1}}>
             <View style={styles.headerContainer}>
                 <TouchableOpacity onPress={() => backPress ()} style={styles.icon}>
                     <FontAwesomeIcon icon={ChevronLeft} size={24}/>
@@ -44,21 +44,20 @@ const styles = StyleSheet.create({
         borderBottomColor: secondaryGray,
     },
     headerText: {
-        color: "black",
-        fontSize: 24,
+        color: black,
+        fontSize: 17,
         marginBottom: 12,
         fontWeight: 'bold',
     },
     icon: {
-        color: 'black',
+        color: black,
         position: 'absolute',
         left: 12,
         bottom: 12,
         width: 48,
     },
     pageScroll: {
-        height: "88%",
-
+        flex: 1,
     },
 });
 export default AddEmployeePage;
