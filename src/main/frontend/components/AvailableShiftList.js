@@ -55,9 +55,6 @@ const AvailableShiftList = () => {
 }
 
 const styles = StyleSheet.create({
-    scrollView: {
-        flexGrow: 1,
-    },
     contentContainer: {
         flexGrow: 1,
         paddingVertical: 8,

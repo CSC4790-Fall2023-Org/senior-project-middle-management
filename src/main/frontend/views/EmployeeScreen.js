@@ -31,7 +31,11 @@ function EmployeeScreen() {
 
     return (
         <View style={styles.screen}>
-            <CustomHeader title={'Punchcard'} page={ScreenNames.EMPLOYEE_SETTINGS} icon={CircleUser}/>
+            <CustomHeader
+                title={'Punchcard'}
+                page={ScreenNames.EMPLOYEE_SETTINGS}
+                icon={CircleUser}
+            />
             <View style={styles.headerContainer}>
                 <CustomDashboardHeader onTitlePress={handleTitlePress} tabs={tabs} />
             </View>
