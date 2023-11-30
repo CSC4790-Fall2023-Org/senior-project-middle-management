@@ -773,14 +773,14 @@ const styles = StyleSheet.create({
     },
     inputText: {
         width: "100%",
-        fontSize: 18,
+        fontSize: 17,
         padding: 12,
         marginBottom: 18,
         backgroundColor: white,
         borderRadius: 10,
     },
     normalText: {
-        fontSize: 18,
+        fontSize: 17,
     },
     doubleContainer: {
         padding: 12,

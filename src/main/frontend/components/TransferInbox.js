@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
         paddingBottom: 24,
     },
     normalText: {
-        fontSize: 18,
+        fontSize: 17,
     },
     scrollView: {
         position: "relative",
