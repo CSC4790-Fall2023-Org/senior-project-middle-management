@@ -44,7 +44,7 @@ function ManagerShiftDashboard(){
 
     return(
         <View styles={styles.page}>
-            <View style={{height: "90%"}}>
+            <View style={{height: "91%"}}>
                 <AvailableShiftList />
             </View>
             <View style={styles.buttonContainer}>
