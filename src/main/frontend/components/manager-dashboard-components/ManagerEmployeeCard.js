@@ -1,4 +1,4 @@
-import {Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
+import {Modal, StatusBar, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
 import React, {useState} from "react";
 import {ChevronRight, XMark} from "../../utils/Icons";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
@@ -7,20 +7,18 @@ import CustomButton from "../CustomButton";
 import {ipAddy} from "../../utils/IPAddress";
 import WarnPopup from "./WarnPopup";
 
-
 const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
     const [isModalVisible, setModalVisible] = useState(false);
 
-    const warnText = "You are about to delete employee " + name + " are you sure you want to?"
-    const [isDeleteModalVisible, setDeleteModalVisible] = useState(true);
+    const warnText = "Are you sure you want to delete " + name + "?"
+    const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
     const handleDeleteModalVisible = () => {
         setDeleteModalVisible(!isDeleteModalVisible)
     }
 
-
     const handleModalVisible = () => {
         setModalVisible(!isModalVisible);
-    };
+    }
 
     const handleEmployeeDelete = () =>{
         fetch('http://' + ipAddy + ':8080/deleteEmployee', {
@@ -40,26 +38,24 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
             });
     }
 
-
     return(
         <View>
             <TouchableWithoutFeedback onPress={handleModalVisible}>
                 <View style={styles.container}>
-                    <View style={{paddingTop:5}}>
-                        <Text style={styles.name}>{name}</Text>
-                    </View>
-                    <FontAwesomeIcon icon={ChevronRight} size={25} />
+                    <Text style={styles.name}>{name}</Text>
+                    <FontAwesomeIcon icon={ChevronRight} size={17} />
                 </View>
             </TouchableWithoutFeedback>
             <Modal
-                animationType="none"
-                transparent={true}
+                animationType="slide"
                 visible={isModalVisible}
                 onRequestClose={handleModalVisible}
+                presentationStyle={"pageSheet"}
             >
-                <TouchableOpacity
-                    style={styles.overlay}
-                    onPress={handleModalVisible}
+                <StatusBar
+                    barStyle={'light-content'}
+                    animated={true}
+                    showHideTransition={'fade'}
                 />
                 <View style={styles.modal}>
                     <View style={styles.topContainerModal}>
@@ -102,25 +98,24 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
 const styles = StyleSheet.create({
     container:{
         display: "flex",
-        backgroundColor: white,
-        margin: 10,
-        borderRadius: 10,
-        padding: 5,
-        justifyContent: 'space-between',
-        paddingHorizontal: 15,
-        alignItems: 'center',
         flexDirection: "row",
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: white,
+        marginHorizontal: 16,
+        marginVertical: 8,
+        borderRadius: 10,
+        paddingHorizontal: 16,
+        paddingVertical: 12,
     },
-
     name: {
-        fontSize: 24,
+        fontSize: 17,
         fontWeight: "600",
-        marginBottom: 10,
     },
-    modal:{
+    modal: {
         position: 'absolute',
         top: 240,
-        left:45,
+        left: 45,
         width: 300,
         height: 400,
         elevation: 5,
@@ -138,14 +133,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     topContainerModal: {
-        paddingTop:10,
+        paddingTop: 10,
         justifyContent: 'space-between',
         paddingHorizontal: 15,
         alignItems: 'center',
         flexDirection: "row",
     },
     middleContainerModal: {
-        paddingTop:25,
+        paddingTop: 25,
         justifyContent: 'center',
         paddingHorizontal: 0,
         alignItems: 'center',
