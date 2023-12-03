@@ -1,12 +1,11 @@
 import React, {useState} from "react";
 import {View, TouchableOpacity, StyleSheet} from 'react-native'
-import {useNavigation} from "@react-navigation/native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Plus} from '../../utils/Icons';
 import {white, primaryGreen, black, grayBackground} from "../../utils/Colors";
 import {ipAddy} from "../../utils/IPAddress";
-import AvailableShiftList from "../AvailableShiftList";
 import AddShiftBody from "./AddShiftBody";
+import FullShiftList from "./FullShiftList";
 
 function ManagerShiftDashboard(){
     const [addShiftModal, setAddShiftModal] = useState(false);
@@ -45,7 +44,7 @@ function ManagerShiftDashboard(){
     return(
         <View styles={styles.page}>
             <View style={{height: "91%"}}>
-                <AvailableShiftList />
+                <FullShiftList />
             </View>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity onPress={handleAddShiftClick}>
