@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, useState} from 'react';
 import {Animated, StyleSheet, Alert} from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { RectButton } from 'react-native-gesture-handler';
@@ -7,10 +7,13 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {CalendarDelete, Transfer} from "../utils/Icons";
 import {white, blueAction, destructiveAction} from "../utils/Colors";
 import ShiftCard from "./ShiftCard";
+import TransferShiftModal from "./TransferShiftModal";
 
-class MyShiftCardSwipe extends Component {
-    swipeableRef = React.createRef();
-    handleSwipeOpen = (direction) => {
+function MyShiftCardSwipe ({ShiftCardComponent}) {
+    const [transferShiftModal, setTransferShiftModal] = useState(false);
+    let swipeableRef = React.createRef();
+
+    const handleSwipeOpen = (direction) => {
         if (direction === 'right') {
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Warning
@@ -32,42 +35,18 @@ class MyShiftCardSwipe extends Component {
                         text: 'Cancel',
                         style: 'cancel',
                         onPress: () => {
-                            this.swipeableRef.current.close();
+                            swipeableRef.current.close();
 
                         }
                     }
                 ]
             );
         } else if (direction === 'left') {
-            Haptics.notificationAsync(
-                Haptics.NotificationFeedbackType.Warning
-            );
-            Alert.alert(
-                'Transfer shift',
-                'Are you sure you want to transfer this shift?',
-                [
-                    {
-                        text: 'Transfer',
-                        style: 'default',
-                        onPress: () => {
-                            Haptics.notificationAsync(
-                                Haptics.NotificationFeedbackType.Success
-                            );
-                        },
-                    },
-                    {
-                        text: 'Cancel',
-                        style: 'cancel',
-                        onPress: () => {
-                            this.swipeableRef.current.close();
-                        }
-                    }
-                ]
-            )
+            handleTransferOpen();
         }
     };
 
-    renderLeftActions = (progress, dragX) => {
+    const renderLeftActions = (progress, dragX) => {
         const trans = dragX.interpolate({
             inputRange: [0, 50, 100, 101],
             outputRange: [-20, -10, 0, 1],
@@ -87,7 +66,7 @@ class MyShiftCardSwipe extends Component {
         );
     };
 
-    renderRightActions = (progress, dragX) => {
+    const renderRightActions = (progress, dragX) => {
         const trans = dragX.interpolate({
             inputRange: [-101, -100, -50, 0],
             outputRange: [-1, 0, 10, 20],
@@ -107,21 +86,40 @@ class MyShiftCardSwipe extends Component {
         );
     };
 
-    render() {
-        const { ShiftCardComponent } = this.props;
-
-        return (
-                <Swipeable
-                    renderLeftActions={this.renderLeftActions}
-                    renderRightActions={this.renderRightActions}
-                    onSwipeableOpen={(direction) => this.handleSwipeOpen(direction)}
-                    ref={this.swipeableRef}
-                    overshootFriction={8}
-                >
-                    {ShiftCardComponent}
-                </Swipeable>
-        );
+    const handleTransferClose = () => {
+        swipeableRef.current.close();
+        setTransferShiftModal(false) // Close the modal.
     }
+
+    const handleTransferOpen = () => {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+        setTransferShiftModal(true);
+    }
+
+    return (
+            <Swipeable
+                renderLeftActions={renderLeftActions}
+                renderRightActions={renderRightActions}
+                onSwipeableOpen={(direction) => handleSwipeOpen(direction)}
+                ref={swipeableRef}
+                overshootFriction={8}
+            >
+                {ShiftCardComponent}
+                {transferShiftModal && (
+                    <TransferShiftModal
+                        transferShiftModal={transferShiftModal}
+                        setTransferShiftModal={handleTransferClose}
+                        shiftName={ShiftCardComponent.props.shiftName}
+                        shiftStartDate={ShiftCardComponent.props.shiftStartDate}
+                        shiftEndDate={ShiftCardComponent.props.shiftEndDate}
+                        shiftStartTime={ShiftCardComponent.props.shiftStartTime}
+                        shiftEndTime={ShiftCardComponent.props.shiftEndTime}
+                        shiftHours={ShiftCardComponent.props.shiftHours}
+                        shiftLocation={ShiftCardComponent.props.location}
+                    />
+                )}
+            </Swipeable>
+    );
 }
 
 const styles= StyleSheet.create({
@@ -137,7 +135,7 @@ const styles= StyleSheet.create({
         overflow: "hidden",
     },
     actionText: {
-        color: 'white',
+        color: white,
         backgroundColor: 'transparent',
     },
     rightAction: {

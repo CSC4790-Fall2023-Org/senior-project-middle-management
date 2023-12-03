@@ -11,18 +11,18 @@ const MultiWheelPicker = ({wheelData,placeholder, selectedItem, setSelectedItems
     };
 
     return (
-        <View style={[styles.container]}>
+        <View style={styles.container}>
             <RNPickerSelect
                 style={{...pickerSelectStyles,
                     inputIOS: {
                         width: wide,
                         color: clickableText,
-                        fontSize: 18,
+                        fontSize: 17,
                     },
                     inputAndroid: {
                         width: wide,
                         color: clickableText,
-                        fontSize: 18,
+                        fontSize: 17,
                     },
                 }}
                 placeholder={{ label: placeholder.toString(), value: placeholder }}
@@ -32,7 +32,7 @@ const MultiWheelPicker = ({wheelData,placeholder, selectedItem, setSelectedItems
                 value={selectedItem}
                 Icon={() => {
                     if (hasChevron) {
-                        return <FontAwesomeIcon icon={ChevronDown} color={clickableText} size={18}/>;
+                        return <FontAwesomeIcon icon={ChevronDown} color={clickableText} size={17}/>;
                     }
 
                 }}
@@ -53,7 +53,7 @@ const pickerSelectStyles = StyleSheet.create({
     },
     placeholder: {
         color: clickableText,
-        fontSize: 18,
+        fontSize: 17,
     },
 });
 export default MultiWheelPicker;

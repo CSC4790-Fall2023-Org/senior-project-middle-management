@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     },
     warnText:{
         fontWeight:'bold',
-        fontSize: 20,
+        fontSize: 17,
         textAlign: 'center',
     },
 });
