@@ -25,7 +25,7 @@ const AddEmployeeBody = ({backPress}) => {
         ({ "label": locationName, "value":locationId})));
 
     //org info
-    const orgID = "6500cf35491cac473a9b80c8";
+    const orgID = "6500e97e491cac473a9b80c8";
 
     //employee info
     const [empFName, setEmpFName] = useState("");
@@ -51,6 +51,7 @@ const AddEmployeeBody = ({backPress}) => {
     const handleEmployeeAdd = () => {
         let payFloat;
         let hoursFloat;
+        let shift
         if (typeof wage === "string") {
             payFloat = parseFloat(wage);
         } else {
@@ -61,6 +62,13 @@ const AddEmployeeBody = ({backPress}) => {
         } else {
             hoursFloat = hoursPerWeek;
         }
+        if(shiftVal){
+            shift = shiftVal
+        }
+        else{
+            shift = shiftOptions[0]
+        }
+        console.log(shiftVal)
         // //update fetch url according to IPv4 of Wi-Fi
         fetch('http://' + ipAddy + ':8080/createEmployee', {
             method: 'POST',
@@ -73,7 +81,7 @@ const AddEmployeeBody = ({backPress}) => {
                 lastName: empLName,
                 locationIdList: locVal,
                 maxHours: hoursFloat,
-                employeeType: shiftVal,
+                employeeType: shift,
                 employeePhoneNumber: empPhone,
                 employeeEmail: empEmail,
                 pay: payFloat,

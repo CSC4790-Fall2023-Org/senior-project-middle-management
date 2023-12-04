@@ -8,11 +8,11 @@ import {ipAddy} from "../../utils/IPAddress";
 import WarnPopup from "./WarnPopup";
 
 
-const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken, pNum, email}) =>{
+const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken, pNum, email, setReload}) =>{
     const [isModalVisible, setModalVisible] = useState(false);
 
     const warnText = "You are about to delete employee " + name + " are you sure you want to?"
-    const [isDeleteModalVisible, setDeleteModalVisible] = useState(true);
+    const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
     const handleDeleteModalVisible = () => {
         setDeleteModalVisible(!isDeleteModalVisible)
     }
@@ -38,6 +38,8 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken, pNum, email})
             .catch(error => {
                 console.error(error);
             });
+        handleDeleteModalVisible()
+        setReload()
     }
 
 

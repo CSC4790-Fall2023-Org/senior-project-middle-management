@@ -5,12 +5,12 @@ import ManagerEmployeeCard from "../manager-dashboard-components/ManagerEmployee
 
 const AvailableShiftList = () => {
     const [empData, setEmpData] = useState(null);
-
+    const [rld, setRld] = useState(false)
     useEffect(() => {
         fetch('http://' + ipAddy + ':8080/getAllEmployees', {
             method: 'POST',
             body: JSON.stringify({
-                employeeId: "651f3f35631f63367d896196"
+                organizationId: "6500e97e491cac473a9b80c8"
             }),
         }).then(response => {
             if (!response.ok) {
@@ -19,12 +19,17 @@ const AvailableShiftList = () => {
             return response.json();
         })
             .then(data => {
+                console.log(data)
                 setEmpData(data);
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
             });
-    }, []);
+    }, [rld]);
+
+    const reload = () =>{
+        setRld(!rld)
+    }
 
     return (
         <FlatList
@@ -40,6 +45,7 @@ const AvailableShiftList = () => {
                     worked={emp.pay}
                     email={emp.employeeEmail}
                     pNum={emp.employeePhoneNumber}
+                    setReload={reload}
                     />
 
             )}
