@@ -1,16 +1,97 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Text, ScrollView, TouchableOpacity} from 'react-native';
+import employeeData from "../../mockApiCalls/employeeData.json";
+import {black, clickableText, grayAction, secondaryGray, white} from "../../utils/Colors";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {ChevronRight} from "../../utils/Icons";
 
 const CompanyInfoDashboard = () => {
 
-    return(
-        <View>
-
-        </View>
+    return (
+        <ScrollView>
+            <View style={styles.infoContainer}>
+                <View style={styles.infoItem}>
+                    <Text style={styles.infoLabel}>Company Name</Text>
+                    <Text
+                        style={styles.labelValue}
+                        numberOfLines={1}
+                        ellipsizeMode={"tail"}
+                    >
+                        {employeeData.fName + ' ' + employeeData.lName}
+                    </Text>
+                </View>
+                <View style={styles.infoItem}>
+                    <Text style={styles.infoLabel}>Company Email</Text>
+                    <Text
+                        style={styles.labelValue}
+                        numberOfLines={1}
+                        ellipsizeMode={"middle"}
+                    >
+                        {employeeData.email}
+                    </Text>
+                </View>
+                <View style={[styles.infoItem, {borderBottomWidth: 0}]}>
+                    <Text style={styles.infoLabel}>Phone Number</Text>
+                    <Text style={styles.labelValue}>{employeeData.phoneNumber}</Text>
+                </View>
+            </View>
+            <View style={styles.infoContainer}>
+                <TouchableOpacity style={styles.infoItem}>
+                    <Text style={[styles.infoLabel, {width: "50%"}]}>Company Locations</Text>
+                    <FontAwesomeIcon
+                        icon={ChevronRight}
+                        size={17}
+                        color={clickableText}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.infoItem}>
+                    <Text style={[styles.infoLabel, {width: "50%"}]}>Managers</Text>
+                    <FontAwesomeIcon
+                        icon={ChevronRight}
+                        size={17}
+                        color={clickableText}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.infoItem, {borderBottomWidth: 0}]}>
+                    <Text style={[styles.infoLabel, {width: "50%"}]}>Employees</Text>
+                    <FontAwesomeIcon
+                        icon={ChevronRight}
+                        size={17}
+                        color={clickableText}
+                    />
+                </TouchableOpacity>
+            </View>
+        </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
-
+    infoContainer: {
+        backgroundColor: white,
+        margin: 16,
+        borderRadius: 10,
+        paddingLeft: 14,
+    },
+    infoItem: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingTop: 14,
+        paddingBottom: 14,
+        borderBottomWidth: 0.25,
+        borderBottomColor: secondaryGray,
+    },
+    infoLabel: {
+        width: "40%",
+        color: black,
+        fontSize: 17,
+    },
+    labelValue: {
+        width: "60%",
+        color: clickableText,
+        fontSize: 17,
+        paddingRight: 14,
+        textAlign: "right",
+    },
 });
+
 export default CompanyInfoDashboard;
