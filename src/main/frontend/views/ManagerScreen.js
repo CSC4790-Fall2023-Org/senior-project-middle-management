@@ -34,7 +34,7 @@ function ManagerScreen() {
             />
             <CustomDashboardHeader onTitlePress={handleTitlePress} tabs={tabs}/>
             <View>
-                {selectedIndex === 0 && <ManagerEmployeeDashboard buttonTitle={"Add Employee"} options={options} />}
+                {selectedIndex === 0 && <ManagerEmployeeDashboard />}
                 {selectedIndex === 1 && <ManagerShiftDashboard />}
             </View>
 

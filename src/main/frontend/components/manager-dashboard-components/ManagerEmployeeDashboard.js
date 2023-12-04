@@ -4,7 +4,7 @@ import ManagerEmployeeView from "./ManagerEmployeeView";
 import Dropdown from "../Dropdown";
 import {secondaryGray, white} from "../../utils/Colors";
 
-const ManagerEmployeeDashboard = ({buttonTitle}) => {
+const ManagerEmployeeDashboard = () => {
     const options = ["Default", "Name", "Hours Worked" ]
 
     const [selectedIndex, setSelectedIndex] = useState('All');
@@ -17,7 +17,6 @@ const ManagerEmployeeDashboard = ({buttonTitle}) => {
     const handleDropdownPress = (index) => {
         setSelectedIndex(index);
     }
-
 
     return(
         <View>
@@ -37,7 +36,6 @@ const ManagerEmployeeDashboard = ({buttonTitle}) => {
             </View>
             <ManagerEmployeeView selected={selectedEmployee} handleEmpPress={handleEmployeePress} />
         </View>
-
     )
 }
 
