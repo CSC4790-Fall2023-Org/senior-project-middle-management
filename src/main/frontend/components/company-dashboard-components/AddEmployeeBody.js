@@ -17,33 +17,8 @@ import MultiWheelPicker from "../MultiWheelPicker";
 import {screenWidth} from "../../utils/Constants";
 
 const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => {
-    //location info
-    const locationOptions = [
-        {locationId:"6500e97e491cac473a9b80c9", locationName: "Town Pool", maxHours: 40},
-        {locationId:"6500e97e491cac473a9b80c7", locationName: "Town Park", maxHours: 40}
-    ];
-
-    const shiftOptions = ["Guard"];
-
-    const [shiftType, setShiftType] = useState(shiftOptions.length === 1 ?
-        shiftOptions[0] : '');
-
-    const [location, setLocation] = useState(locationOptions.length === 1 ?
-        locationOptions[0] : '');
-    const [locationId, setLocationId] = useState(locationOptions.length === 1 ?
-        locationOptions[0].locationId : null);
-    let displayedLocations = locationOptions.map(a => a.locationName);
-
-    const [openLocDD,setOpenLocDD] = useState(false);
-    const [locVal, setLocVal] = useState([locationOptions[0].locationId]);
-    const [displayedLoc, setDisplayedLoc] = useState(locationOptions.map(
-        ({ locationId, locationName }) =>
-            ({ "label": locationName, "value":locationId})));
-
-    //org info
     const orgID = "6500cf35491cac473a9b80c8";
 
-    //employee info
     const [fName, setFName] = useState('');
     const [fNameEmpty, setFNameEmpty] = useState(false);
     const [lName, setLName] = useState('');
@@ -52,16 +27,36 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
     const [phoneEmpty, setPhoneEmpty] = useState(false);
     const [email, setEmail] = useState('');
     const [emailEmpty, setEmailEmpty] = useState(false);
-    const [hoursPerWeek, setHoursPerWeek] = useState("");
+    const [hoursCap, setHoursCap] = useState('');
     const [hoursEmpty, setHoursEmpty] = useState(false);
-    const [wage, setWage] = useState("");
+    const [wage, setWage] = useState('');
     const [wageEmpty, setWageEmpty] = useState(false);
 
-    //shift type info
+    const shiftOptions = ["Guard"];
+
+    const [employeeType, setEmployeeType] = useState(shiftOptions.length === 1 ?
+        shiftOptions[0] : '');
+
     const [openShiftDD,setOpenShiftDD] = useState(false);
     const [displayedShift, setDisplayedShift] = useState(shiftOptions.map(
         (shift) => ({ "label": shift, "value": shift})));
     const [shiftVal, setShiftVal] = useState(null);
+
+    const locationOptions = [
+        {locationId:"6500e97e491cac473a9b80c9", locationName: "Town Pool", maxHours: 40},
+        {locationId:"6500e97e491cac473a9b80c7", locationName: "Town Park", maxHours: 40}
+    ];
+
+    const [location, setLocation] = useState(locationOptions.length === 1 ?
+        locationOptions[0] : '');
+    const [locationId, setLocationId] = useState(locationOptions.length === 1 ?
+        locationOptions[0].locationId : '');
+    let displayedLocations = locationOptions.map(a => a.locationName);
+
+    const [openLocDD,setOpenLocDD] = useState(false);
+    const [displayedLoc, setDisplayedLoc] = useState(locationOptions.map(
+        ({ locationId, locationName }) =>
+            ({ "label": locationName, "value":locationId})));
 
     const closeModal = () => {
         clearValues();
@@ -73,13 +68,18 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
         setLName('');
         setPhoneNumber('');
         setEmail('');
-        setLocation('');
-        setShiftType('');
+        setEmployeeType(shiftOptions.length === 1 ?
+            shiftOptions[0] : '');
+        setLocation(locationOptions.length === 1 ?
+            locationOptions[0] : '');
+        setLocationId(locationOptions.length === 1 ?
+            locationOptions[0].locationId : '');
         setWage('');
+        setHoursCap('');
     }
 
-    const shiftDropdownPress = (index) => {
-        setShiftType(index);
+    const typeDropdownPress = (index) => {
+        setEmployeeType(index);
     }
 
     const locationDropdownPress = (index) => {
@@ -91,46 +91,7 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
         }
     }
 
-    const handleEmployeeAdd = () => {
-        let payFloat;
-        let hoursFloat;
-        if (typeof wage === "string") {
-            payFloat = parseFloat(wage);
-        } else {
-            payFloat = wage;
-        }
-        if (typeof hoursPerWeek === "string") {
-            hoursFloat = parseFloat(hoursPerWeek);
-        } else {
-            hoursFloat = hoursPerWeek;
-        }
-        // //update fetch url according to IPv4 of Wi-Fi
-        fetch('http://' + ipAddy + ':8080/createEmployee', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                organizationId: orgID,
-                firstName: fName,
-                lastName: lName,
-                locationIdList: locVal,
-                maxHours: hoursFloat,
-                employeeType: shiftVal,
-                employeePhoneNumber: phoneNumber,
-                employeeEmail: email,
-                pay: payFloat,
-            }),
-        }).then(r => r.json()
-        ).then(json => {
-            console.log(json.message);
-        })
-            .catch(error => {
-                console.error(error);
-            });
-        backPress();
-    }
-    const handleErrors = () =>{
+    const handleErrors = () => {
         let noErrors= true;
 
         const phoneNumberPattern = /^\d{10}$/;
@@ -201,6 +162,36 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
+        }  else if (!shiftOptions.includes(employeeType)) {
+            noErrors = false;
+            Alert.alert (
+                'Shift Type',
+                'Please select a shift type.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        } else if (!locationOptions.some(loc => loc.locationName === location)) {
+            noErrors = false;
+            Alert.alert (
+                'Location',
+                'Please select a location.',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
         } else if (wage.trim() === '') {
             noErrors = false;
             Alert.alert(
@@ -217,9 +208,71 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
                 Haptics.NotificationFeedbackType.Error
             );
         }
+        else if (hoursCap.trim() === '') {
+            noErrors = false;
+            Alert.alert(
+                'Please enter a valid weekly hours cap.',
+                '',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
+            Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Error
+            );
+        }
+
         if(noErrors) {
             handleEmployeeAdd();
         }
+    }
+
+    const handleEmployeeAdd = () => {
+        let payFloat;
+        let hoursFloat;
+
+        if (typeof wage === "string") {
+            payFloat = parseFloat(wage);
+        } else {
+            payFloat = wage;
+        }
+
+        if (typeof hoursCap === "string") {
+            hoursFloat = parseFloat(hoursCap);
+        } else {
+            hoursFloat = hoursCap;
+        }
+
+        fetch('http://' + ipAddy + ':8080/createEmployee', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                organizationId: orgID,
+                firstName: fName,
+                lastName: lName,
+                employeePhoneNumber: phoneNumber,
+                employeeEmail: email,
+                employeeType: employeeType,
+                locationIdList: locationId,
+                pay: payFloat,
+                maxHours: hoursFloat,
+            }),
+        }).then(r => r.json()
+        ).then(json => {
+            console.log(json.message);
+        })
+            .catch(error => {
+                console.error(error);
+            });
+        Haptics.notificationAsync(
+            Haptics.NotificationFeedbackType.Success
+        );
+        closeModal();
     }
 
     return (
@@ -266,27 +319,30 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
                                     setFName(fName)
                                 }}
                                 value={fName}
-                                placeholder={"Employee's First Name"}
+                                placeholder={"First Name"}
                                 placeholderTextColor={placeholderText}
                                 autoCapitalize={"words"}
                             />
                             <TextInput
-                                style={styles.containerRow}
+                                style={[styles.containerRow, {borderBottomWidth: 0}]}
                                 onChangeText={(lName) => {
                                     setLName(lName)
                                 }}
                                 value={lName}
-                                placeholder={"Employee's Last Name"}
+                                placeholder={"Last Name"}
                                 placeholderTextColor={placeholderText}
                                 autoCapitalize={"words"}
                             />
+                        </View>
+                        <Text style={styles.sectionSubtitle}>Contact Information</Text>
+                        <View style={styles.sectionContainer}>
                             <TextInput
                                 style={styles.containerRow}
                                 onChangeText={(phoneNumber) => {
                                     setPhoneNumber(phoneNumber)
                                 }}
                                 value={phoneNumber}
-                                placeholder={"Employee's Phone Number"}
+                                placeholder={"Phone Number (ex. 5555555555)"}
                                 placeholderTextColor={placeholderText}
                                 keyboardType={"number-pad"}
                             />
@@ -296,10 +352,32 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
                                     setEmail(email)
                                 }}
                                 value={email}
-                                placeholder={"Employee's Email"}
+                                placeholder={"Email"}
                                 placeholderTextColor={placeholderText}
                                 keyboardType={"email-address"}
                             />
+                        </View>
+                        <Text style={styles.sectionSubtitle}>Employee Type</Text>
+                        <View style={[AddPopupStyles.dropdownContainer]}>
+                            {shiftOptions.length === 1 &&
+                                <View>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>
+                                        {shiftOptions[0]}
+                                    </Text>
+                                </View>
+                            }
+                            {shiftOptions.length !== 1 &&
+                                <View style={styles.doubleContainer}>
+                                    <MultiWheelPicker
+                                        wheelData={shiftOptions}
+                                        selectedItem={shiftType}
+                                        setSelectedItems={typeDropdownPress}
+                                        placeholder={"Select Employee Type"}
+                                        wide={screenWidth/1.2}
+                                        hasChevron={true}
+                                    />
+                                </View>
+                            }
                         </View>
                         <Text style={styles.sectionSubtitle}>Employee Location</Text>
                         <View style={AddPopupStyles.dropdownContainer}>
@@ -321,28 +399,6 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
                                 />
                             }
                         </View>
-                        <Text style={styles.sectionSubtitle}>Employee Type</Text>
-                        <View style={[AddPopupStyles.dropdownContainer]}>
-                            {shiftOptions.length === 1 &&
-                                <View>
-                                    <Text style={[styles.normalText, {color: clickableText}]}>
-                                        {shiftOptions[0]}
-                                    </Text>
-                                </View>
-                            }
-                            {shiftOptions.length !== 1 &&
-                                <View style={styles.doubleContainer}>
-                                    <MultiWheelPicker
-                                        wheelData={shiftOptions}
-                                        selectedItem={shiftType}
-                                        setSelectedItems={shiftDropdownPress}
-                                        placeholder={"Select Employee Type"}
-                                        wide={screenWidth/1.2}
-                                        hasChevron={true}
-                                    />
-                                </View>
-                            }
-                        </View>
                         <Text style={styles.sectionSubtitle}>Hourly Wage</Text>
                         <TextInput
                             style={[styles.inputText, {borderBottomWidth: 0}]}
@@ -350,9 +406,20 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
                                 setWage(wage)
                             }}
                             value={wage}
-                            placeholder={"Employee's Wage"}
+                            placeholder={"Wage"}
                             placeholderTextColor={placeholderText}
                             keyboardType={"numeric"}
+                        />
+                        <Text style={styles.sectionSubtitle}>Weekly Hours Cap</Text>
+                        <TextInput
+                            style={[styles.inputText, {borderBottomWidth: 0}]}
+                            onChangeText={(hoursCap) => {
+                                setHoursCap(hoursCap)
+                            }}
+                            value={hoursCap}
+                            placeholder={"Hours Cap"}
+                            placeholderTextColor={placeholderText}
+                            keyboardType={"number-pad"}
                         />
                     </KeyboardAwareScrollView>
                 </View>
