@@ -78,7 +78,7 @@ const CompanyInfoDashboard = () => {
                 <CompanyTypesModal typesModal={typesModal} setTypesModal={setTypesModal} />
             </View>
         </ScrollView>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
