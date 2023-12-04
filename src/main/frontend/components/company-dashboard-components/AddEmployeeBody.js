@@ -12,13 +12,27 @@ import DropDownPicker from "react-native-dropdown-picker";
 import CustomButton from "../CustomButton";
 import {ipAddy} from "../../utils/IPAddress";
 import * as Haptics from "expo-haptics";
-import {grayBackground, placeholderText, primaryGreen, secondaryGray, white} from "../../utils/Colors";
+import {clickableText, grayBackground, placeholderText, primaryGreen, secondaryGray, white} from "../../utils/Colors";
+import MultiWheelPicker from "../MultiWheelPicker";
+import {screenWidth} from "../../utils/Constants";
 
 const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => {
     //location info
     const locationOptions = [
         {locationId:"6500e97e491cac473a9b80c9", locationName: "Town Pool", maxHours: 40}
     ];
+
+    const shiftOptions = ["Guard"];
+
+    const [shiftType, setShiftType] = useState(shiftOptions.length === 1 ?
+        shiftOptions[0] : '');
+
+    const [location, setLocation] = useState(locationOptions.length === 1 ?
+        locationOptions[0] : '');
+    const [locationId, setLocationId] = useState(locationOptions.length === 1 ?
+        locationOptions[0].locationId : null);
+    let displayedLocations = locationOptions.map(a => a.locationName);
+
     const [openLocDD,setOpenLocDD] = useState(false);
     const [locVal, setLocVal] = useState([locationOptions[0].locationId]);
     const [displayedLoc, setDisplayedLoc] = useState(locationOptions.map(
@@ -43,7 +57,6 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
     const [wageEmpty, setWageEmpty] = useState(false);
 
     //shift type info
-    const shiftOptions = ["Guard"];
     const [openShiftDD,setOpenShiftDD] = useState(false);
     const [displayedShift, setDisplayedShift] = useState(shiftOptions.map(
         (shift) => ({ "label":shift, "value":shift})));
@@ -51,6 +64,19 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
 
     const closeModal = () => {
         setAddEmployeeModal(false);
+    }
+
+    const shiftDropdownPress = (index) => {
+        setShiftType(index);
+    }
+
+    const locationDropdownPress = (index) => {
+        setLocation(index);
+        for (let i = 0; i < locationOptions.length; i++) {
+            if (location === locationOptions[i].locationName) {
+                setLocationId(locationOptions[i].locationId);
+            }
+        }
     }
 
     const handleEmployeeAdd = () => {
@@ -186,9 +212,9 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
                         scrollEnabled={true}
                     >
                         <Text style={styles.sectionTitle}>Create Employee</Text>
-                        <View style={styles.dateTimeContainer}>
+                        <View style={styles.sectionContainer}>
                             <TextInput
-                                style={styles.inputText}
+                                style={styles.containerRow}
                                 onChangeText={(shiftName) => {
                                     setEmployeeFName(employeeFName)
                                 }}
@@ -198,7 +224,7 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
                                 autoCapitalize={"words"}
                             />
                             <TextInput
-                                style={styles.inputText}
+                                style={styles.containerRow}
                                 onChangeText={(shiftName) => {
                                     setEmployeeLName(employeeLName)
                                 }}
@@ -208,7 +234,7 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
                                 autoCapitalize={"words"}
                             />
                             <TextInput
-                                style={styles.inputText}
+                                style={styles.containerRow}
                                 onChangeText={(shiftName) => {
                                     setEmployeePhoneNumber(employeePhoneNumber)
                                 }}
@@ -218,7 +244,7 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
                                 keyboardType={"number-pad"}
                             />
                             <TextInput
-                                style={[styles.inputText, {borderBottomWidth: 0}]}
+                                style={[styles.containerRow, {borderBottomWidth: 0}]}
                                 onChangeText={(shiftName) => {
                                     setEmployeeEmail(employeeEmail)
                                 }}
@@ -228,6 +254,59 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
                                 keyboardType={"email-address"}
                             />
                         </View>
+                        <Text style={styles.sectionSubtitle}>Employee Location</Text>
+                        <View style={AddPopupStyles.dropdownContainer}>
+                            {displayedLocations.length === 1 &&
+                                <View>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>
+                                        {locationOptions[0].locationName}
+                                    </Text>
+                                </View>
+                            }
+                            {displayedLocations.length !== 1 &&
+                                <MultiWheelPicker
+                                    wheelData={displayedLocations}
+                                    setSelectedItems={locationDropdownPress}
+                                    selectedItem={location}
+                                    placeholder={"Select Employee Location"}
+                                    wide={screenWidth/1.2}
+                                    hasChevron={true}
+                                />
+                            }
+                        </View>
+                        <Text style={styles.sectionSubtitle}>Employee Type</Text>
+                        <View style={[AddPopupStyles.dropdownContainer]}>
+                            {shiftOptions.length === 1 &&
+                                <View>
+                                    <Text style={[styles.normalText, {color: clickableText}]}>
+                                        {shiftOptions[0]}
+                                    </Text>
+                                </View>
+                            }
+                            {shiftOptions.length !== 1 &&
+                                <View style={styles.doubleContainer}>
+                                    <MultiWheelPicker
+                                        wheelData={shiftOptions}
+                                        selectedItem={shiftType}
+                                        setSelectedItems={shiftDropdownPress}
+                                        placeholder={"Select Employee Type"}
+                                        wide={screenWidth/1.2}
+                                        hasChevron={true}
+                                    />
+                                </View>
+                            }
+                        </View>
+                        <Text style={styles.sectionSubtitle}>Hourly Wage</Text>
+                        <TextInput
+                            style={[styles.inputText, {borderBottomWidth: 0}]}
+                            onChangeText={(shiftName) => {
+                                setEmployeeEmail(employeeEmail)
+                            }}
+                            value={employeeEmail}
+                            placeholder={"Employee's Wage"}
+                            placeholderTextColor={placeholderText}
+                            keyboardType={"numeric"}
+                        />
                     </KeyboardAwareScrollView>
                 </View>
             </Modal>
@@ -276,13 +355,21 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         fontWeight: 'bold',
     },
-    inputText: {
+    containerRow: {
         width: "100%",
         fontSize: 17,
         padding: 12,
         paddingLeft: 0,
         borderBottomWidth: 0.25,
         borderBottomColor: secondaryGray,
+    },
+    inputText: {
+        width: "100%",
+        fontSize: 17,
+        padding: 12,
+        marginBottom: 18,
+        backgroundColor: white,
+        borderRadius: 10,
     },
     normalText: {
         fontSize: 17,
@@ -326,7 +413,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         margin: 5,
     },
-    dateTimeContainer: {
+    sectionContainer: {
         backgroundColor: white,
         width: "100%",
         borderRadius: 10,

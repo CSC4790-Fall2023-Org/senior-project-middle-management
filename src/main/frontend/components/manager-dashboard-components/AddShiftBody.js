@@ -192,6 +192,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             }
         }
     }
+
     const showStartDatePicker = () => {
         setStartDatePickerVisibility(true);
     }
