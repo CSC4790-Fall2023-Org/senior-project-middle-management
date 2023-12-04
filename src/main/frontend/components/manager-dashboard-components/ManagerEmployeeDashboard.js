@@ -18,7 +18,7 @@ const ManagerEmployeeDashboard = () => {
         setSelectedIndex(index);
     }
 
-    return(
+    return (
         <View>
             <View style={styles.dropdownWrapper}>
                 <View style={styles.dropdownWrapperBorder}>
@@ -55,4 +55,5 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
     },
 });
+
 export default ManagerEmployeeDashboard;
