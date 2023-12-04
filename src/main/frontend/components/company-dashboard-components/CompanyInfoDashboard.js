@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Text, ScrollView, TouchableOpacity} from 'react-native';
 import employeeData from "../../mockApiCalls/employeeData.json";
-import {black, clickableText, grayAction, secondaryGray, white} from "../../utils/Colors";
+import {black, clickableText, secondaryGray, white} from "../../utils/Colors";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronRight} from "../../utils/Icons";
 
@@ -17,7 +17,7 @@ const CompanyInfoDashboard = () => {
                         numberOfLines={1}
                         ellipsizeMode={"tail"}
                     >
-                        {employeeData.fName + ' ' + employeeData.lName}
+                        Parks and Rec
                     </Text>
                 </View>
                 <View style={styles.infoItem}>
