@@ -42,7 +42,7 @@ const CompanyTypesModal = ({typesModal, setTypesModal}) => {
                         </TouchableOpacity>
                     </View>
                     <ScrollView style={styles.scrollView}>
-
+                        <Text style={styles.sectionTitle}>Employee Types</Text>
                     </ScrollView>
                 </View>
             </Modal>
@@ -69,6 +69,13 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         paddingVertical: 24,
         padding: 16,
+    },
+    sectionTitle: {
+        marginBottom: 6,
+        width: '100%',
+        fontSize: 34,
+        textAlign: 'left',
+        fontWeight: 'bold',
     },
     normalText: {
         fontSize: 17,
