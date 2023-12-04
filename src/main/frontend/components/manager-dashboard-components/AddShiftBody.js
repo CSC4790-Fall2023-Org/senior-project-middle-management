@@ -38,7 +38,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     const [location, setLocation] = useState(locationOptions.length === 1 ?
         locationOptions[0] : '');
     const [locationId, setLocationId] = useState(locationOptions.length === 1 ?
-        locationOptions[0].locationId : null);
+        locationOptions[0].locationId : '');
     let displayedLocations = locationOptions.map(a => a.locationName);
 
     const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
