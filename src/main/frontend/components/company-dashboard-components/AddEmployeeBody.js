@@ -3,7 +3,7 @@ import {
     View,
     Text,
     Keyboard,
-    TextInput, Modal, StatusBar, StyleSheet, TouchableOpacity,
+    TextInput, Modal, StatusBar, StyleSheet, TouchableOpacity, Alert,
 } from "react-native";
 import React, {useState} from "react";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -44,13 +44,13 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
     const orgID = "6500cf35491cac473a9b80c8";
 
     //employee info
-    const [employeeFName, setEmployeeFName] = useState('');
+    const [fName, setFName] = useState('');
     const [fNameEmpty, setFNameEmpty] = useState(false);
-    const [employeeLName, setEmployeeLName] = useState('');
+    const [lName, setLName] = useState('');
     const [lNameEmpty, setLNameEmpty] = useState(false);
-    const [employeePhoneNumber, setEmployeePhoneNumber] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [phoneEmpty, setPhoneEmpty] = useState(false);
-    const [employeeEmail, setEmployeeEmail] = useState('');
+    const [email, setEmail] = useState('');
     const [emailEmpty, setEmailEmpty] = useState(false);
     const [hoursPerWeek, setHoursPerWeek] = useState("");
     const [hoursEmpty, setHoursEmpty] = useState(false);
@@ -69,10 +69,10 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
     }
 
     const clearValues = () => {
-        setEmployeeFName('');
-        setEmployeeLName('');
-        setEmployeePhoneNumber('');
-        setEmployeeEmail('');
+        setFName('');
+        setLName('');
+        setPhoneNumber('');
+        setEmail('');
         setLocation('');
         setShiftType('');
         setWage('');
@@ -112,13 +112,13 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
             },
             body: JSON.stringify({
                 organizationId: orgID,
-                firstName: employeeFName,
-                lastName: employeeLName,
+                firstName: fName,
+                lastName: lName,
                 locationIdList: locVal,
                 maxHours: hoursFloat,
                 employeeType: shiftVal,
-                employeePhoneNumber: employeePhoneNumber,
-                employeeEmail: employeeEmail,
+                employeePhoneNumber: phoneNumber,
+                employeeEmail: email,
                 pay: payFloat,
             }),
         }).then(r => r.json()
@@ -133,40 +133,86 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
     const handleErrors = () =>{
         let noErrors= true;
 
+        const phoneNumberPattern = /^\d{10}$/;
+        const validPhoneNumber = phoneNumberPattern.test(phoneNumber);
+        const emailPattern = /^[\w\.-]+@[\w\.-]+\.\w+$/;
+        const validEmail = emailPattern.test(email);
+
         if (!shiftVal) {
             setShiftVal(displayedShift[0].label);
         }
-        if(employeeFName.trim() === ''){
-            setFNameEmpty(true);
-            noErrors=false;
+        if (fName.trim() === '') {
+            noErrors = false;
+            Alert.alert(
+                'Please enter a valid first name.',
+                '',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        }
-        if(employeeLName.trim() === ''){
-            setLNameEmpty(true);
-            noErrors=false;
+        } else if (lName.trim() === '') {
+            noErrors = false;
+            Alert.alert(
+                'Please enter a valid last name.',
+                '',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        }
-        if(employeePhoneNumber.trim() === ''){
-            setPhoneEmpty(true);
-            noErrors=false;
+        } else if (!validPhoneNumber) {
+            noErrors = false;
+            Alert.alert (
+                'Please enter a valid phone number.',
+                '',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        }
-        if(employeeEmail.trim() === ''){
-            setEmailEmpty(true);
-            noErrors=false;
+        } else if (!validEmail) {
+            noErrors = false;
+            Alert.alert(
+                'Please enter a valid email address.',
+                '',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        }
-        if(wage.trim() === ''){
-            setWageEmpty(true);
-            noErrors=false;
+        } else if (wage.trim() === '') {
+            noErrors = false;
+            Alert.alert(
+                'Please enter a valid hourly wage.',
+                '',
+                [
+                    {
+                        text: 'OK',
+                        style: 'default',
+                    }
+                ]
+            );
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
@@ -176,11 +222,7 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
         }
     }
 
-    const handleDismissKeyboard = () => {
-        Keyboard.dismiss();
-    }
-
-    return(
+    return (
         <View>
             <Modal
                 animationType={"slide"}
@@ -220,40 +262,40 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
                         <View style={styles.sectionContainer}>
                             <TextInput
                                 style={styles.containerRow}
-                                onChangeText={(employeeFName) => {
-                                    setEmployeeFName(employeeFName)
+                                onChangeText={(fName) => {
+                                    setFName(fName)
                                 }}
-                                value={employeeFName}
+                                value={fName}
                                 placeholder={"Employee's First Name"}
                                 placeholderTextColor={placeholderText}
                                 autoCapitalize={"words"}
                             />
                             <TextInput
                                 style={styles.containerRow}
-                                onChangeText={(employeeLName) => {
-                                    setEmployeeLName(employeeLName)
+                                onChangeText={(lName) => {
+                                    setLName(lName)
                                 }}
-                                value={employeeLName}
+                                value={lName}
                                 placeholder={"Employee's Last Name"}
                                 placeholderTextColor={placeholderText}
                                 autoCapitalize={"words"}
                             />
                             <TextInput
                                 style={styles.containerRow}
-                                onChangeText={(employeePhoneNumber) => {
-                                    setEmployeePhoneNumber(employeePhoneNumber)
+                                onChangeText={(phoneNumber) => {
+                                    setPhoneNumber(phoneNumber)
                                 }}
-                                value={employeePhoneNumber}
+                                value={phoneNumber}
                                 placeholder={"Employee's Phone Number"}
                                 placeholderTextColor={placeholderText}
                                 keyboardType={"number-pad"}
                             />
                             <TextInput
                                 style={[styles.containerRow, {borderBottomWidth: 0}]}
-                                onChangeText={(employeeEmail) => {
-                                    setEmployeeEmail(employeeEmail)
+                                onChangeText={(email) => {
+                                    setEmail(email)
                                 }}
-                                value={employeeEmail}
+                                value={email}
                                 placeholder={"Employee's Email"}
                                 placeholderTextColor={placeholderText}
                                 keyboardType={"email-address"}
