@@ -16,28 +16,21 @@ import {clickableText, grayBackground, placeholderText, primaryGreen, secondaryG
 import MultiWheelPicker from "../MultiWheelPicker";
 import {screenWidth} from "../../utils/Constants";
 
-const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => {
+const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
     const orgID = "6500cf35491cac473a9b80c8";
 
     const [fName, setFName] = useState('');
-    const [fNameEmpty, setFNameEmpty] = useState(false);
     const [lName, setLName] = useState('');
-    const [lNameEmpty, setLNameEmpty] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [phoneEmpty, setPhoneEmpty] = useState(false);
     const [email, setEmail] = useState('');
-    const [emailEmpty, setEmailEmpty] = useState(false);
     const [hoursCap, setHoursCap] = useState('');
-    const [hoursEmpty, setHoursEmpty] = useState(false);
     const [wage, setWage] = useState('');
-    const [wageEmpty, setWageEmpty] = useState(false);
 
     const shiftOptions = ["Guard"];
 
     const [employeeType, setEmployeeType] = useState(shiftOptions.length === 1 ?
         shiftOptions[0] : '');
 
-    const [openShiftDD,setOpenShiftDD] = useState(false);
     const [displayedShift, setDisplayedShift] = useState(shiftOptions.map(
         (shift) => ({ "label": shift, "value": shift})));
     const [shiftVal, setShiftVal] = useState(null);
@@ -53,7 +46,6 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
         locationOptions[0].locationId : '');
     let displayedLocations = locationOptions.map(a => a.locationName);
 
-    const [openLocDD,setOpenLocDD] = useState(false);
     const [displayedLoc, setDisplayedLoc] = useState(locationOptions.map(
         ({ locationId, locationName }) =>
             ({ "label": locationName, "value":locationId})));
