@@ -5,12 +5,18 @@ import {black, clickableText, secondaryGray, white} from "../../utils/Colors";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronRight} from "../../utils/Icons";
 import CompanyLocationsModal from "./CompanyLocationsModal";
+import CompanyTypesModal from "./CompanyTypesModal";
 
 const CompanyInfoDashboard = () => {
     const [locationsModal, setLocationsModal] = useState(false);
+    const [typesModal, setTypesModal] = useState(false);
 
     const handleLocationsModal = () => {
         setLocationsModal(!locationsModal);
+    }
+
+    const handleTypesModal = () => {
+        setTypesModal(!typesModal);
     }
 
     return (
@@ -56,7 +62,10 @@ const CompanyInfoDashboard = () => {
                     </View>
                 </TouchableOpacity>
                 <CompanyLocationsModal locationsModal={locationsModal} setLocationsModal={setLocationsModal} />
-                <TouchableOpacity style={[styles.infoItem, {borderBottomWidth: 0}]}>
+                <TouchableOpacity
+                    style={[styles.infoItem, {borderBottomWidth: 0}]}
+                    onPress={handleTypesModal}
+                >
                     <Text style={[styles.infoLabel, {width: "80%"}]}>Employee Types</Text>
                     <View style={{paddingRight: 14}}>
                         <FontAwesomeIcon
@@ -66,6 +75,7 @@ const CompanyInfoDashboard = () => {
                         />
                     </View>
                 </TouchableOpacity>
+                <CompanyTypesModal typesModal={typesModal} setTypesModal={setTypesModal} />
             </View>
         </ScrollView>
     )
