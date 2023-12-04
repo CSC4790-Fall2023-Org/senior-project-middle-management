@@ -1,11 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, Text, ScrollView, TouchableOpacity} from 'react-native';
 import employeeData from "../../mockApiCalls/employeeData.json";
 import {black, clickableText, secondaryGray, white} from "../../utils/Colors";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronRight} from "../../utils/Icons";
+import CompanyLocationsModal from "./CompanyLocationsModal";
 
 const CompanyInfoDashboard = () => {
+    const [locationsModal, setLocationsModal] = useState(false);
+
+    const handleLocationsModal = () => {
+        setLocationsModal(!locationsModal);
+    }
 
     return (
         <ScrollView>
@@ -36,7 +42,10 @@ const CompanyInfoDashboard = () => {
                 </View>
             </View>
             <View style={styles.infoContainer}>
-                <TouchableOpacity style={styles.infoItem}>
+                <TouchableOpacity
+                    style={styles.infoItem}
+                    onPress={handleLocationsModal}
+                >
                     <Text style={[styles.infoLabel, {width: "50%"}]}>Company Locations</Text>
                     <View style={{paddingRight: 14}}>
                         <FontAwesomeIcon
@@ -46,6 +55,7 @@ const CompanyInfoDashboard = () => {
                         />
                     </View>
                 </TouchableOpacity>
+                <CompanyLocationsModal locationsModal={locationsModal} setLocationsModal={setLocationsModal} />
                 <TouchableOpacity style={[styles.infoItem, {borderBottomWidth: 0}]}>
                     <Text style={[styles.infoLabel, {width: "80%"}]}>Employee Types</Text>
                     <View style={{paddingRight: 14}}>
