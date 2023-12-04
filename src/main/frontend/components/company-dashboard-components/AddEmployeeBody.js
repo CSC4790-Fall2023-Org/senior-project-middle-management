@@ -232,7 +232,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
         {
             payFloat = parseFloat(wage);
         } else {
-            payFloat = wage; // or any default value you prefer
+            payFloat = wage;
         }
 
         if (typeof hoursCap === "string"
@@ -241,7 +241,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
         {
             hoursFloat = parseFloat(hoursCap);
         } else {
-            hoursFloat = hoursCap; // or any default value you prefer
+            hoursFloat = hoursCap;
         }
 
         console.log("First Name: ", fName);
@@ -352,7 +352,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
                                 value={phoneNumber}
                                 placeholder={"Phone Number (ex. 5555555555)"}
                                 placeholderTextColor={placeholderText}
-                                keyboardType={"number-pad"}
+                                keyboardType={"numeric"}
                             />
                             <TextInput
                                 style={[styles.containerRow, {borderBottomWidth: 0}]}
