@@ -19,7 +19,8 @@ import {screenWidth} from "../../utils/Constants";
 const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => {
     //location info
     const locationOptions = [
-        {locationId:"6500e97e491cac473a9b80c9", locationName: "Town Pool", maxHours: 40}
+        {locationId:"6500e97e491cac473a9b80c9", locationName: "Town Pool", maxHours: 40},
+        {locationId:"6500e97e491cac473a9b80c7", locationName: "Town Park", maxHours: 40}
     ];
 
     const shiftOptions = ["Guard"];
@@ -59,7 +60,7 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
     //shift type info
     const [openShiftDD,setOpenShiftDD] = useState(false);
     const [displayedShift, setDisplayedShift] = useState(shiftOptions.map(
-        (shift) => ({ "label":shift, "value":shift})));
+        (shift) => ({ "label": shift, "value": shift})));
     const [shiftVal, setShiftVal] = useState(null);
 
     const closeModal = () => {
@@ -111,13 +112,13 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
             },
             body: JSON.stringify({
                 organizationId: orgID,
-                firstName: empFName,
-                lastName: empLName,
+                firstName: employeeFName,
+                lastName: employeeLName,
                 locationIdList: locVal,
                 maxHours: hoursFloat,
                 employeeType: shiftVal,
-                employeePhoneNumber: empPhone,
-                employeeEmail: empEmail,
+                employeePhoneNumber: employeePhoneNumber,
+                employeeEmail: employeeEmail,
                 pay: payFloat,
             }),
         }).then(r => r.json()
