@@ -161,13 +161,12 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
                                 <Text style={styles.infoValue}>{worked}</Text>
                             </View>
                         </View>
-                        <View style={styles.middleContainerModal}>
-                            <CustomButton
-                                buttonText={"Delete Employee"}
-                                color={white}
-                                textColor={destructiveAction}
-                                handlePress={handleConfirmDelete}
-                            />
+                        <View style={styles.deleteButton}>
+                            <TouchableOpacity
+                                style={{width: "100%", alignItems: "center"}}
+                                onPress={handleConfirmDelete}>
+                                <Text style={styles.deleteText}>Delete Employee</Text>
+                            </TouchableOpacity>
                         </View>
                     </ScrollView>
                 </View>
@@ -252,12 +251,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: "row",
     },
-    middleContainerModal: {
-        paddingTop: 25,
-        justifyContent: 'center',
-        paddingHorizontal: 0,
-        alignItems: 'center',
-        flexDirection: "row",
+    deleteButton: {
+        width: "100%",
+        borderRadius: 10,
+        marginVertical: 24,
+        padding: 12,
+        alignItems: "center",
+        backgroundColor: white,
+    },
+    deleteText: {
+        fontSize: 17,
+        color: destructiveAction,
     },
 
 });
