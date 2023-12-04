@@ -1,4 +1,5 @@
 import {
+    Alert,
     Modal,
     ScrollView,
     StatusBar,
@@ -9,7 +10,7 @@ import {
     View
 } from "react-native";
 import React, {useState} from "react";
-import {ChevronRight, XMark} from "../../utils/Icons";
+import {ChevronRight} from "../../utils/Icons";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {
     black,
@@ -22,8 +23,8 @@ import {
 } from "../../utils/Colors";
 import CustomButton from "../CustomButton";
 import {ipAddy} from "../../utils/IPAddress";
-import WarnPopup from "./WarnPopup";
 import employeeData from "../../mockApiCalls/employeeData.json";
+import * as Haptics from "expo-haptics";
 
 const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
     const [isModalVisible, setModalVisible] = useState(false);
@@ -31,7 +32,25 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
     const warnText = "Are you sure you want to delete " + name + "?"
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
 
-    const handleDeleteModalVisible = () => {
+    const handleConfirmDelete = () => {
+        Haptics.notificationAsync(
+            Haptics.NotificationFeedbackType.Warning
+        );
+        Alert.alert (
+            'Delete ' + name,
+            'Are you sure you want to delete ' + name + '?',
+            [
+                {
+                    text: 'Delete',
+                    style: 'destructive',
+                    onPress: handleEmployeeDelete,
+                },
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                },
+            ]
+        );
         setDeleteModalVisible(!isDeleteModalVisible)
     }
 
@@ -39,7 +58,7 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
         setModalVisible(!isModalVisible);
     }
 
-    const handleEmployeeDelete = () =>{
+    const handleEmployeeDelete = () => {
         fetch('http://' + ipAddy + ':8080/deleteEmployee', {
             method: 'POST',
             headers: {
@@ -55,9 +74,12 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
             .catch(error => {
                 console.error(error);
             });
+        Haptics.notificationAsync(
+            Haptics.NotificationFeedbackType.Success
+        );
     }
 
-    return(
+    return (
         <View>
             <TouchableWithoutFeedback onPress={handleModalVisible}>
                 <View style={styles.cardContainer}>
@@ -117,9 +139,9 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
                                 <Text style={styles.infoValue}>{employeeData.phoneNumber}</Text>
                             </View>
                             <View style={[styles.infoItem, {borderBottomWidth: 0}]}>
-                                <Text style={[styles.infoLabel, {maxWidth: "30%"}]}>ID</Text>
+                                <Text style={[styles.infoLabel, {maxWidth: "20%"}]}>ID</Text>
                                 <Text
-                                    style={[styles.infoValue, {maxWidth: "70%"}]}
+                                    style={[styles.infoValue, {width: "80%"}]}
                                     numberOfLines={1}
                                     ellipsizeMode={"tail"}>{id}</Text>
                             </View>
@@ -144,12 +166,11 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
                                 buttonText={"Delete Employee"}
                                 color={white}
                                 textColor={destructiveAction}
-                                handlePress={handleDeleteModalVisible}
+                                handlePress={handleConfirmDelete}
                             />
                         </View>
                     </ScrollView>
                 </View>
-                <WarnPopup titleText={warnText} isModalVisible={isDeleteModalVisible} handleModalVisible={handleDeleteModalVisible} submitForm={handleEmployeeDelete}/>
             </Modal>
         </View>
 
@@ -200,8 +221,7 @@ const styles = StyleSheet.create({
     },
     infoContainer: {
         backgroundColor: white,
-        marginTop: 8,
-        marginBottom: 16,
+        marginBottom: 18,
         borderRadius: 10,
         paddingLeft: 14,
     },
