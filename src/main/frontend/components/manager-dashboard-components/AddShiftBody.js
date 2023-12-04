@@ -517,7 +517,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     return(
         <View>
             <Modal
-                animationType="slide"
+                animationType={"slide"}
                 visible={addShiftModal}
                 presentationStyle={"pageSheet"}
             >
@@ -528,9 +528,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                 />
                 <View style={styles.modalContainer}>
                     <View style={styles.modalHeader}>
-                        <TouchableOpacity
-                            onPress={closeModal}
-                        >
+                        <TouchableOpacity onPress={closeModal}>
                             <Text
                                 style={[styles.normalText, {color: white}]}
                                 allowFontScaling={false}
@@ -538,9 +536,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                                 Cancel
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={handleErrors}
-                        >
+                        <TouchableOpacity onPress={handleErrors}>
                             <Text
                                 style={[styles.normalText, {color: white, fontWeight: 'bold'}]}
                                 allowFontScaling={false}
