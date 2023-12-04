@@ -20,7 +20,7 @@ public class DemoShifts {
             0,
             false,
             "Morning Guard",
-            DemoEmployees.DEMO_EMPLOYEE_ONE.getEmployeeType(),
+                DemoEmployees.DEMO_EMPLOYEE_ONE.getEmployeeTypes().toString(),
             1,
             List.of(1, 3, 5),
             DemoOrganizations.DEMO_ORG_ONE.getLocationList().get(0).getLocationId(),

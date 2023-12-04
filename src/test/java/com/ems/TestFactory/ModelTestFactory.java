@@ -51,7 +51,7 @@ public class ModelTestFactory {
                 "admin",
                 "employee@gmail.com",
                 "111-111-1111",
-                "Guard",
+                List.of("Guard"),
                 20,
                 12.50,
                 new ObjectId("6500cf35491cac473a9b80c8"),

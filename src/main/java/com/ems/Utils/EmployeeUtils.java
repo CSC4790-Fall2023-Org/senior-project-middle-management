@@ -24,7 +24,7 @@ public class EmployeeUtils {
                 "admin",
                 "eadmin@gmail.com",
                 "111-111-1111",
-                "Guard",
+                List.of("Guard"),
                 20,
                 12.50,
                 new ObjectId("6500cf35491cac473a9b80c8"),
@@ -37,10 +37,20 @@ public class EmployeeUtils {
                 && pEmployee.getLastName().equals(pComparisonEmployee.getLastName())
                 && pEmployee.getEmployeeEmail().equals(pComparisonEmployee.getEmployeeEmail())
                 && pEmployee.getEmployeePhoneNumber().equals(pComparisonEmployee.getEmployeePhoneNumber())
-                && pEmployee.getEmployeeType().equals(pComparisonEmployee.getEmployeeType())
+                && haveCommonEmployeeTypes(pEmployee.getEmployeeTypes(), pComparisonEmployee.getEmployeeTypes())
                 && pEmployee.getLoggedHours() == pComparisonEmployee.getLoggedHours()
                 && pEmployee.getPay() == pComparisonEmployee.getPay()
                 && pEmployee.getOrganizationId().equals(pComparisonEmployee.getOrganizationId());
+    }
+
+    // checks if the employees have at least one common employee type.
+    private static boolean haveCommonEmployeeTypes(List<String> types1, List<String> types2) {
+        for (String type : types1) {
+            if (types2.contains(type)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static Object[] assignShiftToEmployeeUsingIDS(final ObjectId pEmployeeID, final ObjectId pShiftID) throws SvcException, DatabaseException {

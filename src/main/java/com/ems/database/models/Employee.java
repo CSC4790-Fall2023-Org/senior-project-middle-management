@@ -25,7 +25,7 @@ public class Employee {
     @Field
     private String employeePhoneNumber;
     @Field
-    private String employeeType;
+    private List<String> employeeTypes;
     @Field
     private double loggedHours;
     @Field
@@ -39,13 +39,13 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(ObjectId employeeId, String firstName, String lastName, String employeeEmail, String employeePhoneNumber, String employeeType, double loggedHours, double pay, ObjectId organizationId, List<ObjectId> locationIdList, List<ObjectId> shiftIdList) {
+    public Employee(ObjectId employeeId, String firstName, String lastName, String employeeEmail, String employeePhoneNumber, List<String> employeeType, double loggedHours, double pay, ObjectId organizationId, List<ObjectId> locationIdList, List<ObjectId> shiftIdList) {
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.employeeEmail = employeeEmail;
         this.employeePhoneNumber = employeePhoneNumber;
-        this.employeeType = employeeType;
+        this.employeeTypes = employeeTypes;
         this.loggedHours = loggedHours;
         this.pay = pay;
         this.organizationId = organizationId;
@@ -53,12 +53,12 @@ public class Employee {
         this.shiftIdList = shiftIdList;
     }
 
-    public Employee(String firstName, String lastName, String employeeEmail, String employeePhoneNumber, String employeeType, double loggedHours, double pay, ObjectId organizationId, List<ObjectId> locationIdList, List<ObjectId> shiftIdList) {
+    public Employee(String firstName, String lastName, String employeeEmail, String employeePhoneNumber, List<String> employeeTypes, double loggedHours, double pay, ObjectId organizationId, List<ObjectId> locationIdList, List<ObjectId> shiftIdList) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.employeeEmail = employeeEmail;
         this.employeePhoneNumber = employeePhoneNumber;
-        this.employeeType = employeeType;
+        this.employeeTypes = employeeTypes;
         this.loggedHours = loggedHours;
         this.pay = pay;
         this.organizationId = organizationId;
@@ -71,7 +71,7 @@ public class Employee {
         this.lastName = (String) pJsonObject.get("lastName");
         this.employeeEmail = (String) pJsonObject.get("employeeEmail");
         this.employeePhoneNumber = (String) pJsonObject.get("employeePhoneNumber");
-        this.employeeType = (String) pJsonObject.get("employeeType");
+        this.employeeTypes = JsonUtils.getStringListFromJson(new JSONArray(pJsonObject.get("employeeTypes").toString()));
         this.loggedHours = 0;
         this.pay = (double) pJsonObject.get("pay");
         this.organizationId = new ObjectId(pJsonObject.getString("organizationId"));
@@ -100,7 +100,7 @@ public class Employee {
     }
 
     public void setEmployeeType(String employeeType) {
-        this.employeeType = employeeType;
+        this.employeeTypes = employeeTypes;
     }
 
     public void setLoggedHours(double loggedHours) {
@@ -143,8 +143,8 @@ public class Employee {
         return employeePhoneNumber;
     }
 
-    public String getEmployeeType() {
-        return employeeType;
+    public List<String> getEmployeeTypes() {
+        return employeeTypes;
     }
 
     public double getLoggedHours() {
@@ -175,7 +175,7 @@ public class Employee {
                 ", lastName='" + lastName + '\'' +
                 ", employeeEmail='" + employeeEmail + '\'' +
                 ", employeePhoneNumber='" + employeePhoneNumber + '\'' +
-                ", employeeType='" + employeeType + '\'' +
+                ", employeeTypes='" + employeeTypes + '\'' +
                 ", loggedHours=" + loggedHours +
                 ", pay=" + pay +
                 ", organizationId=" + organizationId +
