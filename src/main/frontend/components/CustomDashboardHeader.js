@@ -1,17 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {black, grayBackground, primaryGreen} from "../utils/Colors";
+import {black, clickableText, grayBackground, primaryGreen} from "../utils/Colors";
 
 
 const CustomDashboardHeader = ({onTitlePress, tabs}) => {
-    const [selected, setSelected] = React.useState(0);
+    const [selected, setSelected] = useState(0);
 
     return (
         <View style={styles.container}>
             {tabs.map((item, index) => (
                 <TouchableOpacity key={index} onPress={()=> {setSelected(index); onTitlePress(index);}}>
                     <View>
-                        <Text style={[styles.text]}>{item.text}</Text>
+                        <Text style={[styles.text, selected===index ? {color: black} : {color: clickableText}]}>{item.text}</Text>
                         {selected===index && (
                             <View style={styles.underline} />
                         )}
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         backgroundColor: grayBackground,
     },
-    text:{
+    text: {
         fontWeight: "bold",
         fontSize: 17,
         marginBottom: 2,
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         width: '100%',
         borderBottomWidth: 4,
         borderBottomColor: primaryGreen,
-        borderRadius: 10
+        borderRadius: 10,
     },
 });
 export default CustomDashboardHeader
