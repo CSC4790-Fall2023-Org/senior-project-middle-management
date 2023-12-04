@@ -226,17 +226,33 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
         let payFloat;
         let hoursFloat;
 
-        if (typeof wage === "string") {
+        if (typeof wage === "string"
+            && wage.trim() !== ""
+            && !isNaN(parseFloat(wage)))
+        {
             payFloat = parseFloat(wage);
         } else {
-            payFloat = wage;
+            payFloat = wage; // or any default value you prefer
         }
 
-        if (typeof hoursCap === "string") {
+        if (typeof hoursCap === "string"
+            && hoursCap.trim() !== ""
+            && !isNaN(parseFloat(hoursCap)))
+        {
             hoursFloat = parseFloat(hoursCap);
         } else {
-            hoursFloat = hoursCap;
+            hoursFloat = hoursCap; // or any default value you prefer
         }
+
+        console.log("First Name: ", fName);
+        console.log("Last Name: ", lName);
+        console.log("Phone #: ", phoneNumber);
+        console.log("Email: ", email);
+        console.log("Type: ", employeeType);
+        console.log("Location: ", location);
+        console.log("Location ID: ", locationId);
+        console.log("Wage: ", payFloat);
+        console.log("Hours Cap: ", hoursFloat);
 
         fetch('http://' + ipAddy + ':8080/createEmployee', {
             method: 'POST',
