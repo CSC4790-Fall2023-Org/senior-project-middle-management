@@ -124,21 +124,28 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
                                     ellipsizeMode={"tail"}>{id}</Text>
                             </View>
                         </View>
-
-                        <View style={styles.middleContainerModal}>
-                            <Text>Hours Worked:</Text>
-                            <Text>{worked}</Text>
+                        <Text style={styles.sectionSubtitle}>Work Info</Text>
+                        <View style={styles.infoContainer}>
+                            <View style={styles.infoItem}>
+                                <Text style={styles.infoLabel}>Job Title</Text>
+                                <Text style={styles.infoValue}>{type}</Text>
+                            </View>
+                            <View style={styles.infoItem}>
+                                <Text style={styles.infoLabel}>Shifts Claimed</Text>
+                                <Text style={styles.infoValue}>{shiftsTaken}</Text>
+                            </View>
+                            <View style={[styles.infoItem, {borderBottomWidth: 0}]}>
+                                <Text style={styles.infoLabel}>Hours Claimed</Text>
+                                <Text style={styles.infoValue}>{worked}</Text>
+                            </View>
                         </View>
                         <View style={styles.middleContainerModal}>
-                            <Text>Job Title:</Text>
-                            <Text>{type}</Text>
-                        </View>
-                        <View style={styles.middleContainerModal}>
-                            <Text>Shifts Taken:</Text>
-                            <Text>{shiftsTaken}</Text>
-                        </View>
-                        <View style={styles.middleContainerModal}>
-                            <CustomButton buttonText={"Delete Employee"} color={destructiveAction} textColor={white} handlePress={handleDeleteModalVisible}/>
+                            <CustomButton
+                                buttonText={"Delete Employee"}
+                                color={white}
+                                textColor={destructiveAction}
+                                handlePress={handleDeleteModalVisible}
+                            />
                         </View>
                     </ScrollView>
                 </View>
@@ -193,7 +200,8 @@ const styles = StyleSheet.create({
     },
     infoContainer: {
         backgroundColor: white,
-        marginVertical: 8,
+        marginTop: 8,
+        marginBottom: 16,
         borderRadius: 10,
         paddingLeft: 14,
     },
