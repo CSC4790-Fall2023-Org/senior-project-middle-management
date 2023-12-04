@@ -135,28 +135,28 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
         if (!shiftVal) {
             setShiftVal(displayedShift[0].label);
         }
-        if(empFName.trim() === ''){
+        if(employeeFName.trim() === ''){
             setFNameEmpty(true);
             noErrors=false;
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
         }
-        if(empLName.trim() === ''){
+        if(employeeLName.trim() === ''){
             setLNameEmpty(true);
             noErrors=false;
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
         }
-        if(empPhone.trim() === ''){
+        if(employeePhoneNumber.trim() === ''){
             setPhoneEmpty(true);
             noErrors=false;
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
         }
-        if(empEmail.trim() === ''){
+        if(employeeEmail.trim() === ''){
             setEmailEmpty(true);
             noErrors=false;
             Haptics.notificationAsync(
@@ -165,13 +165,6 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
         }
         if(wage.trim() === ''){
             setWageEmpty(true);
-            noErrors=false;
-            Haptics.notificationAsync(
-                Haptics.NotificationFeedbackType.Error
-            );
-        }
-        if(hoursPerWeek.trim() === ''){
-            setHoursEmpty(true);
             noErrors=false;
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
