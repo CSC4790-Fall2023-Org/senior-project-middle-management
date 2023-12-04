@@ -38,27 +38,23 @@ const CompanyInfoDashboard = () => {
             <View style={styles.infoContainer}>
                 <TouchableOpacity style={styles.infoItem}>
                     <Text style={[styles.infoLabel, {width: "50%"}]}>Company Locations</Text>
-                    <FontAwesomeIcon
-                        icon={ChevronRight}
-                        size={17}
-                        color={clickableText}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.infoItem}>
-                    <Text style={[styles.infoLabel, {width: "50%"}]}>Managers</Text>
-                    <FontAwesomeIcon
-                        icon={ChevronRight}
-                        size={17}
-                        color={clickableText}
-                    />
+                    <View style={{paddingRight: 14}}>
+                        <FontAwesomeIcon
+                            icon={ChevronRight}
+                            size={17}
+                            color={clickableText}
+                        />
+                    </View>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.infoItem, {borderBottomWidth: 0}]}>
-                    <Text style={[styles.infoLabel, {width: "50%"}]}>Employees</Text>
-                    <FontAwesomeIcon
-                        icon={ChevronRight}
-                        size={17}
-                        color={clickableText}
-                    />
+                    <Text style={[styles.infoLabel, {width: "80%"}]}>Employee Types</Text>
+                    <View style={{paddingRight: 14}}>
+                        <FontAwesomeIcon
+                            icon={ChevronRight}
+                            size={17}
+                            color={clickableText}
+                        />
+                    </View>
                 </TouchableOpacity>
             </View>
         </ScrollView>
