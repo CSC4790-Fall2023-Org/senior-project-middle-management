@@ -14,6 +14,7 @@ const TransferInbox = ({inboxModal, setInboxModal}) => {
                 animationType={"slide"}
                 visible={inboxModal}
                 presentationStyle={"pageSheet"}
+                onRequestClose={closeModal}
             >
                 <StatusBar
                     barStyle={'light-content'}
