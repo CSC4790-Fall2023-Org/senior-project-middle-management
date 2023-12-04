@@ -63,7 +63,18 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
     const [shiftVal, setShiftVal] = useState(null);
 
     const closeModal = () => {
+        clearValues();
         setAddEmployeeModal(false);
+    }
+
+    const clearValues = () => {
+        setEmployeeFName('');
+        setEmployeeLName('');
+        setEmployeePhoneNumber('');
+        setEmployeeEmail('');
+        setLocation('');
+        setShiftType('');
+        setWage('');
     }
 
     const shiftDropdownPress = (index) => {
@@ -215,7 +226,7 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
                         <View style={styles.sectionContainer}>
                             <TextInput
                                 style={styles.containerRow}
-                                onChangeText={(shiftName) => {
+                                onChangeText={(employeeFName) => {
                                     setEmployeeFName(employeeFName)
                                 }}
                                 value={employeeFName}
@@ -225,7 +236,7 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
                             />
                             <TextInput
                                 style={styles.containerRow}
-                                onChangeText={(shiftName) => {
+                                onChangeText={(employeeLName) => {
                                     setEmployeeLName(employeeLName)
                                 }}
                                 value={employeeLName}
@@ -235,7 +246,7 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
                             />
                             <TextInput
                                 style={styles.containerRow}
-                                onChangeText={(shiftName) => {
+                                onChangeText={(employeePhoneNumber) => {
                                     setEmployeePhoneNumber(employeePhoneNumber)
                                 }}
                                 value={employeePhoneNumber}
@@ -245,7 +256,7 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
                             />
                             <TextInput
                                 style={[styles.containerRow, {borderBottomWidth: 0}]}
-                                onChangeText={(shiftName) => {
+                                onChangeText={(employeeEmail) => {
                                     setEmployeeEmail(employeeEmail)
                                 }}
                                 value={employeeEmail}
@@ -299,10 +310,10 @@ const AddEmployeeBody = ({backPress, addEmployeeModal, setAddEmployeeModal}) => 
                         <Text style={styles.sectionSubtitle}>Hourly Wage</Text>
                         <TextInput
                             style={[styles.inputText, {borderBottomWidth: 0}]}
-                            onChangeText={(shiftName) => {
-                                setEmployeeEmail(employeeEmail)
+                            onChangeText={(wage) => {
+                                setWage(wage)
                             }}
-                            value={employeeEmail}
+                            value={wage}
                             placeholder={"Employee's Wage"}
                             placeholderTextColor={placeholderText}
                             keyboardType={"numeric"}
