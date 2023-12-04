@@ -1,32 +1,24 @@
 import React, {useState} from "react";
 import {View, TouchableOpacity, StyleSheet} from 'react-native'
-import {useNavigation} from "@react-navigation/native";
-import {ScreenNames} from "../../utils/ScreenNames";
-import CustomButton from "../CustomButton";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {Calendar} from '../../utils/Icons';
-import Dropdown from "../Dropdown";
-import {secondaryGray, white, primaryGreen} from "../../utils/Colors";
+import {Plus} from '../../utils/Icons';
+import {white, primaryGreen, black, grayBackground} from "../../utils/Colors";
 import {ipAddy} from "../../utils/IPAddress";
-import AvailableShiftList from "../AvailableShiftList";
 import AddShiftBody from "./AddShiftBody";
+import FullShiftList from "./FullShiftList";
 
 function ManagerShiftDashboard(){
-    const navigation = useNavigation();
     const [addShiftModal, setAddShiftModal] = useState(false);
     const [locList, setLocList] = useState([]);
     const [shiftTypeList, setShiftTypeList] = useState([]);
 
-    //Fetch Shift Info
     const getShiftData = async () => {
-        //update fetch url according to IPv4 of Wi-Fi
         await fetch('http://' + ipAddy + ':8080/getShiftCreationInfo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                //change this according to manager ID needed
                 managerId: "653d70c730cd4ad7a58ee7fb"
             }),
         }).then(r => r.json()
@@ -49,48 +41,18 @@ function ManagerShiftDashboard(){
         }
     }
 
-    const sortDropdown = ['All', 'Open', 'Taken'];
-
-    const [selectedIndex, setSelectedIndex] = useState('All');
-
-    const handleSortPress = (index) => {
-        setSelectedIndex(index);
-    }
-
-    const handleUserClick = () => {
-        navigation.navigate(ScreenNames.LOGIN);
-    }
-
     return(
-        <View>
-            <View style={styles.buttonsContainer}>
-                <View style={styles.addShiftButton}>
-                    <CustomButton
-                        buttonText={"Add Shift"}
-                        handlePress={handleAddShiftClick}
-                        color={primaryGreen}
-                        textColor={white}
-                    />
-                </View>
-                <TouchableOpacity onPress={handleUserClick}>
-                    <FontAwesomeIcon icon={Calendar} size={48} style={styles.icon} />
+        <View styles={styles.page}>
+            <View style={{height: "91%"}}>
+                <FullShiftList />
+            </View>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity onPress={handleAddShiftClick}>
+                    <View style={styles.addButton}>
+                        <FontAwesomeIcon icon={Plus} size={34} color={'white'} />
+                    </View>
                 </TouchableOpacity>
             </View>
-            <View style={styles.dropdownWrapper}>
-                <View style={styles.dropdownWrapperBorder}>
-                    <Dropdown
-                        items={sortDropdown}
-                        dropdownPress={handleSortPress}
-                        left={10}
-                        top={290}
-                        width={200}
-                        fontSize={24}
-                        fontWht={"bold"}
-                        chvSize={32}
-                    />
-                </View>
-            </View>
-            <AvailableShiftList />
             <AddShiftBody
                 addShiftModal={addShiftModal}
                 setAddShiftModal={setAddShiftModal}
@@ -102,25 +64,11 @@ function ManagerShiftDashboard(){
 }
 
 const styles = StyleSheet.create({
-    buttonsContainer: {
-        paddingTop: 10,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-    },
-    dropdownWrapper:{
-        paddingLeft: 16,
-        paddingTop: 8,
-        paddingBottom: 8,
-    },
-    dropdownWrapperBorder:{
-        backgroundColor: white,
-        borderWidth: 0.5,
-        borderColor: secondaryGray,
-        borderRadius: 10,
-        overflow: 'hidden',
-        width: 200,
-        justifyContent: "center",
+    page: {
+        backgroundColor: grayBackground,
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
     },
     addShiftButton: {
         paddingLeft: 16,
@@ -128,6 +76,26 @@ const styles = StyleSheet.create({
     icon: {
         marginRight: 16,
         color: primaryGreen,
+    },
+    buttonContainer: {
+        position: "relative",
+    },
+    addButton: {
+        alignItems: "center",
+        justifyContent: "center",
+        position: "absolute",
+        bottom: 40,
+        right: 16,
+        height: 64,
+        width: 64,
+        backgroundColor: primaryGreen,
+        padding: 10,
+        borderRadius: 32,
+        shadowColor: black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        elevation: 6,
     },
 });
 export default ManagerShiftDashboard;
