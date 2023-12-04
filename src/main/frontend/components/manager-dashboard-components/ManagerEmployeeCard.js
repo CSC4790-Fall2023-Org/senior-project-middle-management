@@ -1,17 +1,36 @@
-import {Modal, StatusBar, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
+import {
+    Modal,
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    View
+} from "react-native";
 import React, {useState} from "react";
 import {ChevronRight, XMark} from "../../utils/Icons";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {destructiveAction, white} from "../../utils/Colors";
+import {
+    black,
+    destructiveAction,
+    grayAction,
+    grayBackground,
+    primaryGreen,
+    secondaryGray,
+    white
+} from "../../utils/Colors";
 import CustomButton from "../CustomButton";
 import {ipAddy} from "../../utils/IPAddress";
 import WarnPopup from "./WarnPopup";
+import employeeData from "../../mockApiCalls/employeeData.json";
 
 const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
     const [isModalVisible, setModalVisible] = useState(false);
 
     const warnText = "Are you sure you want to delete " + name + "?"
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
+
     const handleDeleteModalVisible = () => {
         setDeleteModalVisible(!isDeleteModalVisible)
     }
@@ -41,8 +60,8 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
     return(
         <View>
             <TouchableWithoutFeedback onPress={handleModalVisible}>
-                <View style={styles.container}>
-                    <Text style={styles.name}>{name}</Text>
+                <View style={styles.cardContainer}>
+                    <Text style={[styles.normalText, {fontWeight: "600"}]}>{name}</Text>
                     <FontAwesomeIcon icon={ChevronRight} size={17} />
                 </View>
             </TouchableWithoutFeedback>
@@ -57,37 +76,72 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
                     animated={true}
                     showHideTransition={'fade'}
                 />
-                <View style={styles.modal}>
-                    <View style={styles.topContainerModal}>
-                        <Text style={styles.name}>Employee Info:</Text>
-                        <TouchableOpacity onPress={handleModalVisible}>
-                            <FontAwesomeIcon icon={XMark} size={24} />
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalHeader}>
+                        <TouchableOpacity
+                            onPress={handleModalVisible}
+                        >
+                            <Text
+                                style={[styles.normalText, {color: white}]}
+                                allowFontScaling={false}
+                            >
+                                Close
+                            </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.middleContainerModal}>
-                        <Text>Employee ID:</Text>
-                        <Text>{id}</Text>
-                    </View>
-                    <View style={styles.middleContainerModal}>
-                        <Text>Name:</Text>
-                        <Text>{name}</Text>
-                    </View>
-                    <View style={styles.middleContainerModal}>
-                        <Text>Hours Worked:</Text>
-                        <Text>{worked}</Text>
-                    </View>
-                    <View style={styles.middleContainerModal}>
-                        <Text>Job Title:</Text>
-                        <Text>{type}</Text>
-                    </View>
-                    <View style={styles.middleContainerModal}>
-                        <Text>Shifts Taken:</Text>
-                        <Text>{shiftsTaken}</Text>
-                    </View>
-                    <View style={styles.middleContainerModal}>
-                        <CustomButton buttonText={"Delete Employee"} color={destructiveAction} textColor={white} handlePress={handleDeleteModalVisible}/>
-                    </View>
-                    </View>
+                    <ScrollView style={styles.scrollView}>
+                        <Text style={styles.sectionSubtitle}>Employee Info</Text>
+                        <View style={styles.infoContainer}>
+                            <View style={styles.infoItem}>
+                                <Text style={styles.infoLabel}>Name</Text>
+                                <Text
+                                    style={styles.infoValue}
+                                    numberOfLines={1}
+                                    ellipsizeMode={"tail"}
+                                >
+                                    {name}
+                                </Text>
+                            </View>
+                            <View style={styles.infoItem}>
+                                <Text style={styles.infoLabel}>Email</Text>
+                                <Text
+                                    style={styles.infoValue}
+                                    numberOfLines={1}
+                                    ellipsizeMode={"middle"}
+                                >
+                                    {employeeData.email}
+                                </Text>
+                            </View>
+                            <View style={styles.infoItem}>
+                                <Text style={styles.infoLabel}>Phone Number</Text>
+                                <Text style={styles.infoValue}>{employeeData.phoneNumber}</Text>
+                            </View>
+                            <View style={[styles.infoItem, {borderBottomWidth: 0}]}>
+                                <Text style={[styles.infoLabel, {maxWidth: "30%"}]}>ID</Text>
+                                <Text
+                                    style={[styles.infoValue, {maxWidth: "70%"}]}
+                                    numberOfLines={1}
+                                    ellipsizeMode={"tail"}>{id}</Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.middleContainerModal}>
+                            <Text>Hours Worked:</Text>
+                            <Text>{worked}</Text>
+                        </View>
+                        <View style={styles.middleContainerModal}>
+                            <Text>Job Title:</Text>
+                            <Text>{type}</Text>
+                        </View>
+                        <View style={styles.middleContainerModal}>
+                            <Text>Shifts Taken:</Text>
+                            <Text>{shiftsTaken}</Text>
+                        </View>
+                        <View style={styles.middleContainerModal}>
+                            <CustomButton buttonText={"Delete Employee"} color={destructiveAction} textColor={white} handlePress={handleDeleteModalVisible}/>
+                        </View>
+                    </ScrollView>
+                </View>
                 <WarnPopup titleText={warnText} isModalVisible={isDeleteModalVisible} handleModalVisible={handleDeleteModalVisible} submitForm={handleEmployeeDelete}/>
             </Modal>
         </View>
@@ -96,7 +150,7 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
 }
 
 const styles = StyleSheet.create({
-    container:{
+    cardContainer: {
         display: "flex",
         flexDirection: "row",
         justifyContent: 'space-between',
@@ -104,33 +158,64 @@ const styles = StyleSheet.create({
         backgroundColor: white,
         marginHorizontal: 16,
         marginVertical: 8,
-        borderRadius: 10,
         paddingHorizontal: 16,
         paddingVertical: 12,
+        borderRadius: 10,
     },
-    name: {
-        fontSize: 17,
-        fontWeight: "600",
-    },
-    modal: {
-        position: 'absolute',
-        top: 240,
-        left: 45,
-        width: 300,
-        height: 400,
-        elevation: 5,
-        zIndex: 1,
-        backgroundColor: white,
-        borderRadius:20,
-        borderStyle:"solid",
-        borderColor:"#ccc",
+    scrollView: {
+        position: "relative",
+        backgroundColor: grayBackground,
         flexDirection: "column",
+        paddingVertical: 24,
+        paddingHorizontal: 16,
     },
-    overlay: {
+    normalText: {
+        fontSize: 17,
+    },
+    modalContainer: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, .3)',
-        justifyContent: 'center',
+        backgroundColor: grayBackground,
+    },
+    modalHeader: {
+        height: 55,
+        backgroundColor: primaryGreen,
+        flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+    },
+    sectionSubtitle: {
+        marginBottom: 6,
+        width: '100%',
+        fontSize: 21,
+        textAlign: 'left',
+        fontWeight: 'bold',
+    },
+    infoContainer: {
+        backgroundColor: white,
+        marginVertical: 8,
+        borderRadius: 10,
+        paddingLeft: 14,
+    },
+    infoItem: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingTop: 14,
+        paddingBottom: 14,
+        borderBottomWidth: 0.25,
+        borderBottomColor: secondaryGray,
+    },
+    infoLabel: {
+        width: "40%",
+        color: black,
+        fontSize: 17,
+    },
+    infoValue: {
+        width: "60%",
+        color: grayAction,
+        fontSize: 17,
+        paddingRight: 14,
+        textAlign: "right",
     },
     topContainerModal: {
         paddingTop: 10,
