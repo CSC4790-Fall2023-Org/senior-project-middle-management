@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useNavigation} from "@react-navigation/native";
 import {View, StyleSheet, Dimensions} from 'react-native';
 import CustomButton from "../CustomButton";
@@ -6,8 +6,10 @@ import Dropdown from "../Dropdown";
 import CompanyEmployeeView from "./CompanyEmployeeView";
 import {ScreenNames} from "../../utils/ScreenNames";
 import {grayBackground, primaryGreen, secondaryGray, white} from "../../utils/Colors";
+import AddEmployeeBody from "./AddEmployeeBody";
 
 const CompanyEmployeeDashboard = () => {
+    const [addEmployeeModal, setAddEmployeeModal] = useState(false);
     const navigation = useNavigation();
     const screenWidth = Dimensions.get('window').width;
 
@@ -29,7 +31,7 @@ const CompanyEmployeeDashboard = () => {
         // ).then(async json => {
         //     const newLocList = await json.locationList;
         //     const newShiftList = await json.shiftTypeList;
-        navigation.navigate(ScreenNames.ADD_EMPLOYEE)
+        //navigation.navigate(ScreenNames.ADD_EMPLOYEE)
         // }).catch(e => {
         //     console.error(e);
         // });
@@ -38,7 +40,8 @@ const CompanyEmployeeDashboard = () => {
 
     const handleEmpAddClick = async () => {
         try {
-            await getEmpData()
+            await getEmpData();
+            setAddEmployeeModal(true);
         } catch (error) {
             console.log(error);
         }
@@ -70,6 +73,10 @@ const CompanyEmployeeDashboard = () => {
                     items={options}
                 />
             </View>
+            <AddEmployeeBody
+                addEmployeeModal={addEmployeeModal}
+                setAddEmployeeModal={setAddEmployeeModal}
+            />
             <CompanyEmployeeView/>
         </View>
     );
