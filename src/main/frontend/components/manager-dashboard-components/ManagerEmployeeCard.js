@@ -26,10 +26,8 @@ import {ipAddy} from "../../utils/IPAddress";
 import employeeData from "../../mockApiCalls/employeeData.json";
 import * as Haptics from "expo-haptics";
 
-const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
+const ManagerEmployeeCard = ({fName, lName, email, phone, id, type, shiftsClaimed, hoursClaimed, maxHours, wage}) =>{
     const [isModalVisible, setModalVisible] = useState(false);
-
-    const warnText = "Are you sure you want to delete " + name + "?"
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
 
     const handleConfirmDelete = () => {
@@ -37,8 +35,8 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
             Haptics.NotificationFeedbackType.Warning
         );
         Alert.alert (
-            'Delete ' + name,
-            'Are you sure you want to delete ' + name + '?',
+            'Delete ' + fName + ' ' + lName,
+            'Are you sure you want to delete ' + fName + ' ' + lName + '?',
             [
                 {
                     text: 'Delete',
@@ -84,7 +82,13 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
         <View>
             <TouchableWithoutFeedback onPress={handleModalVisible}>
                 <View style={styles.cardContainer}>
-                    <Text style={[styles.normalText, {fontWeight: "600"}]}>{name}</Text>
+                    <Text
+                        style={[styles.normalText, {fontWeight: "600"}]}
+                        numberOfLines={1}
+                        ellipsizeMode={"tail"}
+                    >
+                        {fName + ' ' + lName}
+                    </Text>
                     <FontAwesomeIcon icon={ChevronRight} size={17} />
                 </View>
             </TouchableWithoutFeedback>
@@ -122,7 +126,7 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
                                     numberOfLines={1}
                                     ellipsizeMode={"tail"}
                                 >
-                                    {name}
+                                    {fName + ' ' + lName}
                                 </Text>
                             </View>
                             <View style={styles.infoItem}>
@@ -132,12 +136,12 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
                                     numberOfLines={1}
                                     ellipsizeMode={"middle"}
                                 >
-                                    {employeeData.email}
+                                    {email}
                                 </Text>
                             </View>
                             <View style={styles.infoItem}>
                                 <Text style={styles.infoLabel}>Phone Number</Text>
-                                <Text style={styles.infoValue}>{employeeData.phoneNumber}</Text>
+                                <Text style={styles.infoValue}>{phone}</Text>
                             </View>
                             <View style={[styles.infoItem, {borderBottomWidth: 0}]}>
                                 <Text style={[styles.infoLabel, {maxWidth: "20%"}]}>ID</Text>
@@ -155,11 +159,19 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
                             </View>
                             <View style={styles.infoItem}>
                                 <Text style={styles.infoLabel}>Shifts Claimed</Text>
-                                <Text style={styles.infoValue}>{shiftsTaken}</Text>
+                                <Text style={styles.infoValue}>{shiftsClaimed}</Text>
+                            </View>
+                            <View style={styles.infoItem}>
+                                <Text style={styles.infoLabel}>Hours Claimed</Text>
+                                <Text style={styles.infoValue}>{hoursClaimed}</Text>
+                            </View>
+                            <View style={styles.infoItem}>
+                                <Text style={styles.infoLabel}>Max Hours</Text>
+                                <Text style={styles.infoValue}>{maxHours}</Text>
                             </View>
                             <View style={[styles.infoItem, {borderBottomWidth: 0}]}>
-                                <Text style={styles.infoLabel}>Hours Claimed</Text>
-                                <Text style={styles.infoValue}>{worked}</Text>
+                                <Text style={styles.infoLabel}>Wage</Text>
+                                <Text style={styles.infoValue}>${wage}</Text>
                             </View>
                         </View>
                         <View style={styles.deleteButton}>
