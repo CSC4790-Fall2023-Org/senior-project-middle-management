@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 public class ShiftUtils {
     public static Shift getBaseShift(){
@@ -202,5 +203,40 @@ public class ShiftUtils {
             }
         }
         return claimedShiftsList;
+    }
+
+    public static Optional<Shift> getShiftFromShiftId(final ObjectId pShiftId, final List<Shift> pShiftList){
+        return pShiftList.stream()
+                .filter(shift -> shift.getShiftId().equals(pShiftId))
+                .findFirst();
+    }
+
+    public static boolean isShiftDuringOtherShift(final Shift pShift, final Shift pOtherShift) {
+        // start time of one shift the same as the other
+        if(pShift.getShiftStartTime().equals(pOtherShift.getShiftStartTime())){
+            return true;
+        }
+
+        // end time of one shift the same as the other
+        if(pShift.getShiftEndTime().equals(pOtherShift.getShiftEndTime())){
+            return true;
+        }
+
+        // start time of one shift is between the start and end time of the other
+        if(pShift.getShiftStartTime().isAfter(pOtherShift.getShiftStartTime()) && pShift.getShiftStartTime().isBefore(pOtherShift.getShiftEndTime())){
+            return true;
+        }
+
+        // end time of one shift is between the start and end time of the other
+        if(pShift.getShiftEndTime().isAfter(pOtherShift.getShiftStartTime()) && pShift.getShiftEndTime().isBefore(pOtherShift.getShiftEndTime())){
+            return true;
+        }
+
+        // start time of one shift is before the start time of the other and the end time of one shift is after the end time of the other
+        if(pShift.getShiftStartTime().isBefore(pOtherShift.getShiftStartTime()) && pShift.getShiftEndTime().isAfter(pOtherShift.getShiftEndTime())){
+            return true;
+        }
+
+        return false;
     }
 }

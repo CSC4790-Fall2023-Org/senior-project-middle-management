@@ -12,8 +12,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class EmployeeUtils {
 
@@ -101,5 +103,34 @@ public class EmployeeUtils {
             employee.setShiftIdList(shiftIdList);
         }
         return employee;
+    }
+    public static List<Employee> getAllEmployeesForOrganization(final Organization pOrganization, final List<Employee> pEmployeeList){
+        return pEmployeeList.stream()
+                .filter(employee -> employee.getOrganizationId().equals(pOrganization.getOrganizationId()))
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+    }
+
+    public static List<Employee> getAllEmployeesForEmployeeType(final String pEmployeeType, final List<Employee> pEmployeeList){
+        return pEmployeeList.stream()
+                .filter(employee -> employee.getEmployeeType().equals(pEmployeeType))
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+    }
+
+    public static List<Employee> getAllEmployeesWithoutGivenShift(final List<Employee> pEmployeeList, final Shift pShift, final List<Shift> pShiftList){
+        List<Employee> employeesWithoutShift = new ArrayList<>();
+        for (Employee employee : pEmployeeList){
+            if (employee.getShiftIdList().size() == 0){
+                employeesWithoutShift.add(employee);
+                continue;
+            }
+            for(ObjectId shiftId : employee.getShiftIdList()){
+                Optional<Shift> shift = ShiftUtils.getShiftFromShiftId(shiftId, pShiftList);
+                if (shift.isPresent() && ShiftUtils.isShiftDuringOtherShift(shift.get(), pShift)){
+                    break;
+                }
+                employeesWithoutShift.add(employee);
+            }
+        }
+        return employeesWithoutShift;
     }
 }

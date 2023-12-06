@@ -6,6 +6,7 @@ import com.ems.database.models.Employee;
 import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
 import org.bson.types.ObjectId;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
@@ -161,6 +162,54 @@ public class EmployeeServices {
             return ResponseUtils.successfulCreationResponse("Employee updated successfully");
         }
         catch (Exception e){
+            return ResponseUtils.errorResponse(e);
+        }
+    }
+
+    public static ResponseEntity getAllEmployeesWithNoShiftDuringShift(final String pPayload) {
+
+        try{
+            // get shiftId from JSON
+            final ObjectId shiftId = JsonUtils.getShiftIdFromJSON(new JSONObject(pPayload));
+
+            // get shift from database
+            final Shift shift = DatabaseServices.findShiftById(shiftId)
+                    .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_SHIFT, shiftId));
+
+
+            // get shift list from database
+            final List<Shift> shiftList = DatabaseServices.getAllShifts();
+
+            // get employeeId from JSON
+            final ObjectId employeeId = JsonUtils.getEmployeeIdFromJSON(new JSONObject(pPayload));
+
+            // get employee from database
+            final Employee employee = DatabaseServices.findEmployeeById(employeeId)
+                    .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_EMPLOYEE, employeeId));
+
+            // get Organization list from Database
+            final List<Organization> organizationList = DatabaseServices.getAllOrganizations();
+
+            // get organization from shift
+            final Organization org = OrganizationUtils.getOrganizationFromShift(organizationList, shift);
+
+            // get employee list from database
+            final List<Employee> employeeList = DatabaseServices.getAllEmployees();
+
+            // get employees for organization
+            final List<Employee> employeeListForOrganization = EmployeeUtils.getAllEmployeesForOrganization(org, employeeList);
+
+            // get employees with same employee type
+            final List<Employee> employeeListWithSameEmployeeType = EmployeeUtils.getAllEmployeesForEmployeeType(employee.getEmployeeType(), employeeListForOrganization);
+
+            // get employees with no shift during shift
+            final List<Employee> employeeListWithNoShiftDuringShift = EmployeeUtils.getAllEmployeesWithoutGivenShift(employeeListWithSameEmployeeType, shift, shiftList);
+
+            // return response
+            final JSONArray responseArray = JsonUtils.getJSONArrayFromEmployeeList(employeeListWithNoShiftDuringShift);
+            return ResponseUtils.getAllResponse("employeeList", responseArray);
+
+        } catch (Exception e) {
             return ResponseUtils.errorResponse(e);
         }
     }
