@@ -91,6 +91,9 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
     }
 
     const wageToNum = (wage) => {
+        // return Math.round(Number(parseFloat(wage).toFixed(2))*100)/100;
+        // return (Math.round(Number(wage) * 100) / 100).toFixed(2);
+        // return Number(wage).toFixed(2);
         return Number(parseFloat(wage).toFixed(2));
     }
 
@@ -143,7 +146,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (!validPhoneNoDashes) {
+        } else if (!validPhoneNumber) {
             noErrors = false;
             Alert.alert (
                 'Please enter a valid phone number.',
@@ -344,13 +347,13 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
                         <View style={styles.sectionContainer}>
                             <TextInput
                                 style={styles.containerRow}
-                                // onChangeText={(input) => {
-                                //     const formattedPhoneNumber = formatPhoneNumber(input);
-                                //     setPhoneNumber(formattedPhoneNumber);
-                                // }}
-                                onChangeText={(phoneNumber) => {
-                                    setPhoneNumber(phoneNumber);
+                                onChangeText={(input) => {
+                                    const formattedPhoneNumber = formatPhoneNumber(input);
+                                    setPhoneNumber(formattedPhoneNumber);
                                 }}
+                                // onChangeText={(phoneNumber) => {
+                                //     setPhoneNumber(phoneNumber);
+                                // }}
                                 value={phoneNumber}
                                 placeholder={"Phone Number"}
                                 placeholderTextColor={placeholderText}
