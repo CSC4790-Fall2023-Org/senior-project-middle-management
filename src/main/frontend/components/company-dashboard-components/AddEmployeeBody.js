@@ -70,6 +70,11 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
         setHoursCap('');
     }
 
+    const formatPhoneNumber = (input) => {
+        const numericInput = input.replace(/\D/g, '');
+        return numericInput.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+    };
+
     const typeDropdownPress = (index) => {
         setEmployeeType(index);
     }
@@ -346,13 +351,14 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
                         <View style={styles.sectionContainer}>
                             <TextInput
                                 style={styles.containerRow}
-                                onChangeText={(phoneNumber) => {
-                                    setPhoneNumber(phoneNumber)
+                                onChangeText={(input) => {
+                                    const formattedPhoneNumber = formatPhoneNumber(input);
+                                    setPhoneNumber(formattedPhoneNumber);
                                 }}
                                 value={phoneNumber}
-                                placeholder={"Phone Number (ex. 5555555555)"}
+                                placeholder={"Phone Number"}
                                 placeholderTextColor={placeholderText}
-                                keyboardType={"numbers-and-punctuation"}
+                                keyboardType={"number-pad"}
                             />
                             <TextInput
                                 style={[styles.containerRow, {borderBottomWidth: 0}]}
