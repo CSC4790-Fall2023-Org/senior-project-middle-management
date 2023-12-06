@@ -38,7 +38,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     const [location, setLocation] = useState(locationOptions.length === 1 ?
         locationOptions[0] : '');
     const [locationId, setLocationId] = useState(locationOptions.length === 1 ?
-        locationOptions[0].locationId : null);
+        locationOptions[0].locationId : '');
     let displayedLocations = locationOptions.map(a => a.locationName);
 
     const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
@@ -210,6 +210,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             }
         }
     }
+
     const showStartDatePicker = () => {
         setStartDatePickerVisibility(true);
     }
@@ -535,7 +536,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     return(
         <View>
             <Modal
-                animationType="slide"
+                animationType={"slide"}
                 visible={addShiftModal}
                 presentationStyle={"pageSheet"}
             >
@@ -546,9 +547,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                 />
                 <View style={styles.modalContainer}>
                     <View style={styles.modalHeader}>
-                        <TouchableOpacity
-                            onPress={closeModal}
-                        >
+                        <TouchableOpacity onPress={closeModal}>
                             <Text
                                 style={[styles.normalText, {color: white}]}
                                 allowFontScaling={false}
@@ -556,9 +555,7 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
                                 Cancel
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={handleErrors}
-                        >
+                        <TouchableOpacity onPress={handleErrors}>
                             <Text
                                 style={[styles.normalText, {color: white, fontWeight: 'bold'}]}
                                 allowFontScaling={false}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity,  ScrollView} from 'react-native';
 import {useNavigation} from "@react-navigation/native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
@@ -8,13 +8,13 @@ import AddEmployeeBody from "../components/company-dashboard-components/AddEmplo
 
 
 const AddEmployeePage = ({ route }) => {
-    //navigation tools
     const navigation = useNavigation();
     // const { locationOptions, shiftOptions } = route.params;
 
     const backPress = () =>{
         navigation.goBack()
     }
+
     return (
         <View style={{flex: 1}}>
             <View style={styles.headerContainer}>
@@ -24,7 +24,7 @@ const AddEmployeePage = ({ route }) => {
                 <Text style={styles.headerText}>Add Employee</Text>
             </View>
             <ScrollView style={styles.pageScroll}>
-                <AddEmployeeBody backPress={backPress}/>
+
             </ScrollView>
 
         </View>
