@@ -48,7 +48,7 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
     const handleSubmit = () => {
         const phoneNumberPattern = /^\d{10}$/;
         const validPhoneNumber = phoneNumberPattern.test(phoneNumber);
-        if(!validPhoneNumber && !saveError) {
+        if (!validPhoneNumber && !saveError) {
             setInvalidPhoneNumber(true);
             setSaveError(true);
             Alert.alert (
@@ -93,13 +93,12 @@ function EditPhoneNumberModal({phoneNumberModalVisible, setPhoneNumberModalVisib
                                 <Text style={styles.modalText}>Edit Phone Number</Text>
                                 <TextInput
                                     style={styles.inputText}
-                                    autoCapitalize={"words"}
                                     onChangeText={handleOnChangeText}
                                     value={phoneNumber}
                                     placeholder="ex. 5555555555"
                                     placeholderTextColor={secondaryGray}
                                     autoComplete={"tel"}
-                                    inputMode={"tel"}
+                                    keyboardType={"number-pad"}
                                 />
                                 <View style={[styles.submitButton,
                                     (isValueChanged && !saveError) ? {backgroundColor: primaryGreen}
