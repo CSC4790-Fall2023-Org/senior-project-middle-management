@@ -10,7 +10,7 @@ import {
     Modal,
     StatusBar,
 } from "react-native";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import MultiWheelPicker from "../MultiWheelPicker";
 import {
     clickableText,
@@ -27,7 +27,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
-const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOptions}) => {
+const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOptions, loadKey}) => {
     const screenWidth = Dimensions.get('window').width;
 
     const [shiftName, setShiftName] = useState("");
@@ -54,6 +54,24 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
     const [endMinute, setEndMinute] = useState(null);
     const [isEndAM, setIsEndAM] = useState(false);
     const [twentyFourEnd, setTwentyFourEnd] = useState(null);
+
+    useEffect(() => {
+        if (shiftOptions.length === 1) {
+            setShiftType(shiftOptions[0]);
+        } else {
+            setShiftType('');
+        }
+        if (locationOptions.length === 1) {
+            setLocation(locationOptions[0].name);
+        } else {
+            setLocation('');
+        }
+        if (locationOptions.length === 1) {
+            setLocationId(locationOptions[0].locationId);
+        } else {
+            setLocationId('');
+        }
+    }, [loadKey]);
 
     const weekdays = [
         {
