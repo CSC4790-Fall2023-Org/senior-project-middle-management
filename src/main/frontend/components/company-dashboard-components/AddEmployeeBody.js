@@ -86,7 +86,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
     const handleErrors = () => {
         let noErrors= true;
 
-        const phoneNumberPattern = /^\d{10}$/;
+        const phoneNumberPattern = /^\d{3}-\d{3}-\d{4}$/;
         const validPhoneNumber = phoneNumberPattern.test(phoneNumber);
         const emailPattern = /^[\w\.-]+@[\w\.-]+\.\w+$/;
         const validEmail = emailPattern.test(email);
