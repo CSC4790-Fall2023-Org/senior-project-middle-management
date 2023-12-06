@@ -91,13 +91,11 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
     }
 
     const wageToNum = (wage) => {
-        let numWage = parseFloat(wage);
-        return (Math.round(numWage * 100) / 100).toFixed(1);
+        return Number(parseFloat(wage).toFixed(2));
     }
 
     const hoursToNum = (hours) => {
-        let numHours = parseFloat(hours);
-        return (Math.round(numHours * 100) / 100).toFixed(0);
+        return parseFloat(hours);
     }
 
     const handleErrors = () => {
