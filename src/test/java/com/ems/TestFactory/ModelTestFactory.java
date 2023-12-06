@@ -41,7 +41,8 @@ public class ModelTestFactory {
                 LocalDateTime.of(2023, 8, 20, 15,0),
                 "Guard",
                 true,
-                true);
+                true,
+                null);
     }
 
     public static Employee getEmployee(){

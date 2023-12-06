@@ -35,7 +35,7 @@ public class Shift {
     public Shift() {
     }
 
-    public Shift(ObjectId shiftId, ObjectId locationId, String shiftName, LocalDateTime shiftStartTime, LocalDateTime shiftEndTime, String shiftType, boolean isShiftOpen, boolean dropApproved) {
+    public Shift(ObjectId shiftId, ObjectId locationId, String shiftName, LocalDateTime shiftStartTime, LocalDateTime shiftEndTime, String shiftType, boolean isShiftOpen, boolean dropApproved, ObjectId transferEmployeeId) {
         this.shiftId = shiftId;
         this.locationId = locationId;
         this.shiftName = shiftName;
@@ -44,7 +44,7 @@ public class Shift {
         this.shiftType = shiftType;
         this.isShiftOpen = isShiftOpen;
         this.isDropApproved = dropApproved;
-        this.transferEmployeeId = null;
+        this.transferEmployeeId = transferEmployeeId;
     }
 
     public Shift(final JSONObject pJsonObject) throws JSONException {

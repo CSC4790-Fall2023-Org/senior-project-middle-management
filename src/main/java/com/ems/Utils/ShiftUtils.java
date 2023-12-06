@@ -22,7 +22,8 @@ public class ShiftUtils {
                 LocalDateTime.of(2023, 8, 20, 18,0),
                 "Guard",
                 true,
-                true);
+                true,
+                null);
     }
 
 
@@ -167,7 +168,8 @@ public class ShiftUtils {
                         LocalDateTime.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), pShiftHelper.getEndHour(), pShiftHelper.getEndMinute()),
                         pShiftHelper.getShiftType(),
                         true,
-                        true));
+                        true,
+                        null));
             }
         }
         return shifts;
