@@ -112,6 +112,8 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
         const validPhoneNumber = phoneNumberPattern.test(phoneNumber);
         const emailPattern = /^[\w\.-]+@[\w\.-]+\.\w+$/;
         const validEmail = emailPattern.test(email);
+        const wageString = wage.toString();
+        const invalidWage = /^\d+(\.0)?$/.test(wageString);
 
         if (!shiftVal) {
             setShiftVal(displayedShift[0].label);
@@ -206,11 +208,11 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (!wageFloat) {
+        } else if (invalidWage) {
             noErrors = false;
             Alert.alert(
                 'Please enter a valid hourly wage.',
-                '',
+                'Note: The wage must end with at least one non-zero decimal place.',
                 [
                     {
                         text: 'OK',
