@@ -92,12 +92,12 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
 
     const wageToNum = (wage) => {
         let numWage = parseFloat(wage);
-        return (Math.round(numWage * 100) / 100).toFixed(2);
+        return (Math.round(numWage * 100) / 100).toFixed(1);
     }
 
     const hoursToNum = (hours) => {
         let numHours = parseFloat(hours);
-        return (Math.round(numHours * 100) / 100).toFixed(2);
+        return (Math.round(numHours * 100) / 100).toFixed(0);
     }
 
     const handleErrors = () => {
@@ -106,6 +106,8 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
         hoursFloat = hoursToNum(hoursCap);
 
         const phoneNumberPattern = /^\d{3}-\d{3}-\d{4}$/;
+        const phoneNoDashes = /^\d{10}$/;
+        const validPhoneNoDashes = phoneNoDashes.test(phoneNumber);
         const validPhoneNumber = phoneNumberPattern.test(phoneNumber);
         const emailPattern = /^[\w\.-]+@[\w\.-]+\.\w+$/;
         const validEmail = emailPattern.test(email);
@@ -143,7 +145,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (!validPhoneNumber) {
+        } else if (!validPhoneNoDashes) {
             noErrors = false;
             Alert.alert (
                 'Please enter a valid phone number.',
@@ -242,16 +244,6 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
     }
 
     const handleEmployeeAdd = () => {
-        console.log("First Name: ", fName);
-        console.log("Last Name: ", lName);
-        console.log("Phone #: ", phoneNumber);
-        console.log("Email: ", email);
-        console.log("Type: ", employeeType);
-        console.log("Location: ", location);
-        console.log("Location ID: ", locationId);
-        console.log("Wage: ", wageFloat);
-        console.log("Hours Cap: ", hoursFloat);
-
         fetch('http://' + ipAddy + ':8080/createEmployee', {
             method: 'POST',
             headers: {
@@ -278,6 +270,16 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
         Haptics.notificationAsync(
             Haptics.NotificationFeedbackType.Success
         );
+        console.log("Org ID: ", orgID, typeof orgID);
+        console.log("First Name: ", fName, typeof fName);
+        console.log("Last Name: ", lName, typeof lName);
+        console.log("Phone #: ", phoneNumber, typeof phoneNumber);
+        console.log("Email: ", email, typeof email);
+        console.log("Type: ", employeeType, typeof employeeType);
+        console.log("Location: ", location, typeof location);
+        console.log("Location ID: ", locationId, typeof locationId);
+        console.log("Wage: ", wageFloat, typeof wageFloat);
+        console.log("Hours Cap: ", hoursFloat, typeof hoursFloat);
         closeModal();
     }
 
@@ -344,9 +346,12 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
                         <View style={styles.sectionContainer}>
                             <TextInput
                                 style={styles.containerRow}
-                                onChangeText={(input) => {
-                                    const formattedPhoneNumber = formatPhoneNumber(input);
-                                    setPhoneNumber(formattedPhoneNumber);
+                                // onChangeText={(input) => {
+                                //     const formattedPhoneNumber = formatPhoneNumber(input);
+                                //     setPhoneNumber(formattedPhoneNumber);
+                                // }}
+                                onChangeText={(phoneNumber) => {
+                                    setPhoneNumber(phoneNumber);
                                 }}
                                 value={phoneNumber}
                                 placeholder={"Phone Number"}
@@ -410,7 +415,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
                         <TextInput
                             style={[styles.inputText, {borderBottomWidth: 0}]}
                             onChangeText={(wage) => {
-                                setWage(Math.round(wage * 100) / 100)
+                                setWage(wage);
                             }}
                             value={wage}
                             placeholder={"Wage"}
