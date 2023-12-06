@@ -77,6 +77,7 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
         Haptics.notificationAsync(
             Haptics.NotificationFeedbackType.Success
         );
+        setModalVisible(false);
     }
 
     return (
