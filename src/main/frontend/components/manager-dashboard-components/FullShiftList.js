@@ -1,10 +1,10 @@
-import ShiftCard from "./ShiftCard";
+import ShiftCard from "../../components/ShiftCard";
 import {FlatList, StyleSheet, View} from "react-native";
 import React, {useEffect, useState} from "react";
-import AvailableShiftCardSwipe from "./AvailableShiftCardSwipe";
-import {ipAddy} from "../utils/IPAddress";
+import AvailableShiftCardSwipe from "../AvailableShiftCardSwipe";
+import {ipAddy} from "../../utils/IPAddress";
 
-const AvailableShiftList = () => {
+const FullShiftList = () => {
     const [shiftData, setShiftData] = useState(null);
 
     const [reloadKey, setReloadKey] = useState(0);
@@ -67,7 +67,8 @@ const styles = StyleSheet.create({
     contentContainer: {
         flexGrow: 1,
         paddingVertical: 8,
+        paddingBottom: 24,
     },
 });
 
-export default AvailableShiftList;
+export default FullShiftList;

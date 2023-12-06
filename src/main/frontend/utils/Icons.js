@@ -10,7 +10,8 @@ import {
     faLocationArrow,
     faUser,
     faClock,
-    faInbox
+    faInbox,
+    faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import {faCalendarPlus, faCalendarXmark, faTrashCan, } from "@fortawesome/free-regular-svg-icons";
 
@@ -29,3 +30,4 @@ export const LocationArrow = faLocationArrow;
 export const Clock = faClock;
 export const User = faUser;
 export const Inbox = faInbox;
+export const Plus = faPlus;

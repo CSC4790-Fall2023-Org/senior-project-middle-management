@@ -42,7 +42,7 @@ function LoginScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: grayBackground,
+        backgroundColor: white,
     },
     buttonsContainer: {
         marginTop: 200,
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         fontSize: 34,
         fontWeight: "bold",
         marginBottom: 8,
-        marginLeft: 12,
+        marginLeft: 16,
     },
 });
 
