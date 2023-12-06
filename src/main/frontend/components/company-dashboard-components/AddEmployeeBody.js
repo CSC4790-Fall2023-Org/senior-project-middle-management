@@ -43,7 +43,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
     const [location, setLocation] = useState(locationOptions.length === 1 ?
         locationOptions[0] : '');
     const [locationId, setLocationId] = useState(locationOptions.length === 1 ?
-        locationOptions[0].locationId : '');
+        [locationOptions[0].locationId] : []);
     let displayedLocations = locationOptions.map(a => a.locationName);
 
     const [displayedLoc, setDisplayedLoc] = useState(locationOptions.map(
@@ -78,7 +78,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
         setLocation(index);
         for (let i = 0; i < locationOptions.length; i++) {
             if (location === locationOptions[i].locationName) {
-                setLocationId(locationOptions[i].locationId);
+                setLocationId([locationOptions[i].locationId]);
             }
         }
     }
@@ -352,7 +352,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
                                 value={phoneNumber}
                                 placeholder={"Phone Number (ex. 5555555555)"}
                                 placeholderTextColor={placeholderText}
-                                keyboardType={"numeric"}
+                                keyboardType={"numbers-and-punctuation"}
                             />
                             <TextInput
                                 style={[styles.containerRow, {borderBottomWidth: 0}]}
