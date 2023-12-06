@@ -61,18 +61,18 @@ const CompanyEmployeeDashboard = () => {
                     textColor={white}
                 />
             </View>
-            <View style={[styles.dropdownContainer, {width:200}]}>
-                <Dropdown
-                    chvSize={10}
-                    fontWht={10}
-                    fontSize={10}
-                    width={200}
-                    top={100}
-                    left={100}
-                    dropdownPress={handleDropdownPress}
-                    items={options}
-                />
-            </View>
+            {/*<View style={[styles.dropdownContainer, {width:200}]}>*/}
+            {/*    <Dropdown*/}
+            {/*        chvSize={10}*/}
+            {/*        fontWht={10}*/}
+            {/*        fontSize={10}*/}
+            {/*        width={200}*/}
+            {/*        top={100}*/}
+            {/*        left={100}*/}
+            {/*        dropdownPress={handleDropdownPress}*/}
+            {/*        items={options}*/}
+            {/*    />*/}
+            {/*</View>*/}
             <AddEmployeeBody
                 addEmployeeModal={addEmployeeModal}
                 setAddEmployeeModal={setAddEmployeeModal}
