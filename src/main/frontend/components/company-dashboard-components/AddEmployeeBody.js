@@ -25,6 +25,8 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
     const [email, setEmail] = useState('');
     const [hoursCap, setHoursCap] = useState('');
     const [wage, setWage] = useState('');
+    let wageFloat;
+    let hoursFloat;
 
     const shiftOptions = ["Guard"];
 
@@ -88,8 +90,20 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
         }
     }
 
+    const wageToNum = (wage) => {
+        let numWage = parseFloat(wage);
+        return (Math.round(numWage * 100) / 100).toFixed(2);
+    }
+
+    const hoursToNum = (hours) => {
+        let numHours = parseFloat(hours);
+        return (Math.round(numHours * 100) / 100).toFixed(2);
+    }
+
     const handleErrors = () => {
         let noErrors= true;
+        wageFloat = wageToNum(wage);
+        hoursFloat = hoursToNum(hoursCap);
 
         const phoneNumberPattern = /^\d{3}-\d{3}-\d{4}$/;
         const validPhoneNumber = phoneNumberPattern.test(phoneNumber);
@@ -189,7 +203,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
             Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Error
             );
-        } else if (wage.trim() === '') {
+        } else if (!wageFloat) {
             noErrors = false;
             Alert.alert(
                 'Please enter a valid hourly wage.',
@@ -205,7 +219,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
                 Haptics.NotificationFeedbackType.Error
             );
         }
-        else if (hoursCap.trim() === '') {
+        else if (!hoursFloat) {
             noErrors = false;
             Alert.alert(
                 'Please enter a valid weekly hours cap.',
@@ -228,27 +242,6 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
     }
 
     const handleEmployeeAdd = () => {
-        let payFloat;
-        let hoursFloat;
-
-        if (typeof wage === "string"
-            && wage.trim() !== ""
-            && !isNaN(parseFloat(wage)))
-        {
-            payFloat = parseFloat(wage);
-        } else {
-            payFloat = wage;
-        }
-
-        if (typeof hoursCap === "string"
-            && hoursCap.trim() !== ""
-            && !isNaN(parseFloat(hoursCap)))
-        {
-            hoursFloat = parseFloat(hoursCap);
-        } else {
-            hoursFloat = hoursCap;
-        }
-
         console.log("First Name: ", fName);
         console.log("Last Name: ", lName);
         console.log("Phone #: ", phoneNumber);
@@ -256,7 +249,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
         console.log("Type: ", employeeType);
         console.log("Location: ", location);
         console.log("Location ID: ", locationId);
-        console.log("Wage: ", payFloat);
+        console.log("Wage: ", wageFloat);
         console.log("Hours Cap: ", hoursFloat);
 
         fetch('http://' + ipAddy + ':8080/createEmployee', {
@@ -272,7 +265,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
                 employeeEmail: email,
                 employeeType: employeeType,
                 locationIdList: locationId,
-                pay: payFloat,
+                pay: wageFloat,
                 maxHours: hoursFloat,
             }),
         }).then(r => r.json()
@@ -417,7 +410,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
                         <TextInput
                             style={[styles.inputText, {borderBottomWidth: 0}]}
                             onChangeText={(wage) => {
-                                setWage(wage)
+                                setWage(Math.round(wage * 100) / 100)
                             }}
                             value={wage}
                             placeholder={"Wage"}
