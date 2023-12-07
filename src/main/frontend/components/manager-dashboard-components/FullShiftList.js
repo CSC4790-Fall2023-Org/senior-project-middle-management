@@ -9,7 +9,6 @@ const FullShiftList = ({reloadKey, updateReloadKey}) => {
     const [shiftData, setShiftData] = useState(null);
     const { constEmployeeId } = useAppContext();
 
-
     useEffect(() => {
         fetch('http://' + ipAddy + ':8080/getAvailableShifts', {
             method: 'POST',
