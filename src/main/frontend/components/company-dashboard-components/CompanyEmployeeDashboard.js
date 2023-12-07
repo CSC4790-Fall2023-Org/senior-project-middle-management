@@ -8,7 +8,10 @@ import {Plus} from "../../utils/Icons";
 
 const CompanyEmployeeDashboard = () => {
     const [addEmployeeModal, setAddEmployeeModal] = useState(false);
-
+    const [reloadKey, setReloadKey] = useState(0)
+    const reload = () =>{
+        setReloadKey(prevKey => prevKey + 1)
+    }
     const handleAddEmployeeClick = () => {
         setAddEmployeeModal(true);
     }
@@ -16,7 +19,7 @@ const CompanyEmployeeDashboard = () => {
     return (
         <View styles={styles.page}>
             <View style={{height: "91%"}}>
-                <EmployeeList canDelete={true} />
+                <EmployeeList canDelete={true} reload={reload} reloadKey={reloadKey}/>
             </View>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity onPress={handleAddEmployeeClick}>
@@ -28,6 +31,7 @@ const CompanyEmployeeDashboard = () => {
             <AddEmployeeBody
                 addEmployeeModal={addEmployeeModal}
                 setAddEmployeeModal={setAddEmployeeModal}
+                reload={reload}
             />
         </View>
     );

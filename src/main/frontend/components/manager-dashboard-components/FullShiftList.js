@@ -5,14 +5,10 @@ import AvailableShiftCardSwipe from "../AvailableShiftCardSwipe";
 import {ipAddy} from "../../utils/IPAddress";
 import {useAppContext} from "../../AppContext";
 
-const FullShiftList = () => {
+const FullShiftList = ({reloadKey, updateReloadKey}) => {
     const [shiftData, setShiftData] = useState(null);
-    const [reloadKey, setReloadKey] = useState(0);
     const { constEmployeeId } = useAppContext();
 
-    const updateReloadKey = () => {
-        setReloadKey(prevKey => prevKey + 1);
-    };
 
     useEffect(() => {
         fetch('http://' + ipAddy + ':8080/getAvailableShifts', {
