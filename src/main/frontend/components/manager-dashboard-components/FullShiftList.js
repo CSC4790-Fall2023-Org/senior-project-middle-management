@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import AvailableShiftCardSwipe from "../AvailableShiftCardSwipe";
 import {ipAddy} from "../../utils/IPAddress";
 import {useAppContext} from "../../AppContext";
+import ManagerShiftCardSwipe from "./ManagerShiftCardSwipe";
 
 const FullShiftList = ({reloadKey, updateReloadKey}) => {
     const [shiftData, setShiftData] = useState(null);
@@ -37,7 +38,7 @@ const FullShiftList = ({reloadKey, updateReloadKey}) => {
             data={shiftData ? shiftData.shiftList : []}
             keyExtractor={(shift) => shift.shiftId.toString()}
             renderItem={({ item: shift }) => (
-                <AvailableShiftCardSwipe
+                <ManagerShiftCardSwipe
                     ShiftCardComponent={
                         <ShiftCard
                             shiftStartDate={shift.shiftStartDate}
@@ -49,9 +50,9 @@ const FullShiftList = ({reloadKey, updateReloadKey}) => {
                             shiftHours={shift.shiftHours}
                         />
                     }
-                    shiftId={shift.shiftId}
-                    reloadKey={reloadKey}
-                    updateReloadKey={updateReloadKey}
+                    // shiftId={shift.shiftId}
+                    // reloadKey={reloadKey}
+                    // updateReloadKey={updateReloadKey}
                 />
             )}
             ListEmptyComponent={<View />}

@@ -4,13 +4,11 @@ import * as Haptics from 'expo-haptics';
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {CalendarDelete, Transfer} from "../utils/Icons";
-import {white, blueAction, destructiveAction} from "../utils/Colors";
-import ShiftCard from "./ShiftCard";
-import TransferShiftModal from "./TransferShiftModal";
+import {CalendarDelete, Transfer} from "../../utils/Icons";
+import {white, blueAction, destructiveAction} from "../../utils/Colors";
+import ShiftCard from "../ShiftCard";
 
-function MyShiftCardSwipe ({ShiftCardComponent, shiftId, transferId}) {
-    const [transferShiftModal, setTransferShiftModal] = useState(false);
+function ManagerShiftCardSwipe ({ShiftCardComponent, shiftId, transferId}) {
     let swipeableRef = React.createRef();
 
     const handleSwipeOpen = (direction) => {
@@ -99,29 +97,15 @@ function MyShiftCardSwipe ({ShiftCardComponent, shiftId, transferId}) {
     }
 
     return (
-            <Swipeable
-                renderLeftActions={renderLeftActions}
-                renderRightActions={renderRightActions}
-                onSwipeableOpen={(direction) => handleSwipeOpen(direction)}
-                ref={swipeableRef}
-                overshootFriction={8}
-            >
-                {ShiftCardComponent}
-                {transferShiftModal && (
-                    <TransferShiftModal
-                        transferShiftModal={transferShiftModal}
-                        setTransferShiftModal={handleTransferClose}
-                        shiftId={shiftId}
-                        shiftName={ShiftCardComponent.props.shiftName}
-                        shiftStartDate={ShiftCardComponent.props.shiftStartDate}
-                        shiftEndDate={ShiftCardComponent.props.shiftEndDate}
-                        shiftStartTime={ShiftCardComponent.props.shiftStartTime}
-                        shiftEndTime={ShiftCardComponent.props.shiftEndTime}
-                        shiftHours={ShiftCardComponent.props.shiftHours}
-                        shiftLocation={ShiftCardComponent.props.location}
-                    />
-                )}
-            </Swipeable>
+        <Swipeable
+            // renderLeftActions={renderLeftActions}
+            // renderRightActions={renderRightActions}
+            onSwipeableOpen={(direction) => handleSwipeOpen(direction)}
+            ref={swipeableRef}
+            overshootFriction={8}
+        >
+            {ShiftCardComponent}
+        </Swipeable>
     );
 }
 
@@ -154,4 +138,4 @@ const styles= StyleSheet.create({
     },
 })
 
-export default MyShiftCardSwipe;
+export default ManagerShiftCardSwipe;
