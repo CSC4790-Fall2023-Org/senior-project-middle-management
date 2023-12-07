@@ -27,12 +27,12 @@ function TransferShiftModal({transferShiftModal,
                                 shiftEndTime,
                                 shiftHours,
                                 shiftLocation}) {
-    const screenWidth = Dimensions.get('window').width;
     const [recipientSelected, setRecipientSelected] = useState(false);
     const [recipientsData, setRecipientsData] = useState(null);
     const [recipient, setRecipient] = useState(null);
     const [displayedRecipients, setDisplayedRecipients] = useState(null);
     const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
+    const [transferSubmitData, setTransferSubmitData] = useState(null);
 
     useEffect(() => {
         fetch('http://' + ipAddy + ':8080/getAllEmployeesWithNoShiftDuringShift', {
@@ -112,6 +112,27 @@ function TransferShiftModal({transferShiftModal,
 
     const handleSubmit = () => {
         if (recipientSelected) {
+            fetch('http://' + ipAddy + ':8080/transferShift', {
+                method: 'POST',
+                headers: {},
+                body: JSON.stringify({
+                    shiftId: shiftId,
+                    targetEmployeeId: selectedEmployeeId,
+                    sourceEmployeeId: "651f3f35631f63367d896196"
+                }),
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+                .then(data => {
+                    console.log(data);
+                    setTransferShiftModal(data);
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
             setTransferShiftModal(false);
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         }
@@ -128,6 +149,7 @@ function TransferShiftModal({transferShiftModal,
                 animationType="slide"
                 transparent={true}
                 visible={transferShiftModal}
+                onRequestClose={transferShiftModal}
             >
                 <TouchableWithoutFeedback onPress={() => {setTransferShiftModal(false)}}>
                     <View style={styles.container}>

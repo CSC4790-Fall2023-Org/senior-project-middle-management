@@ -87,7 +87,9 @@ function MyShiftCardSwipe ({ShiftCardComponent, shiftId}) {
     };
 
     const handleTransferClose = () => {
-        swipeableRef.current.close();
+        if (swipeableRef.current) {
+            swipeableRef.current.close();
+        }
         setTransferShiftModal(false) // Close the modal.
     }
 
