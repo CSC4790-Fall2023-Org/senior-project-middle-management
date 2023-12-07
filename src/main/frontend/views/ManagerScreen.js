@@ -7,7 +7,7 @@ import ManagerShiftDashboard from "../components/manager-dashboard-components/Ma
 import CustomDashboardHeader from "../components/CustomDashboardHeader";
 import {CircleUser} from "../utils/Icons";
 import {black, grayBackground} from "../utils/Colors";
-import EmployeeList from "../components/manager-dashboard-components/ManagerEmployeeView";
+import EmployeeList from "../components/manager-dashboard-components/EmployeeList";
 
 function ManagerScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);

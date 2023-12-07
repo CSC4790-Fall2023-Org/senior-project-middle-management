@@ -19,7 +19,6 @@ const EmployeeList = ({canDelete}) => {
             return response.json();
         })
             .then(data => {
-                console.log('Received data:', data);
                 setEmployeeData(data);
             })
             .catch(error => {

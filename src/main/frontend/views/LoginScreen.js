@@ -36,12 +36,6 @@ function LoginScreen() {
                     color={primaryGreen}
                     textColor={white}
                 />
-                {/*<CustomRedirectButton*/}
-                {/*    buttonText={"Login as an Employee"}*/}
-                {/*    page={ScreenNames.EMPLOYEE}*/}
-                {/*    color={primaryGreen}*/}
-                {/*    textColor={white}*/}
-                {/*/>*/}
                 <CustomButton
                     color={primaryGreen}
                     textColor={white}

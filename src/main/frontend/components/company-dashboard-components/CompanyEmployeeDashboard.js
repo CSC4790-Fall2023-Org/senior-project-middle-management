@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {black, grayBackground, primaryGreen, white} from "../../utils/Colors";
 import AddEmployeeBody from "./AddEmployeeBody";
-import EmployeeList from "../manager-dashboard-components/ManagerEmployeeView";
+import EmployeeList from "../manager-dashboard-components/EmployeeList";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {Plus} from "../../utils/Icons";
 

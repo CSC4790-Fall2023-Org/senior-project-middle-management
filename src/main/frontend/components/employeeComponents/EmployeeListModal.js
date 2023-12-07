@@ -1,9 +1,10 @@
 import React from "react";
 import {Modal, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {grayBackground, primaryGreen, white} from "../../utils/Colors";
-import EmployeeList from "../manager-dashboard-components/ManagerEmployeeView";
+import EmployeeList from "../manager-dashboard-components/EmployeeList";
+import EmployeeLoginList from "./EmployeeLoginList";
 
-const TransferInbox = ({listModal, setListModal}) => {
+const EmployeeListModal = ({listModal, setListModal}) => {
     const closeModal = () => {
         setListModal(!listModal);
     }
@@ -35,7 +36,7 @@ const TransferInbox = ({listModal, setListModal}) => {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.modalBody}>
-                        <EmployeeList canDelete={false} />
+                        <EmployeeLoginList setEmployeeListModal={setListModal} />
                     </View>
                 </View>
             </Modal>
@@ -74,4 +75,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default TransferInbox;
+export default EmployeeListModal;
