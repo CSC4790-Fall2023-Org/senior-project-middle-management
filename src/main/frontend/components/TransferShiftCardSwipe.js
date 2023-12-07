@@ -15,6 +15,7 @@ function TransferShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey}) 
     const [addResponse, setAddResponse] = useState(null);
     const [claimed, setClaimed] = useState(false);
     const [acceptData, setAcceptData] = useState(null);
+    const [declineData, setDeclineData] = useState(null);
 
     const handleSwipeOpen = (direction) => {
         if (direction === 'right') {
@@ -144,7 +145,7 @@ function TransferShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey}) 
         })
             .then(data => {
                 console.log(data);
-                setAcceptData(data);
+                setDeclineData(data);
                 updateReloadKey();
             })
             .catch(error => {
