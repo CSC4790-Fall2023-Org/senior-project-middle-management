@@ -44,4 +44,9 @@ public class ShiftController {
         return ShiftServices.acceptTransferredShift(pPayload);
     }
 
+    @PostMapping("/declineTransferredShift")
+    public static ResponseEntity declineTransferredShift(@RequestBody final String pPayload){
+        return ShiftServices.declineTransferredShift(pPayload);
+    }
+
 }
