@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     StyleSheet,
     Modal,
@@ -15,9 +15,11 @@ import {
     white
 } from "../utils/Colors";
 import MultiWheelPicker from "./MultiWheelPicker";
+import {ipAddy} from "../utils/IPAddress";
 
 function TransferShiftModal({transferShiftModal,
                                 setTransferShiftModal,
+                                shiftId,
                                 shiftName,
                                 shiftStartDate,
                                 shiftEndDate,
@@ -25,10 +27,74 @@ function TransferShiftModal({transferShiftModal,
                                 shiftEndTime,
                                 shiftHours,
                                 shiftLocation}) {
-    const screenWidth = Dimensions.get('window').width;
     const [recipientSelected, setRecipientSelected] = useState(false);
-    const recipients = ["TJ Nolan", "Diego Messmacher Montes de Oca", "Holden Cormier", "Ralph Gatdula"];
+    const [recipientsData, setRecipientsData] = useState(null);
     const [recipient, setRecipient] = useState(null);
+    const [displayedRecipients, setDisplayedRecipients] = useState(null);
+    const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
+    const [transferSubmitData, setTransferSubmitData] = useState(null);
+
+    useEffect(() => {
+        fetch('http://' + ipAddy + ':8080/getAllEmployeesWithNoShiftDuringShift', {
+            method: 'POST',
+            headers: {},
+            body: JSON.stringify({
+                employeeId: "651f3f35631f63367d896196",
+                shiftId: shiftId
+            }),
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+            .then(data => {
+                if (!data || !data.employeeList) {
+                    console.error('Data or employeeList is undefined');
+                    return;
+                }
+                const simplifiedEmployees = data.employeeList.map(({ firstName, lastName, employeeId }) => ({
+                    firstName,
+                    lastName,
+                    employeeId,
+                }));
+
+                setRecipientsData(simplifiedEmployees);
+                const mappedRecipients = data.employeeList.map(a => (a.firstName + ' ' + a.lastName));
+                setDisplayedRecipients(mappedRecipients);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }, []);
+
+    const recipientSelection = (selectedName) => {
+        if (!recipientsData) {
+            console.error('Recipients data is undefined');
+            setRecipientSelected(false);
+            return;
+        }
+
+        if (selectedName === 'Select Recipient') {
+            setRecipientSelected(false);
+            setRecipient('Select Recipient');
+            setSelectedEmployeeId(null);
+        } else {
+            const selectedEmployee = recipientsData.find(employee => {
+                const fullName = `${employee.firstName} ${employee.lastName}`;
+                return fullName === selectedName;
+            });
+
+            if (selectedEmployee) {
+                setRecipient(selectedName);
+                setRecipientSelected(true);
+                setSelectedEmployeeId(selectedEmployee.employeeId);
+            } else {
+                console.error('Invalid selection - selectedEmployee is undefined');
+                setRecipientSelected(false);
+            }
+        }
+    };
 
     const handleMultipleDays = () => {
         try {
@@ -38,17 +104,28 @@ function TransferShiftModal({transferShiftModal,
         }
     }
 
-    const recipientSelection = (index) => {
-        setRecipient(index);
-        if (recipient === "Select Recipient") {
-            setRecipientSelected(false);
-        } else {
-            setRecipientSelected(true);
-        }
-    }
-
     const handleSubmit = () => {
         if (recipientSelected) {
+            fetch('http://' + ipAddy + ':8080/transferShift', {
+                method: 'POST',
+                headers: {},
+                body: JSON.stringify({
+                    shiftId: shiftId,
+                    targetEmployeeId: selectedEmployeeId,
+                    sourceEmployeeId: "651f3f35631f63367d896196"
+                }),
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+                .then(data => {
+                    setTransferShiftModal(data);
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
             setTransferShiftModal(false);
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         }
@@ -65,6 +142,7 @@ function TransferShiftModal({transferShiftModal,
                 animationType="slide"
                 transparent={true}
                 visible={transferShiftModal}
+                onRequestClose={transferShiftModal}
             >
                 <TouchableWithoutFeedback onPress={() => {setTransferShiftModal(false)}}>
                     <View style={styles.container}>
@@ -73,7 +151,7 @@ function TransferShiftModal({transferShiftModal,
                                 <Text style={styles.modalText} numberOfLines={2} ellipsizeMode={"middle"}>Transfer '{shiftName}' Shift</Text>
                                     <View style={styles.selectorContainer}>
                                         <MultiWheelPicker
-                                            wheelData={recipients}
+                                            wheelData={displayedRecipients || []}
                                             setSelectedItems={recipientSelection}
                                             selectedItem={recipient}
                                             placeholder={"Select Recipient"}

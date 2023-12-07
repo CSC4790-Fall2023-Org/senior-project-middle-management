@@ -252,9 +252,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             setLocationId(locationOptions[0].locationName);
         }
         let noErrors= true;
-        console.log('Shift type ', shiftType);
-        console.log('Start: ', twentyFourStart);
-        console.log('End: ', twentyFourEnd);
         if (shiftName.trim() === '') {
             noErrors = false;
             Alert.alert (
@@ -465,19 +462,6 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
 
     const handleShiftAdd = () => {
         const weekdays = weekdaysPressed.sort();
-        console.log('Shift Name: ', shiftName);
-        console.log('Shift Type: ', shiftType);
-        console.log('Location ID: ', locationId);
-        console.log('Start Hour: ', startHour);
-        console.log('Start Minute: ', startMinute);
-        console.log('Start AM?', isStartAM);
-        console.log('End Hour: ', endHour);
-        console.log('End Minute: ', endMinute);
-        console.log('End AM?', isEndAM);
-        console.log('Days of Week: ', weekdays);
-        console.log('Repeats ID: ', repeatsID);
-        console.log('Start Date: ', startDate);
-        console.log('End Date: ', endDate);
         Haptics.notificationAsync(
             Haptics.NotificationFeedbackType.Warning
         );

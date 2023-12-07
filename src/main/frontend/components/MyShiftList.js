@@ -47,6 +47,8 @@ const MyShiftList = () => {
                             shiftHours={shift.shiftHours}
                         />
                     }
+                    shiftId={shift.shiftId}
+                    transferId={shift.transferEmployeeId}
                 />
             )}
             ListEmptyComponent={<View />}
