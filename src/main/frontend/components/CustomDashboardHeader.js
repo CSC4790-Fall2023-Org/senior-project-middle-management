@@ -11,7 +11,14 @@ const CustomDashboardHeader = ({onTitlePress, tabs}) => {
             {tabs.map((item, index) => (
                 <TouchableOpacity key={index} onPress={()=> {setSelected(index); onTitlePress(index);}}>
                     <View>
-                        <Text style={[styles.text, selected===index ? {color: black} : {color: clickableText}]}>{item.text}</Text>
+                        <Text
+                            style={[styles.text, selected===index
+                                ? {color: black}
+                                : {color: clickableText}
+                            ]}
+                        >
+                            {item.text}
+                        </Text>
                         {selected===index && (
                             <View style={styles.underline} />
                         )}
