@@ -26,7 +26,7 @@ import {ipAddy} from "../../utils/IPAddress";
 import employeeData from "../../mockApiCalls/employeeData.json";
 import * as Haptics from "expo-haptics";
 
-const ManagerEmployeeCard = ({fName, lName, email, phone, id, type, hoursClaimed, maxHours, wage, canDelete}) =>{
+const ManagerEmployeeCard = ({fName, lName, email, phone, id, type, hoursClaimed, maxHours, wage, canDelete, reload}) =>{
     const [isModalVisible, setModalVisible] = useState(false);
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
 
@@ -49,7 +49,9 @@ const ManagerEmployeeCard = ({fName, lName, email, phone, id, type, hoursClaimed
                 },
             ]
         );
+
         setDeleteModalVisible(!isDeleteModalVisible)
+
     }
 
     const handleModalVisible = () => {
@@ -75,7 +77,10 @@ const ManagerEmployeeCard = ({fName, lName, email, phone, id, type, hoursClaimed
         Haptics.notificationAsync(
             Haptics.NotificationFeedbackType.Success
         );
+
+        reload()
         setModalVisible(false);
+        reload()
     }
 
     return (

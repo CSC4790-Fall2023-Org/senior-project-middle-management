@@ -27,7 +27,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
-const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOptions, loadKey}) => {
+const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOptions, loadKey, updateReloadKey}) => {
     const screenWidth = Dimensions.get('window').width;
 
     const [shiftName, setShiftName] = useState("");
@@ -493,8 +493,10 @@ const AddShiftBody = ({addShiftModal, setAddShiftModal, locationOptions, shiftOp
             .catch(error => {
                 console.error(error);
             });
+        updateReloadKey()
         setAddShiftModal(false);
         clearValues();
+        updateReloadKey()
     }
 
     const clearValues = () => {
