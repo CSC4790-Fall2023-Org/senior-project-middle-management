@@ -165,4 +165,20 @@ public class ShiftServices {
         }
 
     }
+
+    public static ResponseEntity declineTransferredShift(final String pPayload) {
+        try{
+            final JSONObject payload = new JSONObject(pPayload);
+            final ObjectId shiftId = JsonUtils.getShiftIdFromJSON(payload);
+
+            Shift shift = DatabaseServices.findShiftById(shiftId).orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_SHIFT, shiftId));
+            shift.setTransferEmployeeId(null);
+            DatabaseServices.saveShift(shift);
+
+            return ResponseUtils.successfulResponse("Shift declined successfully");
+        }
+        catch (Exception e){
+            return ResponseUtils.errorResponse(e);
+        }
+    }
 }
