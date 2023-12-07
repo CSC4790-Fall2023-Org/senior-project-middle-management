@@ -16,7 +16,7 @@ import {clickableText, grayBackground, placeholderText, primaryGreen, secondaryG
 import MultiWheelPicker from "../MultiWheelPicker";
 import {screenWidth} from "../../utils/Constants";
 
-const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
+const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal, reload}) => {
     const orgID = "6500e97e491cac473a9b80c8";
 
     const [fName, setFName] = useState('');
@@ -273,17 +273,9 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
         Haptics.notificationAsync(
             Haptics.NotificationFeedbackType.Success
         );
-        console.log("Org ID: ", orgID, typeof orgID);
-        console.log("First Name: ", fName, typeof fName);
-        console.log("Last Name: ", lName, typeof lName);
-        console.log("Phone #: ", phoneNumber, typeof phoneNumber);
-        console.log("Email: ", email, typeof email);
-        console.log("Type: ", employeeType, typeof employeeType);
-        console.log("Location: ", location, typeof location);
-        console.log("Location ID: ", locationId, typeof locationId);
-        console.log("Wage: ", wageFloat, typeof wageFloat);
-        console.log("Hours Cap: ", hoursFloat, typeof hoursFloat);
+        reload()
         closeModal();
+        reload()
     }
 
     return (

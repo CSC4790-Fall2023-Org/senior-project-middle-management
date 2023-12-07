@@ -13,6 +13,12 @@ function ManagerShiftDashboard(){
     const [shiftTypeList, setShiftTypeList] = useState([]);
     const [loadKey, setLoadKey] = useState(0);
 
+    const [reloadKey, setReloadKey] = useState(0);
+
+    const updateReloadKey = () => {
+        setReloadKey(prevKey => prevKey + 1);
+    };
+
     const getShiftData = async () => {
         await fetch('http://' + ipAddy + ':8080/getShiftCreationInfo', {
             method: 'POST',
@@ -46,7 +52,7 @@ function ManagerShiftDashboard(){
     return (
         <View styles={styles.page}>
             <View style={{height: "91%"}}>
-                <FullShiftList />
+                <FullShiftList reloadKey={reloadKey} updateReloadKey={updateReloadKey}/>
             </View>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity onPress={handleAddShiftClick}>
@@ -61,6 +67,7 @@ function ManagerShiftDashboard(){
                 shiftOptions={shiftTypeList}
                 locationOptions={locList}
                 loadKey={loadKey}
+                updateReloadKey={updateReloadKey}
             />
         </View>
     );

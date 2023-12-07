@@ -5,7 +5,7 @@ import AvailableShiftCardSwipe from "../AvailableShiftCardSwipe";
 import ShiftCard from "../ShiftCard";
 import {ipAddy} from "../../utils/IPAddress";
 
-const EmployeeList = ({canDelete}) => {
+const EmployeeList = ({canDelete, reload, reloadKey}) => {
     const [employeeData, setEmployeeData] = useState(null);
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const EmployeeList = ({canDelete}) => {
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
             });
-    }, []);
+    }, [reloadKey]);
 
 
     return (
@@ -48,6 +48,7 @@ const EmployeeList = ({canDelete}) => {
                     wage={employee.pay}
                     hoursClaimed={employee.loggedHours}
                     canDelete={canDelete}
+                    reload = {reload}
                 />
             )}
             ListEmptyComponent={<View />}
