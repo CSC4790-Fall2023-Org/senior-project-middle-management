@@ -162,4 +162,25 @@ public class JsonUtils {
         }
         return jsonArray;
     }
+
+
+    public static ObjectId getTransferTargetEmployeeId(final JSONObject pJsonObject) throws SvcException {
+        try{
+            return new ObjectId(pJsonObject.getString("targetEmployeeId"));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new SvcException("Error getting transferTargetEmployeeId from JSON");
+        }
+    }
+
+    public static ObjectId getTransferSourceEmployeeId(final JSONObject pJsonObject) throws SvcException {
+        try{
+            return new ObjectId(pJsonObject.getString("sourceEmployeeId"));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new SvcException("Error getting transferSourceEmployeeId from JSON");
+        }
+    }
 }

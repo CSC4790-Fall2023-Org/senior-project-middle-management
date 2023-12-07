@@ -29,4 +29,9 @@ public class ShiftController {
         return ShiftServices.getShiftCreationInfo(pPayload);
     }
 
+    @PostMapping("/transferShift")
+    public static ResponseEntity transferShift(@RequestBody final String pPayload){
+        return ShiftServices.transferShift(pPayload);
+    }
+
 }

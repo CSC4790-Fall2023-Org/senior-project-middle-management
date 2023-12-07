@@ -122,4 +122,9 @@ public class ValidationServices {
     public static boolean doLocationsMatch(Location location1, Location location2){
         return location1.getLocationName().equals(location2.getLocationName());
     }
+
+    public static void validateTransferShift(Shift shift, Employee sourceEmployee, Employee targetEmployee) {
+
+
+    }
 }

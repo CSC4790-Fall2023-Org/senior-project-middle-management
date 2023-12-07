@@ -69,6 +69,16 @@ public class ResponseUtils {
         }
     }
 
+    public static ResponseEntity successfulResponse(final String pMessage){
+        try {
+            JSONObject responses = new JSONObject();
+            responses.put("message", pMessage);
+            return ResponseEntity.status(200).body(responses.toString());
+        } catch (JSONException ex) {
+            return ResponseEntity.status(400).body("{\"message\": \"error creating response JSON\"}");
+        }
+    }
+
     public static ResponseEntity successfulCreationResponse(final String pMessage){
         try {
             JSONObject responses = new JSONObject();
