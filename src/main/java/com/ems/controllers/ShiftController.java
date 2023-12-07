@@ -39,4 +39,9 @@ public class ShiftController {
         return ShiftServices.getTransferredShiftsForEmployee(pPayload);
     }
 
+    @PostMapping("/acceptTransferredShift")
+    public static ResponseEntity acceptTransferredShift(@RequestBody final String pPayload){
+        return ShiftServices.acceptTransferredShift(pPayload);
+    }
+
 }

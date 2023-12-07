@@ -170,7 +170,7 @@ public class JsonUtils {
         }
         catch (Exception e){
             e.printStackTrace();
-            throw new SvcException("Error getting transferTargetEmployeeId from JSON");
+            throw new SvcException("Error getting targetEmployeeId from JSON");
         }
     }
 

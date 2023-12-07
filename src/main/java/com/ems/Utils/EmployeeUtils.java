@@ -133,4 +133,13 @@ public class EmployeeUtils {
         }
         return employeesWithoutShift;
     }
+
+    public static ObjectId getEmployeeIdFromShift(final Shift pShift, final List<Employee> pEmployeeList) throws SvcException {
+        for (Employee employee : pEmployeeList){
+            if (employee.getShiftIdList().contains(pShift.getShiftId())){
+                return employee.getEmployeeId();
+            }
+        }
+        throw new SvcException("Error: Shift not found in employee shift list");
+    }
 }

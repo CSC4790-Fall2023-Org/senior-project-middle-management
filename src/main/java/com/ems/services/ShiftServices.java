@@ -127,4 +127,42 @@ public class ShiftServices {
             return ResponseUtils.errorResponse(e);
         }
     }
+
+    public static ResponseEntity acceptTransferredShift(final String pPayload) {
+        try{
+            final JSONObject payload = new JSONObject(pPayload);
+            final ObjectId shiftId = JsonUtils.getShiftIdFromJSON(payload);
+            final ObjectId employeeId = JsonUtils.getTransferTargetEmployeeId(payload);
+
+            final Shift shift = DatabaseServices.findShiftById(shiftId).orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_SHIFT, shiftId));
+            final Employee targetEmployee = DatabaseServices.findEmployeeById(employeeId).orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_EMPLOYEE, employeeId));
+
+            final List<Employee> employeeList = DatabaseServices.getAllEmployees();
+
+            final ObjectId sourceEmployeeId = EmployeeUtils.getEmployeeIdFromShift(shift, employeeList);
+            final Employee sourceEmployee = DatabaseServices.findEmployeeById(sourceEmployeeId).orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_EMPLOYEE, sourceEmployeeId));
+
+            final List<Shift> shiftList = DatabaseServices.getAllShifts();
+
+            ValidationServices.validateAcceptTransferredShift(shift, targetEmployee, shiftList);
+
+            List<ObjectId> sourceShiftList = sourceEmployee.getShiftIdList();
+            sourceShiftList.remove(shiftId);
+
+            List<ObjectId> targetShiftList = targetEmployee.getShiftIdList();
+            targetShiftList.add(shiftId);
+
+            shift.setTransferEmployeeId(null);
+
+            DatabaseServices.saveShift(shift);
+            DatabaseServices.saveEmployee(sourceEmployee);
+            DatabaseServices.saveEmployee(targetEmployee);
+
+            return ResponseUtils.successfulResponse("Shift transferred successfully");
+        }
+        catch (Exception e){
+            return ResponseUtils.errorResponse(e);
+        }
+
+    }
 }
