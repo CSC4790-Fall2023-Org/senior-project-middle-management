@@ -26,7 +26,7 @@ import {ipAddy} from "../../utils/IPAddress";
 import employeeData from "../../mockApiCalls/employeeData.json";
 import * as Haptics from "expo-haptics";
 
-const ManagerEmployeeCard = ({fName, lName, email, phone, id, type, hoursClaimed, maxHours, wage}) =>{
+const ManagerEmployeeCard = ({fName, lName, email, phone, id, type, hoursClaimed, maxHours, wage, canDelete}) =>{
     const [isModalVisible, setModalVisible] = useState(false);
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
 
@@ -170,13 +170,15 @@ const ManagerEmployeeCard = ({fName, lName, email, phone, id, type, hoursClaimed
                                 <Text style={styles.infoValue}>${wage}</Text>
                             </View>
                         </View>
-                        <View style={styles.deleteButton}>
-                            <TouchableOpacity
-                                style={{width: "100%", alignItems: "center"}}
-                                onPress={handleConfirmDelete}>
-                                <Text style={styles.deleteText}>Delete Employee</Text>
-                            </TouchableOpacity>
-                        </View>
+                        {canDelete &&
+                            <View style={styles.deleteButton}>
+                                <TouchableOpacity
+                                    style={{width: "100%", alignItems: "center"}}
+                                    onPress={handleConfirmDelete}>
+                                    <Text style={styles.deleteText}>Delete Employee</Text>
+                                </TouchableOpacity>
+                            </View>
+                        }
                     </ScrollView>
                 </View>
             </Modal>

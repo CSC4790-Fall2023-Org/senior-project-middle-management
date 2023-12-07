@@ -78,7 +78,7 @@ const CompanyEmployeeDashboard = () => {
                 setAddEmployeeModal={setAddEmployeeModal}
             />
             {/*<CompanyEmployeeView/>*/}
-            <EmployeeList />
+            <EmployeeList canDelete={true} />
         </View>
     );
 }

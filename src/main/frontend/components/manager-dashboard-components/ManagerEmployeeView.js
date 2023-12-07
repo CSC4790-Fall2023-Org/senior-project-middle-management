@@ -5,7 +5,7 @@ import AvailableShiftCardSwipe from "../AvailableShiftCardSwipe";
 import ShiftCard from "../ShiftCard";
 import {ipAddy} from "../../utils/IPAddress";
 
-const EmployeeList = () => {
+const EmployeeList = ({canDelete}) => {
     const [employeeData, setEmployeeData] = useState(null);
 
     useEffect(() => {
@@ -47,6 +47,7 @@ const EmployeeList = () => {
                     type={employee.employeeType}
                     wage={employee.pay}
                     hoursClaimed={employee.loggedHours}
+                    canDelete={canDelete}
                 />
             )}
             ListEmptyComponent={<View />}
