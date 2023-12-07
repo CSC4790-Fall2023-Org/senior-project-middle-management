@@ -7,6 +7,7 @@ import com.ems.Utils.EmployeeUtils;
 import com.ems.Utils.JsonUtils;
 import com.ems.Utils.OrganizationUtils;
 import com.ems.Utils.ResponseUtils;
+import com.ems.builders.JSONObjectBuilder;
 import com.ems.database.models.Employee;
 import com.ems.database.models.Organization;
 import org.apache.coyote.Response;
@@ -70,4 +71,21 @@ public class OrganizationServices {
         }
     }
 
+    public static ResponseEntity getOrganizationInfo(final String pPayload) {
+        try{
+            final JSONObject payload = new JSONObject(pPayload);
+            final ObjectId organizationId = JsonUtils.getOrganizationIdFromJSON(payload);
+            final Organization organization = DatabaseServices.findOrganizationById(organizationId)
+                    .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_ORGANIZATION, organizationId));
+
+            final JSONObject response = JSONObjectBuilder.buildJSONFromOrganization(organization);
+
+            return ResponseUtils.getOrganizationInfo(response);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 }

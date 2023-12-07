@@ -9,10 +9,14 @@ import com.ems.database.models.Location;
 import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
 import com.ems.services.DatabaseServices;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.List;
+
+import static com.ems.Utils.ResponseUtils.getLocationJSONObjectFromLocation;
 
 public class JSONObjectBuilder {
 
@@ -21,7 +25,7 @@ public class JSONObjectBuilder {
 
         shiftJSONObj.put("shiftId", pShift.getShiftId());
         final Location location = LocationUtils.getLocationFromShift(pShift);
-        JSONObject locationJSONObj = ResponseUtils.getLocationJSONObjectFromLocation(location);
+        JSONObject locationJSONObj = getLocationJSONObjectFromLocation(location);
         shiftJSONObj.put("location", locationJSONObj);
         shiftJSONObj.put("shiftName", pShift.getShiftName());
         shiftJSONObj.put("shiftStartDate", DateUtils.getCorrectDateFormatFromLocalDateTime(pShift.getShiftStartTime()));
@@ -52,7 +56,25 @@ public class JSONObjectBuilder {
         jsonObject.put("locationIdList", pEmployee.getLocationIdList());
         jsonObject.put("shiftIdList", pEmployee.getShiftIdList());
         return jsonObject;
+    }
 
+    public static JSONObject buildJSONFromOrganization(final Organization pOrganization) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("organizationId", pOrganization.getOrganizationId());
+        jsonObject.put("organizationName", pOrganization.getOrganizationName());
+        jsonObject.put("orgOwnerEmail", pOrganization.getOrgOwnerEmail());
+        jsonObject.put("locationList", buildJSONArrayFromLocationList(pOrganization.getLocationList()));
+        jsonObject.put("weeksToReleaseShifts", pOrganization.getWeeksToReleaseShifts());
 
+        return jsonObject;
+    }
+
+    public static JSONArray buildJSONArrayFromLocationList(final List<Location> pLocationList) throws JSONException {
+        JSONArray jsonArray = new JSONArray();
+        for (Location location : pLocationList) {
+            JSONObject jsonObject = getLocationJSONObjectFromLocation(location);
+            jsonArray.put(jsonObject);
+        }
+        return jsonArray;
     }
 }
