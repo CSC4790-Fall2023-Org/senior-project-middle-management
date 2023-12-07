@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Text, ScrollView, TouchableOpacity} from 'react-native';
 import employeeData from "../../mockApiCalls/employeeData.json";
 import {black, clickableText, secondaryGray, white} from "../../utils/Colors";
@@ -6,13 +6,42 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronRight} from "../../utils/Icons";
 import CompanyLocationsModal from "./CompanyLocationsModal";
 import CompanyTypesModal from "./CompanyTypesModal";
+import {ipAddy} from "../../utils/IPAddress";
 
 const CompanyInfoDashboard = () => {
     const [locationsModal, setLocationsModal] = useState(false);
     const [typesModal, setTypesModal] = useState(false);
+    const [companyData, setCompanyData] = useState(null);
+
+    useEffect(() => {
+        fetch('http://' + ipAddy + ':8080/getOrganizationInfo', {
+            method: 'POST',
+            body: JSON.stringify({
+                organizationId: '6500e97e491cac473a9b80c8'
+            }),
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+            .then(data => {
+                console.log(data);
+                setCompanyData(data.organizationInfo);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }, []);
+
+    const name = companyData ? companyData.organizationName : '';
+    const email = companyData ? companyData.orgOwnerEmail : '';
+    const weeksToRelease = companyData ? companyData.weeksToReleaseShifts : null;
+    const locationList = companyData ? companyData.locationList : [];
 
     const handleLocationsModal = () => {
         setLocationsModal(!locationsModal);
+        console.log(locationList);
     }
 
     const handleTypesModal = () => {
@@ -29,27 +58,31 @@ const CompanyInfoDashboard = () => {
                         numberOfLines={1}
                         ellipsizeMode={"tail"}
                     >
-                        Parks and Rec
+                        {name}
                     </Text>
                 </View>
-                <View style={styles.infoItem}>
+                <View style={[styles.infoItem, {borderBottomWidth: 0}]}>
                     <Text style={styles.infoLabel}>Company Email</Text>
                     <Text
                         style={styles.labelValue}
                         numberOfLines={1}
                         ellipsizeMode={"middle"}
                     >
-                        {employeeData.email}
+                        {email}
                     </Text>
                 </View>
+            </View>
+            <View style={styles.infoContainer}>
                 <View style={[styles.infoItem, {borderBottomWidth: 0}]}>
-                    <Text style={styles.infoLabel}>Phone Number</Text>
-                    <Text style={styles.labelValue}>{employeeData.phoneNumber}</Text>
+                    <Text style={[styles.infoLabel, {width: "75%"}]}>Weeks to Release Shifts</Text>
+                    <Text style={[styles.labelValue, {maxWidth: "25%"}]}>
+                        {weeksToRelease}
+                    </Text>
                 </View>
             </View>
             <View style={styles.infoContainer}>
                 <TouchableOpacity
-                    style={styles.infoItem}
+                    style={[styles.infoItem, {borderBottomWidth: 0}]}
                     onPress={handleLocationsModal}
                 >
                     <Text style={[styles.infoLabel, {width: "50%"}]}>Company Locations</Text>
@@ -61,21 +94,25 @@ const CompanyInfoDashboard = () => {
                         />
                     </View>
                 </TouchableOpacity>
-                <CompanyLocationsModal locationsModal={locationsModal} setLocationsModal={setLocationsModal} />
-                <TouchableOpacity
-                    style={[styles.infoItem, {borderBottomWidth: 0}]}
-                    onPress={handleTypesModal}
-                >
-                    <Text style={[styles.infoLabel, {width: "80%"}]}>Employee Types</Text>
-                    <View style={{paddingRight: 14}}>
-                        <FontAwesomeIcon
-                            icon={ChevronRight}
-                            size={17}
-                            color={clickableText}
-                        />
-                    </View>
-                </TouchableOpacity>
-                <CompanyTypesModal typesModal={typesModal} setTypesModal={setTypesModal} />
+                <CompanyLocationsModal
+                    locationsModal={locationsModal}
+                    setLocationsModal={setLocationsModal}
+                    locationList={locationList}
+                />
+                {/*<TouchableOpacity*/}
+                {/*    style={[styles.infoItem, {borderBottomWidth: 0}]}*/}
+                {/*    onPress={handleTypesModal}*/}
+                {/*>*/}
+                {/*    <Text style={[styles.infoLabel, {width: "80%"}]}>Employee Types</Text>*/}
+                {/*    <View style={{paddingRight: 14}}>*/}
+                {/*        <FontAwesomeIcon*/}
+                {/*            icon={ChevronRight}*/}
+                {/*            size={17}*/}
+                {/*            color={clickableText}*/}
+                {/*        />*/}
+                {/*    </View>*/}
+                {/*</TouchableOpacity>*/}
+                {/*<CompanyTypesModal typesModal={typesModal} setTypesModal={setTypesModal} />*/}
             </View>
         </ScrollView>
     );
