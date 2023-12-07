@@ -34,4 +34,9 @@ public class ShiftController {
         return ShiftServices.transferShift(pPayload);
     }
 
+    @PostMapping("/getTransferredShiftsForEmployee")
+    public static ResponseEntity getTransferredShiftsForEmployee(@RequestBody final String pPayload){
+        return ShiftServices.getTransferredShiftsForEmployee(pPayload);
+    }
+
 }

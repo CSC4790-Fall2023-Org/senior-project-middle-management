@@ -5,6 +5,7 @@ import com.ems.Exceptions.SvcException;
 import com.ems.Utils.*;
 import com.ems.database.models.*;
 import org.bson.types.ObjectId;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
@@ -102,6 +103,25 @@ public class ShiftServices {
             DatabaseServices.saveShift(shift);
 
             return ResponseUtils.successfulCreationResponse("Shift transferred successfully");
+        }
+        catch (Exception e){
+            return ResponseUtils.errorResponse(e);
+        }
+    }
+
+    public static ResponseEntity getTransferredShiftsForEmployee(final String pPayload) {
+        try{
+            final JSONObject payload = new JSONObject(pPayload);
+            final ObjectId employeeId = JsonUtils.getEmployeeIdFromJSON(payload);
+
+            final List<Shift> shiftList = DatabaseServices.getAllShifts();
+
+            final List<Shift> transferredShiftList = ShiftUtils.getTransferredShiftsForEmployee(shiftList, employeeId);
+
+            final JSONObject response = ResponseUtils.getShiftsResponse(transferredShiftList);
+
+            return ResponseEntity.status(200).body(response.toString());
+
         }
         catch (Exception e){
             return ResponseUtils.errorResponse(e);

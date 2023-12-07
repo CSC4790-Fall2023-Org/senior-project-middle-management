@@ -239,4 +239,11 @@ public class ShiftUtils {
 
         return false;
     }
+
+    public static List<Shift> getTransferredShiftsForEmployee(final List<Shift> pShiftList, final ObjectId pEmployeeId) {
+        return pShiftList.stream()
+                .filter(shift -> shift.getTransferEmployeeId() != null)
+                .filter(shift -> shift.getTransferEmployeeId().equals(pEmployeeId))
+                .toList();
+    }
 }
