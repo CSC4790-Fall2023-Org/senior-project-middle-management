@@ -1,17 +1,46 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View, StyleSheet} from "react-native";
-import employeeData from "../mockApiCalls/employeeData.json";
 import EditNameModal from "./userSettings/EditNameModal";
 import EditEmailModal from "./userSettings/EditEmailModal";
 import EditPhoneNumberModal from "./userSettings/EditPhoneNumberModal";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {ChevronRight} from "../utils/Icons";
 import {black, grayAction, secondaryGray, white} from "../utils/Colors";
+import {ipAddy} from "../utils/IPAddress";
+import {useAppContext} from "../AppContext";
 
 function ProfileSettingsContainer() {
     // const [nameModalVisible, setNameModalVisible] = useState(false);
     // const [phoneNumberModalVisible, setPhoneNumberModalVisible] = useState(false);
     // const [emailModalVisible, setEmailModalVisible] = useState(false);
+    const { constEmployeeId } = useAppContext();
+    const [employeeData, setEmployeeData] = useState(null);
+
+    useEffect(() => {
+        fetch('http://' + ipAddy + ':8080/getEmployeeInfo', {
+            method: 'POST',
+            body: JSON.stringify({
+                employeeId: constEmployeeId
+            }),
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+            .then(data => {
+                console.log(data);
+                setEmployeeData(data.employeeInfo);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }, []);
+
+    const firstName = employeeData ? employeeData.firstName : '';
+    const lastName = employeeData ? employeeData.lastName : '';
+    const email = employeeData ? employeeData.employeeEmail : '';
+    const phoneNumber = employeeData ? employeeData.employeePhoneNumber : '';
 
     return (
         <View style={styles.settingContainer}>
@@ -22,7 +51,7 @@ function ProfileSettingsContainer() {
                     numberOfLines={1}
                     ellipsizeMode={"tail"}
                 >
-                    {employeeData.fName + ' ' + employeeData.lName}
+                    {firstName + ' ' + lastName}
                 </Text>
             </View>
             {/*<EditNameModal*/}
@@ -36,7 +65,7 @@ function ProfileSettingsContainer() {
                     numberOfLines={1}
                     ellipsizeMode={"middle"}
                 >
-                    {employeeData.email}
+                    {email}
                 </Text>
             </View>
             {/*<EditEmailModal*/}
@@ -45,7 +74,9 @@ function ProfileSettingsContainer() {
             {/*/>*/}
             <View style={[styles.settingItem, {borderBottomWidth: 0}]}>
                 <Text style={styles.settingLabel}>Phone Number</Text>
-                <Text style={styles.labelValue}>{employeeData.phoneNumber}</Text>
+                <Text style={styles.labelValue}>
+                    {phoneNumber}
+                </Text>
             </View>
             {/*<EditPhoneNumberModal*/}
             {/*    phoneNumberModalVisible={phoneNumberModalVisible}*/}
