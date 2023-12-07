@@ -1,6 +1,6 @@
 import {
+    FlatList,
     Modal,
-    ScrollView,
     StatusBar, StyleSheet,
     Text,
     TouchableOpacity,
@@ -8,12 +8,19 @@ import {
 } from "react-native";
 import {grayBackground, primaryGreen, white} from "../../utils/Colors";
 import React from "react";
+import LocationCard from "./LocationCard";
 
-const CompanyLocationsModal = ({locationsModal, setLocationsModal}) => {
+const CompanyLocationsModal = ({locationsModal, setLocationsModal, locationList}) => {
 
     const closeModal = () => {
         setLocationsModal(false);
     }
+
+    const renderHeader = () => (
+        <View style={styles.headerContainer}>
+            <Text style={styles.sectionTitle}>Locations</Text>
+        </View>
+    );
 
     return(
         <View>
@@ -41,9 +48,15 @@ const CompanyLocationsModal = ({locationsModal, setLocationsModal}) => {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <ScrollView style={styles.scrollView}>
-                        <Text style={styles.sectionTitle}>Company Locations</Text>
-                    </ScrollView>
+                    <FlatList
+                        style={styles.scrollView}
+                        data={locationList}
+                        ListHeaderComponent={renderHeader}
+                        keyExtractor={(item) => item.locationId.toString()}
+                        renderItem={({item: location}) => (
+                            <LocationCard locationName={location.locationName} />
+                        )}
+                    />
                 </View>
             </Modal>
         </View>
@@ -65,10 +78,8 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         position: "relative",
-        backgroundColor: grayBackground,
         flexDirection: "column",
-        paddingVertical: 24,
-        padding: 16,
+        paddingVertical: 16,
     },
     sectionTitle: {
         marginBottom: 6,
@@ -76,6 +87,9 @@ const styles = StyleSheet.create({
         fontSize: 34,
         textAlign: 'left',
         fontWeight: 'bold',
+    },
+    headerContainer: {
+        paddingHorizontal: 16,
     },
     normalText: {
         fontSize: 17,
