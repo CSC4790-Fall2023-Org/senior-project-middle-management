@@ -203,7 +203,12 @@ public class EmployeeServices {
             final List<Employee> employeeListWithSameEmployeeType = EmployeeUtils.getAllEmployeesForEmployeeType(employee.getEmployeeType(), employeeListForOrganization);
 
             // get employees with no shift during shift
-            final List<Employee> employeeListWithNoShiftDuringShift = EmployeeUtils.getAllEmployeesWithoutGivenShift(employeeListWithSameEmployeeType, shift, shiftList);
+            List<Employee> employeeListWithNoShiftDuringShift = EmployeeUtils.getAllEmployeesWithoutGivenShift(employeeListWithSameEmployeeType, shift, shiftList);
+
+            // remove current employee from list
+            if(employeeListWithSameEmployeeType.contains(employee)){
+                employeeListWithNoShiftDuringShift.remove(employee);
+            }
 
             // return response
             final JSONArray responseArray = JsonUtils.getJSONArrayFromEmployeeList(employeeListWithNoShiftDuringShift);

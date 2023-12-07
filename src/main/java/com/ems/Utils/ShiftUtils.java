@@ -246,4 +246,14 @@ public class ShiftUtils {
                 .filter(shift -> shift.getTransferEmployeeId().equals(pEmployeeId))
                 .toList();
     }
+
+    public static List<Shift> getShiftsToDelete(final List<Shift> shiftList, final Shift shift) {
+        List<Shift> shiftsToDelete = new ArrayList<>();
+        for (Shift shiftToCheck : shiftList){
+            if (shift.equals(shiftToCheck)){
+                shiftsToDelete.add(shiftToCheck);
+            }
+        }
+        return shiftsToDelete;
+    }
 }

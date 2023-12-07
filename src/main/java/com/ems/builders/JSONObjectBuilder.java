@@ -32,6 +32,7 @@ public class JSONObjectBuilder {
         shiftJSONObj.put("shiftType", pShift.getShiftType());
         shiftJSONObj.put("isShiftOpen", pShift.isShiftOpen());
         shiftJSONObj.put("isDropApproved", pShift.isDropApproved());
+        shiftJSONObj.put("transferEmployeeId", pShift.getTransferEmployeeId());
 
         return shiftJSONObj;
     }
