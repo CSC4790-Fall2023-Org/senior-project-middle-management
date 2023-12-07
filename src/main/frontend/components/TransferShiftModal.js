@@ -53,7 +53,6 @@ function TransferShiftModal({transferShiftModal,
                     console.error('Data or employeeList is undefined');
                     return;
                 }
-                console.log(data);
                 const simplifiedEmployees = data.employeeList.map(({ firstName, lastName, employeeId }) => ({
                     firstName,
                     lastName,
@@ -70,9 +69,6 @@ function TransferShiftModal({transferShiftModal,
     }, []);
 
     const recipientSelection = (selectedName) => {
-        console.log('Selected Name:', selectedName);
-        console.log('Recipients Data:', recipientsData);
-
         if (!recipientsData) {
             console.error('Recipients data is undefined');
             setRecipientSelected(false);
@@ -86,7 +82,6 @@ function TransferShiftModal({transferShiftModal,
         } else {
             const selectedEmployee = recipientsData.find(employee => {
                 const fullName = `${employee.firstName} ${employee.lastName}`;
-                console.log('Checking:', fullName);
                 return fullName === selectedName;
             });
 
@@ -94,7 +89,6 @@ function TransferShiftModal({transferShiftModal,
                 setRecipient(selectedName);
                 setRecipientSelected(true);
                 setSelectedEmployeeId(selectedEmployee.employeeId);
-                console.log(selectedEmployee.employeeId);
             } else {
                 console.error('Invalid selection - selectedEmployee is undefined');
                 setRecipientSelected(false);
@@ -127,7 +121,6 @@ function TransferShiftModal({transferShiftModal,
                 return response.json();
             })
                 .then(data => {
-                    console.log(data);
                     setTransferShiftModal(data);
                 })
                 .catch(error => {

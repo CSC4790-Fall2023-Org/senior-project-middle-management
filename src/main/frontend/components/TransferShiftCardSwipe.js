@@ -119,7 +119,6 @@ function TransferShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey}) 
             return response.json();
         })
             .then(data => {
-                console.log(data);
                 setAcceptData(data);
                 updateReloadKey();
             })
@@ -144,7 +143,6 @@ function TransferShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey}) 
             return response.json();
         })
             .then(data => {
-                console.log(data);
                 setDeclineData(data);
                 updateReloadKey();
             })
