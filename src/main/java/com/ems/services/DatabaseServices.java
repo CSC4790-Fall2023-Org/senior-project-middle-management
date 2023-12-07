@@ -144,4 +144,10 @@ public class DatabaseServices {
     public static List<Shift> getAllShifts(){
         return EmsApplication.visibleShiftRepository.findAll();
     }
+
+    public static void deleteShifts(final List<Shift> pShiftsToDelete) throws DatabaseException {
+        for (Shift shift : pShiftsToDelete){
+            deleteShift(shift);
+        }
+    }
 }

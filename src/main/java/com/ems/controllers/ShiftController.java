@@ -49,4 +49,9 @@ public class ShiftController {
         return ShiftServices.declineTransferredShift(pPayload);
     }
 
+    @PostMapping("/deleteShift")
+    public static ResponseEntity deleteShift(@RequestBody final String pPayload){
+        return ShiftServices.deleteShift(pPayload);
+    }
+
 }

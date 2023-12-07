@@ -181,4 +181,25 @@ public class ShiftServices {
             return ResponseUtils.errorResponse(e);
         }
     }
+
+    public static ResponseEntity deleteShift(final String pPayload) {
+        try{
+            final JSONObject payload = new JSONObject(pPayload);
+            final ObjectId shiftId = JsonUtils.getShiftIdFromJSON(payload);
+
+            Shift shift = DatabaseServices.findShiftById(shiftId).orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_SHIFT, shiftId));
+
+            List<Shift> shiftList = DatabaseServices.getAllShifts();
+
+            List<Shift> shiftsToDelete = ShiftUtils.getShiftsToDelete(shiftList, shift);
+
+            DatabaseServices.deleteShifts(shiftsToDelete);
+
+            return ResponseUtils.successfulResponse("Shift deleted successfully");
+
+        }
+        catch (Exception e){
+            return ResponseUtils.errorResponse(e);
+        }
+    }
 }
