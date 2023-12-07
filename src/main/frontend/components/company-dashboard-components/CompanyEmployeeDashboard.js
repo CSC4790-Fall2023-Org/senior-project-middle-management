@@ -4,9 +4,9 @@ import {View, StyleSheet, Dimensions} from 'react-native';
 import CustomButton from "../CustomButton";
 import Dropdown from "../Dropdown";
 import CompanyEmployeeView from "./CompanyEmployeeView";
-import {ScreenNames} from "../../utils/ScreenNames";
 import {grayBackground, primaryGreen, secondaryGray, white} from "../../utils/Colors";
 import AddEmployeeBody from "./AddEmployeeBody";
+import EmployeeList from "../manager-dashboard-components/ManagerEmployeeView";
 
 const CompanyEmployeeDashboard = () => {
     const [addEmployeeModal, setAddEmployeeModal] = useState(false);
@@ -77,7 +77,8 @@ const CompanyEmployeeDashboard = () => {
                 addEmployeeModal={addEmployeeModal}
                 setAddEmployeeModal={setAddEmployeeModal}
             />
-            <CompanyEmployeeView/>
+            {/*<CompanyEmployeeView/>*/}
+            <EmployeeList />
         </View>
     );
 }

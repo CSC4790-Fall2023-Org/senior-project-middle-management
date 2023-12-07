@@ -26,7 +26,7 @@ import {ipAddy} from "../../utils/IPAddress";
 import employeeData from "../../mockApiCalls/employeeData.json";
 import * as Haptics from "expo-haptics";
 
-const ManagerEmployeeCard = ({fName, lName, email, phone, id, type, shiftsClaimed, hoursClaimed, maxHours, wage}) =>{
+const ManagerEmployeeCard = ({fName, lName, email, phone, id, type, hoursClaimed, maxHours, wage}) =>{
     const [isModalVisible, setModalVisible] = useState(false);
     const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
 
@@ -158,17 +158,13 @@ const ManagerEmployeeCard = ({fName, lName, email, phone, id, type, shiftsClaime
                                 <Text style={styles.infoValue}>{type}</Text>
                             </View>
                             <View style={styles.infoItem}>
-                                <Text style={styles.infoLabel}>Shifts Claimed</Text>
-                                <Text style={styles.infoValue}>{shiftsClaimed}</Text>
-                            </View>
-                            <View style={styles.infoItem}>
                                 <Text style={styles.infoLabel}>Hours Claimed</Text>
                                 <Text style={styles.infoValue}>{hoursClaimed}</Text>
                             </View>
-                            <View style={styles.infoItem}>
-                                <Text style={styles.infoLabel}>Max Hours</Text>
-                                <Text style={styles.infoValue}>{maxHours}</Text>
-                            </View>
+                            {/*<View style={styles.infoItem}>*/}
+                            {/*    <Text style={styles.infoLabel}>Max Hours</Text>*/}
+                            {/*    <Text style={styles.infoValue}>{maxHours}</Text>*/}
+                            {/*</View>*/}
                             <View style={[styles.infoItem, {borderBottomWidth: 0}]}>
                                 <Text style={styles.infoLabel}>Wage</Text>
                                 <Text style={styles.infoValue}>${wage}</Text>
