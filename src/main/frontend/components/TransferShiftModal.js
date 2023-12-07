@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     StyleSheet,
     Modal,
@@ -15,9 +15,11 @@ import {
     white
 } from "../utils/Colors";
 import MultiWheelPicker from "./MultiWheelPicker";
+import {ipAddy} from "../utils/IPAddress";
 
 function TransferShiftModal({transferShiftModal,
                                 setTransferShiftModal,
+                                shiftId,
                                 shiftName,
                                 shiftStartDate,
                                 shiftEndDate,
@@ -27,23 +29,58 @@ function TransferShiftModal({transferShiftModal,
                                 shiftLocation}) {
     const screenWidth = Dimensions.get('window').width;
     const [recipientSelected, setRecipientSelected] = useState(false);
-    const recipients = ["TJ Nolan", "Diego Messmacher Montes de Oca", "Holden Cormier", "Ralph Gatdula"];
+    const [recipientsData, setRecipientsData] = useState(null);
     const [recipient, setRecipient] = useState(null);
+    const [displayedRecipients, setDisplayedRecipients] = useState(null);
+    const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
+
+    useEffect(() => {
+        fetch('http://' + ipAddy + ':8080/getAllEmployeesWithNoShiftDuringShift', {
+            method: 'POST',
+            headers: {},
+            body: JSON.stringify({
+                employeeId: "651f3f35631f63367d896196",
+                shiftId: shiftId
+            }),
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+            .then(data => {
+                if (!data || !data.employeeList) {
+                    console.error('Data or employeeList is undefined');
+                    return;
+                }
+                console.log(data);
+                setRecipientsData(data.employeeList);
+                const mappedRecipients = data.employeeList.map(a => (a.firstName + ' ' + a.lastName));
+                setDisplayedRecipients(mappedRecipients);
+                recipientSelection(0);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }, []);
+
+
+    const recipientSelection = (index) => {
+        console.log("INDEX: ", index);
+        setRecipient(index);
+        if (index === "Select Recipient" || index === 0) {
+            setRecipientSelected(false);
+        } else {
+            setRecipientSelected(true);
+        }
+
+    }
 
     const handleMultipleDays = () => {
         try {
             return ((shiftStartDate === shiftEndDate) ? shiftStartDate : shiftStartDate + ' - ' + shiftEndDate);
         } catch (error) {
             return false;
-        }
-    }
-
-    const recipientSelection = (index) => {
-        setRecipient(index);
-        if (recipient === "Select Recipient") {
-            setRecipientSelected(false);
-        } else {
-            setRecipientSelected(true);
         }
     }
 
@@ -73,7 +110,7 @@ function TransferShiftModal({transferShiftModal,
                                 <Text style={styles.modalText} numberOfLines={2} ellipsizeMode={"middle"}>Transfer '{shiftName}' Shift</Text>
                                     <View style={styles.selectorContainer}>
                                         <MultiWheelPicker
-                                            wheelData={recipients}
+                                            wheelData={displayedRecipients || []}
                                             setSelectedItems={recipientSelection}
                                             selectedItem={recipient}
                                             placeholder={"Select Recipient"}

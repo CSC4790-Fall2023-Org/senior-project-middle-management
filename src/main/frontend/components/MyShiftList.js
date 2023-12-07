@@ -47,6 +47,7 @@ const MyShiftList = () => {
                             shiftHours={shift.shiftHours}
                         />
                     }
+                    shiftId={shift.shiftId}
                 />
             )}
             ListEmptyComponent={<View />}
