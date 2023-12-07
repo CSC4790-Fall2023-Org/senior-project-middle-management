@@ -34,7 +34,7 @@ const ShiftCard = ({shiftStartDate, shiftEndDate, shiftStartTime, shiftEndTime, 
                     <Text style={styles.time}>
                         {shiftStartTime} – {shiftEndTime}
                     </Text>
-                    <Text style={styles.hours}>{shiftHours} {handleSingularHours()}</Text>
+                    <Text style={styles.hours}>{shiftHours.toFixed(1)} {handleSingularHours()}</Text>
                 </View>
                 <View style={styles.nameLocationContainer}>
                     <Text style={styles.shiftName}>
