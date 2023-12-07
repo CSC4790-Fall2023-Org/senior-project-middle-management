@@ -9,11 +9,13 @@ import {greenAction, grayAction, white} from "../utils/Colors";
 import ShiftCard from "./ShiftCard";
 import {ipAddy} from "../utils/IPAddress";
 import Toast from 'react-native-root-toast';
+import { useAppContext } from "../AppContext";
 
 function AvailableShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey}) {
     let swipeableRef = React.createRef();
     const [addResponse, setAddResponse] = useState(null);
     const [claimed, setClaimed] = useState(false);
+    const { constEmployeeId } = useAppContext();
 
     const handleSwipeOpen = (direction) => {
         if (direction === 'right') {
@@ -126,7 +128,7 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey})
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                employeeId: "651f3f35631f63367d896196",
+                employeeId: constEmployeeId,
                 shiftId: shiftId
             }),
         })

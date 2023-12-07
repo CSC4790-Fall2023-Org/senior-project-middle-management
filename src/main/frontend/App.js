@@ -8,29 +8,34 @@ import EmployeeScreen from "./views/EmployeeScreen";
 import CompanySettingsScreen from "./views/CompanySettingsScreen";
 import ManagerSettingsScreen from "./views/ManagerSettingsScreen";
 import EmployeeSettingsScreen from "./views/EmployeeSettingsScreen";
-import {ScreenNames} from "./utils/ScreenNames";
-import AddEmployeePage from "./views/AddEmployeePage";
-import {RootSiblingParent} from 'react-native-root-siblings';
+import { ScreenNames } from "./utils/ScreenNames";
+import { RootSiblingParent } from 'react-native-root-siblings';
+import { AppProvider } from './AppContext';
 
 const Stack = createStackNavigator();
 
 function App() {
-  return (
-      <RootSiblingParent>
-          <NavigationContainer>
-              <Stack.Navigator initialRouteName={ScreenNames.LOGIN}>
-                  <Stack.Screen name={ScreenNames.LOGIN} component={LoginScreen} options={{headerShown: false}} />
-                  <Stack.Screen name={ScreenNames.COMPANY} component={CompanyScreen} options={{headerShown: false}} />
-                  <Stack.Screen name={ScreenNames.MANAGER} component={ManagerScreen} options={{headerShown: false}} />
-                  <Stack.Screen name={ScreenNames.EMPLOYEE} component={EmployeeScreen} options={{headerShown: false}} />
-                  <Stack.Screen name={ScreenNames.COMPANY_SETTINGS} component={CompanySettingsScreen} options={{headerShown: false}} />
-                  <Stack.Screen name={ScreenNames.MANAGER_SETTINGS} component={ManagerSettingsScreen} options={{headerShown: false}} />
-                  <Stack.Screen name={ScreenNames.EMPLOYEE_SETTINGS} component={EmployeeSettingsScreen} options={{headerShown: false}} />
-                  <Stack.Screen name={ScreenNames.ADD_EMPLOYEE} component={AddEmployeePage} options={{headerShown: false}} />
-              </Stack.Navigator>
-          </NavigationContainer>
-      </RootSiblingParent>
-  );
+    return (
+        <RootSiblingParent>
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName={ScreenNames.LOGIN}>
+                    <Stack.Screen name={ScreenNames.LOGIN} component={LoginScreen} options={{ headerShown: false }} />
+                    <Stack.Screen name={ScreenNames.COMPANY} component={CompanyScreen} options={{ headerShown: false }} />
+                    <Stack.Screen name={ScreenNames.MANAGER} component={ManagerScreen} options={{ headerShown: false }} />
+                    <Stack.Screen name={ScreenNames.EMPLOYEE} component={EmployeeScreen} options={{ headerShown: false }} />
+                    <Stack.Screen name={ScreenNames.COMPANY_SETTINGS} component={CompanySettingsScreen} options={{ headerShown: false }} />
+                    <Stack.Screen name={ScreenNames.MANAGER_SETTINGS} component={ManagerSettingsScreen} options={{ headerShown: false }} />
+                    <Stack.Screen name={ScreenNames.EMPLOYEE_SETTINGS} component={EmployeeSettingsScreen} options={{ headerShown: false }} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </RootSiblingParent>
+    );
 }
 
-export default App;
+const AppWithProvider = () => (
+    <AppProvider>
+        <App />
+    </AppProvider>
+);
+
+export default AppWithProvider;

@@ -1,10 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, StatusBar} from 'react-native';
 import CustomRedirectButton from "../components/CustomRedirectButton";
 import {ScreenNames} from "../utils/ScreenNames";
 import {grayBackground, primaryGreen, white} from "../utils/Colors";
+import CustomButton from "../components/CustomButton";
+import EmployeeListModal from "../components/employeeComponents/EmployeeListModal";
 
 function LoginScreen() {
+    const [employeeListModal, setEmployeeListModal] = useState(false);
+
+    const handleEmployeeListModal = () => {
+        setEmployeeListModal(true);
+    }
+
     return (
         <View style={styles.container}>
             <StatusBar
@@ -28,11 +36,15 @@ function LoginScreen() {
                     color={primaryGreen}
                     textColor={white}
                 />
-                <CustomRedirectButton
-                    buttonText={"Login as an Employee"}
-                    page={ScreenNames.EMPLOYEE}
+                <CustomButton
                     color={primaryGreen}
                     textColor={white}
+                    buttonText={"Login as an Employee"}
+                    handlePress={handleEmployeeListModal}
+                />
+                <EmployeeListModal
+                    listModal={employeeListModal}
+                    setListModal={setEmployeeListModal}
                 />
             </View>
         </View>

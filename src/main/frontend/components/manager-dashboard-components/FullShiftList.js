@@ -3,17 +3,17 @@ import {FlatList, StyleSheet, View} from "react-native";
 import React, {useEffect, useState} from "react";
 import AvailableShiftCardSwipe from "../AvailableShiftCardSwipe";
 import {ipAddy} from "../../utils/IPAddress";
+import {useAppContext} from "../../AppContext";
 
-const FullShiftList = ({reloadKey,updateReloadKey}) => {
+const FullShiftList = ({reloadKey, updateReloadKey}) => {
     const [shiftData, setShiftData] = useState(null);
-
-
+    const { constEmployeeId } = useAppContext();
 
     useEffect(() => {
         fetch('http://' + ipAddy + ':8080/getAvailableShifts', {
             method: 'POST',
             body: JSON.stringify({
-                employeeId: "651f3f35631f63367d896196"
+                employeeId: constEmployeeId
             }),
         }).then(response => {
             if (!response.ok) {

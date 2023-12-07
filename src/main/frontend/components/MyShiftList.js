@@ -3,16 +3,18 @@ import {FlatList, StyleSheet, View} from "react-native";
 import React, {useEffect, useState} from "react";
 import MyShiftCardSwipe from "./MyShiftCardSwipe";
 import {ipAddy} from "../utils/IPAddress";
+import {useAppContext} from "../AppContext";
 
 const MyShiftList = () => {
     const [shiftData, setShiftData] = useState(null);
+    const { constEmployeeId } = useAppContext();
 
     useEffect(() => {
         fetch('http://' + ipAddy + ':8080/getClaimedShifts', {
             method: 'POST',
             headers: {},
             body: JSON.stringify({
-                employeeId: "651f3f35631f63367d896196"
+                employeeId: constEmployeeId
             }),
         }).then(response => {
             if (!response.ok) {

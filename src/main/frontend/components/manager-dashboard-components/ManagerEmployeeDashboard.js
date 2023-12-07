@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {View, StyleSheet} from 'react-native';
-import ManagerEmployeeView from "./ManagerEmployeeView";
+import ManagerEmployeeView from "./EmployeeList";
 import Dropdown from "../Dropdown";
 import {secondaryGray, white} from "../../utils/Colors";
 

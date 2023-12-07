@@ -9,13 +9,13 @@ import {greenAction, grayAction, white, destructiveAction} from "../utils/Colors
 import ShiftCard from "./ShiftCard";
 import {ipAddy} from "../utils/IPAddress";
 import Toast from 'react-native-root-toast';
+import {useAppContext} from "../AppContext";
 
 function TransferShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey}) {
     let swipeableRef = React.createRef();
-    const [addResponse, setAddResponse] = useState(null);
-    const [claimed, setClaimed] = useState(false);
     const [acceptData, setAcceptData] = useState(null);
     const [declineData, setDeclineData] = useState(null);
+    const { constEmployeeId } = useAppContext();
 
     const handleSwipeOpen = (direction) => {
         if (direction === 'right') {
@@ -110,7 +110,7 @@ function TransferShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey}) 
             method: 'POST',
             body: JSON.stringify({
                 shiftId: shiftId,
-                targetEmployeeId: "653d70c730cd4ad7a58ee7fa"
+                targetEmployeeId: constEmployeeId
             }),
         }).then(response => {
             if (!response.ok) {

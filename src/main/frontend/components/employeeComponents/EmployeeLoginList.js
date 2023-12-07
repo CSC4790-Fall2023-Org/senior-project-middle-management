@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, ScrollView, FlatList} from 'react-native';
-import ManagerEmployeeCard from "./ManagerEmployeeCard";
-import AvailableShiftCardSwipe from "../AvailableShiftCardSwipe";
-import ShiftCard from "../ShiftCard";
+import {View, StyleSheet, FlatList} from 'react-native';
 import {ipAddy} from "../../utils/IPAddress";
+import EmployeeLoginCard from "./LoginEmployeeCard";
 
-const EmployeeList = ({canDelete, reload, reloadKey}) => {
+const EmployeeList = ({setEmployeeListModal}) => {
     const [employeeData, setEmployeeData] = useState(null);
 
     useEffect(() => {
@@ -21,14 +19,12 @@ const EmployeeList = ({canDelete, reload, reloadKey}) => {
             return response.json();
         })
             .then(data => {
-                console.log('Received data:', data);
                 setEmployeeData(data);
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
             });
-    }, [reloadKey]);
-
+    }, []);
 
     return (
         <FlatList
@@ -38,17 +34,11 @@ const EmployeeList = ({canDelete, reload, reloadKey}) => {
             data={employeeData ? employeeData.employeeList : []}
             keyExtractor={(employee) => employee.employeeId.toString()}
             renderItem={({ item: employee }) => (
-                <ManagerEmployeeCard
-                    id={employee.employeeId}
+                <EmployeeLoginCard
                     fName={employee.firstName}
                     lName={employee.lastName}
-                    phone={employee.employeePhoneNumber}
-                    email={employee.employeeEmail}
-                    type={employee.employeeType}
-                    wage={employee.pay}
-                    hoursClaimed={employee.loggedHours}
-                    canDelete={canDelete}
-                    reload = {reload}
+                    id={employee.employeeId}
+                    setEmployeeListModal={setEmployeeListModal}
                 />
             )}
             ListEmptyComponent={<View />}
