@@ -121,7 +121,7 @@ function TransferShiftModal({transferShiftModal,
                 return response.json();
             })
                 .then(data => {
-                    setTransferShiftModal(data);
+                    setTransferSubmitData(data);
                 })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);
