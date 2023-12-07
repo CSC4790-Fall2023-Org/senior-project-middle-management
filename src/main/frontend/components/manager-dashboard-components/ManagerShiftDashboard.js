@@ -43,7 +43,7 @@ function ManagerShiftDashboard(){
         }
     }
 
-    return(
+    return (
         <View styles={styles.page}>
             <View style={{height: "91%"}}>
                 <FullShiftList />

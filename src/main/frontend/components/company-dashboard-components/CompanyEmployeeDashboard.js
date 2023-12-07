@@ -1,106 +1,71 @@
 import React, {useState} from 'react';
-import {useNavigation} from "@react-navigation/native";
-import {View, StyleSheet, Dimensions} from 'react-native';
-import CustomButton from "../CustomButton";
-import Dropdown from "../Dropdown";
-import CompanyEmployeeView from "./CompanyEmployeeView";
-import {grayBackground, primaryGreen, secondaryGray, white} from "../../utils/Colors";
+import {View, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
+import {black, grayBackground, primaryGreen, secondaryGray, white} from "../../utils/Colors";
 import AddEmployeeBody from "./AddEmployeeBody";
 import EmployeeList from "../manager-dashboard-components/ManagerEmployeeView";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {Plus} from "../../utils/Icons";
 
 const CompanyEmployeeDashboard = () => {
     const [addEmployeeModal, setAddEmployeeModal] = useState(false);
-    const navigation = useNavigation();
-    const screenWidth = Dimensions.get('window').width;
 
-    const options = ["Default", "Name", "Hours Worked" ]
-
-    //Fetch Shift Info
-    const getEmpData = async () => {
-        // //update fetch url according to IPv4 of Wi-Fi
-        // await fetch('http://' + ipAddy + ':8080/getShiftCreationInfo', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         //change this according to manager ID needed
-        //         managerId: "651f4001631f63367d896197"
-        //     }),
-        // }).then(r => r.json()
-        // ).then(async json => {
-        //     const newLocList = await json.locationList;
-        //     const newShiftList = await json.shiftTypeList;
-        //navigation.navigate(ScreenNames.ADD_EMPLOYEE)
-        // }).catch(e => {
-        //     console.error(e);
-        // });
-
+    const handleAddEmployeeClick = () => {
+        setAddEmployeeModal(true);
     }
 
-    const handleEmpAddClick = async () => {
-        try {
-            await getEmpData();
-            setAddEmployeeModal(true);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const handleDropdownPress = (index) => {
-        setSelectedIndex(index);
-    }
-
-    return(
-        <View style={[styles.container, {width:screenWidth}]}>
-            <View style={styles.buttonContainer}>
-                <CustomButton
-                    buttonText={'Add Employee'}
-                    handlePress={handleEmpAddClick}
-                    color={primaryGreen}
-                    textColor={white}
-                />
+    return (
+        <View styles={styles.page}>
+            <View style={{height: "91%"}}>
+                <EmployeeList canDelete={true} />
             </View>
-            {/*<View style={[styles.dropdownContainer, {width:200}]}>*/}
-            {/*    <Dropdown*/}
-            {/*        chvSize={10}*/}
-            {/*        fontWht={10}*/}
-            {/*        fontSize={10}*/}
-            {/*        width={200}*/}
-            {/*        top={100}*/}
-            {/*        left={100}*/}
-            {/*        dropdownPress={handleDropdownPress}*/}
-            {/*        items={options}*/}
-            {/*    />*/}
-            {/*</View>*/}
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity onPress={handleAddEmployeeClick}>
+                    <View style={styles.addButton}>
+                        <FontAwesomeIcon icon={Plus} size={34} color={'white'} />
+                    </View>
+                </TouchableOpacity>
+            </View>
             <AddEmployeeBody
                 addEmployeeModal={addEmployeeModal}
                 setAddEmployeeModal={setAddEmployeeModal}
             />
-            {/*<CompanyEmployeeView/>*/}
-            <EmployeeList canDelete={true} />
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    page: {
+        backgroundColor: grayBackground,
+        display: "flex",
         flexDirection: "column",
+        flex: 1,
+    },
+    addShiftButton: {
+        paddingLeft: 16,
+    },
+    icon: {
+        marginRight: 16,
+        color: primaryGreen,
     },
     buttonContainer: {
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: grayBackground,
+        position: "relative",
     },
-    dropdownContainer: {
-        backgroundColor: white,
-        borderRadius: 10,
-        width: 200,
+    addButton: {
+        alignItems: "center",
         justifyContent: "center",
-        borderColor: secondaryGray,
-        borderWidth: 0.5,
-        marginLeft: 20,
+        position: "absolute",
+        bottom: 40,
+        right: 16,
+        height: 64,
+        width: 64,
+        backgroundColor: primaryGreen,
+        padding: 10,
+        borderRadius: 32,
+        shadowColor: black,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        elevation: 6,
     },
 });
 
