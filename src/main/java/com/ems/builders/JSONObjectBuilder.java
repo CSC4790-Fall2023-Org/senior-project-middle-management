@@ -9,6 +9,7 @@ import com.ems.database.models.Location;
 import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
 import com.ems.services.DatabaseServices;
+import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,23 +42,6 @@ public class JSONObjectBuilder {
         return shiftJSONObj;
     }
 
-    public static JSONObject buildJSONObjectFromEmployee(final Employee pEmployee) throws JSONException {
-
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("employeeId", pEmployee.getEmployeeId());
-        jsonObject.put("firstName", pEmployee.getFirstName());
-        jsonObject.put("lastName", pEmployee.getLastName());
-        jsonObject.put("employeeEmail", pEmployee.getEmployeeEmail());
-        jsonObject.put("employeePhoneNumber", pEmployee.getEmployeePhoneNumber());
-        jsonObject.put("employeeType", pEmployee.getEmployeeType());
-        jsonObject.put("loggedHours", pEmployee.getLoggedHours());
-        jsonObject.put("pay", pEmployee.getPay());
-        jsonObject.put("organizationId", pEmployee.getOrganizationId());
-        jsonObject.put("locationIdList", pEmployee.getLocationIdList());
-        jsonObject.put("shiftIdList", pEmployee.getShiftIdList());
-        return jsonObject;
-    }
-
     public static JSONObject buildJSONFromOrganization(final Organization pOrganization) throws JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("organizationId", pOrganization.getOrganizationId());
@@ -77,4 +61,32 @@ public class JSONObjectBuilder {
         }
         return jsonArray;
     }
+
+    public static JSONObject buildJSONObjectFromEmployee(final Employee pEmployee) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("employeeId", pEmployee.getEmployeeId());
+        jsonObject.put("firstName", pEmployee.getFirstName());
+        jsonObject.put("lastName", pEmployee.getLastName());
+        jsonObject.put("employeeEmail", pEmployee.getEmployeeEmail());
+        jsonObject.put("employeePhoneNumber", pEmployee.getEmployeePhoneNumber());
+        jsonObject.put("employeeType", pEmployee.getEmployeeType());
+        jsonObject.put("loggedHours", pEmployee.getLoggedHours());
+        jsonObject.put("pay", pEmployee.getPay());
+        jsonObject.put("organizationId", pEmployee.getOrganizationId());
+        jsonObject.put("locationIdList", buildJSONArrayFromObjectIdList(pEmployee.getLocationIdList()));
+        jsonObject.put("shiftIdList", buildJSONArrayFromObjectIdList(pEmployee.getShiftIdList()));
+
+        return jsonObject;
+
+    }
+
+    public static JSONArray buildJSONArrayFromObjectIdList(final List<ObjectId> pObjectIdList){
+        JSONArray jsonArray = new JSONArray();
+        for(ObjectId objectId : pObjectIdList){
+            jsonArray.put(objectId);
+        }
+        return jsonArray;
+    }
+
 }

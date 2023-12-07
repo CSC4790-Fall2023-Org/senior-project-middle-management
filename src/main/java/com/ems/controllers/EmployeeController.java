@@ -47,4 +47,10 @@ public class EmployeeController {
     public ResponseEntity getAllEmployeesWithNoShiftDuringShift(@RequestBody final String pPayload){
         return EmployeeServices.getAllEmployeesWithNoShiftDuringShift(pPayload);
     }
+
+    @PostMapping("/getEmployeeInfo")
+    public ResponseEntity getEmployeeInfo(@RequestBody final String pPayload){
+        return EmployeeServices.getEmployeeInfo(pPayload);
+
+    }
 }

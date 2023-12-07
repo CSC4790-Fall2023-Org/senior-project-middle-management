@@ -2,6 +2,7 @@ package com.ems.services;
 import com.ems.Exceptions.DatabaseException;
 import com.ems.Exceptions.SvcException;
 import com.ems.Utils.*;
+import com.ems.builders.JSONObjectBuilder;
 import com.ems.database.models.Employee;
 import com.ems.database.models.Organization;
 import com.ems.database.models.Shift;
@@ -216,6 +217,23 @@ public class EmployeeServices {
 
         } catch (Exception e) {
             return ResponseUtils.errorResponse(e);
+        }
+    }
+
+    public static ResponseEntity getEmployeeInfo(final String pPayload) {
+        try{
+            final JSONObject payload = new JSONObject(pPayload);
+            final ObjectId employeeId = JsonUtils.getEmployeeIdFromJSON(payload);
+            final Employee employee = DatabaseServices.findEmployeeById(employeeId)
+                    .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_EMPLOYEE, employeeId));
+
+            final JSONObject response = JSONObjectBuilder.buildJSONObjectFromEmployee(employee);
+
+            return ResponseUtils.getEmployeeInfo(response);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(e.getMessage());
         }
     }
 }
