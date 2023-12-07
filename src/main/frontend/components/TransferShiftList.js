@@ -3,11 +3,12 @@ import {FlatList, StyleSheet, Text, View} from "react-native";
 import React, {useEffect, useState} from "react";
 import {ipAddy} from "../utils/IPAddress";
 import TransferShiftCardSwipe from "./TransferShiftCardSwipe";
+import {useAppContext} from "../AppContext";
 
 const TransferShiftList = () => {
     const [shiftData, setShiftData] = useState(null);
-
     const [reloadKey, setReloadKey] = useState(0);
+    const { constEmployeeId } = useAppContext();
 
     const updateReloadKey = () => {
         setReloadKey(prevKey => prevKey + 1);
@@ -17,7 +18,7 @@ const TransferShiftList = () => {
         fetch('http://' + ipAddy + ':8080/getTransferredShiftsForEmployee', {
             method: 'POST',
             body: JSON.stringify({
-                employeeId: "653d70c730cd4ad7a58ee7fd"
+                employeeId: constEmployeeId
             }),
         }).then(response => {
             if (!response.ok) {

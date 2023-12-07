@@ -16,6 +16,7 @@ import {
 } from "../utils/Colors";
 import MultiWheelPicker from "./MultiWheelPicker";
 import {ipAddy} from "../utils/IPAddress";
+import {useAppContext} from "../AppContext";
 
 function TransferShiftModal({transferShiftModal,
                                 setTransferShiftModal,
@@ -33,13 +34,14 @@ function TransferShiftModal({transferShiftModal,
     const [displayedRecipients, setDisplayedRecipients] = useState(null);
     const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
     const [transferSubmitData, setTransferSubmitData] = useState(null);
+    const { constEmployeeId } = useAppContext();
 
     useEffect(() => {
         fetch('http://' + ipAddy + ':8080/getAllEmployeesWithNoShiftDuringShift', {
             method: 'POST',
             headers: {},
             body: JSON.stringify({
-                employeeId: "651f3f35631f63367d896196",
+                employeeId: constEmployeeId,
                 shiftId: shiftId
             }),
         }).then(response => {
