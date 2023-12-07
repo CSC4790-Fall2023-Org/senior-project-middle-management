@@ -21,9 +21,7 @@ import {
     secondaryGray,
     white
 } from "../../utils/Colors";
-import CustomButton from "../CustomButton";
 import {ipAddy} from "../../utils/IPAddress";
-import employeeData from "../../mockApiCalls/employeeData.json";
 import * as Haptics from "expo-haptics";
 
 const ManagerEmployeeCard = ({fName, lName, email, phone, id, type, hoursClaimed, maxHours, wage, canDelete}) =>{

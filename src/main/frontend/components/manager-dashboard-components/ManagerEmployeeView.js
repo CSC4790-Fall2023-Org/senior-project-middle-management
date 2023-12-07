@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, ScrollView, FlatList} from 'react-native';
+import {View, StyleSheet, FlatList} from 'react-native';
 import ManagerEmployeeCard from "./ManagerEmployeeCard";
-import AvailableShiftCardSwipe from "../AvailableShiftCardSwipe";
-import ShiftCard from "../ShiftCard";
 import {ipAddy} from "../../utils/IPAddress";
 
 const EmployeeList = ({canDelete}) => {
