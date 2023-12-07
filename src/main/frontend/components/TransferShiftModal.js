@@ -54,27 +54,53 @@ function TransferShiftModal({transferShiftModal,
                     return;
                 }
                 console.log(data);
-                setRecipientsData(data.employeeList);
+                const simplifiedEmployees = data.employeeList.map(({ firstName, lastName, employeeId }) => ({
+                    firstName,
+                    lastName,
+                    employeeId,
+                }));
+
+                setRecipientsData(simplifiedEmployees);
                 const mappedRecipients = data.employeeList.map(a => (a.firstName + ' ' + a.lastName));
                 setDisplayedRecipients(mappedRecipients);
-                recipientSelection(0);
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
             });
     }, []);
 
+    const recipientSelection = (selectedName) => {
+        console.log('Selected Name:', selectedName);
+        console.log('Recipients Data:', recipientsData);
 
-    const recipientSelection = (index) => {
-        console.log("INDEX: ", index);
-        setRecipient(index);
-        if (index === "Select Recipient" || index === 0) {
+        if (!recipientsData) {
+            console.error('Recipients data is undefined');
             setRecipientSelected(false);
-        } else {
-            setRecipientSelected(true);
+            return;
         }
 
-    }
+        if (selectedName === 'Select Recipient') {
+            setRecipientSelected(false);
+            setRecipient('Select Recipient');
+            setSelectedEmployeeId(null);
+        } else {
+            const selectedEmployee = recipientsData.find(employee => {
+                const fullName = `${employee.firstName} ${employee.lastName}`;
+                console.log('Checking:', fullName);
+                return fullName === selectedName;
+            });
+
+            if (selectedEmployee) {
+                setRecipient(selectedName);
+                setRecipientSelected(true);
+                setSelectedEmployeeId(selectedEmployee.employeeId);
+                console.log(selectedEmployee.employeeId);
+            } else {
+                console.error('Invalid selection - selectedEmployee is undefined');
+                setRecipientSelected(false);
+            }
+        }
+    };
 
     const handleMultipleDays = () => {
         try {
