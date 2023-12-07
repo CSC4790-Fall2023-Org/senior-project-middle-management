@@ -7,9 +7,10 @@ import com.ems.database.models.ShiftHelper;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ShiftUtilsTests {
 
@@ -123,6 +124,51 @@ public class ShiftUtilsTests {
                 final List<Shift> shiftList = ShiftUtils.createShifts(shiftHelper);
                 assertEquals(56, shiftList.size());
             }
+        }
+    }
+    @Test
+    public void testIsShiftDuringOtherShift(){
+        {
+            // shift1: 2023/01/01 10:00 -> 2023/01/01 18:00
+            // shift2: 2023/01/01 10:00 -> 2023/01/01 18:00
+            // true
+            final Shift shift1 = ModelTestFactory.getShift();
+            final Shift shift2 = ModelTestFactory.getShift();
+            final boolean isShiftDuringOtherShift = ShiftUtils.isShiftDuringOtherShift(shift1, shift2);
+            assertTrue(isShiftDuringOtherShift);
+        }
+        {
+            // shift1: 2023/01/01 10:00 -> 2023/01/01 18:00
+            // shift2: 2023/01/01 19:00 -> 2023/01/01 20:00
+            // false
+            final Shift shift1 = ModelTestFactory.getShift();
+            final Shift shift2 = ModelTestFactory.getShift();
+            shift2.setShiftStartTime(LocalDateTime.of(2023, 1, 1, 19, 0));
+            shift2.setShiftEndTime(LocalDateTime.of(2023, 1, 1, 20, 0));
+            final boolean isShiftDuringOtherShift = ShiftUtils.isShiftDuringOtherShift(shift1, shift2);
+            assertFalse(isShiftDuringOtherShift);
+        }
+        {
+            // shift1: 2023/01/01 10:00 -> 2023/01/01 18:00
+            // shift2: 2023/01/01 09:00 -> 2023/01/01 10:00
+            // false
+            final Shift shift1 = ModelTestFactory.getShift();
+            final Shift shift2 = ModelTestFactory.getShift();
+            shift2.setShiftStartTime(LocalDateTime.of(2023, 1, 1, 9, 0));
+            shift2.setShiftEndTime(LocalDateTime.of(2023, 1, 1, 10, 0));
+            final boolean isShiftDuringOtherShift = ShiftUtils.isShiftDuringOtherShift(shift1, shift2);
+            assertFalse(isShiftDuringOtherShift);
+        }
+        {
+            // shift1: 2023/01/01 10:00 -> 2023/01/01 18:00
+            // shift2: 2023/01/01 18:00 -> 2023/01/01 19:00
+            // false
+            final Shift shift1 = ModelTestFactory.getShift();
+            final Shift shift2 = ModelTestFactory.getShift();
+            shift2.setShiftStartTime(LocalDateTime.of(2023, 1, 1, 18, 0));
+            shift2.setShiftEndTime(LocalDateTime.of(2023, 1, 1, 19, 0));
+            final boolean isShiftDuringOtherShift = ShiftUtils.isShiftDuringOtherShift(shift1, shift2);
+            assertFalse(isShiftDuringOtherShift);
         }
     }
 }

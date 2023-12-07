@@ -3,6 +3,7 @@ package com.ems.services;
 import com.ems.EmsApplication;
 import com.ems.Exceptions.DatabaseException;
 import com.ems.Exceptions.SvcException;
+import com.ems.Utils.EmployeeUtils;
 import com.ems.Utils.JsonUtils;
 import com.ems.Utils.OrganizationUtils;
 import com.ems.Utils.ResponseUtils;
@@ -56,7 +57,7 @@ public class OrganizationServices {
             final ObjectId organizationId = JsonUtils.getOrganizationIdFromJSON(new JSONObject(pPayload));
             final Organization organization = DatabaseServices.findOrganizationById(organizationId)
                     .orElseThrow(() -> new DatabaseException(DatabaseException.LOCATING_ORGANIZATION, organizationId));
-            final List<Employee> employeeList = OrganizationUtils.getAllEmployeesForOrganization(organization, DatabaseServices.getAllEmployees());
+            final List<Employee> employeeList = EmployeeUtils.getAllEmployeesForOrganization(organization, DatabaseServices.getAllEmployees());
             final JSONArray responseArray = JsonUtils.getJSONArrayFromEmployeeList(employeeList);
 
             return ResponseUtils.getAllResponse("employeeList", responseArray);
