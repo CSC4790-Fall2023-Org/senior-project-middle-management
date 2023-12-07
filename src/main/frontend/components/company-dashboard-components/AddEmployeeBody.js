@@ -113,7 +113,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
         const emailPattern = /^[\w\.-]+@[\w\.-]+\.\w+$/;
         const validEmail = emailPattern.test(email);
         const wageString = wage.toString();
-        const invalidWage = /^\d+(\.0)?$/.test(wageString);
+        const invalidWage = /^(\d+(\.0)?)?$/.test(wageString);
 
         if (!shiftVal) {
             setShiftVal(displayedShift[0].label);
@@ -181,8 +181,8 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
         }  else if (!shiftOptions.includes(employeeType)) {
             noErrors = false;
             Alert.alert (
-                'Shift Type',
                 'Please select a shift type.',
+                '',
                 [
                     {
                         text: 'OK',
@@ -196,8 +196,8 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
         } else if (!locationOptions.some(loc => loc.locationName === location)) {
             noErrors = false;
             Alert.alert (
-                'Location',
                 'Please select a location.',
+                '',
                 [
                     {
                         text: 'OK',
@@ -212,7 +212,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
             noErrors = false;
             Alert.alert(
                 'Please enter a valid hourly wage.',
-                'Note: The wage must end with at least one non-zero decimal place.',
+                'Wage must end with at least one non-zero decimal place.',
                 [
                     {
                         text: 'OK',
@@ -370,6 +370,7 @@ const AddEmployeeBody = ({addEmployeeModal, setAddEmployeeModal}) => {
                                 placeholder={"Email"}
                                 placeholderTextColor={placeholderText}
                                 keyboardType={"email-address"}
+                                autoCapitalize={"none"}
                             />
                         </View>
                         <Text style={styles.sectionSubtitle}>Employee Type</Text>
