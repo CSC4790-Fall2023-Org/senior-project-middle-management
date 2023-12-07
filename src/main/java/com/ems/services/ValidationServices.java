@@ -4,6 +4,7 @@ import com.ems.Exceptions.SvcException;
 import com.ems.Utils.EmployeeUtils;
 import com.ems.Utils.ManagerUtils;
 import com.ems.Utils.OrganizationUtils;
+import com.ems.Utils.ShiftUtils;
 import com.ems.database.models.*;
 import org.bson.types.ObjectId;
 
@@ -121,5 +122,20 @@ public class ValidationServices {
 
     public static boolean doLocationsMatch(Location location1, Location location2){
         return location1.getLocationName().equals(location2.getLocationName());
+    }
+
+    public static void validateTransferShift(Shift shift, Employee sourceEmployee, Employee targetEmployee) {
+
+
+    }
+
+    public static void validateAcceptTransferredShift(Shift shift, Employee employee, List<Shift> pShiftList) throws SvcException {
+        // employee has shift during shift time
+        if(employee.getShiftIdList()
+                .stream()
+                .anyMatch(shiftId -> ShiftUtils.isShiftDuringOtherShift(shift, ShiftUtils.getShiftFromShiftId(shiftId, pShiftList).get()))){
+            throw new SvcException("error");
+        }
+
     }
 }

@@ -42,4 +42,9 @@ public class EmployeeController {
     public ResponseEntity updateEmployee(@RequestBody final String pPayload){
         return EmployeeServices.updateEmployee(pPayload);
     }
+
+    @PostMapping("/getAllEmployeesWithNoShiftDuringShift")
+    public ResponseEntity getAllEmployeesWithNoShiftDuringShift(@RequestBody final String pPayload){
+        return EmployeeServices.getAllEmployeesWithNoShiftDuringShift(pPayload);
+    }
 }

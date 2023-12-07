@@ -1,13 +1,16 @@
 package com.ems.Utils;
 
+import com.ems.Exceptions.SvcException;
 import com.ems.database.models.Employee;
 import com.ems.database.models.Organization;
 import com.ems.database.models.Location;
+import com.ems.database.models.Shift;
 import com.ems.services.DatabaseServices;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class OrganizationUtils {
 
@@ -42,9 +45,14 @@ public class OrganizationUtils {
         return true;
     }
 
-    public static List<Employee> getAllEmployeesForOrganization(final Organization pOrganization, final List<Employee> pEmployeeList){
-        return pEmployeeList.stream()
-                .filter(employee -> employee.getOrganizationId().equals(pOrganization.getOrganizationId()))
-                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+    public static Organization getOrganizationFromShift(final List<Organization> pOrganizationList, final Shift pShift) throws SvcException {
+        for (Organization organization : pOrganizationList) {
+            if (organization.getLocationList()
+                    .stream()
+                    .anyMatch(location -> location.getLocationId().equals(pShift.getLocationId()))) {
+                return organization;
+            }
+        }
+        throw new SvcException(SvcException.ORGANIZATION_NOT_FOUND);
     }
 }

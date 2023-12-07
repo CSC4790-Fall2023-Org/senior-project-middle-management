@@ -28,13 +28,14 @@ public class Shift {
     private String shiftType;
     @Field
     private boolean isShiftOpen;
-
     @Field
     private boolean isDropApproved;
+    @Field
+    private ObjectId transferEmployeeId;
     public Shift() {
     }
 
-    public Shift(ObjectId shiftId, ObjectId locationId, String shiftName, LocalDateTime shiftStartTime, LocalDateTime shiftEndTime, String shiftType, boolean isShiftOpen, boolean dropApproved) {
+    public Shift(ObjectId shiftId, ObjectId locationId, String shiftName, LocalDateTime shiftStartTime, LocalDateTime shiftEndTime, String shiftType, boolean isShiftOpen, boolean dropApproved, ObjectId transferEmployeeId) {
         this.shiftId = shiftId;
         this.locationId = locationId;
         this.shiftName = shiftName;
@@ -43,6 +44,7 @@ public class Shift {
         this.shiftType = shiftType;
         this.isShiftOpen = isShiftOpen;
         this.isDropApproved = dropApproved;
+        this.transferEmployeeId = transferEmployeeId;
     }
 
     public Shift(final JSONObject pJsonObject) throws JSONException {
@@ -63,6 +65,7 @@ public class Shift {
         this.isShiftOpen = true;
         this.locationId = new ObjectId(pJsonObject.getString("locationId"));
         this.isDropApproved = true;
+        this.transferEmployeeId = null;
     }
 
     public ObjectId getShiftId() {
@@ -127,6 +130,14 @@ public class Shift {
 
     public void setDropApproved(boolean dropApproved) {
         this.isDropApproved = dropApproved;
+    }
+
+    public ObjectId getTransferEmployeeId() {
+        return transferEmployeeId;
+    }
+
+    public void setTransferEmployeeId(ObjectId transferEmployeeId) {
+        this.transferEmployeeId = transferEmployeeId;
     }
 
     @Override

@@ -29,4 +29,19 @@ public class ShiftController {
         return ShiftServices.getShiftCreationInfo(pPayload);
     }
 
+    @PostMapping("/transferShift")
+    public static ResponseEntity transferShift(@RequestBody final String pPayload){
+        return ShiftServices.transferShift(pPayload);
+    }
+
+    @PostMapping("/getTransferredShiftsForEmployee")
+    public static ResponseEntity getTransferredShiftsForEmployee(@RequestBody final String pPayload){
+        return ShiftServices.getTransferredShiftsForEmployee(pPayload);
+    }
+
+    @PostMapping("/acceptTransferredShift")
+    public static ResponseEntity acceptTransferredShift(@RequestBody final String pPayload){
+        return ShiftServices.acceptTransferredShift(pPayload);
+    }
+
 }
