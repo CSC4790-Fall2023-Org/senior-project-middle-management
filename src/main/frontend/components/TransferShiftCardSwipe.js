@@ -28,11 +28,7 @@ function TransferShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey}) 
                     {
                         text: 'Decline',
                         style: 'destructive',
-                        onPress: () => {
-                            Haptics.notificationAsync(
-                                Haptics.NotificationFeedbackType.Success
-                            );
-                        },
+                        onPress: () => {handleDecline()},
                     },
                     {
                         text: 'Cancel',
@@ -54,9 +50,7 @@ function TransferShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey}) 
                     {
                         text: 'Accept',
                         style: 'default',
-                        onPress: () => {
-                            handleAccept();
-                        },
+                        onPress: () => {handleAccept()},
                     },
                     {
                         text: 'Cancel',
@@ -116,6 +110,31 @@ function TransferShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey}) 
             body: JSON.stringify({
                 shiftId: shiftId,
                 targetEmployeeId: "653d70c730cd4ad7a58ee7fa"
+            }),
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+            .then(data => {
+                console.log(data);
+                setAcceptData(data);
+                updateReloadKey();
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        Haptics.notificationAsync(
+            Haptics.NotificationFeedbackType.Success
+        );
+    }
+
+    const handleDecline = () => {
+        fetch('http://' + ipAddy + ':8080/declineTransferredShift', {
+            method: 'POST',
+            body: JSON.stringify({
+                shiftId: shiftId,
             }),
         }).then(response => {
             if (!response.ok) {

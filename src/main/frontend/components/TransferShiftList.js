@@ -17,7 +17,7 @@ const TransferShiftList = () => {
         fetch('http://' + ipAddy + ':8080/getTransferredShiftsForEmployee', {
             method: 'POST',
             body: JSON.stringify({
-                employeeId: "653d70c730cd4ad7a58ee7fa"
+                employeeId: "653d70c730cd4ad7a58ee7fd"
             }),
         }).then(response => {
             if (!response.ok) {
