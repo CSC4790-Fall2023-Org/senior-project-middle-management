@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Animated, StyleSheet, Alert} from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { RectButton } from 'react-native-gesture-handler';
@@ -10,11 +10,11 @@ import ShiftCard from "./ShiftCard";
 import {ipAddy} from "../utils/IPAddress";
 import Toast from 'react-native-root-toast';
 
-function TransferShiftCardSwipe({ShiftCardComponent, shiftId}) {
+function TransferShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey}) {
     let swipeableRef = React.createRef();
     const [addResponse, setAddResponse] = useState(null);
     const [claimed, setClaimed] = useState(false);
-    const [reload, setReload] = useState(false);
+    const [acceptData, setAcceptData] = useState(null);
 
     const handleSwipeOpen = (direction) => {
         if (direction === 'right') {
@@ -55,9 +55,7 @@ function TransferShiftCardSwipe({ShiftCardComponent, shiftId}) {
                         text: 'Accept',
                         style: 'default',
                         onPress: () => {
-                            Haptics.notificationAsync(
-                                Haptics.NotificationFeedbackType.Success
-                            );
+                            handleAccept();
                         },
                     },
                     {
@@ -111,6 +109,32 @@ function TransferShiftCardSwipe({ShiftCardComponent, shiftId}) {
             </RectButton>
         );
     };
+
+    const handleAccept = () => {
+        fetch('http://' + ipAddy + ':8080/acceptTransferredShift', {
+            method: 'POST',
+            body: JSON.stringify({
+                shiftId: shiftId,
+                targetEmployeeId: "653d70c730cd4ad7a58ee7fa"
+            }),
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+            .then(data => {
+                console.log(data);
+                setAcceptData(data);
+                updateReloadKey();
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        Haptics.notificationAsync(
+            Haptics.NotificationFeedbackType.Success
+        );
+    }
 
     return (
         <Swipeable

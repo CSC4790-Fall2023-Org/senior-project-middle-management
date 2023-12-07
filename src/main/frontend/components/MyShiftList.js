@@ -48,6 +48,7 @@ const MyShiftList = () => {
                         />
                     }
                     shiftId={shift.shiftId}
+                    transferId={shift.transferEmployeeId}
                 />
             )}
             ListEmptyComponent={<View />}

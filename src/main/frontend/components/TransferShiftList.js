@@ -7,11 +7,17 @@ import TransferShiftCardSwipe from "./TransferShiftCardSwipe";
 const TransferShiftList = () => {
     const [shiftData, setShiftData] = useState(null);
 
+    const [reloadKey, setReloadKey] = useState(0);
+
+    const updateReloadKey = () => {
+        setReloadKey(prevKey => prevKey + 1);
+    };
+
     useEffect(() => {
-        fetch('http://' + ipAddy + ':8080/getAvailableShifts', {
+        fetch('http://' + ipAddy + ':8080/getTransferredShiftsForEmployee', {
             method: 'POST',
             body: JSON.stringify({
-                employeeId: "651f3f35631f63367d896196"
+                employeeId: "653d70c730cd4ad7a58ee7fa"
             }),
         }).then(response => {
             if (!response.ok) {
@@ -25,7 +31,7 @@ const TransferShiftList = () => {
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
             });
-    }, []);
+    }, [reloadKey]);
 
     const renderHeader = () => (
         <View style={styles.headerContainer}>
@@ -54,6 +60,7 @@ const TransferShiftList = () => {
                             />
                         }
                         shiftId={shift.shiftId}
+                        updateReloadKey={updateReloadKey}
                     />
                 )}
                 ListEmptyComponent={<View />}

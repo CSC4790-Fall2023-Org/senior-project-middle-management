@@ -9,7 +9,7 @@ import {white, blueAction, destructiveAction} from "../utils/Colors";
 import ShiftCard from "./ShiftCard";
 import TransferShiftModal from "./TransferShiftModal";
 
-function MyShiftCardSwipe ({ShiftCardComponent, shiftId}) {
+function MyShiftCardSwipe ({ShiftCardComponent, shiftId, transferId}) {
     const [transferShiftModal, setTransferShiftModal] = useState(false);
     let swipeableRef = React.createRef();
 
