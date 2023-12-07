@@ -27,4 +27,9 @@ public class OrganizationController {
     public ResponseEntity getAllEmployees(@RequestBody final String pPayload){
         return OrganizationServices.getAllEmployees(pPayload);
     }
+
+    @PostMapping("/getOrganizationInfo")
+    public ResponseEntity getOrganizationInfo(@RequestBody final String pPayload){
+        return OrganizationServices.getOrganizationInfo(pPayload);
+    }
 }
