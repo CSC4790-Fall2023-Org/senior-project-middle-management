@@ -6,6 +6,7 @@ import CustomDashboardHeader from "../components/CustomDashboardHeader";
 import CompanyStaffDashboard from "../components/company-dashboard-components/CompanyStaffDashboard";
 import CompanyInfoDashboard from "../components/company-dashboard-components/CompanyInfoDashboard";
 import {black, grayBackground} from "../utils/Colors";
+import CompanyEmployeeDashboard from "../components/company-dashboard-components/CompanyEmployeeDashboard";
 
 function CompanyScreen() {
 
@@ -31,7 +32,7 @@ function CompanyScreen() {
                 <CustomDashboardHeader onTitlePress={handleTitlePress} tabs={tabs}/>
             </View>
             {selectedIndex === 0 && <CompanyInfoDashboard />}
-            {selectedIndex === 1 && <CompanyStaffDashboard/>}
+            {selectedIndex === 1 && <CompanyEmployeeDashboard />}
         </View>
     );
 }

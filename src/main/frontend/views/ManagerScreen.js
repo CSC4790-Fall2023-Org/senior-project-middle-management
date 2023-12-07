@@ -7,6 +7,7 @@ import ManagerShiftDashboard from "../components/manager-dashboard-components/Ma
 import CustomDashboardHeader from "../components/CustomDashboardHeader";
 import {CircleUser} from "../utils/Icons";
 import {black, grayBackground} from "../utils/Colors";
+import EmployeeList from "../components/manager-dashboard-components/ManagerEmployeeView";
 
 function ManagerScreen() {
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -36,7 +37,8 @@ function ManagerScreen() {
             <View style={styles.headerContainer}>
                 <CustomDashboardHeader onTitlePress={handleTitlePress} tabs={tabs} />
             </View>
-            {selectedIndex === 0 && <ManagerEmployeeDashboard buttonTitle={"Add Employee"} />}
+            {/*{selectedIndex === 0 && <ManagerEmployeeDashboard buttonTitle={"Add Employee"} />}*/}
+            {selectedIndex === 0 && <EmployeeList canDelete={false} />}
             {selectedIndex === 1 && <ManagerShiftDashboard />}
         </View>
     );

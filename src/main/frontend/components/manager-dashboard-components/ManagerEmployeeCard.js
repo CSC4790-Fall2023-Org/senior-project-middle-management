@@ -1,28 +1,62 @@
-import {Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
+import {
+    Alert,
+    Modal,
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    View
+} from "react-native";
 import React, {useState} from "react";
-import {ChevronRight, XMark} from "../../utils/Icons";
+import {ChevronRight} from "../../utils/Icons";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {destructiveAction, white} from "../../utils/Colors";
+import {
+    black,
+    destructiveAction,
+    grayAction,
+    grayBackground,
+    primaryGreen,
+    secondaryGray,
+    white
+} from "../../utils/Colors";
 import CustomButton from "../CustomButton";
 import {ipAddy} from "../../utils/IPAddress";
-import WarnPopup from "./WarnPopup";
+import employeeData from "../../mockApiCalls/employeeData.json";
+import * as Haptics from "expo-haptics";
 
-
-const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
+const ManagerEmployeeCard = ({fName, lName, email, phone, id, type, hoursClaimed, maxHours, wage, canDelete}) =>{
     const [isModalVisible, setModalVisible] = useState(false);
+    const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
 
-    const warnText = "You are about to delete employee " + name + " are you sure you want to?"
-    const [isDeleteModalVisible, setDeleteModalVisible] = useState(true);
-    const handleDeleteModalVisible = () => {
+    const handleConfirmDelete = () => {
+        Haptics.notificationAsync(
+            Haptics.NotificationFeedbackType.Warning
+        );
+        Alert.alert (
+            'Delete ' + fName + ' ' + lName,
+            'Are you sure you want to delete ' + fName + ' ' + lName + '?',
+            [
+                {
+                    text: 'Delete',
+                    style: 'destructive',
+                    onPress: handleEmployeeDelete,
+                },
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                },
+            ]
+        );
         setDeleteModalVisible(!isDeleteModalVisible)
     }
 
-
     const handleModalVisible = () => {
         setModalVisible(!isModalVisible);
-    };
+    }
 
-    const handleEmployeeDelete = () =>{
+    const handleEmployeeDelete = () => {
         fetch('http://' + ipAddy + ':8080/deleteEmployee', {
             method: 'POST',
             headers: {
@@ -38,61 +72,115 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
             .catch(error => {
                 console.error(error);
             });
+        Haptics.notificationAsync(
+            Haptics.NotificationFeedbackType.Success
+        );
+        setModalVisible(false);
     }
 
-
-    return(
+    return (
         <View>
             <TouchableWithoutFeedback onPress={handleModalVisible}>
-                <View style={styles.container}>
-                    <View style={{paddingTop:5}}>
-                        <Text style={styles.name}>{name}</Text>
-                    </View>
-                    <FontAwesomeIcon icon={ChevronRight} size={25} />
+                <View style={styles.cardContainer}>
+                    <Text
+                        style={[styles.normalText, {fontWeight: "600"}]}
+                        numberOfLines={1}
+                        ellipsizeMode={"tail"}
+                    >
+                        {fName + ' ' + lName}
+                    </Text>
+                    <FontAwesomeIcon icon={ChevronRight} size={17} />
                 </View>
             </TouchableWithoutFeedback>
             <Modal
-                animationType="none"
-                transparent={true}
+                animationType="slide"
                 visible={isModalVisible}
                 onRequestClose={handleModalVisible}
+                presentationStyle={"pageSheet"}
             >
-                <TouchableOpacity
-                    style={styles.overlay}
-                    onPress={handleModalVisible}
+                <StatusBar
+                    barStyle={'light-content'}
+                    animated={true}
+                    showHideTransition={'fade'}
                 />
-                <View style={styles.modal}>
-                    <View style={styles.topContainerModal}>
-                        <Text style={styles.name}>Employee Info:</Text>
-                        <TouchableOpacity onPress={handleModalVisible}>
-                            <FontAwesomeIcon icon={XMark} size={24} />
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalHeader}>
+                        <TouchableOpacity
+                            onPress={handleModalVisible}
+                        >
+                            <Text
+                                style={[styles.normalText, {color: white}]}
+                                allowFontScaling={false}
+                            >
+                                Close
+                            </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.middleContainerModal}>
-                        <Text>Employee ID:</Text>
-                        <Text>{id}</Text>
-                    </View>
-                    <View style={styles.middleContainerModal}>
-                        <Text>Name:</Text>
-                        <Text>{name}</Text>
-                    </View>
-                    <View style={styles.middleContainerModal}>
-                        <Text>Hours Worked:</Text>
-                        <Text>{worked}</Text>
-                    </View>
-                    <View style={styles.middleContainerModal}>
-                        <Text>Job Title:</Text>
-                        <Text>{type}</Text>
-                    </View>
-                    <View style={styles.middleContainerModal}>
-                        <Text>Shifts Taken:</Text>
-                        <Text>{shiftsTaken}</Text>
-                    </View>
-                    <View style={styles.middleContainerModal}>
-                        <CustomButton buttonText={"Delete Employee"} color={destructiveAction} textColor={white} handlePress={handleDeleteModalVisible}/>
-                    </View>
-                    </View>
-                <WarnPopup titleText={warnText} isModalVisible={isDeleteModalVisible} handleModalVisible={handleDeleteModalVisible} submitForm={handleEmployeeDelete}/>
+                    <ScrollView style={styles.scrollView}>
+                        <Text style={styles.sectionSubtitle}>Employee Info</Text>
+                        <View style={styles.infoContainer}>
+                            <View style={styles.infoItem}>
+                                <Text style={styles.infoLabel}>Name</Text>
+                                <Text
+                                    style={styles.infoValue}
+                                    numberOfLines={1}
+                                    ellipsizeMode={"tail"}
+                                >
+                                    {fName + ' ' + lName}
+                                </Text>
+                            </View>
+                            <View style={styles.infoItem}>
+                                <Text style={styles.infoLabel}>Email</Text>
+                                <Text
+                                    style={styles.infoValue}
+                                    numberOfLines={1}
+                                    ellipsizeMode={"middle"}
+                                >
+                                    {email}
+                                </Text>
+                            </View>
+                            <View style={styles.infoItem}>
+                                <Text style={styles.infoLabel}>Phone Number</Text>
+                                <Text style={styles.infoValue}>{phone}</Text>
+                            </View>
+                            <View style={[styles.infoItem, {borderBottomWidth: 0}]}>
+                                <Text style={[styles.infoLabel, {maxWidth: "20%"}]}>ID</Text>
+                                <Text
+                                    style={[styles.infoValue, {width: "80%"}]}
+                                    numberOfLines={1}
+                                    ellipsizeMode={"tail"}>{id}</Text>
+                            </View>
+                        </View>
+                        <Text style={styles.sectionSubtitle}>Work Info</Text>
+                        <View style={styles.infoContainer}>
+                            <View style={styles.infoItem}>
+                                <Text style={styles.infoLabel}>Job Title</Text>
+                                <Text style={styles.infoValue}>{type}</Text>
+                            </View>
+                            <View style={styles.infoItem}>
+                                <Text style={styles.infoLabel}>Hours Claimed</Text>
+                                <Text style={styles.infoValue}>{hoursClaimed}</Text>
+                            </View>
+                            {/*<View style={styles.infoItem}>*/}
+                            {/*    <Text style={styles.infoLabel}>Max Hours</Text>*/}
+                            {/*    <Text style={styles.infoValue}>{maxHours}</Text>*/}
+                            {/*</View>*/}
+                            <View style={[styles.infoItem, {borderBottomWidth: 0}]}>
+                                <Text style={styles.infoLabel}>Wage</Text>
+                                <Text style={styles.infoValue}>${wage}</Text>
+                            </View>
+                        </View>
+                        {canDelete &&
+                            <View style={styles.deleteButton}>
+                                <TouchableOpacity
+                                    style={{width: "100%", alignItems: "center"}}
+                                    onPress={handleConfirmDelete}>
+                                    <Text style={styles.deleteText}>Delete Employee</Text>
+                                </TouchableOpacity>
+                            </View>
+                        }
+                    </ScrollView>
+                </View>
             </Modal>
         </View>
 
@@ -100,56 +188,91 @@ const ManagerEmployeeCard = ({id, name, type, worked, shiftsTaken}) =>{
 }
 
 const styles = StyleSheet.create({
-    container:{
+    cardContainer: {
         display: "flex",
-        backgroundColor: white,
-        margin: 10,
-        borderRadius: 10,
-        padding: 5,
-        justifyContent: 'space-between',
-        paddingHorizontal: 15,
-        alignItems: 'center',
         flexDirection: "row",
-    },
-
-    name: {
-        fontSize: 24,
-        fontWeight: "600",
-        marginBottom: 10,
-    },
-    modal:{
-        position: 'absolute',
-        top: 240,
-        left:45,
-        width: 300,
-        height: 400,
-        elevation: 5,
-        zIndex: 1,
-        backgroundColor: white,
-        borderRadius:20,
-        borderStyle:"solid",
-        borderColor:"#ccc",
-        flexDirection: "column",
-    },
-    overlay: {
-        flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, .3)',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
+        backgroundColor: white,
+        marginHorizontal: 16,
+        marginVertical: 8,
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        borderRadius: 10,
+    },
+    scrollView: {
+        position: "relative",
+        backgroundColor: grayBackground,
+        flexDirection: "column",
+        paddingVertical: 24,
+        paddingHorizontal: 16,
+    },
+    normalText: {
+        fontSize: 17,
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor: grayBackground,
+    },
+    modalHeader: {
+        height: 55,
+        backgroundColor: primaryGreen,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+    },
+    sectionSubtitle: {
+        marginBottom: 6,
+        width: '100%',
+        fontSize: 21,
+        textAlign: 'left',
+        fontWeight: 'bold',
+    },
+    infoContainer: {
+        backgroundColor: white,
+        marginBottom: 18,
+        borderRadius: 10,
+        paddingLeft: 14,
+    },
+    infoItem: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingTop: 14,
+        paddingBottom: 14,
+        borderBottomWidth: 0.25,
+        borderBottomColor: secondaryGray,
+    },
+    infoLabel: {
+        width: "40%",
+        color: black,
+        fontSize: 17,
+    },
+    infoValue: {
+        width: "60%",
+        color: grayAction,
+        fontSize: 17,
+        paddingRight: 14,
+        textAlign: "right",
     },
     topContainerModal: {
-        paddingTop:10,
+        paddingTop: 10,
         justifyContent: 'space-between',
         paddingHorizontal: 15,
         alignItems: 'center',
         flexDirection: "row",
     },
-    middleContainerModal: {
-        paddingTop:25,
-        justifyContent: 'center',
-        paddingHorizontal: 0,
-        alignItems: 'center',
-        flexDirection: "row",
+    deleteButton: {
+        width: "100%",
+        borderRadius: 10,
+        marginVertical: 24,
+        padding: 12,
+        alignItems: "center",
+        backgroundColor: white,
+    },
+    deleteText: {
+        fontSize: 17,
+        color: destructiveAction,
     },
 
 });

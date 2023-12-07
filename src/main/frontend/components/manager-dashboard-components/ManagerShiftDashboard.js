@@ -11,6 +11,7 @@ function ManagerShiftDashboard(){
     const [addShiftModal, setAddShiftModal] = useState(false);
     const [locList, setLocList] = useState([]);
     const [shiftTypeList, setShiftTypeList] = useState([]);
+    const [loadKey, setLoadKey] = useState(0);
 
     const getShiftData = async () => {
         await fetch('http://' + ipAddy + ':8080/getShiftCreationInfo', {
@@ -36,12 +37,13 @@ function ManagerShiftDashboard(){
         try {
             await getShiftData();
             setAddShiftModal(true);
+            setLoadKey(prevKey => prevKey + 1);
         } catch (error) {
             console.log(error);
         }
     }
 
-    return(
+    return (
         <View styles={styles.page}>
             <View style={{height: "91%"}}>
                 <FullShiftList />
@@ -58,6 +60,7 @@ function ManagerShiftDashboard(){
                 setAddShiftModal={setAddShiftModal}
                 shiftOptions={shiftTypeList}
                 locationOptions={locList}
+                loadKey={loadKey}
             />
         </View>
     );
