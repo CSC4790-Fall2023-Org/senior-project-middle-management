@@ -55,12 +55,7 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey})
                     {
                         text: 'Claim',
                         style: 'default',
-                        onPress: () => {
-                            handleShiftClaim();
-                            Haptics.notificationAsync(
-                                Haptics.NotificationFeedbackType.Success
-                            );
-                        },
+                        onPress: () => {handleShiftClaim();},
                     },
                     {
                         text: 'Cancel',
@@ -139,6 +134,9 @@ function AvailableShiftCardSwipe({ShiftCardComponent, shiftId, updateReloadKey})
                 return response.json();
             })
             .then(data => {
+                Haptics.notificationAsync(
+                    Haptics.NotificationFeedbackType.Success
+                );
                 setAddResponse(data);
                 updateReloadKey();
                 setClaimed(true);

@@ -50,9 +50,9 @@ const FullShiftList = ({reloadKey, updateReloadKey}) => {
                             shiftHours={shift.shiftHours}
                         />
                     }
-                    // shiftId={shift.shiftId}
+                    shiftId={shift.shiftId}
                     // reloadKey={reloadKey}
-                    // updateReloadKey={updateReloadKey}
+                    updateReloadKey={updateReloadKey}
                 />
             )}
             ListEmptyComponent={<View />}
