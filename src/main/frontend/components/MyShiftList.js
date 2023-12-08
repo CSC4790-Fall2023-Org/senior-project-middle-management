@@ -7,7 +7,12 @@ import {useAppContext} from "../AppContext";
 
 const MyShiftList = () => {
     const [shiftData, setShiftData] = useState(null);
+    const [reloadKey, setReloadKey] = useState(0);
     const { constEmployeeId } = useAppContext();
+
+    const updateReloadKey = () => {
+        setReloadKey(prevKey => prevKey + 1);
+    };
 
     useEffect(() => {
         fetch('http://' + ipAddy + ':8080/getClaimedShifts', {
@@ -23,12 +28,13 @@ const MyShiftList = () => {
             return response.json();
         })
             .then(data => {
+                console.log(data);
                 setShiftData(data);
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
             });
-    }, []);
+    }, [reloadKey]);
 
     return (
         <FlatList
@@ -50,7 +56,8 @@ const MyShiftList = () => {
                         />
                     }
                     shiftId={shift.shiftId}
-                    transferId={shift.transferEmployeeId}
+                    transferId={shift.hasOwnProperty('transferEmployeeId') ? shift.transferEmployeeId : null}
+                    updateReloadKey={updateReloadKey}
                 />
             )}
             ListEmptyComponent={<View />}

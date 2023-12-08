@@ -9,7 +9,7 @@ import {white, blueAction, destructiveAction} from "../utils/Colors";
 import ShiftCard from "./ShiftCard";
 import TransferShiftModal from "./TransferShiftModal";
 
-function MyShiftCardSwipe ({ShiftCardComponent, shiftId, transferId}) {
+function MyShiftCardSwipe ({ShiftCardComponent, shiftId, transferId, updateReloadKey}) {
     const [transferShiftModal, setTransferShiftModal] = useState(false);
     let swipeableRef = React.createRef();
 
@@ -100,7 +100,7 @@ function MyShiftCardSwipe ({ShiftCardComponent, shiftId, transferId}) {
 
     return (
             <Swipeable
-                renderLeftActions={renderLeftActions}
+                renderLeftActions={transferId === null ? renderLeftActions : null}
                 // renderRightActions={renderRightActions}
                 onSwipeableOpen={(direction) => handleSwipeOpen(direction)}
                 ref={swipeableRef}
@@ -119,6 +119,7 @@ function MyShiftCardSwipe ({ShiftCardComponent, shiftId, transferId}) {
                         shiftEndTime={ShiftCardComponent.props.shiftEndTime}
                         shiftHours={ShiftCardComponent.props.shiftHours}
                         shiftLocation={ShiftCardComponent.props.location}
+                        updateReloadKey={updateReloadKey}
                     />
                 )}
             </Swipeable>
@@ -152,6 +153,6 @@ const styles= StyleSheet.create({
         borderRadius: 10,
         overflow: "hidden",
     },
-})
+});
 
 export default MyShiftCardSwipe;

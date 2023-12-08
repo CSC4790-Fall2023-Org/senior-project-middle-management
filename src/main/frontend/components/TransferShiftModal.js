@@ -27,7 +27,8 @@ function TransferShiftModal({transferShiftModal,
                                 shiftStartTime,
                                 shiftEndTime,
                                 shiftHours,
-                                shiftLocation}) {
+                                shiftLocation,
+                                updateReloadKey}) {
     const [recipientSelected, setRecipientSelected] = useState(false);
     const [recipientsData, setRecipientsData] = useState(null);
     const [recipient, setRecipient] = useState(null);
@@ -124,6 +125,7 @@ function TransferShiftModal({transferShiftModal,
             })
                 .then(data => {
                     setTransferSubmitData(data);
+                    updateReloadKey();
                 })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);
