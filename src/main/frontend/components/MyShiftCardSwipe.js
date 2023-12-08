@@ -101,7 +101,7 @@ function MyShiftCardSwipe ({ShiftCardComponent, shiftId, transferId}) {
     return (
             <Swipeable
                 renderLeftActions={renderLeftActions}
-                renderRightActions={renderRightActions}
+                // renderRightActions={renderRightActions}
                 onSwipeableOpen={(direction) => handleSwipeOpen(direction)}
                 ref={swipeableRef}
                 overshootFriction={8}
