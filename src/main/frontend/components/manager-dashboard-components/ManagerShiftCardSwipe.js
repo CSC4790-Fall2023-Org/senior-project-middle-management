@@ -4,12 +4,14 @@ import * as Haptics from 'expo-haptics';
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {CalendarDelete, Transfer} from "../../utils/Icons";
+import {CalendarDelete, Transfer, TrashCan} from "../../utils/Icons";
 import {white, blueAction, destructiveAction} from "../../utils/Colors";
 import ShiftCard from "../ShiftCard";
+import {ipAddy} from "../../utils/IPAddress";
 
-function ManagerShiftCardSwipe ({ShiftCardComponent, shiftId, transferId}) {
+function ManagerShiftCardSwipe ({ShiftCardComponent, shiftId, updateReloadKey}) {
     let swipeableRef = React.createRef();
+    const [deleteResponseData, setDeleteResponseData] = useState(null);
 
     const handleSwipeOpen = (direction) => {
         if (direction === 'right') {
@@ -17,17 +19,13 @@ function ManagerShiftCardSwipe ({ShiftCardComponent, shiftId, transferId}) {
                 Haptics.NotificationFeedbackType.Warning
             );
             Alert.alert(
-                'Drop Shift',
-                'Are you sure you want to drop this shift?',
+                'Delete Shift',
+                'Are you sure you want to delete this shift?',
                 [
                     {
-                        text: 'Drop',
+                        text: 'Delete',
                         style: 'destructive',
-                        onPress: () => {
-                            Haptics.notificationAsync(
-                                Haptics.NotificationFeedbackType.Success
-                            );
-                        },
+                        onPress: () => {handleDeleteShift()},
                     },
                     {
                         text: 'Cancel',
@@ -40,7 +38,7 @@ function ManagerShiftCardSwipe ({ShiftCardComponent, shiftId, transferId}) {
                 ]
             );
         } else if (direction === 'left') {
-            handleTransferOpen();
+
         }
     };
 
@@ -78,28 +76,44 @@ function ManagerShiftCardSwipe ({ShiftCardComponent, shiftId, transferId}) {
                             transform: [{ translateX: trans }],
                         },
                     ]}>
-                    <FontAwesomeIcon icon={CalendarDelete} size={36} color={white}/>
+                    <FontAwesomeIcon icon={TrashCan} size={36} color={white}/>
                 </Animated.Text>
             </RectButton>
         );
     };
 
-    const handleTransferClose = () => {
-        if (swipeableRef.current) {
-            swipeableRef.current.close();
-        }
-        setTransferShiftModal(false) // Close the modal.
-    }
-
-    const handleTransferOpen = () => {
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-        setTransferShiftModal(true);
+    const handleDeleteShift = () => {
+        fetch('http://' + ipAddy + ':8080/deleteShift', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                shiftId: shiftId
+            }),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok. Status: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                Haptics.notificationAsync(
+                    Haptics.NotificationFeedbackType.Success
+                );
+                setDeleteResponseData(data);
+                updateReloadKey();
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
     }
 
     return (
         <Swipeable
             // renderLeftActions={renderLeftActions}
-            // renderRightActions={renderRightActions}
+            renderRightActions={renderRightActions}
             onSwipeableOpen={(direction) => handleSwipeOpen(direction)}
             ref={swipeableRef}
             overshootFriction={8}
