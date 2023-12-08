@@ -121,14 +121,18 @@ public class EmployeeUtils {
         for (Employee employee : pEmployeeList){
             if (employee.getShiftIdList().size() == 0){
                 employeesWithoutShift.add(employee);
-                continue;
             }
-            for(ObjectId shiftId : employee.getShiftIdList()){
-                Optional<Shift> shift = ShiftUtils.getShiftFromShiftId(shiftId, pShiftList);
-                if (shift.isPresent() && ShiftUtils.isShiftDuringOtherShift(shift.get(), pShift)){
-                    break;
+            else{
+                for(ObjectId shiftId : employee.getShiftIdList()){
+                    Optional<Shift> shift = ShiftUtils.getShiftFromShiftId(shiftId, pShiftList);
+                    if (shift.isPresent() && ShiftUtils.isShiftDuringOtherShift(shift.get(), pShift)){
+                        break;
+                    }
+                    if (employeesWithoutShift.contains(employee)){
+                        break;
+                    }
+                    employeesWithoutShift.add(employee);
                 }
-                employeesWithoutShift.add(employee);
             }
         }
         return employeesWithoutShift;
@@ -141,5 +145,15 @@ public class EmployeeUtils {
             }
         }
         throw new SvcException("Error: Shift not found in employee shift list");
+    }
+
+    public static List<Employee> removeEmployeeFromList(final List<Employee> pEmployeeListWithNoShiftDuringShift, final Employee pEmployee) {
+        List<Employee> finalEmployeeList = new ArrayList<>();
+        for (Employee employee : pEmployeeListWithNoShiftDuringShift){
+            if (!employee.getEmployeeId().equals(pEmployee.getEmployeeId())){
+                finalEmployeeList.add(employee);
+            }
+        }
+        return finalEmployeeList;
     }
 }
