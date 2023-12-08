@@ -9,7 +9,7 @@ import {Plus} from "../../utils/Icons";
 const CompanyEmployeeDashboard = () => {
     const [addEmployeeModal, setAddEmployeeModal] = useState(false);
     const [reloadKey, setReloadKey] = useState(0)
-    const reload = () =>{
+    const reload = () => {
         setReloadKey(prevKey => prevKey + 1)
     }
     const handleAddEmployeeClick = () => {
